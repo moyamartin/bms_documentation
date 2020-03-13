@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{2}{section.1}
+\contentsline {section}{\numberline {2}Descripcion}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Objetivos Generales}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Especificaciones}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}Desarrollo}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Bater\IeC {\'\i }a de Litio-Ion}{5}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}NCR18650B}{7}{subsubsection.3.1.1}
+\contentsline {subsection}{\numberline {3.2}Algoritmos de Estimaci\IeC {\'o}n del Estado de Carga}{9}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Plan de Trabajo}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Extensi\IeC {\'o}n a futuros proyectos}{11}{subsection.3.4}
