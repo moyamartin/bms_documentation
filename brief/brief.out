@@ -6,5 +6,9 @@
 \BOOKMARK [2][-]{subsection.3.1}{Bater\355a de Litio-Ion}{section.3}% 6
 \BOOKMARK [3][-]{subsubsection.3.1.1}{NCR18650B}{subsection.3.1}% 7
 \BOOKMARK [2][-]{subsection.3.2}{Algoritmos de Estimaci\363n del Estado de Carga}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.3}{Plan de Trabajo}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.4}{Extensi\363n a futuros proyectos}{section.3}% 10
+\BOOKMARK [3][-]{subsubsection.3.2.1}{M\351todo de estimaci\363n por FEM}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Estimaci\363n basada en modelos \(T\351rmico y electroqu\355micos\)}{subsection.3.2}% 10
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Estimaci\363n por resistencia interna}{subsection.3.2}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Plan de Trabajo}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.4}{Extensi\363n a futuros proyectos}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Bibliograf\355a}{}% 14

@@ -560,8 +560,8 @@ Debido a que nos interesa saber el SOC cuando la batería esta entregando energ�
 \end{figure}
 Dada la naturaleza química de la batería, si se entra en detalle se puede observar que los componentes que modelan la batería tienen un comportamiento no lineal dependiendo del SOC y más aún se ven afectados por el efecto de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no estacionario.
 \clearpage
-Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{metodos_convencionales} los siguientes métodos como convencionales :\\
-% \cite{metodos_convencionales}
+Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{Hannan2017} los siguientes métodos como convencionales :\\
+% \cite{Hannan2017}
 %A review of lithium-ion battery state of charge estimation and management
 %system in electric vehicle applications: Challenges and recommendations
 %M.A. Hannan,⁎, M.S.H. Lipu, A. Hussain, A. Mohamed 
@@ -625,9 +625,9 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
 	\end{center}
 \end{figure}
 
- Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
+ Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen2014}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
  
- %\cite{hentunen}
+ %\cite{hentunen2014}
  %Time-Domain Parameter Extraction Method for
  %Thevenin-Equivalent Circuit Battery Models
  %Ari Hentunen, Member, IEEE, Teemu %Lehmuspelto, Member, IEEE, and Jussi Suomela
@@ -668,5 +668,12 @@ Se plantea el siguiente plan de trabajo con el tiempo estimado para la finalizac
 El desarrollo del hardware y los algoritmos, tanto de ecualización como de estado de carga sirven como una buena base para futuros proyectos vinculados a la temática de energías renovables y VEs.\\
 \\
 Como posible extensión se plantea el desarrollo de algoritmos novedosos para la estimación del Estado de Salud, su posible aplicación a sistemas de alta potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a la composición química de las celdas.
+
+\clearpage
+
+\section{Bibliografía}
+
+\bibliography{Bms_Documentation} 
+\bibliographystyle{ieeetr}
 
 \end{document}
