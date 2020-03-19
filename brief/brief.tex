@@ -1,4 +1,4 @@
- \documentclass[10pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{pdfpages}
@@ -480,7 +480,7 @@ Las baterías de Litio-ion se destacan por las siguientes características:
 
 \subsubsection{NCR18650B}
 
-En este caso, se opta por utilizar las baterías comerciales denominadas NCR18650B. Estas celdas se caracterizan por su cátodo, cuya composición química se basa en el óxido de Litio Niquel Cobalto Aluminio ($\mathrm{LiNiCoAlO_2}$) y, según su hojas de datos, sus propiedades generales se pueden observar en la Tabla \ref{ncr_table}.
+\noindent En este caso, se opta por utilizar las baterías comerciales denominadas NCR18650B. Estas celdas se caracterizan por su cátodo, cuya composición química se basa en el óxido de Litio Niquel Cobalto Aluminio ($\mathrm{LiNiCoAlO_2}$) y, según su hojas de datos, sus propiedades generales se pueden observar en la Tabla \ref{ncr_table}.
 
 \begin{table}[h!]
 \begin{center}
@@ -504,7 +504,7 @@ En este caso, se opta por utilizar las baterías comerciales denominadas NCR1865
 \end{center}
 \end{table}
 
-Por el otro lado, la hoja de datos también nos provee curvas significativas, como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv})}, la curva de descarga para distintas corrientes \emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
+\noindent Por el otro lado, la hoja de datos también nos provee curvas significativas, como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv})}, la curva de descarga para distintas corrientes \emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -533,11 +533,12 @@ Por el otro lado, la hoja de datos también nos provee curvas significativas, co
 \clearpage
 
 \subsection{Algoritmos de Estimación del Estado de Carga}
-La estimación del estado de carga es una de las tareas fundamentales dentro del sistema de Administración de baterías ya que en base a esta información se toman importantes decisiones, de ella dependen la optima ecualización de carga de las celdas, no exceder los límites de Zona de Operación segura, realizar acciones preventivas en caso del agotamiento de carga como ser iniciar un apagado de seguridad y por último reportar al usuario la carga restante en el pack.\\
 
-A priori hay 2 métodos básicos de estimación de carga, el primero aprovecha la relación entre el SOC y el OCV este método es económico pero tiene 2 principales desventajas, la curva OCV vs SOC tiene una región en la cual tiene valores de pendiente despreciable lo que genera que entre el 80\% de carga y el 35\% aproximadamente, haya solo unas pocas decenas de milivoltios de diferencia. Debido a esto un error de pocos milivolts genera grandes diferencias en la estimación de la carga real. Por otro lado la estimación mediante voltaje tiene problemas a la hora de determinar el voltaje online, es decir cuando la batería esta conectada a una carga las corrientes que circulan por el pack generan caidas de tensión debido a las impedancias internas del pack, si estas no son tenidas en cuenta pueden llevar a que el ecualizador del pack desbalancee aún más el pack.\\
+\noindent La estimación del estado de carga es una de las tareas fundamentales dentro del sistema de Administración de baterías ya que en base a esta información se toman importantes decisiones, de ella dependen la optima ecualización de carga de las celdas, no exceder los límites de Zona de Operación segura, realizar acciones preventivas en caso del agotamiento de carga como ser iniciar un apagado de seguridad y por último reportar al usuario la carga restante en el pack.\\
 
-El segundo método es el \textbf{\emph{Conteo de carga}} o \textbf{\emph{Coulomb Counting}}, el mismo consiste en integrar la corriente a lo largo del tiempo obteniendo así la carga total en el pack o SOC mediante la ecuación \ref{SOC_Coulomb_C}, donde \emph{i} corresponde a la corriente de la batería y $C_\eta$ la capacidad nominal de la misma.\\
+\noindent A priori hay 2 métodos básicos de estimación de carga, el primero aprovecha la relación entre el SOC y el OCV este método es económico pero tiene 2 principales desventajas, la curva OCV vs SOC tiene una región en la cual tiene valores de pendiente despreciable lo que genera que entre el 80\% de carga y el 35\% aproximadamente, haya solo unas pocas decenas de milivoltios de diferencia. Debido a esto un error de pocos milivolts genera grandes diferencias en la estimación de la carga real. Por otro lado la estimación mediante voltaje tiene problemas a la hora de determinar el voltaje online, es decir cuando la batería esta conectada a una carga las corrientes que circulan por el pack generan caidas de tensión debido a las impedancias internas del pack, si estas no son tenidas en cuenta pueden llevar a que el ecualizador del pack desbalancee aún más el pack.\\
+
+\noindent El segundo método es el \textbf{\emph{Conteo de carga}} o \textbf{\emph{Coulomb Counting}}, el mismo consiste en integrar la corriente a lo largo del tiempo obteniendo así la carga total en el pack o SOC mediante la ecuación \ref{SOC_Coulomb_C}, donde \emph{i} corresponde a la corriente de la batería y $C_\eta$ la capacidad nominal de la misma.\\
 
 \begin{figure}[h!]
 	\begin{center}
@@ -547,9 +548,9 @@ El segundo método es el \textbf{\emph{Conteo de carga}} o \textbf{\emph{Coulomb
 	\end{center}
 \end{figure}
 
- Este método funciona muy bien en la zona donde el primer método falla, sin embargo como todo proceso de integración, genera errores iterativos en cada ciclo de cálculo generando que a lo largo del tiempo el error absoluto de este método tienda a crecer.Además de la necesidad de establecer un valor inicial de carga, estos puntos de referencia pueden ser la carga total de la batería o la máxima DOD de manera que exigen a la batería llegar a puntos límites de carga disminuyendo su vida útil.\\
+\noindent Este método funciona muy bien en la zona donde el primer método falla, sin embargo como todo proceso de integración, genera errores iterativos en cada ciclo de cálculo generando que a lo largo del tiempo el error absoluto de este método tienda a crecer.Además de la necesidad de establecer un valor inicial de carga, estos puntos de referencia pueden ser la carga total de la batería o la máxima DOD de manera que exigen a la batería llegar a puntos límites de carga disminuyendo su vida útil.\\
 
-Debido a que nos interesa saber el SOC cuando la batería esta entregando energía o siendo cargada se deben tener en cuenta los principales factores que afectan a la estimación de carga on-line. Un modelo utilizado para relacionar la tensión entre los bornes de la batería y el OCV utilizado con gran frecuencia es el modelo eléctrico bosquejado en la \emph{Fig. \ref{Electric_model}}, este modelo es coherente con el hecho de que la tensión en los bornes de la batería en reposo es igual al OCV. Pero al ser circulada por una corriente se deben tener en cuenta los fenómenos dinámicos  y la perdida por resistencias internas así como la corriente de pérdida (auto descarga) de la batería.
+\noindent Debido a que nos interesa saber el SOC cuando la batería esta entregando energía o siendo cargada se deben tener en cuenta los principales factores que afectan a la estimación de carga on-line. Un modelo utilizado para relacionar la tensión entre los bornes de la batería y el OCV utilizado con gran frecuencia es el modelo eléctrico bosquejado en la \emph{Fig. \ref{Electric_model}}, este modelo es coherente con el hecho de que la tensión en los bornes de la batería en reposo es igual al OCV. Pero al ser circulada por una corriente se deben tener en cuenta los fenómenos dinámicos  y la perdida por resistencias internas así como la corriente de pérdida (auto descarga) de la batería.
   
 \begin{figure}[h!]
 	\begin{center}
@@ -558,9 +559,12 @@ Debido a que nos interesa saber el SOC cuando la batería esta entregando energ�
 		\label{Electric_model}
 	\end{center}
 \end{figure}
-Dada la naturaleza química de la batería, si se entra en detalle se puede observar que los componentes que modelan la batería tienen un comportamiento no lineal dependiendo del SOC y más aún se ven afectados por el efecto de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no estacionario.
+
+\noindent Dada la naturaleza química de la batería, si se entra en detalle se puede observar que los componentes que modelan la batería tienen un comportamiento no lineal dependiendo del SOC y más aún se ven afectados por el efecto de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no estacionario.
+
 \clearpage
-Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{metodos_convencionales} los siguientes métodos como convencionales :\\
+
+\noindent Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{metodos_convencionales} los siguientes métodos como convencionales :\\
 % \cite{metodos_convencionales}
 %A review of lithium-ion battery state of charge estimation and management
 %system in electric vehicle applications: Challenges and recommendations
@@ -573,11 +577,13 @@ Como soluciones parciales fueron desarrollados varios métodos los cuales son un
 	\item Espectroscopia Dieléctrica
 \end{itemize}
 
-Un gran avance en la estimación del estado de carga fue la aplicación de los Filtro de Kalman para disminuir el error. Esta es una herramienta estadística de análisis en espacio de estado que mediante las matrices de Varianza y Covarianza estiman un vector de soluciones con mayor precisión. 
-Los Filtros de Kalman ven afectado su rendimiento a la hora de trabajar con sistemas fuertemente No Lineales, debido a esto surgen las variantes EKF, UKF y SPKF provenientes del inglés, Extended, Unscented y Sigma Point, respectivamente.\\
+\noindent Un gran avance en la estimación del estado de carga fue la aplicación de los Filtro de Kalman para disminuir el error. Esta es una herramienta estadística de análisis en espacio de estado que mediante las matrices de Varianza y Covarianza estiman un vector de soluciones con mayor precisión.\\
+\\
+\noindent Los Filtros de Kalman ven afectado su rendimiento a la hora de trabajar con sistemas fuertemente No Lineales, debido a esto surgen las variantes EKF, UKF y SPKF provenientes del inglés, Extended, Unscented y Sigma Point, respectivamente.\\
 
 \subsubsection{Método de estimación por FEM}
-Teniendo en cuenta la limitación del método de OCV para la estimación mientras la batería esta siendo cargada o descargada, surge como solución a esta problemática la estimación del OCV mediante el estudio de la respuesta temporal de la tensión entre los terminales de la batería dado su comportamiento temporal regido por una ecuación diferencial de primer orden como se muestra en \emph{\ref{1er_orden_eq}}, siendo k una constante, cuya solución es de la forma \emph{\ref{1er_orden_sol}}, lo cual se corresponde con la gráfica de la \emph{Fig.\ref{EMF_Method}}.
+
+\noindent Teniendo en cuenta la limitación del método de OCV para la estimación mientras la batería esta siendo cargada o descargada, surge como solución a esta problemática la estimación del OCV mediante el estudio de la respuesta temporal de la tensión entre los terminales de la batería dado su comportamiento temporal regido por una ecuación diferencial de primer orden como se muestra en \emph{\ref{1er_orden_eq}}, siendo k una constante, cuya solución es de la forma \emph{\ref{1er_orden_sol}}, lo cual se corresponde con la gráfica de la \emph{Fig.\ref{EMF_Method}}.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -609,12 +615,13 @@ Teniendo en cuenta la limitación del método de OCV para la estimación mientra
 \clearpage
 
 \subsubsection{Estimación basada en modelos (Térmico y electroquímicos)}
-Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.
+
+\noindent Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.
 
 
 \subsubsection{Estimación por resistencia interna}
 
-Este método utiliza el voltage y la corriente de la batería en conjunto para determinar la resistencia interna esta. Durante breves instantes ( menores a 10 ms) se excita la batería con pulso de corriente , asumiendo que este período es lo suficientemente acotado para no que la variación de tensión sea atribuida a la resistencia interna y no a la carga/descarga de la batería la resistencia se obtendría según la formula :
+\noindent Este método utiliza el voltage y la corriente de la batería en conjunto para determinar la resistencia interna esta. Durante breves instantes ( menores a 10 ms) se excita la batería con pulso de corriente , asumiendo que este período es lo suficientemente acotado para no que la variación de tensión sea atribuida a la resistencia interna y no a la carga/descarga de la batería la resistencia se obtendría según la formula :
 
 \begin{figure}[h!]
 	\begin{center}
@@ -625,7 +632,7 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
 	\end{center}
 \end{figure}
 
- Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
+\noindent Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
  
  %\cite{hentunen}
  %Time-Domain Parameter Extraction Method for
@@ -641,6 +648,82 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
  \end{figure}
  
  
+\clearpage
+
+\subsection{Ecualización de celdas}
+
+\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se encuentran conectadas en serie, el voltaje de una celda no siempre coincide con la tensión equivalente del pack de baterías dividido por el número de celdas. 
+
+\noindent La ecualización de celdas es una técnica en la cual se trata de mantener los niveles de voltaje entre las celdas que conforman la cadena conectada en serie de un pack de baterías de forma homogénea, es decir, que los niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de maximizar la eficiencia del pack de baterías.\\
+\\
+\noindent El desbalance más típico generalmente se manifiesta en una variación en el voltaje entre éstas, que puede ser corregido instantáneamente o gradualmente conectando cargas externas en paralelo, a través de sus correspondientes transistores, provocando una corriente de descarga adicional que pueden ir desde miliamperes hasta varios Amperes, dependiendo del dimensionamiento energético del pack de baterías. Sin embargo, este desbalance en tensión es, por lo general, dado por desbalances químicos o distintas dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no esté claramente definido provocando más perjuicios que beneficios al sistema completo. De hecho, la mayoría de las metodologías basadas en el desbalance de voltage, llevan a un pack de baterías más desbalanceado que sin ellos.\\
+\\
+\noindent Por lo tanto, existen varios tipos de desbalanceos que se describen a continuación.
+
+\subsubsection{Desbalance del estado de carga (SoC)}
+
+\noindent El desbalanceo por estado de carga es causado por celdas que son cargadas a distintos nivels de SoC. Por ejemplo, si tenemos 3 celdas cuya carga máxima es de 2200mAh ($\mathrm{Q_{max}}$), y descargar 100mAh una de las celdas ($\mathrm{Q_1}$), la segunda por 100mAh y la tercera por 200mAh , la primer y segunda celda van a estar a un SoC de $\mathrm{\frac{(Q_{max} - Q_1)}{Q_{max}} = 95.4\%}$. pero la tercer celda estará, a cálculo hecho, en un 91\%. Por lo que podemos decir que la tercer celda presenta un desbalance de un 4.4\%. Esto se traduce en distintos voltajes de circuito abierto, ya que se encuentran directamente correlacionadas con el estado de carga de las mismas, sin embargo, a pesar de esta diferencia constante de SOC, la tensión entre celdas varía con el SOC debido a su variación con respecto a los distintos niveles de estado de carga. En la Figura \ref{var_volt_soc} se muestra como varía la diferencia de voltaje entre las celdas ante distintos niveles de SOC con un desbalance constante.
+
+\begin{figure}[h!]
+	\begin{center}
+ 		\includegraphics[width=0.7\textwidth]{var_vol_soc.png}
+ 		\caption{(Gráfica superior): OCV vs SOC (Gráfica inferior) Diferencia de OCV a distintos estados de carga para un desbalance de 1\% de SOC}
+ 		\label{var_vol_soc}
+	\end{center}
+\end{figure}
+
+\noindent El voltaje sobre una carga puede ser aproximadamente, y rápidamente, modelada por la siguiente ecuación:
+
+\begin{equation}
+	V = OCV(SOC) + I \times R(SOC)
+	\label{v_load_bat}
+\end{equation}
+
+\noindent Debido a que la función $R(SOC)$ incrementa rápidamente a bajos valores de SOC, la diferencia de voltajes entre celdas, con un desbalance de SOC determinado, incrementa en un estado de carga muy bajo sugeriendo que existe un incremento en la necesidad de realizar el proceso de balanceo cuando el pack de baterías alcanza su descarga completa, sin embargo, si esta diferencia de SOC es eliminada en etapas anteriores, las diferencias de tensión que ocurren cerca del fin de descarga son eliminadas sin necesidad de altas corrientes de drenaje para cada celda.
+
+\subsubsection{Diferencias en la Capacidad de las celdas}
+
+Por el otro lado, puede suceder que la capacidad química de las celdas ($\mathrm{Q_{MAX}}$) pueden ser diferentes en un principio, esto provoca que, a pesar de que cada celda sea descargada por la misma cantidad de corriente, el estado de carga será diferente. Por ejemplo, si las 3 celdas que nombramos anteriores son descargadas por 100mAh, pero la 3er celda tiene una capacidad distinta al resto (por ejemplo, 2000mAh en vez de 2200mAh), los estados de carga resultantes serán de 95.4\% y 95\%.\\
+\\
+Nuevamente esto provocará una diferencia en los OCVs de las celdas. Como puede observarse, 200mAh de diferencia en $\mathrm{Q_{MAX}}$ causa solamente una diferencia de un 0.4\% en el SOC, causando menor diferencia de voltaje que un desbalance en el estado de carga.
+
+\subsubsection{Diferencias entre impedancias internas}
+
+La diferencia entre impedancias internas en un bache de producción es de aproximadamente un 15\% como se puede observar en la Figura \ref{zin_diff}
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{zin_diff.png}
+		\caption{Diferencias de espectrometrías entre 50 celdas. El ensayo es realizado entre 1kHz a 10mHz}
+	\end{center}
+\end{figure}
+
+Desbalances en la impedancia interna de la celda no causan diferencias en el OCV, sin embargo, causará diferencias en el voltaje de la celda durante la descarga, ya que la misma viene dada por la Ecuación \ref{v_load_bat}. Si la batería se encuentra descargando, es decir, si la corriente es negativa el voltaje que entrega a la carga será menor para una celda con mayor impedancia interna. Por el otro lado, si la celda se encuentra cargando, el voltaje será mayor para aquellas celdas con mayor resistencia interna.\\
+\\
+A pesar de estas diferencias, no hay mecanismo de balanceo que permita solventar el problema del desbalanceo de impedancia interna. 
+
+
+
+
+%Anteriormente se nombró la importancia de la protección de las celdas, ya que el voltaje de ruptura del electrolito es cercano a la tensión de carga máxima de una celda (entre 4.1V a 4.3V por celda). Por lo tanto, se debe realizar un control y monitoreo riguroso para que las celdas de un pack experimente un sobrevoltaje durante el proceso de carga. Esto, conlleva a que, en un pack de baterías, cada celda sea monitoreada y controlada por separado, ya que controlar la tensión del pack de baterías no es suficiente, debido a que, a pesar de que los valores pueden encontrarse dentro de un umbral correcto, una de las celdas que componen el sistema puede estar experimentando un daño permanente por sobrevoltaje debido al desbalance que pueden encontrarse entre celdas.\\
+%\\
+%El balanceo de celdas es necesario para aquellas aplicaciones donde tienen grandes transitorios de energía, especialmente aquellas aplicaciones donde ocurre frecuentemente, como por ejemplo, los frenos regenerativos en los EVs y HEVs. El freno regenerativo puede causar grandes flujos de corriente provocando un incremento instantáneo en la tensión de cada celda, alcanzando la tensión de ruptura del electrolito.\\
+%\\
+%Las desviaciones en las celdas generalmente ocurren debido a dos fenómenos: cambios en la impedancia interna o en la reducción de capacidad debido al envejecimiento de las mismas. En ambos casos, si una celda experimenta una desviación en su comportamiento, esta celda es un posible candidato a un sobrevoltaje durante los eventos que ocurren los transitorios de potencia. Las celdas con capacidad reducida o alta impedancia interna tienden a tener altas variaciones de tensión durante los procesos de carga y descarga.\\
+%\\
+%Por último, en aplicaciones donde es deseable obtener la mayor capacidad usable de un pack de baterías, puede ocurrir que durante el proceso de carga, una celda desbalanceada alcance el voltaje de fin de carga y provoca que el proceso de carga termine prematuramente. Entonces, además de proteger el pack de baterías, el proceso de carga permite aprovechar la capacidad completa del pack a pesar de los desbalanceos intrínsecos de cada celda.\\
+%\\
+%Tradicionalmente, los desbalances entre celdas en baterías de plomo son solucionados por una sobrecarga controlada. Este tipo de baterías pueden ser llevadas a condiciones de sobrecarga sin ser dañadas permanentemente, ya que el exceso de energía es liberado a través de la gasificación de las sustancias químicas que contienen. Éste método, es el método natural para el balanceo de celdas de plomo-ácido conectadas e nserie. Otras composiciones químicas, tales como las de Niquel-metal, exhiben un mecanismo similar.\\
+%\\
+%Debido a que las baterías de Litio no pueden ser sobrecargadas, no existe un mecanismo natural para el balanceo de celdas. Por lo tanto, se deben emplear métodos diferentes para balancearlas. Los métodos de balanceo se pueden separar en dos grandes grupos: Métodos activos y pasivos.\\
+%\\
+%A continuación, se describen los métodos más comunes para realizar el balanceo de celdas.
+
+%\subsubsection{Balanceo de Celdas en el Fin de carga}
+
+%Este método es empleado cuando el pack de baterías cuando es cargada completamente y es, generalmente, implementada en aquellas aplicaciones en las cuales el pack de baterías es completamente cargado en cada ciclo de su uso. Como pueden ser en fuentes de baterías ininterrumpidas (UPS, del inglés \emph{Uninterruptible Power Supply}) o vehículos eléctricos hasta celulares. 
+
+
 \clearpage
 \subsection{Plan de Trabajo}
 
