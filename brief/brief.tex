@@ -160,7 +160,7 @@ Ing. Edgardo Arnejo
 El sistema a implementar  contará con los siguientes elementos:
 
 \begin{itemize}
-	\item \textbf{Pack de baterías} de arquitectura de hasta 6 celdas \emph{NCR18650} en serie.
+	\item \textbf{Pack de baterías} de arquitectura de hasta 6 celdas \emph{NCR18650B} en serie.
 	\item Sensado de tensión de las celdas individuales del pack y de la corriente que circula desde y hacia el pack de baterías.
 	\item Etapa de potencia para el balanceo de las celdas.
 	\item Protecciones encargadas de conectar y desconectar la carga del pack de baterías frente a operaciones fuera de la zona segura. 
@@ -355,7 +355,7 @@ El sistema a implementar  contará con los siguientes elementos:
 	\label{realimentacion_cargador}
 \end{figure}
 
-\noindent Una vez finalizada esta etapa, solo resta probar los algoritmos sobre un EV (en este caso, una bicicleta) para validar la eficiencia de los mismos y elegir el más óptimo en base a la autonomía del vehículo. Finalizada la prueba, tenemos un sistema eficiente para implementar sobre vehículos eléctricos de baja y mediana potencia.
+\noindent Una vez finalizada esta etapa, se propone según disponibilidad probar los algoritmos sobre un EV, como podría ser una Bicicleta eléctrica, para validar la eficiencia de los mismos y elegir el más óptimo en base a la autonomía del vehículo. Finalizada la prueba, tenemos un sistema eficiente para implementar sobre vehículos eléctricos de baja y mediana potencia.
 
 \clearpage
 
@@ -395,7 +395,7 @@ Las baterías de Litio-ion se destacan por las siguientes características:
 \\
 \noindent La aplicación práctica de las baterías de Litio-ion involucra la integración de las mismas dentro de un sistema, involucrando un controlador central (BMS), sistemas de refrigeración, sensores y conectores entre las celdas. En este sistemas las celdas pueden conectarse de distintas formas, por ejemplo, pueden conectarse en paralelo, para incrementar la capacidad del pack, en serie, para incrementar el voltaje, o combinadas para lograr ambos cometidos al mismo tiempo. Por ejemplo, un auto eléctrico de la marca \emph{Tesla}, posee un pack de baterías de 85KWh compuesto por 7104 celdas.\\
 \\
-\noindent En este caso utilizaremos celdas de Litio-ion modelo NCR18650, integrando una arquitecture \emph{6S3P}, es decir, por 6 celdas conectadas en serie y, cada celda de la cadena, es representada por 3 celdas en paralelo. En la Figura \ref{pack} se muestra el esquemático de la arquitectura del pack de baterías como también una foto de la celda que se utilizará para conformar el pack. 
+\noindent En este caso utilizaremos celdas de Litio-ion modelo NCR18650B, integrando una arquitecture \emph{6S3P}, es decir, por 6 celdas conectadas en serie y, cada celda de la cadena, es representada por 3 celdas en paralelo. En la Figura \ref{pack} se muestra el esquemático de la arquitectura del pack de baterías como también una foto de la celda que se utilizará para conformar el pack. 
 
 \begin{figure}[h!]
 		\begin{minipage}[c]{0.45\textwidth}
@@ -713,7 +713,7 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
  \end{figure}
  \clearpage
 \subsubsection{Espectroscopía Dieléctrica (EIS)}
-Este estudio consiste en llevar a la celda a un estado de carga conocido, y luego de un período de relajación se excita los terminales con una onda senoidal de tensión o corriente y se mide la respuesta de corriente o tensión respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas en \cite{Li2016}, para distintos estados de carga y en un amplio rango de frecuencias. 
+Este estudio consiste en llevar a la celda a un estado de carga conocido, y luego de un período de relajación se excita los terminales con una onda senoidal de tensión o corriente y se mide la respuesta de corriente o tensión respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas por Mingheng Li basadas en un modeló físico basado en principios de conservación de masa y carga en una interfaz entre un sólido y un electrolito detallado en \cite{Li2016}, para distintos estados de carga y en un amplio rango de frecuencias. 
 
  \begin{figure}[h!]
 	\begin{center}

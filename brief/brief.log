@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.28)  22 MAR 2020 17:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.28)  23 MAR 2020 15:57
 entering extended mode
 **./brief.tex
 (brief.tex
@@ -1602,10 +1602,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 761.
  ) 
 Here is how much of TeX's memory you used:
- 32301 strings out of 492895
- 749282 string characters out of 3123268
+ 32276 strings out of 492895
+ 748608 string characters out of 3123268
  931059 words of memory out of 3000000
- 35688 multiletter control sequences out of 15000+200000
+ 35663 multiletter control sequences out of 15000+200000
  8478 words of font info for 30 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,16n,72p,1150b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1628,7 +1628,7 @@ nts/cm/cmsy10.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Martin/AppData/Local/Pro
 grams/MiKTeX 2.9/fonts/type1/public/amsfonts/euler/eurm10.pfb>
-Output written on brief.pdf (16 pages, 580083 bytes).
+Output written on brief.pdf (16 pages, 580238 bytes).
 PDF statistics:
  323 PDF objects out of 1000 (max. 8388607)
  67 named destinations out of 1000 (max. 500000)
