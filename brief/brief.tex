@@ -11,6 +11,7 @@
 \usepackage{multirow}
 \usepackage{epstopdf}
 \usepackage{lastpage}
+\usepackage{upgreek}
 \usepackage{circuitikz}
 \usetikzlibrary{arrows, decorations.markings}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
@@ -608,8 +609,79 @@ Teniendo en cuenta la limitación del método de OCV para la estimación mientra
 
 \clearpage
 
-\subsubsection{Estimación basada en modelos (Térmico y electroquímicos)}
-Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.
+\subsubsection{Estimación basada en modelos (Mecánicos, Térmicos y electroquímicos)}
+Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.\\
+
+Las celdas de Li-Ion se componen de 5 regiones: un electrodo negativo colector de corriente, un electrodo compuesto poroso de inserción negativo, un separador poroso, un electrodo compuesto poroso de inserción positivo y un electrodo positivo colector de corriente. Esto en conjunto con las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics} se detalla en \cite{Li2016}.
+
+%\cite{Li2016}
+%Li-ion dynamics and state of charge estimation
+%Mingheng Li
+%Department of Chemical and Materials Engineering, California State Polytechnic University, Pomona, CA 91768, United States
+%el pdf se llama Li2016.pdf en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
+
+Tomando como modelo un modelo unidimensional a lo largo de la sección de la batería se aplican las siguentes ecuaciónes:\\
+
+
+Conservación de carga en un sólido homogéneo:\\
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\nabla \cdot (-\sigma\nabla\upvarphi_s)=-j^{Li} 
+		\label{Chrg_cons_hom_sol}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de masa en un sólido homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\frac{\partial c_s}{\partial t}=\nabla \cdot (D_s\nabla c_s) 
+		\label{Mass_cons_hom_sol}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de masa en un electrolito homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\varepsilon_e\frac{\partial c_e}{\partial t} + \nabla \cdot (-D_e\nabla c_e) = (\frac{1-t_+^0}{F})j^{Li}
+		\label{Mass_cons_hom_electrolyte}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de carga en un electrolito homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\nabla \cdot (\upkappa \nabla \upvarphi_e + \upkappa_D \nabla \ln c_e) = -j^{Li}
+		\label{Chrg_cons_hom_electrolyte}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Ecuación de Butler-Volmer de movimiento de cargas en una unión entre un sólido conductor y una solución de Iones de Litio con el efecto de doble capa eléctrica. \\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		 j^{Li} = a_si_0[{e^\frac{F\eta}{2RT}-e^{-\frac{F\eta}{2RT}}}]+ a_sC_{dl}\frac{\partial{(\upvarphi_s - \upvarphi_e)}}{\partial t}
+		\label{Butler_Volmer_kinetics}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics}, $\sigma$  conductividad de la fase sólida, $\upvarphi_s$ el potencial eléctrico de la fase sólida, $\upvarphi_e$ el potencial eléctrico del electrolito, $j^{Li}$ la corriente producida por el consumo de Li, t es el tiempo, c concentración de Iones de Litio, D el coeficiente de difusión, F la constante de Faraday, $\varepsilon$ es la fracción por volumen,
+$t_+^0$ el número de transferencia, $\upkappa$ la conductividad del electrolito,
+$\upkappa_D$ la conductividad de la difusión, $i_0$ la densidad de corriente de intercambio, $\eta$ la sobretensión, $a$ el area específica and $C_{dl}$ la capacidad de la doble capa. El subíndice $s$ corresponde a la fase sólida y $e$ corresponde con el electrolito. También teniendo en cuenta la relación de Bruggerman.
+
+
 
 
 \subsubsection{Estimación por resistencia interna}
@@ -639,8 +711,18 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
  		\label{Internal_resistance}
  	\end{center}
  \end{figure}
- 
- 
+ \clearpage
+\subsubsection{Espectroscopía Dieléctrica (EIS)}
+Este estudio consiste en llevar a la celda a un estado de carga conocido, y luego de un período de relajación se excita los terminales con una onda senoidal de tensión o corriente y se mide la respuesta de corriente o tensión respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas en \cite{Li2016}, para distintos estados de carga y en un amplio rango de frecuencias. 
+
+ \begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{EIS_Nyquist.png}
+		\caption{Diagrama de Nyquist - Espectroscopía Dieléctrica (EIS) de una batería de Li-Ion obtenida por barrido frecuencial.}
+		\label{EIS_Nyquist}
+	\end{center}
+\end{figure}
+
 \clearpage
 \subsection{Plan de Trabajo}
 

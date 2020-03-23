@@ -8,8 +8,9 @@
 \contentsline {subsubsection}{\numberline {3.1.1}NCR18650B}{7}{subsubsection.3.1.1}% 
 \contentsline {subsection}{\numberline {3.2}Algoritmos de Estimaci\IeC {\'o}n del Estado de Carga}{9}{subsection.3.2}% 
 \contentsline {subsubsection}{\numberline {3.2.1}M\IeC {\'e}todo de estimaci\IeC {\'o}n por FEM}{10}{subsubsection.3.2.1}% 
-\contentsline {subsubsection}{\numberline {3.2.2}Estimaci\IeC {\'o}n basada en modelos (T\IeC {\'e}rmico y electroqu\IeC {\'\i }micos)}{11}{subsubsection.3.2.2}% 
-\contentsline {subsubsection}{\numberline {3.2.3}Estimaci\IeC {\'o}n por resistencia interna}{11}{subsubsection.3.2.3}% 
-\contentsline {subsection}{\numberline {3.3}Plan de Trabajo}{12}{subsection.3.3}% 
-\contentsline {subsection}{\numberline {3.4}Extensi\IeC {\'o}n a futuros proyectos}{12}{subsection.3.4}% 
-\contentsline {section}{\numberline {4}Bibliograf\IeC {\'\i }a}{13}{section.4}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Estimaci\IeC {\'o}n basada en modelos (Mec\IeC {\'a}nicos, T\IeC {\'e}rmicos y electroqu\IeC {\'\i }micos)}{11}{subsubsection.3.2.2}% 
+\contentsline {subsubsection}{\numberline {3.2.3}Estimaci\IeC {\'o}n por resistencia interna}{12}{subsubsection.3.2.3}% 
+\contentsline {subsubsection}{\numberline {3.2.4}Espectroscop\IeC {\'\i }a Diel\IeC {\'e}ctrica (EIS)}{13}{subsubsection.3.2.4}% 
+\contentsline {subsection}{\numberline {3.3}Plan de Trabajo}{14}{subsection.3.3}% 
+\contentsline {subsection}{\numberline {3.4}Extensi\IeC {\'o}n a futuros proyectos}{14}{subsection.3.4}% 
+\contentsline {section}{\numberline {4}Bibliograf\IeC {\'\i }a}{15}{section.4}% 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.28)  14 MAR 2020 19:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.28)  22 MAR 2020 17:39
 entering extended mode
 **./brief.tex
 (brief.tex
@@ -484,6 +484,13 @@ G,.JBIG2,.JB2,.eps]
 ("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lastpage\lastpage
 .sty"
 Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
+)
+("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/was\upgreek.sty"
+Package: upgreek 2003/02/12 v2.0 (WaS)
+Package upgreek Info: Using Euler Roman for upright Greek on input line 31.
+\symugrf@m=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `ugrf@m' in version `bold'
+(Font)                  U/eur/m/n --> U/eur/b/n on input line 38.
 )
 ("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/circuitikz\circui
 tikz.sty"
@@ -1035,42 +1042,31 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 LaTeX Info: Redefining \. on input line 23.
 LaTeX Info: Redefining \% on input line 23.
 )
-Runaway argument?
-{\contentsline {subsection}{\numberline {3.2}Algoritmos de Estimaci\IeC \ETC.
-! File ended while scanning use of \@writefile.
-<inserted text> 
-                \par 
-l.57 \begin{document}
-                     
-I suspect you have forgotten a `}', causing me
-to read past where you wanted me to stop.
-I'll try to recover; but if the error is serious,
-you'd better type `E' or `X' now and fix your file.
-
 \openout1 = `brief.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 57.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 58.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 58.
+
 ("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
-LaTeX Font Info:    ... okay on input line 57.
-LaTeX Info: Redefining \. on input line 57.
-LaTeX Info: Redefining \% on input line 57.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Info: Redefining \. on input line 58.
+LaTeX Info: Redefining \% on input line 58.
 \AtBeginShipoutBox=\box43
 
 ("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-
@@ -1101,22 +1097,22 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\symgns@font=\mathgroup4
+\symgns@font=\mathgroup5
 LaTeX Font Info:    Overwriting symbol font `gns@font' in version `bold'
-(Font)                  TS1/cmr/m/n --> TS1/cmr/bx/n on input line 57.
-Package gensymb Info: Math companion symbols declared on input line 57.
-LaTeX Info: Redefining \degree on input line 57.
-LaTeX Info: Redefining \celsius on input line 57.
+(Font)                  TS1/cmr/m/n --> TS1/cmr/bx/n on input line 58.
+Package gensymb Info: Math companion symbols declared on input line 58.
+LaTeX Info: Redefining \degree on input line 58.
+LaTeX Info: Redefining \celsius on input line 58.
 Package gensymb Info: Using text companion symbols for \degree, \celsius and \p
-erthousand on input line 57.
-LaTeX Info: Redefining \ohm on input line 57.
-Package gensymb Info: Using \textohm for \ohm on input line 57.
-Package gensymb Info: Using \textmu for \micro on input line 57.
+erthousand on input line 58.
+LaTeX Info: Redefining \ohm on input line 58.
+Package gensymb Info: Using \textohm for \ohm on input line 58.
+Package gensymb Info: Using \textmu for \micro on input line 58.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 57.
+(lastpage)             ! on input line 58.
  ABD: EveryShipout initializing macros
-Package hyperref Info: Link coloring OFF on input line 57.
+Package hyperref Info: Link coloring OFF on input line 58.
 
 ("C:\Users\Martin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref.
 sty"
@@ -1128,67 +1124,70 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count152
 )
-LaTeX Info: Redefining \ref on input line 57.
-LaTeX Info: Redefining \pageref on input line 57.
-LaTeX Info: Redefining \nameref on input line 57.
+LaTeX Info: Redefining \ref on input line 58.
+LaTeX Info: Redefining \pageref on input line 58.
+LaTeX Info: Redefining \nameref on input line 58.
  (brief.out) (brief.out)
 \@outlinefile=\write4
 \openout4 = `brief.out'.
 
-<FCEIA-logo.png, id=6, 501.875pt x 238.8925pt>
+<FCEIA-logo.png, id=66, 501.875pt x 238.8925pt>
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 62.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 63.
 (pdftex.def)             Requested size: 125.46843pt x 59.72298pt.
 
-Overfull \hbox (11.65741pt too wide) in paragraph at lines 62--63
+Overfull \hbox (11.65741pt too wide) in paragraph at lines 63--64
  []
  []
 
-<LOGO-UNR-NEGRO.png, id=8, 765.6103pt x 775.39688pt>
+<LOGO-UNR-NEGRO.png, id=68, 765.6103pt x 775.39688pt>
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 68.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 69.
 (pdftex.def)             Requested size: 76.5655pt x 77.54422pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 60--71
+Underfull \hbox (badness 10000) in paragraph at lines 61--72
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 90--97
+Underfull \hbox (badness 10000) in paragraph at lines 91--98
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 90--97
+Underfull \hbox (badness 10000) in paragraph at lines 91--98
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 90--97
+Underfull \hbox (badness 10000) in paragraph at lines 91--98
 
  []
 
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 82--103
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 83--104
 [] [] 
  []
 
 [1
 
 {C:/Users/Martin/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./FCEIA-lo
-go.png> <./LOGO-UNR-NEGRO.png>] (brief.toc)
+go.png> <./LOGO-UNR-NEGRO.png>] (brief.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 \tf@toc=\write5
 \openout5 = `brief.toc'.
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 109.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 110.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 109.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 110.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
 
 
@@ -1196,9 +1195,6 @@ Package Fancyhdr Warning: \headheight is too small (50.0pt):
 Make it at least 50.12184pt.
 We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
-
-
-LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 109.
 
 
 Package Fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1210,239 +1206,213 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.109 \clearpage
+l.110 \clearpage
                  [1]
-Underfull \hbox (badness 10000) in paragraph at lines 113--120
+Underfull \hbox (badness 10000) in paragraph at lines 114--121
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--120
+Underfull \hbox (badness 10000) in paragraph at lines 114--121
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--120
+Underfull \hbox (badness 10000) in paragraph at lines 114--121
 
  []
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 139.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 140.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 139.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 140.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 139.
-
 [2
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 145--156
+Underfull \hbox (badness 10000) in paragraph at lines 146--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--156
+Underfull \hbox (badness 10000) in paragraph at lines 146--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--156
+Underfull \hbox (badness 10000) in paragraph at lines 146--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--156
+Underfull \hbox (badness 10000) in paragraph at lines 146--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--156
+Underfull \hbox (badness 10000) in paragraph at lines 146--157
 
  []
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 169.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 170.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 169.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 170.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 169.
-
 [3
 
 ]
 \realshift=\dimen269
 
-Overfull \hbox (17.54323pt too wide) in paragraph at lines 296--297
+Overfull \hbox (17.54323pt too wide) in paragraph at lines 297--298
  [] 
  []
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 359.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 360.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 359.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 360.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 359.
-
 [4
 
 ]
 
-LaTeX Warning: Citation `def_liion' on page 5 undefined on input line 369.
+LaTeX Warning: Citation `def_liion' on page 5 undefined on input line 370.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 367--376
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 367--376
+Underfull \hbox (badness 10000) in paragraph at lines 368--377
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 367--376
+Underfull \hbox (badness 10000) in paragraph at lines 368--377
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 367--376
+Underfull \hbox (badness 10000) in paragraph at lines 368--377
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 368--377
 
  []
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 381.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 382.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 381.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 382.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 381.
-
 [5
 
 ]
 
-LaTeX Warning: Reference `comparisson' on page 6 undefined on input line 391.
+LaTeX Warning: Reference `comparisson' on page 6 undefined on input line 392.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 389--398
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 389--398
+Underfull \hbox (badness 10000) in paragraph at lines 390--399
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 389--398
+Underfull \hbox (badness 10000) in paragraph at lines 390--399
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 389--398
+Underfull \hbox (badness 10000) in paragraph at lines 390--399
 
  []
 
-<assets/18650.jpg, id=59, 618.31pt x 626.34pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 390--399
+
+ []
+
+<assets/18650.jpg, id=134, 618.31pt x 626.34pt>
 File: assets/18650.jpg Graphic file (type jpg)
 <use assets/18650.jpg>
-Package pdftex.def Info: assets/18650.jpg  used on input line 473.
+Package pdftex.def Info: assets/18650.jpg  used on input line 474.
 (pdftex.def)             Requested size: 97.94727pt x 99.21294pt.
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 479.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 480.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 479.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 480.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 479.
-
 [6
 
  <./assets/18650.jpg>]
 
-LaTeX Warning: Reference `ncr_table' on page 7 undefined on input line 483.
+LaTeX Warning: Reference `ncr_table' on page 7 undefined on input line 484.
 
-<assets/cc_cv_18650.png, id=71, 366.168pt x 234.476pt>
+<assets/cc_cv_18650.png, id=147, 366.168pt x 234.476pt>
 File: assets/cc_cv_18650.png Graphic file (type png)
 <use assets/cc_cv_18650.png>
-Package pdftex.def Info: assets/cc_cv_18650.png  used on input line 511.
+Package pdftex.def Info: assets/cc_cv_18650.png  used on input line 512.
 (pdftex.def)             Requested size: 338.5863pt x 216.81891pt.
-<assets/discharge_18650.png, id=72, 367.774pt x 244.915pt>
+<assets/discharge_18650.png, id=148, 367.774pt x 244.915pt>
 File: assets/discharge_18650.png Graphic file (type png)
 <use assets/discharge_18650.png>
-Package pdftex.def Info: assets/discharge_18650.png  used on input line 519.
+Package pdftex.def Info: assets/discharge_18650.png  used on input line 520.
 (pdftex.def)             Requested size: 338.5863pt x 225.48895pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<assets/life_cycle_18650.png, id=73, 371.789pt x 236.082pt>
+<assets/life_cycle_18650.png, id=149, 371.789pt x 236.082pt>
 File: assets/life_cycle_18650.png Graphic file (type png)
 <use assets/life_cycle_18650.png>
-Package pdftex.def Info: assets/life_cycle_18650.png  used on input line 527.
+Package pdftex.def Info: assets/life_cycle_18650.png  used on input line 528.
 (pdftex.def)             Requested size: 338.5863pt x 215.00064pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 533.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 534.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 533.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 534.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 533.
-
 [7
 
  <./assets/cc_cv_18650.png>]
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 533.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 534.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 533.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 534.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-
-LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 533.
-
-[8 <./assets/discharge_18650.png> <./assets/life_cycle_18650.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 536--537
+ [8 <./assets/discharge_18650.png> <./assets/life_cycle_18650.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 539--540
 
  []
 
 
-LaTeX Warning: Reference `SOC_Coulomb_C' on page 9 undefined on input line 540.
-
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 540--541
+Underfull \hbox (badness 10000) in paragraph at lines 541--542
 
  []
 
@@ -1450,193 +1420,193 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.3.1}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.544 		\begin{equation}
+l.545 		\begin{equation}
                         pdfTeX warning (ext4): destination with the same identi
 fier (name{equation.3.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.544 		\begin{equation}
+l.545 		\begin{equation}
                         pdfTeX warning (ext4): destination with the same identi
 fier (name{equation.3.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.544 		\begin{equation}
+l.545 		\begin{equation}
                         pdfTeX warning (ext4): destination with the same identi
 fier (name{equation.3.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.544 		\begin{equation}
+l.545 		\begin{equation}
                         
-Underfull \hbox (badness 10000) in paragraph at lines 550--551
+Underfull \hbox (badness 10000) in paragraph at lines 551--552
 
  []
 
-
-LaTeX Warning: Reference `Electric_model' on page 9 undefined on input line 552
-.
-
-<assets/electric_battery_model_2_order.png, id=90, 382.42876pt x 124.96687pt>
+<assets/electric_battery_model_2_order.png, id=169, 382.42876pt x 124.96687pt>
 File: assets/electric_battery_model_2_order.png Graphic file (type png)
 <use assets/electric_battery_model_2_order.png>
 Package pdftex.def Info: assets/electric_battery_model_2_order.png  used on inp
-ut line 556.
+ut line 557.
 (pdftex.def)             Requested size: 338.5863pt x 110.64621pt.
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 562.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 563.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 562.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 563.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 562.
-
 [9
 
  <./assets/electric_battery_model_2_order.png>]
-
-LaTeX Warning: Citation `Hannan2017' on page 10 undefined on input line 563.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 563--569
+Underfull \hbox (badness 10000) in paragraph at lines 564--570
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 576--578
+Underfull \hbox (badness 10000) in paragraph at lines 577--579
 
  []
 
-
-LaTeX Warning: Reference `1er_orden_eq' on page 10 undefined on input line 580.
-
-
-
-LaTeX Warning: Reference `1er_orden_sol' on page 10 undefined on input line 580
-.
-
-
-LaTeX Warning: Reference `EMF_Method' on page 10 undefined on input line 580.
-
-<assets/EMF_Relaxation.png, id=101, 359.09157pt x 197.98969pt>
+<assets/EMF_Relaxation.png, id=184, 359.09157pt x 197.98969pt>
 File: assets/EMF_Relaxation.png Graphic file (type png)
 <use assets/EMF_Relaxation.png>
-Package pdftex.def Info: assets/EMF_Relaxation.png  used on input line 602.
+Package pdftex.def Info: assets/EMF_Relaxation.png  used on input line 603.
 (pdftex.def)             Requested size: 338.5863pt x 186.69641pt.
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 609.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 610.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 609.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 610.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 609.
-
 [10
 
  <./assets/EMF_Relaxation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 613--614
 
-LaTeX Warning: Reference `Internal_resistance' on page 11 undefined on input li
-ne 628.
+ []
 
 
-LaTeX Warning: Citation `hentunen2014' on page 11 undefined on input line 628.
+Underfull \hbox (badness 10000) in paragraph at lines 623--624
 
-<assets/Ro_vs_SOC.png, id=113, 521.69907pt x 213.79875pt>
-File: assets/Ro_vs_SOC.png Graphic file (type png)
-<use assets/Ro_vs_SOC.png>
-Package pdftex.def Info: assets/Ro_vs_SOC.png  used on input line 637.
-(pdftex.def)             Requested size: 338.5863pt x 138.75874pt.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 636--637
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 647--648
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 658--659
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 669--670
+
+ []
+
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 644.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 690.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 644.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 690.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 644.
-
 [11
 
- <./assets/Ro_vs_SOC.png>]
-Overfull \hbox (21.01323pt too wide) in paragraph at lines 653--664
+]
+<assets/Ro_vs_SOC.png, id=223, 521.69907pt x 213.79875pt>
+File: assets/Ro_vs_SOC.png Graphic file (type png)
+<use assets/Ro_vs_SOC.png>
+Package pdftex.def Info: assets/Ro_vs_SOC.png  used on input line 709.
+(pdftex.def)             Requested size: 338.5863pt x 138.75874pt.
+File: FCEIA-logo.png Graphic file (type png)
+<use FCEIA-logo.png>
+Package pdftex.def Info: FCEIA-logo.png  used on input line 714.
+(pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
+File: LOGO-UNR-NEGRO.png Graphic file (type png)
+<use LOGO-UNR-NEGRO.png>
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 714.
+(pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
+ [12 <./assets/Ro_vs_SOC.png>]
+<assets/EIS_Nyquist.png, id=237, 426.84468pt x 367.3725pt>
+File: assets/EIS_Nyquist.png Graphic file (type png)
+<use assets/EIS_Nyquist.png>
+Package pdftex.def Info: assets/EIS_Nyquist.png  used on input line 720.
+(pdftex.def)             Requested size: 338.5863pt x 291.4319pt.
+File: FCEIA-logo.png Graphic file (type png)
+<use FCEIA-logo.png>
+Package pdftex.def Info: FCEIA-logo.png  used on input line 726.
+(pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
+File: LOGO-UNR-NEGRO.png Graphic file (type png)
+<use LOGO-UNR-NEGRO.png>
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 726.
+(pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
+ [13
+
+ <./assets/EIS_Nyquist.png>]
+Overfull \hbox (21.01323pt too wide) in paragraph at lines 735--746
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 668--671
+Underfull \hbox (badness 10000) in paragraph at lines 750--753
 
  []
 
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 672.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 754.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 672.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 754.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
+[14
 
-LaTeX Warning: Reference `LastPage' on page 12 undefined on input line 672.
-
-[12
-
-] (brief.bbl)
-
-Package lastpage Warning: Rerun to get the references right on input line 679.
-
-
+] (brief.bbl) 
 AED: lastpage setting LastPage
 File: FCEIA-logo.png Graphic file (type png)
 <use FCEIA-logo.png>
-Package pdftex.def Info: FCEIA-logo.png  used on input line 679.
+Package pdftex.def Info: FCEIA-logo.png  used on input line 761.
 (pdftex.def)             Requested size: 62.7342pt x 29.86148pt.
 File: LOGO-UNR-NEGRO.png Graphic file (type png)
 <use LOGO-UNR-NEGRO.png>
-Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 679.
+Package pdftex.def Info: LOGO-UNR-NEGRO.png  used on input line 761.
 (pdftex.def)             Requested size: 45.93463pt x 46.5218pt.
-
-LaTeX Warning: Reference `LastPage' on page 13 undefined on input line 679.
-
-[13
+[15
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 679.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 679.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 761.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 761.
  (brief.aux
 LaTeX Info: Redefining \. on input line 23.
 LaTeX Info: Redefining \% on input line 23.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 679.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 679.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 761.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 761.
+Package rerunfilecheck Info: File `brief.out' has not changed.
+(rerunfilecheck)             Checksum: 6B551BB562302A03E9A001270292EAD3;1155.
 
-
-Package rerunfilecheck Warning: File `brief.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `brief.out':
-(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
-(rerunfilecheck)             After:  F82A71E8AFAF6E76D1AFC2132770C859;1039.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 679.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 761.
  ) 
 Here is how much of TeX's memory you used:
- 32200 strings out of 492895
- 747948 string characters out of 3123268
- 930727 words of memory out of 3000000
- 35609 multiletter control sequences out of 15000+200000
- 7629 words of font info for 27 fonts, out of 3000000 for 9000
+ 32301 strings out of 492895
+ 749282 string characters out of 3123268
+ 931059 words of memory out of 3000000
+ 35688 multiletter control sequences out of 15000+200000
+ 8478 words of font info for 30 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,16n,72p,1150b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
@@ -1646,18 +1616,21 @@ public/amsfonts/cm/cmbx12.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.
 ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Martin/Ap
 pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/U
 sers/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-mi7.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmr10.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmr12.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Martin/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Martin/AppD
-ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Use
-rs/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
-7.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmti10.pfb>
-Output written on brief.pdf (14 pages, 503348 bytes).
+mi5.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmmi7.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Martin/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Martin/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/User
+s/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.
+pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Martin/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Martin/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/euler/eurm10.pfb>
+Output written on brief.pdf (16 pages, 580083 bytes).
 PDF statistics:
- 194 PDF objects out of 1000 (max. 8388607)
- 52 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 323 PDF objects out of 1000 (max. 8388607)
+ 67 named destinations out of 1000 (max. 500000)
+ 183 words of extra memory for PDF output out of 10000 (max. 10000000)
 
