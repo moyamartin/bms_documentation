@@ -1,8 +1,9 @@
- \documentclass[10pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{pdfpages}
 \usepackage[justification=centering]{caption}
+\usepackage{subcaption}
 \usepackage{textcomp}
 \usepackage{gensymb}
 \usepackage{fancyhdr}
@@ -532,6 +533,88 @@ Por el otro lado, la hoja de datos también nos provee curvas significativas, co
 \end{figure}
 
 \clearpage
+
+%TODO La sección debería ser incluida en la descripción del hardware o PCB del BMS
+
+\subsection{Sensado de Corriente}
+
+El sensado de la corriente de carga como de descarga del pack de batería juega un rol muy importante en el desarrollo exitoso de un BMS. Es a partir de conocer con precisión la magnitud de corriente que el sistema podrá mantener el pack de baterías operando dentro de la zona segura (SOA por sus siglas en ingles), monitorear la distribución de carga entre las celdas,  implementar correctamente los algoritmos de ecualización de carga y mantener un seguimiento preciso del estado de carga.
+
+Existen en el mercado una gran variedad de tecnologías y soluciones para la medición de corriente en las diferentes aplicaciones. Algunas de las tecnologías mas relevantes, disponibles en el mercado son:
+\begin{itemize}
+	\item [] Resistencia Shunt
+	\item [] Transformadores de intensidad (TI)
+	\item [] Bobina de Rogowski 
+	\item [] Sensores de Efecto Hall
+	\item [] Sensores de Impedancia Magnética (MI)
+	\item [] Sensores de Magnetoresistencia Gigante 
+	\item [] Sensores Ópticos (Experimental)
+\end{itemize}
+
+Dentro del amplio abanico de métodos y tecnologías utilizadas para la medición de corrientes los dos más elegidos e implementados en Sistemas de Administración de Baterías BMS son las mediciones a partir de resistencias Shunt y mediciones a partir de sensores de efecto hall.
+
+\subsubsection{Resistencia Shunt}
+La tecnología Shunt se vale del Sensado de la caída del voltaje sobre una resistencia de unos pocos mili ohmios en serie con el paso de la corriente incógnita para la medición indirecta de la corriente.
+
+El método de sensado por resistencia tipo shunt presenta una de las mejores relaciones costos-efectividad, presentando un empaquetado compacto y aplicable en mediciones de corrientes tanto continua como alterna encontrando su frecuencia de corte por encima de las decenas de Mhz.
+
+Las mediciones por resistencia shunt carecen naturalmente de aislación galvánica debiendo ser resuelta a partir del circuito de implementación. Generalmente, los shunts presentan bajo coeficiente de temperatura de resistencia, TCR por sus siglas en ingles. Característica fundamental en las implementaciones de BMS en sistemas de vehículos eléctricos que permite aumentar el rango de temperatura de operación del sistema.
+
+Aunque los shunts de corrientes operen bajo el principio de caida de voltaje ohmico, en la práctica las resistencias presentan una inductancia intrínseca que comprometen la precisión y el ancho de banda máximo de las mediciones.
+
+\subsubsection{Censor de efecto Hall}
+El sensor de efecto Hall es un sensor de efecto magnético basado en el fenómeno físico homónimo que le da su nombre. 
+El sensor de efecto Hall es un dispositivo aislado, no intrusivo que puede ser utilizado para medir corriente tanto continua como alterna de hasta unos cientos de kHz. El sensor Hall puede ser fabricado utilizando tecnología CMOS convencional pero a un costo mayor que las implementaciones con transformadores de corriente o bobinas de Rogowski.
+
+El traductor de efecto Hall encuentra normalmente su límite de medición en los picos de corriente debido al fenómeno de saturación magnética del núcleo y encuentra su límite de ancho de banda en las frecuencias menores al MHz. A su vez, esta tecnología es sumamente sensible a la influencia de los campos magnéticos externos. Frente a estas limitaciones es común que los sensores de efecto Hall se implementen mayoritariamente con bobinas cerradas para lograr una mejor precisión y un rango mayor de operación dinámico.
+
+El voltaje de offset presente en la medición del dispositivo es poco estable y varia fuertemente frente a las variaciones de temperatura de operación.
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{../assets/R-Shunt_Isolated_Sensor.jpg}
+		\caption{Sensado por Resistencia Shunt}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{../assets/Open-loop_Hall_Sensor.jpg}
+		\caption{Sensado por efecto Hall de loop abierto}
+	\end{subfigure}
+	\caption{Diagramas - Métodos de sensado de corriente}
+	\label{fig:SenseMetods}
+\end{figure}
+
+\subsubsection{Tecnología Seleccionada}
+
+Frente a los requerimientos y la naturaleza de un BMS hemos seleccionado la tecnología de sensado de corriente por resistencia Shunt. Actualmente existen en el mercado un sin número de soluciones de amplificadores y moduladores aislados que permiten alcanzar precisas mediciones de corrientes con este método logrando minimizar las injerencias del entorno siempre y cuando se seleccione una resistencia Shunt adecuada.
+
+Las ventajas de la medición a partir del método de resistencia shunt son:
+
+\begin{itemize}
+	\item Bajo offset y baja susceptibilidad frente a influencias de campos magnéticos externos y variaciones de temperatura.
+	\item Alta linealidad de la solución en todo el rango de voltaje en comparación a la solución basada en tecnología Hall, sobre todo en la zona cercana a cero y la de saturación del nucleo. 
+	\item Mejor resolución para mediciones de corriente continua frente a las soluciones basadas en mediciones de efecto Hall. Particularmente debido a la baja sensitividad que presenta frente a las influencias de los campos magnéticos externos.
+	\item Pueden soportar operaciones en ambientes de altas temperaturas manteniendo la linealidad debido a su bajo TCR. Los sensores de efecto Hall encuentran su rango de operación fuertemente acotado.
+	\item Facilidad que presenta la tecnología para la integración en circuitos impresos priorizando el tamaño reducido.
+	\item Disponibilidad en distribuidores nacionales
+\end{itemize}
+
+El integrado propuesto para el sensado de corriente es el INA226 de Texas Instruments. El INA226 es un conversor analógico digital de 16 bits (ADC) que implementa una interfaz compatible I2C para la comunicación con el módulo del control. El dispositivo monitorea simultaneamente la tensión que cae en una resistencia shunt y la del bus de alimentación. Permite múltiples calibraciones y seteos, entre ellos variar los tiempos de conversión y definir conversiones múltiples que al implementar internamente un multiplicador y divisor permite obtener lecturas directas de tensión y potencia en amperes y en Vatios.
+
+\clearpage
+
+Observamos en la figura \ref{fig:ina226-commonimplementation} su implementación modelo. 
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{assets/INA226-Common_Implementation}
+		\caption{Implementación Tipo - INA226}
+		\label{fig:ina226-commonimplementation}
+	\end{center}	
+\end{figure}
+
+
+
 
 \subsection{Algoritmos de Estimación del Estado de Carga}
 La estimación del estado de carga es una de las tareas fundamentales dentro del sistema de Administración de baterías ya que en base a esta información se toman importantes decisiones, de ella dependen la optima ecualización de carga de las celdas, no exceder los límites de Zona de Operación segura, realizar acciones preventivas en caso del agotamiento de carga como ser iniciar un apagado de seguridad y por último reportar al usuario la carga restante en el pack.\\
