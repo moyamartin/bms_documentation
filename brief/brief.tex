@@ -12,6 +12,7 @@
 \usepackage{multirow}
 \usepackage{epstopdf}
 \usepackage{lastpage}
+\usepackage{upgreek}
 \usepackage{circuitikz}
 \usetikzlibrary{arrows, decorations.markings}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
@@ -160,7 +161,7 @@ Ing. Edgardo Arnejo
 El sistema a implementar  contará con los siguientes elementos:
 
 \begin{itemize}
-	\item \textbf{Pack de baterías} de arquitectura de hasta 6 celdas \emph{NCR18650} en serie.
+	\item \textbf{Pack de baterías} de arquitectura de hasta 6 celdas \emph{NCR18650B} en serie.
 	\item Sensado de tensión de las celdas individuales del pack y de la corriente que circula desde y hacia el pack de baterías.
 	\item Etapa de potencia para el balanceo de las celdas.
 	\item Protecciones encargadas de conectar y desconectar la carga del pack de baterías frente a operaciones fuera de la zona segura. 
@@ -355,7 +356,7 @@ El sistema a implementar  contará con los siguientes elementos:
 	\label{realimentacion_cargador}
 \end{figure}
 
-\noindent Una vez finalizada esta etapa, solo resta probar los algoritmos sobre un EV (en este caso, una bicicleta) para validar la eficiencia de los mismos y elegir el más óptimo en base a la autonomía del vehículo. Finalizada la prueba, tenemos un sistema eficiente para implementar sobre vehículos eléctricos de baja y mediana potencia.
+\noindent Una vez finalizada esta etapa, se propone según disponibilidad probar los algoritmos sobre un EV, como podría ser una Bicicleta eléctrica, para validar la eficiencia de los mismos y elegir el más óptimo en base a la autonomía del vehículo. Finalizada la prueba, tenemos un sistema eficiente para implementar sobre vehículos eléctricos de baja y mediana potencia.
 
 \clearpage
 
@@ -395,7 +396,7 @@ Las baterías de Litio-ion se destacan por las siguientes características:
 \\
 \noindent La aplicación práctica de las baterías de Litio-ion involucra la integración de las mismas dentro de un sistema, involucrando un controlador central (BMS), sistemas de refrigeración, sensores y conectores entre las celdas. En este sistemas las celdas pueden conectarse de distintas formas, por ejemplo, pueden conectarse en paralelo, para incrementar la capacidad del pack, en serie, para incrementar el voltaje, o combinadas para lograr ambos cometidos al mismo tiempo. Por ejemplo, un auto eléctrico de la marca \emph{Tesla}, posee un pack de baterías de 85KWh compuesto por 7104 celdas.\\
 \\
-\noindent En este caso utilizaremos celdas de Litio-ion modelo NCR18650, integrando una arquitecture \emph{6S3P}, es decir, por 6 celdas conectadas en serie y, cada celda de la cadena, es representada por 3 celdas en paralelo. En la Figura \ref{pack} se muestra el esquemático de la arquitectura del pack de baterías como también una foto de la celda que se utilizará para conformar el pack. 
+\noindent En este caso utilizaremos celdas de Litio-ion modelo NCR18650B, integrando una arquitecture \emph{6S3P}, es decir, por 6 celdas conectadas en serie y, cada celda de la cadena, es representada por 3 celdas en paralelo. En la Figura \ref{pack} se muestra el esquemático de la arquitectura del pack de baterías como también una foto de la celda que se utilizará para conformar el pack. 
 
 \begin{figure}[h!]
 		\begin{minipage}[c]{0.45\textwidth}
@@ -643,8 +644,8 @@ Debido a que nos interesa saber el SOC cuando la batería esta entregando energ�
 \end{figure}
 Dada la naturaleza química de la batería, si se entra en detalle se puede observar que los componentes que modelan la batería tienen un comportamiento no lineal dependiendo del SOC y más aún se ven afectados por el efecto de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no estacionario.
 \clearpage
-Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{metodos_convencionales} los siguientes métodos como convencionales :\\
-% \cite{metodos_convencionales}
+Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{Hannan2017} los siguientes métodos como convencionales :\\
+% \cite{Hannan2017}
 %A review of lithium-ion battery state of charge estimation and management
 %system in electric vehicle applications: Challenges and recommendations
 %M.A. Hannan,⁎, M.S.H. Lipu, A. Hussain, A. Mohamed 
@@ -691,8 +692,79 @@ Teniendo en cuenta la limitación del método de OCV para la estimación mientra
 
 \clearpage
 
-\subsubsection{Estimación basada en modelos (Térmico y electroquímicos)}
-Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.
+\subsubsection{Estimación basada en modelos (Mecánicos, Térmicos y electroquímicos)}
+Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.\\
+
+Las celdas de Li-Ion se componen de 5 regiones: un electrodo negativo colector de corriente, un electrodo compuesto poroso de inserción negativo, un separador poroso, un electrodo compuesto poroso de inserción positivo y un electrodo positivo colector de corriente. Esto en conjunto con las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics} se detalla en \cite{Li2016}.
+
+%\cite{Li2016}
+%Li-ion dynamics and state of charge estimation
+%Mingheng Li
+%Department of Chemical and Materials Engineering, California State Polytechnic University, Pomona, CA 91768, United States
+%el pdf se llama Li2016.pdf en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
+
+Tomando como modelo un modelo unidimensional a lo largo de la sección de la batería se aplican las siguentes ecuaciónes:\\
+
+
+Conservación de carga en un sólido homogéneo:\\
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\nabla \cdot (-\sigma\nabla\upvarphi_s)=-j^{Li} 
+		\label{Chrg_cons_hom_sol}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de masa en un sólido homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\frac{\partial c_s}{\partial t}=\nabla \cdot (D_s\nabla c_s) 
+		\label{Mass_cons_hom_sol}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de masa en un electrolito homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\varepsilon_e\frac{\partial c_e}{\partial t} + \nabla \cdot (-D_e\nabla c_e) = (\frac{1-t_+^0}{F})j^{Li}
+		\label{Mass_cons_hom_electrolyte}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Conservación de carga en un electrolito homogéneo:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\nabla \cdot (\upkappa \nabla \upvarphi_e + \upkappa_D \nabla \ln c_e) = -j^{Li}
+		\label{Chrg_cons_hom_electrolyte}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Ecuación de Butler-Volmer de movimiento de cargas en una unión entre un sólido conductor y una solución de Iones de Litio con el efecto de doble capa eléctrica. \\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		 j^{Li} = a_si_0[{e^\frac{F\eta}{2RT}-e^{-\frac{F\eta}{2RT}}}]+ a_sC_{dl}\frac{\partial{(\upvarphi_s - \upvarphi_e)}}{\partial t}
+		\label{Butler_Volmer_kinetics}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics}, $\sigma$  conductividad de la fase sólida, $\upvarphi_s$ el potencial eléctrico de la fase sólida, $\upvarphi_e$ el potencial eléctrico del electrolito, $j^{Li}$ la corriente producida por el consumo de Li, t es el tiempo, c concentración de Iones de Litio, D el coeficiente de difusión, F la constante de Faraday, $\varepsilon$ es la fracción por volumen,
+$t_+^0$ el número de transferencia, $\upkappa$ la conductividad del electrolito,
+$\upkappa_D$ la conductividad de la difusión, $i_0$ la densidad de corriente de intercambio, $\eta$ la sobretensión, $a$ el area específica and $C_{dl}$ la capacidad de la doble capa. El subíndice $s$ corresponde a la fase sólida y $e$ corresponde con el electrolito. También teniendo en cuenta la relación de Bruggerman.
+
+
 
 
 \subsubsection{Estimación por resistencia interna}
@@ -708,9 +780,9 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
 	\end{center}
 \end{figure}
 
- Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
+ Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen2014}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
  
- %\cite{hentunen}
+ %\cite{hentunen2014}
  %Time-Domain Parameter Extraction Method for
  %Thevenin-Equivalent Circuit Battery Models
  %Ari Hentunen, Member, IEEE, Teemu %Lehmuspelto, Member, IEEE, and Jussi Suomela
@@ -722,8 +794,389 @@ Este método utiliza el voltage y la corriente de la batería en conjunto para d
  		\label{Internal_resistance}
  	\end{center}
  \end{figure}
- 
- 
+ \clearpage
+\subsubsection{Espectroscopía Dieléctrica (EIS)}
+Este estudio consiste en llevar a la celda a un estado de carga conocido, y luego de un período de relajación se excita los terminales con una onda senoidal de tensión o corriente y se mide la respuesta de corriente o tensión respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas por Mingheng Li basadas en un modeló físico basado en principios de conservación de masa y carga en una interfaz entre un sólido y un electrolito detallado en \cite{Li2016}, para distintos estados de carga y en un amplio rango de frecuencias. 
+
+ \begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{EIS_Nyquist.png}
+		\caption{Diagrama de Nyquist - Espectroscopía Dieléctrica (EIS) de una batería de Li-Ion obtenida por barrido frecuencial.}
+		\label{EIS_Nyquist}
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\subsection{Filtros de Kalman}
+Este tipo de filtros toma importancia en sistemas de naturaleza estocástica. Cuya dinámica es afectada por ruido cuya distribución de probabilidad es Gaussiana o Normal. Este es un algoritmo recursivo que corrige las estimaciones mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y su estimación obtenida por modelos matemáticos generados en base al conocimiento del sistema.
+
+Dado un sistema lineal cuya dinámica es descripta por las siguientes ecuaciones:\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		x_{k+1}= Ax_{k} + w_{k}
+		\label{KF_equation01}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Donde $x_{k}$ es el vector de estados en el instante de tiempo k, A es la matriz de transición de estados y $w_{k}$ ruido aditivo gaussiano asociado al modelo del proceso con matriz de varianza Q. 
+Además podemos expresar el vector de observación o medición $z_{k} $de los estados $x_{k}$ como:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		z_{k}= Hx_{k} + v_{k}
+		\label{KF_equation02}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+
+Donde H es la matriz de conexión entre los estados y las observaciones sin ruido, es decir que mediciones se están tomando y que estado representan. Por otro lado $v_{k}$ es el ruido aditivo gaussiano asociado a la medición con matriz de varianza R.\\
+
+Definiendo la función de costo al error cuadrático medio en la estimación de $x_k$ \\
+
+
+Definiendo al error como: 
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		e_{k} = x_k  - \hat{x}_k
+		\label{KF_error}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+
+
+
+De manera que podemos expresar la Matriz de covarianza del error en el instante k como:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_{k} = E[e_k.{e_k}^{T}] = E[(x_k-\hat{x}_k).(x_k-\hat{x}_k)^{T}]
+		\label{KF_equation03}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+
+
+
+
+
+\clearpage
+
+Podemos expresar $\hat{x}_k$ como: 
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)
+		\label{KF_equation04}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Donde $K_k$ es la ganancia de Kalman la cual pondera según el criterio de minimización del error cuadrático medio si $\hat{x}_k$ es próxima a $\hat{x}^\prime_k$ o al vector $z_k$.
+
+Si reemplazamos $z_k$ en la ecuación \ref{KF_equation04} por la expresión \ref{KF_equation02} se obtiene la expresión del error de la estimación a priori $\hat{x}^\prime_k$ detallada a continuación:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\hat{x}_k = \hat{x}^\prime_k + K_k (Hx_{k} + v_{k} - H\hat{x}^\prime_k)
+		\label{KF_equation05}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Reacomodando los terminos, 
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\hat{x}_k = \hat{x}^\prime_k + K_k H (x_{k}  - \hat{x}^\prime_k) + K_kv_{k}
+		\label{KF_equation06}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Multiplicando por (-1) y luego sumando en ambos miembros de la ecuación \ref{KF_equation06} el termino $x_k$ 
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		x_k - \hat{x}_k = x_{k} -\hat{x}^\prime_k - K_k H (x_{k}  - \hat{x}^\prime_k) - K_kv_{k}
+		\label{KF_equation08}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		x_k - \hat{x}_k = (I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}
+		\label{KF_equation09}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+
+Reemplazando luego en la ecuación \ref{KF_equation03} la expresión $x_k - \hat{x}_k$  por el de la ecuación \ref{KF_equation09} obtenemos la expresión de $P_k$ como función del error de la estimación a priori:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+	P_k = E[[(I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}][ (I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}]^T]
+		\label{KF_equation10}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Aplicando propiedades de la transpuesta de una matriz e ignorando los terminos relativos a la correlación entre el ruido de la medición y el error de la estimación a priori:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_k = E[[(I-K_k H)(x_k - \hat{x}^\prime_k)(x_k - \hat{x}^\prime_k)^T(I-K_k H)^T + K_k v_{k} v_{k}^T K_k^T 
+		\label{KF_equation11}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+
+Teniendo en cuenta que la esperanza de una matriz que no es variable aleatoria es la misma matriz:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_k = (I-K_k H) E[(x_k - \hat{x}^\prime_k)(x_k - \hat{x}^\prime_k)^T](I-K_k H)^T + K_k E[v_{k} v_{k}^T] K_k^T 
+		\label{KF_equation12}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Obteniendose así la expresión de \textbf{la ecuación de actualización de la matriz de covarianza}:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_k = (I-K_k H)P^\prime_k(I-K_k H)^T + K_k R K_k^T 
+		\label{KF_equation13}
+		\end{equation}	
+	\end{center}
+\end{figure}
+    
+\clearpage
+
+Recordando la forma de la matriz $P_k$ y observando que su traza, es decir, la sumatoria de todos los elementos de la diagonal principal, es la suma del error cuadrático medio,de manera que podemos afirmar que minimizando la traza podemos minimizar el ECM o MSE por su sigla en inglés, \emph{Mean Square Error}.
+\begin{equation}
+P_k = 
+  \begin{bmatrix}
+	e_{1k}e_{1k} & e_{1k}e_{2k} &	\dots  & e_{1k}e_{nk} \\
+	e_{2k}e_{1k} & e_{2k}e_{2k} &	\dots  & e_{2k}e_{nk} \\
+	\vdots       &   \vdots     &	\ddots & \vdots       \\
+	e_{nk}e_{1k} & e_{nk}e_{2k} &	\dots  & e_{nk}e_{nk} \\
+\end{bmatrix}
+\end{equation}
+
+De manera que buscamos $K_k$ que cumpla con este requisito, para lo cual haremos la expansión de la ecuación \ref{KF_equation13}  para obtener luego una expresión de la traza.
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_k = P^\prime_k - K_k H P^\prime_k - P^\prime_k H^T K^T_k + K_k (H P^\prime_k H^T + R) K^T_k
+		\label{KF_equation14}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Siendo la expresión de $T[P_k]$
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		T[P_k] = T[P^\prime_k] - T[K_k H P^\prime_k] - T[P^\prime_k H^T K^T_k] + T[K_k (H P^\prime_k H^T + R) K^T_k]
+		\label{KF_equation15}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Ya que $P^\prime_k$ es simétrica  y que la traza de una matriz es igual a la traza de su transpuesta.
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P^{\prime T}_k  = P^\prime_k
+		\label{KF_equation16}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Podemos escribir
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P^\prime_k H^T K^T_k = P^{\prime T}_k H^T K^T_k = (K_k H P^\prime_k )^T
+		\label{KF_equation17}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		 T[P^\prime_k H^T K^T_k] = T[K_k H P^\prime_k]
+		 \label{KF_equation18}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Reemplazando \ref{KF_equation18} en \ref{KF_equation15} ,
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		T[P_k] = T[P^\prime_k] -2 T[K_k H P^\prime_k] + T[K_k (H P^\prime_k H^T + R) K^T_k]
+		\label{KF_equation19}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Para obtener el valor mínimo calculamos la derivada de $T[P_k]$ respecto a $K_k$
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\frac{dT[P_k]}{dK_k} = -2 (H P^\prime_k)^T + 2K_k (H P^\prime_k H^T + R)
+		\label{KF_equation20}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Luego igualando la ecuación \ref{KF_equation20} en 0 y despejando obtenemos la expresión de la Ganancia de Kalman $K_k$ :
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		K_k = (H P^\prime_k)^T (H P^\prime_k H^T + R)^{-1} 
+		\label{KF_equation21}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+\clearpage
+
+Definiendo a $S_k$ como:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		S_k = (H P^\prime_k H^T + R)
+		\label{KF_equation22}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+La ecuación \ref{KF_equation21} queda:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		K_k = (H P^\prime_k)^T S_k^{-1} 
+		\label{K_Gain}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Reemplazando la expresión de $K_k$ obtenido, en la ecuación  \ref{KF_equation14}, se cancela el tercer término con el cuarto término y queda:
+
+\begin{align}
+		P_k  &= P^\prime_k + P^\prime_k H^T (H P^\prime_k H^T + R)^{-1} H P^\prime_k \nonumber \\
+		P_k  &= P^\prime_k - K_k H P^\prime_k \nonumber\\
+		P_k  &= (I - K_k H) P^\prime_k	
+		\label{KF_equation23}	
+\end{align}
+
+La proyección del vector de estados $x_k$ en el instante $k+1$ se obtiene como:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		\hat{x}^\prime_{k+1} = A \hat{x}_k 
+		\label{x_k_projection}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Para luego proyectar la matriz de covarianza de error $P_k$ en el instante $k+1$.
+
+Haciendo uso de la ecuación \ref{KF_equation03} y extendiéndola para $e^\prime_{k+1}$:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P_{k+1} = E[e_{k+1}.e_{k+1}^{T}] = E[(A e_k-w_k).(A  e_k-w_k)^{T}]
+		\label{projection_p_k_aux}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+Cabe destacar que el ruido del proceso $w_k$ no tiene correlación alguna respecto a $e_k$ ya que el primero es el ruido presente entre $k$ y $k+1$ y $e_k$ es el error resultante de todos los calculos previos hasta el instante $k$.
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+		P^\prime_{k+1} = E[A e_{k}.e_{k}^{T}A^{T}]+ E[w_k w_k^{T}]= A P_k A^{T} + Q
+		\label{projection_p_k}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Filtro de Kalman: resumen}
+
+Como dijimos los filtros de Kalman son algoritmos recursivos, los mismos se componen por las siguientes ecuaciones descriptas anteriormente :\\
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\rule{0pt}{4ex}	Ganancia de Kalman 							& $K_k = (H P^\prime_k)^T S_k^{-1}$  \\ \hline
+		\rule{0pt}{4ex}	Actualización de la estimación			    &  $\hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)$\\ \hline
+		\rule{0pt}{4ex}	Actualización de la matriz de covarianza    & $P_k = (I - K_k H) P^\prime_k$ \\ \hline
+		\multirow{2}{*}{Proyeccion en k+1}        		  			& \rule{0pt}{4ex} $\hat{x}^\prime_{k+1} = A \hat{x}_k$ \\ \cline{2-2}
+																	& \rule{0pt}{4ex} $P^\prime_{k+1} = A P_k A^{T} + Q$ \\ \hline
+	\end{tabular}
+	\label{Ecuaciones_Kalman}
+\end{table}
+
+
+Una manera intuitiva de pensar los filtro de Kalman es de la siguiente manera.
+Supongamos que tenemos la medición antes definida como $z_k$ y corriendo en paralelo tenemos un modelo matemático calculando el estado actual o vector de estados actual de nuestro sistema el cual notaremos como $\hat{x}^\prime_k$ y llamaremos estimación a priori de $x_{t}$.\\
+
+Ambos valores son afectados por ruido asociado, de manera que podemos ponderar ambas de manera de obtener una medición más certera.\\
+
+Como se observa en la Fig. \ref{KF_Integration_concept} en base a las distribuciones de $z_k$ y $\hat{x}^\prime_k$ obtenemos una nueva $\hat{x}_k$ la cual tiene una menor varianza.\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{KF_Integration_concept.eps}
+		\caption{Gráfico ilustrativo de la estimación de $x_{t}$ mediante $z_k$ y $\hat{x}^\prime_k$ .}
+		\label{KF_Integration_concept}
+	\end{center}
+\end{figure}
+
+
 \clearpage
 \subsection{Plan de Trabajo}
 
@@ -751,5 +1204,12 @@ Se plantea el siguiente plan de trabajo con el tiempo estimado para la finalizac
 El desarrollo del hardware y los algoritmos, tanto de ecualización como de estado de carga sirven como una buena base para futuros proyectos vinculados a la temática de energías renovables y VEs.\\
 \\
 Como posible extensión se plantea el desarrollo de algoritmos novedosos para la estimación del Estado de Salud, su posible aplicación a sistemas de alta potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a la composición química de las celdas.
+
+\clearpage
+
+\section{Bibliografía}
+
+\bibliography{Bms_Documentation} 
+\bibliographystyle{ieeetr}
 
 \end{document}
