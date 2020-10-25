@@ -224,6 +224,48 @@
 	  \caption{Esquemático de un sensor de Efecto Hall}
 	  \label{sch_hall}
 	\end{figure}
+\end{frame}
+
+\subsection{Tecnología seleccionada}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Tecnología seleccionada}
+  Dada la naturaleza del BMS, elegimos el método de medición de corriente por
+  resistencia Shunt, ya que posee las siguientes ventajas:
+
+  \begin{itemize}
+	\item Bajo offset y baja susceptibilidad frente a campos magnéticos externos
+	  y variaciones de temperatura.
+	\item Alta linealidad, mayormente cerca de la zona cercana al cero y a la
+	  saturación del núcleo, como también ante altas temperatura (bajo TCR).
+	\item Mejor resolución para mediciones de corriente continua, debido a la
+	  baja sensitividad ante los campos magnéticos.
+	\item Fácil integración en circuitos impresos.
+	\item Disponibilidad de distribuidores nacionales.
+  \end{itemize}
+
+\end{frame}
+
+\subsection{Sensor de Corriente INA226}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Sensor de Corriente - INA226}
+  El sensor a utilizar es el INA226 de la marca \emph{Texas Instruments} que
+  posee las siguientes características:
+  \begin{itemize}
+	\item ADC de 16 bits
+	\item Interfaz I/O compatible con I2C.
+	\item Implementa un multiplicador/divisor interno, esto permite pre-calcular
+	  la corriente y potencia de forma rápida.
+  \end{itemize}
+
+  \framebreak
+
+  \begin{figure}[h!]
+	\includegraphics[width=1\textwidth]{./images/INA226-Common_Implementation.jpg}
+	\caption{Esquemático de la implementación del INA226}
+	\label{sch_ina226}
+  \end{figure}
 
 \end{frame}
 
