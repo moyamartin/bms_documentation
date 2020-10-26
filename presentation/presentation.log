@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.10) (preloaded format=pdflatex 2020.10.25)  25 OCT 2020 22:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.10) (preloaded format=pdflatex 2020.10.25)  26 OCT 2020 08:00
 entering extended mode
 **./presentation.tex
 (presentation.tex
@@ -2050,7 +2050,7 @@ Package logreq Info: Writing requests to 'presentation.run.xml'.
 Here is how much of TeX's memory you used:
  57706 strings out of 480198
  1349557 string characters out of 2887042
- 2174476 words of memory out of 3000000
+ 2174475 words of memory out of 3000000
  73327 multiletter control sequences out of 15000+200000
  551761 words of font info for 67 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2066,7 +2066,7 @@ uper/sfss0900.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss
 1000.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss1440.pfb>
 <H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfsx1000.pfb><H:/Progr
 am Files/MiKTeX 2.9/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on presentation.pdf (14 pages, 456168 bytes).
+Output written on presentation.pdf (14 pages, 456170 bytes).
 PDF statistics:
  507 PDF objects out of 1000 (max. 8388607)
  41 named destinations out of 1000 (max. 500000)
