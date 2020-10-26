@@ -1,4 +1,10 @@
 \defcounter {refsection}{0}\relax 
-\beamer@slide {sch_shunt}{6}
+\beamer@slide {fig:18650}{4}
 \defcounter {refsection}{0}\relax 
-\beamer@slide {tab:env_limit}{8}
+\beamer@slide {fig:perfildeensayohppc}{4}
+\defcounter {refsection}{0}\relax 
+\beamer@slide {sch_shunt}{8}
+\defcounter {refsection}{0}\relax 
+\beamer@slide {sch_hall}{10}
+\defcounter {refsection}{0}\relax 
+\beamer@slide {sch_ina226}{13}
