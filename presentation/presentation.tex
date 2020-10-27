@@ -269,4 +269,144 @@
 
 \end{frame}
 
+\section{Estimación del SoC}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Métodos de Estimación de SoC}
+
+  Hoy en día hay varios métodos para estimar el Estado de Carga de una batería,
+  entre ellas se encuentran las siguientes:
+  \begin{itemize}
+	\item Relación directa entre el SoC y el OCV
+	\item Conteo de carga o, en inglés, \emph{Coulomb Counting}.
+	\item Método por Fuerza Electro-Motriz.
+	\item Resistencia Interna.
+	\item \textbf{Estimación del Estado de Carga basado en modelos matemáticos.}
+  \end{itemize}
+
+  \framebreak
+
+  Dentro del último, nos encontramos con los distintos modelos disponibles:
+
+  \begin{itemize}
+	\item Estimación basada en modelos Térmico y Electroquímicos.
+	\item Modelo Eléctrico.
+	  % TODO: Mover espectroscopía dieléctrica.
+	\item Espectroscopía Dielétrica.
+  \end{itemize}
+
+  El error inherente de estos modelos puede ser compensado utilizando Filtros
+  predictivos, como por ejemplo, un Filtro de Kalman con sus respectivas
+  variaciones.
+
+\end{frame}
+
+\subsection{Método de estimación por FEM}
+
+\begin{frame}[allowframebreaks]
+	\frametitle{Método de estimación por FEM}
+
+	En este caso, se realiza la estimación del OCV mediante el estudio de la
+	respuesta temporal de la tensión entre los terminales de la batería
+	\emph{(fig. \ref{fig:relax_emf})} a través
+	de una ecuación diferencial de primer órden \emph{(ec. \ref{ec_fem})}.
+
+	\begin{equation}
+	  \frac{df(x)}{dx} = \alpha f(x)
+	  \label{ec_fem}
+	\end{equation}
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=1\textwidth]{./images/EMF_relaxation.png}
+	  \caption{Curva de relajación de una batería de Litio-Ion}
+	  \label{fig:relax_emf}
+	\end{figure}
+
+\end{frame}
+
+\subsection{Estimación basada en modelos (Mecánicos, Térmicos y
+Electroquímicos)}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Estimación basada en modelos Físicos}
+
+	Este método requiere un profundo conocimiento de los fenómenos físicos y
+	electroquímicos dentro de las baterías, como también la aplicación de las
+	siguientes ecuaciones:
+
+	\begin{itemize}
+	  \item Conservación de carga y masa en un sólido homogéneo.
+	  \item Conservación de carga y masa en un electrolito homogéneo.
+	  \item Ecuación de Butler-Volmer de movimiento de cargas en una unión entre
+		un sólido conductor y una solucion de Litio-Ion.
+	\end{itemize}
+
+\end{frame}
+
+\subsection{Estimación por resistencia interna}
+
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Estimación por resistencia interna}
+	
+  	Se excita a la celda con un pulso de corriente de corta duración y se
+	calcula la resistencia interna aplicando la ley de Ohm
+	\emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
+	Figura \ref{fig:r_ohm_result}
+
+	\begin{equation}
+	\frac{\Delta V}{\Delta I} = R_\Omega
+	  \label{eq:ohm_law}
+	\end{equation}
+
+	\framebreak
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
+	  \caption{Resistencia Interna vs SOC de una batería}
+	  \label{fig:r_ohm_result}
+	\end{figure}
+
+\end{frame}
+
+\subsection{Espectroscopía Dielétrica (EIS)}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Espectroscopía Dielétrica (EIS)}
+  Consiste en llevar a la celda en un estado de carga conocido y excitar los
+  terminales con una onda senoidal de tensión o corriente, midiendo su respectiva
+  respuesta. Un ejemplo de ella se puede observar en la Figura \ref{fig:nyq_eis}
+
+  \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
+	\caption{Espectroscopía Dielétrica de una batería Litio-Ion}
+	\label{fig:nyq_eis}
+  \end{figure}
+\end{frame}
+
+\subsection{Filtro de Kalman}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Filtro de Kalman}
+
+  El filtro de Kalman es un algoritmo recursivo que corrige las estimaciones
+  mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y
+  su estimación obtenida por modelos matemáticos.
+
+  \begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|}
+	  \hline
+	  \rule{0pt}{4ex}	Ganancia de Kalman 							& $K_k = (H P^\prime_k)^T S_k^{-1}$  \\ \hline
+	  \rule{0pt}{4ex}	Actualización de la estimación			    &  $\hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)$\\ \hline
+	  \rule{0pt}{4ex}	Actualización de la matriz de covarianza    & $P_k = (I - K_k H) P^\prime_k$ \\ \hline
+	  \multirow{2}{*}{Proyeccion en k+1}        		  			& \rule{0pt}{4ex} $\hat{x}^\prime_{k+1} = A \hat{x}_k$ \\ \cline{2-2}
+	  & \rule{0pt}{4ex} $P^\prime_{k+1} = A P_k A^{T} + Q$ \\ \hline
+	\end{tabular}
+	\label{Ecuaciones_Kalman}
+  \end{table}
+\end{frame}
+
 \end{document}
