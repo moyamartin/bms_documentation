@@ -22,7 +22,7 @@
 \usepackage{tcolorbox}
 \usepackage{physics}
 \usepackage{circuitikz}
-
+\usepackage{wrapfig}
 
 % Enable colored hyperlinks
 %\hypersetup{colorlinks=true}
@@ -140,34 +140,109 @@
 
 \section{Modelado celda de Litio-Ion}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Celda - Dataset - Ensayo HPPC (Hybrid Pulse Power Characterization}
+\begin{frame}
+\frametitle{Celda NCR18650B }
 
-Celda seleccionada: baterías comerciales denominadas NCR18650B
-
-\begin{figure}[h!]
-	\includegraphics[width=0.1\linewidth]{images/18650}
+\begin{wrapfigure}[2]{l}{0.3\textwidth}
+\vspace{-5pt}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{images/18650}
 	\caption{NCR18650B}
-	\label{fig:18650}
+	\end{center}
+	
+\end{wrapfigure}
+Celda seleccionada:\\ baterías comercial Panasonic NCR18650B
+
+\vspace{60pt}
+
+\begin{figure}[!b]
+
+\centering
+\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
+\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
+\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
+
+\caption{default}
+\label{fig:figure3}
+
 \end{figure}
 
-Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
+\end{frame}
 
-\framebreak
-
-Ensayo HPPC (Hybrid Pulse Power Characterization)
-
+\begin{frame}
+\frametitle{Ensayo HPPC (Hybrid Pulse Power Characterization - Dataset}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{images/perfil_de_ensayo_HPPC}
-	\caption{}
+	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
+	\caption{perfil de ensayo HPPC}
 	\label{fig:perfildeensayohppc}
 \end{figure}
 
+*Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Modelo equivalente de una celda NCR18650B}
+
+El modelo equivalente propuesto para representar nuestras celdas cuentan con una fuente de tensión \emph{Em} emulando la tensión de circuito abierto en serie con una resistencia \emph{R0} y dos tanques paralelos \emph{R-C} también conectados en serie como se observa en la figura \ref{fig:ModeloBat}
+
+\begin{figure}[h!]
+
+	\begin{center}
+ \ctikzset{bipoles/length=1cm}
+\begin{circuitikz}[american]
+	
+	\draw (0,3) to[vsource, v=$V_{m}$](0,0);
+	
+	 \draw (0,3) to [R = $R_{0}$](2,3);
+	 
+	 \draw (2,2.5)--(2,3.5);
+	 \draw (2,3.5) to [C=$C_{1}$] (4,3.5);
+	 \draw (2,2.5) to [R=$R_{1}$] (4,2.5);
+	 \draw (4,2.5)--(4,3.5);
+	 
+	 \draw (4,3) -- (5,3);
+	 
+	 \draw (5,2.5)--(5,3.5);
+	 \draw (5,3.5) to [C=$C_{2}$] (7,3.5);
+	 \draw (5,2.5) to [R=$R_{2}$] (7,2.5);
+	 \draw (7,2.5)--(7,3.5);
+	 
+	 \draw (7,3) -* (9,3);
+	 
+	 \draw (7,3) to[short,i^=$I$] (9,3)
+	 to[open,v^=$v_{term}$,o-o] (9,0)
+	 to[short] (0,0);
+
+ \end{circuitikz}
+
+\end{center}
+
+	\caption{Modelo equivalente de una celda NCR18650B}
+	\label{fig:ModeloBat}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{validación orden del modelo propuesto}
+
+\begin{figure}
+	\centering
+\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
+
+\caption{}
+\label{fig:val_exp2}
+
+\end{figure}
 
 
 \end{frame}
+
+
 
 \section{Sensor de Corriente}
 

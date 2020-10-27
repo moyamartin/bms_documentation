@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.10) (preloaded format=pdflatex 2020.10.25)  26 OCT 2020 08:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.10) (preloaded format=pdflatex 2020.10.25)  27 OCT 2020 02:06
 entering extended mode
 **./presentation.tex
 (presentation.tex
@@ -1185,7 +1185,15 @@ Package circuitikz Warning: You did not specify one of the voltage directions:
 (circuitikz)                Default directions may have changed, 
 (circuitikz)                please check the manual.
 
-) ("H:\Program Files\MiKTeX 2.9\tex/latex/psnfss\pifont.sty"
+) ("H:\Program Files\MiKTeX 2.9\tex/latex/wrapfig\wrapfig.sty"
+\wrapoverhang=\dimen348
+\WF@size=\dimen349
+\c@WF@wrappedlines=\count371
+\WF@box=\box141
+\WF@everypar=\toks54
+Package: wrapfig 2003/01/31  v 3.6
+)
+("H:\Program Files\MiKTeX 2.9\tex/latex/psnfss\pifont.sty"
 Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
 LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
 
@@ -1201,12 +1209,12 @@ File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
 ("H:\Program Files\MiKTeX 2.9\tex/latex/algorithm2e\algorithm2e.sty"
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count371
+\c@AlgoLine=\count372
 \algocf@hangindent=\skip72
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/ifoddpage\ifoddpage.sty"
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
-\c@checkoddpage=\count372
+\c@checkoddpage=\count373
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/tools\xspace.sty"
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -1222,86 +1230,86 @@ Package: relsize 2013/03/29 ver 4.1
 \skiplength=\skip78
 \algomargin=\skip79
 \skipalgocfslide=\skip80
-\algowidth=\dimen348
-\inoutsize=\dimen349
-\inoutindent=\dimen350
-\interspacetitleruled=\dimen351
-\interspacealgoruled=\dimen352
-\interspacetitleboxruled=\dimen353
+\algowidth=\dimen350
+\inoutsize=\dimen351
+\inoutindent=\dimen352
+\interspacetitleruled=\dimen353
+\interspacealgoruled=\dimen354
+\interspacetitleboxruled=\dimen355
 \algocf@ruledwidth=\skip81
-\algocf@inoutbox=\box141
-\algocf@inputbox=\box142
+\algocf@inoutbox=\box142
+\algocf@inputbox=\box143
 \AlCapSkip=\skip82
 \AlCapHSkip=\skip83
 \algoskipindent=\skip84
-\algocf@nlbox=\box143
-\algocf@hangingbox=\box144
-\algocf@untilbox=\box145
+\algocf@nlbox=\box144
+\algocf@hangingbox=\box145
+\algocf@untilbox=\box146
 \algocf@skipuntil=\skip85
-\algocf@capbox=\box146
+\algocf@capbox=\box147
 \algocf@lcaptionbox=\skip86
 \algoheightruledefault=\skip87
 \algoheightrule=\skip88
 \algotitleheightruledefault=\skip89
 \algotitleheightrule=\skip90
-\c@algocfline=\count373
-\c@algocfproc=\count374
-\c@algocf=\count375
-\algocf@algoframe=\box147
-\algocf@algobox=\box148
+\c@algocfline=\count374
+\c@algocfproc=\count375
+\c@algocf=\count376
+\algocf@algoframe=\box148
+\algocf@algobox=\box149
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/biblatex\biblatex.sty"
 Package: biblatex 2020/08/23 v3.15a programmable bibliographies (PK/MW)
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/logreq\logreq.sty"
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count376
+\lrq@indent=\count377
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/logreq\logreq.def"
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count377
-\c@listtotal=\count378
-\c@listcount=\count379
-\c@liststart=\count380
-\c@liststop=\count381
-\c@citecount=\count382
-\c@citetotal=\count383
-\c@multicitecount=\count384
-\c@multicitetotal=\count385
-\c@instcount=\count386
-\c@maxnames=\count387
-\c@minnames=\count388
-\c@maxitems=\count389
-\c@minitems=\count390
-\c@citecounter=\count391
-\c@maxcitecounter=\count392
-\c@savedcitecounter=\count393
-\c@uniquelist=\count394
-\c@uniquename=\count395
-\c@refsection=\count396
-\c@refsegment=\count397
-\c@maxextratitle=\count398
-\c@maxextratitleyear=\count399
-\c@maxextraname=\count400
-\c@maxextradate=\count401
-\c@maxextraalpha=\count402
-\c@abbrvpenalty=\count403
-\c@highnamepenalty=\count404
-\c@lownamepenalty=\count405
-\c@maxparens=\count406
-\c@parenlevel=\count407
-\blx@tempcnta=\count408
-\blx@tempcntb=\count409
-\blx@tempcntc=\count410
-\blx@maxsection=\count411
-\blx@maxsegment@0=\count412
-\blx@notetype=\count413
-\blx@parenlevel@text=\count414
-\blx@parenlevel@foot=\count415
-\blx@sectionciteorder@0=\count416
-\blx@entrysetcounter=\count417
-\blx@biblioinstance=\count418
+\c@tabx@nest=\count378
+\c@listtotal=\count379
+\c@listcount=\count380
+\c@liststart=\count381
+\c@liststop=\count382
+\c@citecount=\count383
+\c@citetotal=\count384
+\c@multicitecount=\count385
+\c@multicitetotal=\count386
+\c@instcount=\count387
+\c@maxnames=\count388
+\c@minnames=\count389
+\c@maxitems=\count390
+\c@minitems=\count391
+\c@citecounter=\count392
+\c@maxcitecounter=\count393
+\c@savedcitecounter=\count394
+\c@uniquelist=\count395
+\c@uniquename=\count396
+\c@refsection=\count397
+\c@refsegment=\count398
+\c@maxextratitle=\count399
+\c@maxextratitleyear=\count400
+\c@maxextraname=\count401
+\c@maxextradate=\count402
+\c@maxextraalpha=\count403
+\c@abbrvpenalty=\count404
+\c@highnamepenalty=\count405
+\c@lownamepenalty=\count406
+\c@maxparens=\count407
+\c@parenlevel=\count408
+\blx@tempcnta=\count409
+\blx@tempcntb=\count410
+\blx@tempcntc=\count411
+\blx@maxsection=\count412
+\blx@maxsegment@0=\count413
+\blx@notetype=\count414
+\blx@parenlevel@text=\count415
+\blx@parenlevel@foot=\count416
+\blx@sectionciteorder@0=\count417
+\blx@entrysetcounter=\count418
+\blx@biblioinstance=\count419
 \labelnumberwidth=\skip91
 \labelalphawidth=\skip92
 \biblabelsep=\skip93
@@ -1313,9 +1321,9 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 \blx@bcfin=\read5
 \blx@bcfout=\write7
 \blx@langwohyphens=\language85
-\c@mincomprange=\count419
-\c@maxcomprange=\count420
-\c@mincompwidth=\count421
+\c@mincomprange=\count420
+\c@maxcomprange=\count421
+\c@mincompwidth=\count422
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -1326,74 +1334,74 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'ieee.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count422
-\c@savedafterword=\count423
-\c@annotator=\count424
-\c@savedannotator=\count425
-\c@author=\count426
-\c@savedauthor=\count427
-\c@bookauthor=\count428
-\c@savedbookauthor=\count429
-\c@commentator=\count430
-\c@savedcommentator=\count431
-\c@editor=\count432
-\c@savededitor=\count433
-\c@editora=\count434
-\c@savededitora=\count435
-\c@editorb=\count436
-\c@savededitorb=\count437
-\c@editorc=\count438
-\c@savededitorc=\count439
-\c@foreword=\count440
-\c@savedforeword=\count441
-\c@holder=\count442
-\c@savedholder=\count443
-\c@introduction=\count444
-\c@savedintroduction=\count445
-\c@namea=\count446
-\c@savednamea=\count447
-\c@nameb=\count448
-\c@savednameb=\count449
-\c@namec=\count450
-\c@savednamec=\count451
-\c@translator=\count452
-\c@savedtranslator=\count453
-\c@shortauthor=\count454
-\c@savedshortauthor=\count455
-\c@shorteditor=\count456
-\c@savedshorteditor=\count457
-\c@labelname=\count458
-\c@savedlabelname=\count459
-\c@institution=\count460
-\c@savedinstitution=\count461
-\c@lista=\count462
-\c@savedlista=\count463
-\c@listb=\count464
-\c@savedlistb=\count465
-\c@listc=\count466
-\c@savedlistc=\count467
-\c@listd=\count468
-\c@savedlistd=\count469
-\c@liste=\count470
-\c@savedliste=\count471
-\c@listf=\count472
-\c@savedlistf=\count473
-\c@location=\count474
-\c@savedlocation=\count475
-\c@organization=\count476
-\c@savedorganization=\count477
-\c@origlocation=\count478
-\c@savedoriglocation=\count479
-\c@origpublisher=\count480
-\c@savedorigpublisher=\count481
-\c@publisher=\count482
-\c@savedpublisher=\count483
-\c@language=\count484
-\c@savedlanguage=\count485
-\c@origlanguage=\count486
-\c@savedoriglanguage=\count487
-\c@pageref=\count488
-\c@savedpageref=\count489
+\c@afterword=\count423
+\c@savedafterword=\count424
+\c@annotator=\count425
+\c@savedannotator=\count426
+\c@author=\count427
+\c@savedauthor=\count428
+\c@bookauthor=\count429
+\c@savedbookauthor=\count430
+\c@commentator=\count431
+\c@savedcommentator=\count432
+\c@editor=\count433
+\c@savededitor=\count434
+\c@editora=\count435
+\c@savededitora=\count436
+\c@editorb=\count437
+\c@savededitorb=\count438
+\c@editorc=\count439
+\c@savededitorc=\count440
+\c@foreword=\count441
+\c@savedforeword=\count442
+\c@holder=\count443
+\c@savedholder=\count444
+\c@introduction=\count445
+\c@savedintroduction=\count446
+\c@namea=\count447
+\c@savednamea=\count448
+\c@nameb=\count449
+\c@savednameb=\count450
+\c@namec=\count451
+\c@savednamec=\count452
+\c@translator=\count453
+\c@savedtranslator=\count454
+\c@shortauthor=\count455
+\c@savedshortauthor=\count456
+\c@shorteditor=\count457
+\c@savedshorteditor=\count458
+\c@labelname=\count459
+\c@savedlabelname=\count460
+\c@institution=\count461
+\c@savedinstitution=\count462
+\c@lista=\count463
+\c@savedlista=\count464
+\c@listb=\count465
+\c@savedlistb=\count466
+\c@listc=\count467
+\c@savedlistc=\count468
+\c@listd=\count469
+\c@savedlistd=\count470
+\c@liste=\count471
+\c@savedliste=\count472
+\c@listf=\count473
+\c@savedlistf=\count474
+\c@location=\count475
+\c@savedlocation=\count476
+\c@organization=\count477
+\c@savedorganization=\count478
+\c@origlocation=\count479
+\c@savedoriglocation=\count480
+\c@origpublisher=\count481
+\c@savedorigpublisher=\count482
+\c@publisher=\count483
+\c@savedpublisher=\count484
+\c@language=\count485
+\c@savedlanguage=\count486
+\c@origlanguage=\count487
+\c@savedoriglanguage=\count488
+\c@pageref=\count489
+\c@savedpageref=\count490
 \shorthandwidth=\skip99
 \shortjournalwidth=\skip100
 \shortserieswidth=\skip101
@@ -1429,19 +1437,19 @@ Package biblatex Info: ... file 'biblatex.def' found.
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/biblatex\biblatex.def"
 File: biblatex.def 2020/08/23 v3.15a biblatex compatibility (PK/MW)
-\c@textcitecount=\count490
-\c@textcitetotal=\count491
-\c@textcitemaxnames=\count492
-\c@biburlbigbreakpenalty=\count493
-\c@biburlbreakpenalty=\count494
-\c@biburlnumpenalty=\count495
-\c@biburlucpenalty=\count496
-\c@biburllcpenalty=\count497
+\c@textcitecount=\count491
+\c@textcitetotal=\count492
+\c@textcitemaxnames=\count493
+\c@biburlbigbreakpenalty=\count494
+\c@biburlbreakpenalty=\count495
+\c@biburlnumpenalty=\count496
+\c@biburlucpenalty=\count497
+\c@biburllcpenalty=\count498
 \biburlbigskip=\muskip18
 \biburlnumskip=\muskip19
 \biburlucskip=\muskip20
 \biburllcskip=\muskip21
-\c@smartand=\count498
+\c@smartand=\count499
 )
 Package biblatex Info: Trying to load bibliography style 'ieee'...
 Package biblatex Info: ... file 'ieee.bbx' found.
@@ -1463,8 +1471,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/biblatex/bbx\standard.bbx"
 File: standard.bbx 2020/08/23 v3.15a biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count499
-\c@bbx:relatedtotal=\count500
+\c@bbx:relatedcount=\count500
+\c@bbx:relatedtotal=\count501
 ))))
 Package biblatex Info: Trying to load citation style 'ieee'...
 Package biblatex Info: ... file 'ieee.cbx' found.
@@ -1476,10 +1484,10 @@ Package biblatex Info: ... file 'numeric-comp.cbx' found.
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/biblatex/cbx\numeric-comp.cbx"
 File: numeric-comp.cbx 2020/08/23 v3.15a biblatex citation style (PK/MW)
-\c@cbx@tempcnta=\count501
-\c@cbx@tempcntb=\count502
-\c@cbx@tempcntc=\count503
-\c@cbx@tempcntd=\count504
+\c@cbx@tempcnta=\count502
+\c@cbx@tempcntb=\count503
+\c@cbx@tempcntc=\count504
+\c@cbx@tempcntd=\count505
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
@@ -1509,16 +1517,16 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 
 ("H:\Program Files\MiKTeX 2.9\tex/generic/xkeyval\xkeyval.tex"
 ("H:\Program Files\MiKTeX 2.9\tex/generic/xkeyval\xkvutils.tex"
-\XKV@toks=\toks54
-\XKV@tempa@toks=\toks55
+\XKV@toks=\toks55
+\XKV@tempa@toks=\toks56
 )
-\XKV@depth=\count505
+\XKV@depth=\count506
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 ("H:\Program Files\MiKTeX 2.9\tex/latex/mfirstuc\mfirstuc.sty"
 Package: mfirstuc 2017/11/14 v2.06 (NLCT)
-\@glsmfirst=\toks56
-\@glsmrest=\toks57
+\@glsmfirst=\toks57
+\@glsmrest=\toks58
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/textcase\textcase.sty"
 Package: textcase 2019/09/14 v1.00 Text only upper/lower case changing (DPC)
@@ -1531,7 +1539,7 @@ Package: datatool-base 2019/09/27 v2.32 (NLCT)
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/substr\substr.sty"
 Package: substr 2009/10/20 v1.2 Handle substrings
-\c@su@anzahl=\count506
+\c@su@anzahl=\count507
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/datatool\datatool-fp.sty"
 Package: datatool-fp 2019/09/27 v2.32 (NLCT)
@@ -1542,19 +1550,19 @@ Package: fp 1995/04/02
 `Fixed Point Package', Version 0.8, April 2, 1995 (C) Michael Mehlich
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\defpattern.sty"
 Package: defpattern 1994/10/12
-\actioncount=\count507
+\actioncount=\count508
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\fp-basic.sty"
 Package: fp-basic 1996/05/13
-\FP@xs=\count508
-\FP@xia=\count509
-\FP@xib=\count510
-\FP@xfa=\count511
-\FP@xfb=\count512
-\FP@rega=\count513
-\FP@regb=\count514
-\FP@regs=\count515
-\FP@times=\count516
+\FP@xs=\count509
+\FP@xia=\count510
+\FP@xib=\count511
+\FP@xfa=\count512
+\FP@xfb=\count513
+\FP@rega=\count514
+\FP@regb=\count515
+\FP@regs=\count516
+\FP@times=\count517
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\fp-addons.sty"
 Package: fp-addons 1995/03/15
@@ -1573,7 +1581,7 @@ Package: fp-pas 1994/08/29
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\fp-random.sty"
 Package: fp-random 1995/02/23
-\FPseed=\count517
+\FPseed=\count518
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\fp-eqn.sty"
 Package: fp-eqn 1995/04/03
@@ -1584,15 +1592,15 @@ Package: fp-upn 1996/10/21
 ("H:\Program Files\MiKTeX 2.9\tex/latex/fp\fp-eval.sty"
 Package: fp-eval 1995/04/03
 )))
-\@dtl@toks=\toks58
-\@dtl@tmpcount=\count518
+\@dtl@toks=\toks59
+\@dtl@tmpcount=\count519
 \dtl@tmplength=\skip113
-\dtl@sortresult=\count519
-\@dtl@numgrpsepcount=\count520
-\@dtl@datatype=\count521
-\dtl@codeA=\count522
-\dtl@codeB=\count523
-\@dtl@foreach@level=\count524
+\dtl@sortresult=\count520
+\@dtl@numgrpsepcount=\count521
+\@dtl@datatype=\count522
+\dtl@codeA=\count523
+\dtl@codeB=\count524
+\@dtl@foreach@level=\count525
 )
 ("H:\Program Files\MiKTeX 2.9\tex/latex/glossaries/base\glossaries-compatible-3
 07.sty"
@@ -1607,13 +1615,13 @@ File: glossaries-spanish.ldf 2014/11/23 v1.0
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/glossaries-spanish\glossaries-spanish-u
 tf8.ldf"))
-\gls@level=\count525
-\@gls@tmpb=\toks59
+\gls@level=\count526
+\@gls@tmpb=\toks60
 \gls@tmplen=\skip114
-\glskeylisttok=\toks60
-\glslabeltok=\toks61
-\glsshorttok=\toks62
-\glslongtok=\toks63
+\glskeylisttok=\toks61
+\glslabeltok=\toks62
+\glsshorttok=\toks63
+\glslongtok=\toks64
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/glossaries/styles\glossary-hypernav.sty
 "
@@ -1630,17 +1638,17 @@ Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
 \LTright=\skip117
 \LTpre=\skip118
 \LTpost=\skip119
-\LTchunksize=\count526
-\LTcapwidth=\dimen354
-\LT@head=\box149
-\LT@firsthead=\box150
-\LT@foot=\box151
-\LT@lastfoot=\box152
-\LT@cols=\count527
-\LT@rows=\count528
-\c@LT@tables=\count529
-\c@LT@chunks=\count530
-\LT@p@ftn=\toks64
+\LTchunksize=\count527
+\LTcapwidth=\dimen356
+\LT@head=\box150
+\LT@firsthead=\box151
+\LT@foot=\box152
+\LT@lastfoot=\box153
+\LT@cols=\count528
+\LT@rows=\count529
+\c@LT@tables=\count530
+\c@LT@chunks=\count531
+\LT@p@ftn=\toks65
 )
 \glsdescwidth=\skip120
 \glspagelistwidth=\skip121
@@ -1650,21 +1658,21 @@ Package: glossary-super 2020/03/19 v4.46 (NLCT)
 
 ("H:\Program Files\MiKTeX 2.9\tex/latex/supertabular\supertabular.sty"
 Package: supertabular 2020/02/02 v4.1g the supertabular environment
-\c@tracingst=\count531
-\ST@wd=\dimen355
+\c@tracingst=\count532
+\ST@wd=\dimen357
 \ST@rightskip=\skip122
 \ST@leftskip=\skip123
 \ST@parfillskip=\skip124
-\ST@pageleft=\dimen356
-\ST@headht=\dimen357
-\ST@tailht=\dimen358
-\ST@pagesofar=\dimen359
-\ST@pboxht=\dimen360
-\ST@lineht=\dimen361
-\ST@prevht=\dimen362
-\ST@toadd=\dimen363
-\ST@dimen=\dimen364
-\ST@pbox=\box153
+\ST@pageleft=\dimen358
+\ST@headht=\dimen359
+\ST@tailht=\dimen360
+\ST@pagesofar=\dimen361
+\ST@pboxht=\dimen362
+\ST@lineht=\dimen363
+\ST@prevht=\dimen364
+\ST@toadd=\dimen365
+\ST@dimen=\dimen366
+\ST@pbox=\box154
 ))
 ("H:\Program Files\MiKTeX 2.9\tex/latex/glossaries/styles\glossary-tree.sty"
 Package: glossary-tree 2020/03/19 v4.46 (NLCT)
@@ -1674,8 +1682,8 @@ Package: glossary-tree 2020/03/19 v4.46 (NLCT)
 Package: beamerthemeStanford 2020/10/01 v3.1.6a (3.1.6a)
  (beamerouterthemesimplefooter.sty
 Package: beamerouterthemesimplefooter 2020/10/01 v3.1.6a (3.1.6a)
-\beamer@sidebarwidth=\dimen365
-\beamer@headheight=\dimen366
+\beamer@sidebarwidth=\dimen367
+\beamer@headheight=\dimen368
 )
 (beamercolorthemestanford.sty
 Package: beamercolorthemestanford 2020/10/01 v3.1.6a (3.1.6a)
@@ -1684,8 +1692,8 @@ Package: beamercolorthemestanford 2020/10/01 v3.1.6a (3.1.6a)
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
 
-\@quotelevel=\count532
-\@quotereset=\count533
+\@quotelevel=\count533
+\@quotereset=\count534
 (presentation.aux
 LaTeX Info: Redefining \. on input line 39.
 LaTeX Info: Redefining \% on input line 39.
@@ -1745,17 +1753,17 @@ LaTeX Font Info:    ... okay on input line 80.
 
 ("H:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count534
-\scratchdimen=\dimen367
-\scratchbox=\box154
-\nofMPsegments=\count535
-\nofMParguments=\count536
-\everyMPshowfont=\toks65
-\MPscratchCnt=\count537
-\MPscratchDim=\dimen368
-\MPnumerator=\count538
-\makeMPintoPDFobject=\count539
-\everyMPtoPDFconversion=\toks66
+\scratchcounter=\count535
+\scratchdimen=\dimen369
+\scratchbox=\box155
+\nofMPsegments=\count536
+\nofMParguments=\count537
+\everyMPshowfont=\toks66
+\MPscratchCnt=\count538
+\MPscratchDim=\dimen370
+\MPnumerator=\count539
+\makeMPintoPDFobject=\count540
+\everyMPtoPDFconversion=\toks67
 )
 (C:\Users\Fededc88\AppData\Roaming\MiKTeX\2.9\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -1774,7 +1782,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count540
+\c@section@level=\count541
 )
 LaTeX Info: Redefining \ref on input line 80.
 LaTeX Info: Redefining \pageref on input line 80.
@@ -1881,8 +1889,9 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 )
 Package caption Info: supertabular package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count541
+\c@lstlisting=\count542
 Package biblatex Info: Trying to load language 'spanish'...
 Package biblatex Info: ... file 'spanish.lbx' found.
  ("H:\Program Files\MiKTeX 2.9\tex/latex/biblatex/lbx\spanish.lbx"
@@ -1968,62 +1977,90 @@ LaTeX Info: Redefining \% on input line 2.
 File: images/18650.jpg Graphic file (type jpg)
 <use images/18650.jpg>
 Package pdftex.def Info: images/18650.jpg  used on input line 170.
-(pdftex.def)             Requested size: 30.73085pt x 31.12769pt.
-<images/perfil_de_ensayo_HPPC.png, id=152, 1028.34187pt x 462.97969pt>
+(pdftex.def)             Requested size: 55.3133pt x 56.02411pt.
+<images/cc_cv_18650.png, id=152, 366.168pt x 234.476pt>
+File: images/cc_cv_18650.png Graphic file (type png)
+<use images/cc_cv_18650.png>
+Package pdftex.def Info: images/cc_cv_18650.png  used on input line 170.
+(pdftex.def)             Requested size: 98.335pt x 62.96588pt.
+<images/discharge_18650.png, id=153, 367.774pt x 244.915pt>
+File: images/discharge_18650.png Graphic file (type png)
+<use images/discharge_18650.png>
+Package pdftex.def Info: images/discharge_18650.png  used on input line 170.
+(pdftex.def)             Requested size: 98.335pt x 65.48514pt.
+<images/life_cycle_18650.png, id=154, 371.789pt x 236.082pt>
+File: images/life_cycle_18650.png Graphic file (type png)
+<use images/life_cycle_18650.png>
+Package pdftex.def Info: images/life_cycle_18650.png  used on input line 170.
+(pdftex.def)             Requested size: 98.335pt x 62.44255pt.
+ [4
+
+ <./images/18650.jpg> <./images/cc_cv_18650.png> <./images/discharge_18650.png>
+ <./images/life_cycle_18650.png>]
+<images/perfil_de_ensayo_HPPC.png, id=188, 1028.34187pt x 462.97969pt>
 File: images/perfil_de_ensayo_HPPC.png Graphic file (type png)
 <use images/perfil_de_ensayo_HPPC.png>
 Package pdftex.def Info: images/perfil_de_ensayo_HPPC.png  used on input line 1
-70.
-(pdftex.def)             Requested size: 215.10196pt x 96.84004pt.
+84.
+(pdftex.def)             Requested size: 276.559pt x 124.51166pt.
 
-Overfull \vbox (4.15884pt too high) detected at line 170
- []
-
-[4
-
- <./images/18650.jpg>]
-Overfull \vbox (4.15884pt too high) detected at line 170
+Overfull \vbox (4.15884pt too high) detected at line 184
  []
 
 [5
 
-
- <./images/perfil_de_ensayo_HPPC.png (PNG copy)>] [6
-
-] [7
+ <./images/perfil_de_ensayo_HPPC.png (PNG copy)>]
+\realshift=\dimen371
+\realshift=\dimen372
+\realshift=\dimen373
+\realshift=\dimen374
+\realshift=\dimen375
+\absvshift=\dimen376
+ [6
 
 ]
-\realshift=\dimen369
- [8
+<images/exp_ord_2_val.png, id=250, 1028.34187pt x 498.36188pt>
+File: images/exp_ord_2_val.png Graphic file (type png)
+<use images/exp_ord_2_val.png>
+Package pdftex.def Info: images/exp_ord_2_val.png  used on input line 243.
+(pdftex.def)             Requested size: 276.559pt x 134.02719pt.
+ [7
+
+ <./images/exp_ord_2_val.png (PNG copy)>] [8
 
 ] [9
 
+]
+\realshift=\dimen377
+ [10
+
+] [11
+
 
 ]
-<./images/Open-loop_Hall_Sensor.jpg, id=322, 217.81375pt x 189.70876pt>
+<./images/Open-loop_Hall_Sensor.jpg, id=389, 217.81375pt x 189.70876pt>
 File: ./images/Open-loop_Hall_Sensor.jpg Graphic file (type jpg)
 <use ./images/Open-loop_Hall_Sensor.jpg>
 Package pdftex.def Info: ./images/Open-loop_Hall_Sensor.jpg  used on input line
- 259.
+ 334.
 (pdftex.def)             Requested size: 217.8132pt x 189.70828pt.
- [10
+ [12
+
+] [13
+
+
+ <./images/Open-loop_Hall_Sensor.jpg>] [14
 
 ]
-[11
-
-
- <./images/Open-loop_Hall_Sensor.jpg>] [12
-
-]
-<./images/INA226-Common_Implementation.jpg, id=404, 600.2425pt x 278.03876pt>
+<./images/INA226-Common_Implementation.jpg, id=471, 600.2425pt x 278.03876pt>
 File: ./images/INA226-Common_Implementation.jpg Graphic file (type jpg)
 <use ./images/INA226-Common_Implementation.jpg>
 Package pdftex.def Info: ./images/INA226-Common_Implementation.jpg  used on inp
-ut line 302.
+ut line 377.
 (pdftex.def)             Requested size: 307.28987pt x 142.34517pt.
- [13
+ [15
 
-] [14
+] [16
 
 
  <./images/INA226-Common_Implementation.jpg>]
@@ -2036,39 +2073,42 @@ ut line 302.
 \tf@snm=\write11
 \openout11 = `presentation.snm'.
 
- (presentation.aux
+
+(presentation.aux
 LaTeX Info: Redefining \sptext on input line 39.
 LaTeX Info: Redefining \. on input line 39.
 LaTeX Info: Redefining \% on input line 39.
 )
 Package rerunfilecheck Info: File `presentation.out' has not changed.
-(rerunfilecheck)             Checksum: 0BC598B823C94583AF205162AE084E5A;447.
+(rerunfilecheck)             Checksum: AE5E9C5EB9737B134F83F977565F472C;448.
 Package logreq Info: Writing requests to 'presentation.run.xml'.
 \openout1 = `presentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57706 strings out of 480198
- 1349557 string characters out of 2887042
- 2174475 words of memory out of 3000000
- 73327 multiletter control sequences out of 15000+200000
+ 58229 strings out of 480198
+ 1363631 string characters out of 2887042
+ 2188979 words of memory out of 3000000
+ 73836 multiletter control sequences out of 15000+200000
  551761 words of font info for 67 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  111i,16n,112p,1089b,2029s stack positions out of 5000i,500n,10000p,200000b,50000s
 {H:/Program Files/MiKTeX 2.9/fonts/enc/dvips/cm-super/cm-super-t1.enc}<H:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi10.pfb><H:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi8.pfb><H:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/symbols/msam10.pfb><H:/Program Files/MiKTeX 
-2.9/fonts/type1/public/cm-super/sfsi1000.pfb><H:/Program Files/MiKTeX 2.9/fonts
-/type1/public/cm-super/sfss0500.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/cm-super/sfss0700.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-s
-uper/sfss0900.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss
-1000.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss1440.pfb>
-<H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfsx1000.pfb><H:/Progr
-am Files/MiKTeX 2.9/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on presentation.pdf (14 pages, 456170 bytes).
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><H:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi10.pfb><H:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmssi8.pfb><H:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb><H:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/symbols/msam10.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/
+public/cm-super/sfsi1000.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm
+-super/sfss0500.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sf
+ss0700.pfb><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss0900.pf
+b><H:/Program Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss1000.pfb><H:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/cm-super/sfss1440.pfb><H:/Program File
+s/MiKTeX 2.9/fonts/type1/public/cm-super/sfsx1000.pfb><H:/Program Files/MiKTeX 
+2.9/fonts/type1/public/cm-super/sftt0800.pfb>
+Output written on presentation.pdf (16 pages, 614757 bytes).
 PDF statistics:
- 507 PDF objects out of 1000 (max. 8388607)
- 41 named destinations out of 1000 (max. 500000)
- 129 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 580 PDF objects out of 1000 (max. 8388607)
+ 47 named destinations out of 1000 (max. 500000)
+ 149 words of extra memory for PDF output out of 10000 (max. 10000000)
 

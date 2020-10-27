@@ -27,69 +27,77 @@
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {4}{4}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {2}{0}{1}{4/5}{}{0}}
+\headcommand {\slideentry {2}{0}{2}{5/5}{}{0}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@framepages {4}{5}}
+\headcommand {\beamer@framepages {5}{5}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {4}{5}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {4}{5}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {3}{Sensor de Corriente}{6}{Sensor de Corriente}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{0}{1}{6/6}{}{0}}
+\headcommand {\slideentry {2}{0}{3}{6/6}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {6}{6}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{0}{2}{7/7}{}{0}}
+\headcommand {\slideentry {2}{0}{4}{7/7}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {7}{7}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\beamer@sectionpages {4}{7}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionentry {0}{3}{1}{8}{Resistencia Shunt}}
+\headcommand {\beamer@subsectionpages {4}{7}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{1}{1}{8/8}{Resistencia Shunt}{0}}
+\headcommand {\sectionentry {3}{Sensor de Corriente}{8}{Sensor de Corriente}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{0}{1}{8/8}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {8}{8}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{1}{1}{8/9}{Resistencia Shunt}{0}}
+\headcommand {\slideentry {3}{0}{2}{9/9}{}{0}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@framepages {8}{9}}
+\headcommand {\beamer@framepages {9}{9}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {8}{9}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionentry {0}{3}{2}{10}{Sensor de Efecto Hall}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{10}{Resistencia Shunt}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{2}{1}{10/10}{Sensor de Efecto Hall}{0}}
+\headcommand {\slideentry {3}{1}{1}{10/10}{Resistencia Shunt}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{10}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{2}{1}{10/11}{Sensor de Efecto Hall}{0}}
+\headcommand {\slideentry {3}{1}{1}{10/11}{Resistencia Shunt}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{11}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {10}{11}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionentry {0}{3}{3}{12}{Tecnología seleccionada}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{12}{Sensor de Efecto Hall}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{3}{1}{12/12}{Tecnología seleccionada}{0}}
+\headcommand {\slideentry {3}{2}{1}{12/12}{Sensor de Efecto Hall}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {12}{12}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\slideentry {3}{2}{1}{12/13}{Sensor de Efecto Hall}{0}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionentry {0}{3}{4}{13}{Sensor de Corriente INA226}}
+\headcommand {\beamer@framepages {12}{13}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{4}{1}{13/13}{Sensor de Corriente INA226}{0}}
+\headcommand {\beamer@subsectionpages {12}{13}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{14}{Tecnología seleccionada}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{4}{1}{13/14}{Sensor de Corriente INA226}{0}}
+\headcommand {\slideentry {3}{3}{1}{14/14}{Tecnología seleccionada}{0}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@framepages {13}{14}}
-\headcommand {\beamer@partpages {1}{14}}
-\headcommand {\beamer@subsectionpages {13}{14}}
-\headcommand {\beamer@sectionpages {6}{14}}
-\headcommand {\beamer@documentpages {14}}
-\headcommand {\gdef \inserttotalframenumber {14}}
+\headcommand {\beamer@framepages {14}{14}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {14}{14}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{3}{4}{15}{Sensor de Corriente INA226}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{4}{1}{15/15}{Sensor de Corriente INA226}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {15}{15}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{4}{1}{15/16}{Sensor de Corriente INA226}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {15}{16}}
+\headcommand {\beamer@partpages {1}{16}}
+\headcommand {\beamer@subsectionpages {15}{16}}
+\headcommand {\beamer@sectionpages {8}{16}}
+\headcommand {\beamer@documentpages {16}}
+\headcommand {\gdef \inserttotalframenumber {16}}
