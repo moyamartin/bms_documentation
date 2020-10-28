@@ -140,6 +140,8 @@
 
 \section{Modelado celda de Litio-Ion}
 
+\subsection{Celda NCR18650B }
+
 \begin{frame}
 \frametitle{Celda NCR18650B }
 
@@ -169,20 +171,29 @@ Celda seleccionada:\\ baterías comercial Panasonic NCR18650B
 
 \end{frame}
 
+\subsection{Datos Experimentales}
 \begin{frame}
-\frametitle{Ensayo HPPC (Hybrid Pulse Power Characterization - Dataset}
+\frametitle{ Datos Experimentales}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
-	\caption{perfil de ensayo HPPC}
+	\includegraphics[width=1\linewidth]{images/HPPC-Completo}
+	\caption{Perfil V-I de ensayo HPPC completo}
 	\label{fig:perfildeensayohppc}
 \end{figure}
+
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
+%	\caption{perfil de ensayo HPPC}
+%	\label{fig:perfildeensayohppc}
+%\end{figure}
 
 *Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
 
 \end{frame}
 
+\subsection{Modelo equivalente}
 \begin{frame}
 \frametitle{Modelo equivalente de una celda NCR18650B}
 
@@ -226,9 +237,16 @@ El modelo equivalente propuesto para representar nuestras celdas cuentan con una
 
 \end{frame}
 
-
+\subsubsection{Validación}
 \begin{frame}
-\frametitle{validación orden del modelo propuesto}
+\frametitle{Validación orden del modelo propuesto}
+
+Validamos el orden del modelo gráficamente ajustando y comparando una función suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del voltaje en terminales de la bateria en su semi-periodo de relajación. De esta forma comprobamos que el orden del modelo nos permite copiar tanto las dinámicas rapidas como lentas de la batería. 
+
+\begin{equation}
+f(x) = a*e^{b*x} + c*e^{d*x}
+\label{eq:exp2}
+\end{equation}
 
 \begin{figure}
 	\centering
@@ -238,7 +256,6 @@ El modelo equivalente propuesto para representar nuestras celdas cuentan con una
 \label{fig:val_exp2}
 
 \end{figure}
-
 
 \end{frame}
 
