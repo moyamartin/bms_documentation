@@ -207,17 +207,16 @@
   \frametitle{Sensor de Efecto Hall}
   \begin{figure}[h!]
 	\begin{minipage}{0.45\textwidth}
-	  \begin{itemize}
-		\item Sensor de efecto magnético basado en el fenómeno físico denominado
-		  \emph{Efecto Hall}.
-		\item Dispositivo aislado, no intrusivo. Mide CA como CC. Su esquemático
-		  se puede observar en la Figura \ref{sch_hall}
+		Sensor de efecto magnético basado en el fenómeno físico denominado \emph{Efecto Hall}.
+	  \begin{itemize}		  
+		\item Dispositivo aislado, no intrusivo.
+		\item Mide CA como CC.
 	  \end{itemize}
 	\end{minipage}
 	\hspace{10pt}
 	\begin{minipage}{0.45\textwidth}
 	  \centering
-	  \includegraphics[width=0.8\textwidth]{./images/Open-loop_Hall_Sensor.jpg}
+	  \includegraphics[width=0.7\textwidth]{./images/Open-loop_Hall_Sensor.jpg}
 	  \caption{Esquemático de un sensor de Efecto Hall}
 	  \label{sch_hall}
 	\end{minipage}
@@ -248,7 +247,6 @@
 	\item Fácil integración en circuitos impresos.
 	\item Disponibilidad de distribuidores nacionales.
   \end{itemize}
-
 \end{frame}
 
 
@@ -262,16 +260,12 @@
 	\item Implementa un multiplicador/divisor interno, esto permite pre-calcular
 	  la corriente y potencia de forma rápida.
   \end{itemize}
-
-%  \framebreak
-
   \begin{figure}[h!]  
    \centering
 	\includegraphics[width=0.75\linewidth]{./images/INA226-Common_Implementation.jpg}
 	\caption{Implementación del INA226}
 	\label{sch_ina226}	
   \end{figure}
-
 \end{frame}
 
 
@@ -391,6 +385,8 @@
   \emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
   Figura \ref{fig:r_ohm_result}
 
+\vspace{15pt}
+
   \begin{minipage}{0.3\textwidth}
 	\begin{equation}
 	  \frac{\Delta V}{\Delta I} = R_\Omega
@@ -458,7 +454,7 @@
 
 \section{Modelo equivalente}
 \begin{frame}
-  \frametitle{ Datos Experimentales}
+  \frametitle{Datos Experimentales}
 
 	Como punto de partida, utilizamos un set de datos 
 	%TODO: agregar referencia a bibtex del dataset
@@ -472,76 +468,58 @@
 	\includegraphics[width=1\linewidth]{images/HPPC-Completo}
 	\caption{Perfil V-I de ensayo HPPC completo}
 	\label{fig:perfildeensayohppc}
-  \end{figure}
-
+   \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
   \frametitle{Modelo equivalente de una celda NCR18650PF}
-
   El modelo equivalente propuesto para replicar la dinámica de la celda a
   implementar se puede observar en la figura \ref{fig:ModeloBat}
-
+  
   \begin{figure}
-
 	\begin{center}
+	  \resizebox{0.40\textwidth}{!}{%
 	  \ctikzset{bipoles/length=1cm}
 	  \begin{circuitikz}[american]
-
 		\draw (0,3) to[vsource, v=$V_{m}$](0,0);
-
 		\draw (0,3) to [R = $R_{0}$](2,3);
-
 		\draw (2,2.5)--(2,3.5);
 		\draw (2,3.5) to [C=$C_{1}$] (4,3.5);
 		\draw (2,2.5) to [R=$R_{1}$] (4,2.5);
 		\draw (4,2.5)--(4,3.5);
-
 		\draw (4,3) -- (5,3);
-
 		\draw (5,2.5)--(5,3.5);
 		\draw (5,3.5) to [C=$C_{2}$] (7,3.5);
 		\draw (5,2.5) to [R=$R_{2}$] (7,2.5);
 		\draw (7,2.5)--(7,3.5);
-
 		\draw (7,3) -* (9,3);
-
 		\draw (7,3) to[short,i^=$I$] (9,3)
 		to[open,v^=$v_{term}$,o-o] (9,0)
 		to[short] (0,0);
-
 	  \end{circuitikz}
-
-
-
-	  \caption{Modelo equivalente de una celda NCR18650B}
+	  }%
+	  \caption{Modelo equivalente celda NCR18650B}
 	  \label{fig:ModeloBat}
 	\end{center}
   \end{figure}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Validación orden del modelo propuesto}
-
-  Validamos el orden del modelo gráficamente ajustando y comparando una función 
-  suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del 
-  voltaje en terminales de la bateria en su semi-periodo de relajación. De esta 
-  forma comprobamos que el orden del modelo nos permite copiar tanto las 
-  dinámicas rapidas como lentas de la batería. 
-
+  
+\begin{minipage}{0.45\linewidth}
+  Validamos el orden del modelo gráficamente ajustando una función 
+  suma de exponenciales, como \ref{eq:exp2}, a la evolución del 
+  voltaje en terminales de la bateria en su semi-periodo de relajación.
   \begin{equation}
 	f(x) = a*e^{b*x} + c*e^{d*x}
 	\label{eq:exp2}
   \end{equation}
-
-  \begin{figure}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+  \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
-	\caption{}
+	\includegraphics[width=1.3\linewidth]{images/exp_ord_2_val.png}
+	\caption{Validación del modelo}
 	\label{fig:val_exp2}
   \end{figure}
-
+\end{minipage}
 \end{frame}
 
 
