@@ -254,7 +254,8 @@ TSWLatexianTemp*
 *.backup
 
 # gummi
-.*.swp
+*.*.swp
+*.swp
 
 # KBibTeX
 *~[0-9]*
