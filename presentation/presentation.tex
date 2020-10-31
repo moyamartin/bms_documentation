@@ -425,9 +425,35 @@
 
 \end{frame}
 
-\subsection{Datos Experimentales}
+\begin{frame}[allowframebreaks]
+  \frametitle{Modelo Eléctrico + Filtro de Kalman}
+
+  En este caso buscamos implementar un modelo eléctrico de una celda de
+  Litio-Ion complementado con un Filtro de Kalman debido a que:
+
+  \begin{itemize}
+	\item Los componentes eléctricos de un modelo y sus dinámicas ya son de
+	  nuestro conocimiento.
+	\item Los cálculos de los parámetros del circuito son simples de estimar en
+	  base a un set de datos.
+	\item El Filtro de Kalman es un filtro predictor con amplia bibliografía y
+	  ejemplos, lo que facilita su implementación.
+	\item Nos permite extender el modelo a una implementación física con un
+	  ajuste fino minimizando errores.
+  \end{itemize}
+
+\end{frame}
+
+\section{Modelo equivalente}
 \begin{frame}
   \frametitle{ Datos Experimentales}
+
+	Como punto de partida, utilizamos un set de datos 
+	%TODO: agregar referencia a bibtex del dataset
+	de la Universidad de Wisconsin-Madison donde se realizó una serie de 
+	ensayos sobre una celda NCR18650P. En la figura 
+	\ref{fig:perfildeensayohppc}, se puede observar un ensayo HPPC sobre la 
+	celda.
 
   \begin{figure}
 	\centering
@@ -436,26 +462,13 @@
 	\label{fig:perfildeensayohppc}
   \end{figure}
 
-%V\begin{figure}
-%	\centering
-%	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
-%	\caption{perfil de ensayo HPPC}
-%	\label{fig:perfildeensayohppc}
-%\end{figure}
-
-  *Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. 
-  Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
-
 \end{frame}
 
-\subsection{Modelo equivalente}
 \begin{frame}
-  \frametitle{Modelo equivalente de una celda NCR18650B}
+  \frametitle{Modelo equivalente de una celda NCR18650PF}
 
-  El modelo equivalente propuesto para representar nuestras celdas cuentan con una 
-  fuente de tensión \emph{Em} emulando la tensión de circuito abierto en serie con 
-  una resistencia \emph{R0} y dos tanques paralelos \emph{R-C} también conectados 
-  en serie como se observa en la figura \ref{fig:ModeloBat}
+  El modelo equivalente propuesto para replicar la dinámica de la celda a
+  implementar se puede observar en la figura \ref{fig:ModeloBat}
 
   \begin{figure}
 
@@ -496,7 +509,6 @@
 
 \end{frame}
 
-\subsubsection{Validación}
 \begin{frame}
   \frametitle{Validación orden del modelo propuesto}
 
@@ -520,15 +532,17 @@
 
 \end{frame}
 
-\subsection{Estimación de parámetros}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Estimación de parámetros del modelo}
 
-  Implementamos en Matlab un estimador semi-automático de parámetros RC del modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox Indentificador de Sistemas de simulink.
+  Implementamos en Matlab un estimador de parámetros RC del 
+  modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox 
+  Identificador de Sistemas de simulink.
 
-%El código implementa un algoritmo de optimización numerica a partir del uso de la herramienta \emph{Estimador de parámetros} de simulink, parte del Toolbox Indentificador de Sistemas.
-  El método implementado es el de aproximaciones sucesivas a partir de comparar los datos experimentales con los obtenidos a partir de la simulación de simulink.
+  El método implementado es el de aproximaciones sucesivas a partir de comparar 
+  los datos experimentales con los obtenidos a partir de la simulación de 
+  simulink.
 
   \begin{figure}
 	\centering
@@ -537,7 +551,9 @@
 	\label{fig:simulink_celda}
   \end{figure}
 
-  Fraccionamos los datos experimentales obtenidos del ensayo HPPC y calculamos un juego de parámetros para cada escalon de corriente del ensayo asociado a un SOC determinado.
+  Fraccionamos los datos experimentales obtenidos del ensayo HPPC y calculamos 
+  un juego de parámetros para cada escalon de corriente del ensayo asociado a 
+  un SOC determinado.
 
   \begin{figure}
 	\centering
@@ -550,12 +566,18 @@
 
 %TODO: Agregar imagen comparativa de Rs y Cs
 
-  Corregimos los valores de los elementos calculados ensayando el modelo con un perfil de corriente de un drive cicle y comparando los datos obtenidos con los valores experimentales.
+  Corregimos los valores de los elementos calculados ensayando el modelo con un 
+  perfil de corriente de un drive cicle y comparando los datos obtenidos con 
+  los valores experimentales.
 
 %TODO: Agregar imagen de comparación. 
 
 \end{frame}
 
-
+\begin{frame}[allowframebreaks]
+	Después de obtener los parámetros del modelo, hicimos un ajuste fino para
+	disminuir el error comparando los datos con los valores experimentales, como
+	resultado obtuvimos las gráficas de la Figura \ref{fig:param_fine_tunning}.
+\end{frame}
 
 \end{document}
