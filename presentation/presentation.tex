@@ -59,8 +59,8 @@
 \newcommand{\empy}[1]{{\color{darkorange}\emph{#1}}}
 \newcommand{\empr}[1]{{\color{cardinalblue}\emph{#1}}}
 \newcommand{\examplebox}[2]{
-\begin{tcolorbox}[colframe=darkcardinal,colback=boxgray,title=#1]
-#2
+  \begin{tcolorbox}[colframe=darkcardinal,colback=boxgray,title=#1]
+	#2
 \end{tcolorbox}}
 
 \usetheme{Stanford} 
@@ -80,35 +80,35 @@
 \begin{document}
 
 \institute{
-	\vskip 5pt
-	\begin{figure}
-		\centering
-		\begin{subfigure}[t]{0.5\textwidth}
-			\centering
-			\includegraphics[height=0.7in]{./images/LOGO-UNR-NEGRO.png}
-		\end{subfigure}%
-		~ 
-		\begin{subfigure}[t]{0.5\textwidth}
-			\centering
-			\includegraphics[height=0.5in]{./images/FCEIA-logo.png}
-		\end{subfigure}
-	\end{figure}
-	\vskip 5pt
-	Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\
-	Universidad Nacional de Rosario\\
-	\vskip 1pt
+  \vskip 5pt
+  \begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.5\textwidth}
+	  \centering
+	  \includegraphics[height=0.7in]{./images/LOGO-UNR-NEGRO.png}
+	\end{subfigure}%
+	~ 
+	\begin{subfigure}[t]{0.5\textwidth}
+	  \centering
+	  \includegraphics[height=0.5in]{./images/FCEIA-logo.png}
+	\end{subfigure}
+  \end{figure}
+  \vskip 5pt
+  Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\
+  Universidad Nacional de Rosario\\
+  \vskip 1pt
 }
 
 \author[Escuela de Ingeniería Electrónica]{
-	\begin{tabular}{ccc} 
+  \begin{tabular}{ccc} 
 	Federico Ceccarelli & Martin Moya & Lucio Santos\\
-    \footnotesize
+	\footnotesize
 	\texttt{\href{mailto:fededc88@gmail.com}{fededc88@gmail.com}} &
 	\footnotesize
 	\texttt{\href{mailto:moyamartin1@gmail.com}{moyamartin1@gmail.com}} &
-  	\footnotesize
+	\footnotesize
 	\texttt{\href{mailto:lucio.santos2206@gmail.com}{lucio.santos2206@gmail.com}}
-\end{tabular}
+  \end{tabular}
 \vspace{-4ex}}
 
 
@@ -116,122 +116,111 @@
 \date{\today}
 
 \begin{noheadline}
-\begin{frame}\maketitle\end{frame}
+  \begin{frame}\maketitle\end{frame}
 \end{noheadline}
 
 \setbeamertemplate{itemize items}[default]
 \setbeamertemplate{itemize subitem}[circle]
 
-\begin{frame}
-	\frametitle{Contenidos} % Table of contents slide, comment this block out to remove it
-	\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\begin{frame}[allowframebreaks]
+  \frametitle{Contenidos} % Table of contents slide, comment this block out to remove it
+  \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 \end{frame}
 
 \section{Avances}
-% `[allowframebreaks]` can be used to have multiple slides in one frame, where the slides are continued with the suffix "(cont.)"; `[allowframebreaks]` can be used with `\framebreak` to manually break each frame into multiple slides
 \begin{frame}[allowframebreaks]
-\frametitle{Avances del Proyecto}
-	\begin{itemize}
-	  \item Selección del Sensor de corriente
-	  \item Diseño de un modelo de una celda de Litio-Ion
-	  \item Estimación del estado de carga utilizando un Filtro de Kalman
-	\end{itemize}
+  \frametitle{Avances del Proyecto}
+  \begin{itemize}
+	\item Selección del Sensor de corriente
+	\item Diseño de un modelo de una celda de Litio-Ion
+	\item Estimación del estado de carga utilizando un Filtro de Kalman
+  \end{itemize}
 \end{frame}
-
-
-
-
 
 \section{Sensor de Corriente}
 
 \begin{frame}[allowframebreaks]
-	\frametitle{Sensor de Corriente - Objetivos}
-	Medir la corriente que circula por el pack de baterías nos permite:
-	\begin{itemize}
-	  \item Mantener al pack operando dentro del SOA.
-	  \item Monitorear la distribución de carga entre celdas
-	  \item Implementar y mantener un seguimiento preciso del SoC
-	\end{itemize}
+  \frametitle{Sensor de Corriente - Objetivos}
+  Medir la corriente que circula por el pack de baterías nos permite:
+  \begin{itemize}
+	\item Mantener al pack operando dentro del SOA.
+	\item Monitorear la distribución de carga entre celdas
+	\item Implementar y mantener un seguimiento preciso del SoC
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
-\frametitle{Tecnologías disponibles}
-	\begin{itemize}
-	  \item \textbf{Resistencia Shunt}
-	  \item Transformador de Intensidad
-	  \item \textbf{Sensor de Efecto Hall}
-	  \item Sensor de Impedancia Magnética
-	  \item Sensor de Magnetoresistencia Gigante
-	  \item Sensores Ópticos
-	\end{itemize}
+  \frametitle{Tecnologías disponibles}
+  \begin{itemize}
+	\item \textbf{Resistencia Shunt}
+	\item Transformador de Intensidad
+	\item \textbf{Sensor de Efecto Hall}
+	\item Sensor de Impedancia Magnética
+	\item Sensor de Magnetoresistencia Gigante
+	\item Sensores Ópticos
+  \end{itemize}
 \end{frame}
 
-\subsection{Resistencia Shunt}
-
 \begin{frame}[allowframebreaks]
-	\frametitle{Resistencia Shunt}
-	Calcula la corriente de forma indirecta midiendo la caída de tensión sobre
-	una resistencia, que tiene un valor del órden de los miliohmios, al circular
-	la corriente incógnita. Su esquemático se puede observar en la Figura
-	\ref{sch_shunt}.
+  \frametitle{Resistencia Shunt}
+  Calcula la corriente de forma indirecta midiendo la caída de tensión sobre
+  una resistencia, que tiene un valor del órden de los miliohmios, al circular
+  la corriente incógnita. Su esquemático se puede observar en la Figura
+  \ref{sch_shunt}.
 
-	\begin{figure}[h!]
-	  \begin{circuitikz}\draw
-		(0, 0) to[resistor=$R_{shunt}$, i_>=$I$] (6, 0)
-		;
-		\draw
-		(2, 0) to[short, *-] (2, 1.5)
-		(2, 1.5) to[voltmeter] (4, 1.5)
-		(4, 1.5) to[short, -*] (4, 0)
-		;
-	  \end{circuitikz}
-	  \caption{Esquemático de un sensor de corriente por resistencia shunt}
-	  \label{sch_shunt}
-	\end{figure}
+  \begin{figure}[h!]
+	\begin{circuitikz}\draw
+	  (0, 0) to[resistor=$R_{shunt}$, i_>=$I$] (6, 0)
+	  ;
+	  \draw
+	  (2, 0) to[short, *-] (2, 1.5)
+	  (2, 1.5) to[voltmeter] (4, 1.5)
+	  (4, 1.5) to[short, -*] (4, 0)
+	  ;
+	\end{circuitikz}
+	\caption{Esquemático de un sensor de corriente por resistencia shunt}
+	\label{sch_shunt}
+  \end{figure}
 
-	\framebreak
-	
-	Características y consideraciones:
-	\begin{itemize}
-	  \item Alta relación de costo-efectividad, empaquetado compacto y aplicable
-		en mediciones tanto de corriente continua como alterna.
-	  \item Alta frecuencia de corte (decenas de MHz).
-	  \item Carece de aislación galvánica.
-	  \item Alto rango de temperatura de operación.
-	  \item La resistencia shunt presenta una inductancia intrínseca,
-		comprometiendo el ancho de banda y la presición
-	\end{itemize}
+  \framebreak
+
+  Características y consideraciones:
+  \begin{itemize}
+	\item Alta relación de costo-efectividad, empaquetado compacto y aplicable
+	  en mediciones tanto de corriente continua como alterna.
+	\item Alta frecuencia de corte (decenas de MHz).
+	\item Carece de aislación galvánica.
+	\item Alto rango de temperatura de operación.
+	\item La resistencia shunt presenta una inductancia intrínseca,
+	  comprometiendo el ancho de banda y la presición
+  \end{itemize}
 \end{frame}
 % This demonstrates a new section
 
-\subsection{Sensor de Efecto Hall}
-
 \begin{frame}[allowframebreaks]
-	\frametitle{Sensor de Efecto Hall}
-	\begin{itemize}
-	  \item Sensor de efecto magnético basado en el fenómeno físico denominado
-		\emph{Efecto Hall}.
-	  \item Dispositivo aislado, no intrusivo. Mide CA como CC. Su esquemático
-		se puede observar en la Figura \ref{sch_hall}
-	\end{itemize}
-	
-	\textbf{Consideraciones}:
-	\begin{itemize}
-	  \item Debido al efecto de saturación magnética del núcleo, posee
-		limitaciones en picos de corriente y frecuencias menores al MHz.
-	  \item Sensible a la influencia de los campos magnéticos externos.
-	  \item Presenta un voltaje de offset que es poco estable y varía
-		fuertemente a cambios de temperatura.
-	\end{itemize}
-	
-	\begin{figure}[h!]
-	  \includegraphics{./images/Open-loop_Hall_Sensor.jpg}
-	  \caption{Esquemático de un sensor de Efecto Hall}
-	  \label{sch_hall}
-	\end{figure}
-\end{frame}
+  \frametitle{Sensor de Efecto Hall}
+  \begin{itemize}
+	\item Sensor de efecto magnético basado en el fenómeno físico denominado
+	  \emph{Efecto Hall}.
+	\item Dispositivo aislado, no intrusivo. Mide CA como CC. Su esquemático
+	  se puede observar en la Figura \ref{sch_hall}
+  \end{itemize}
 
-\subsection{Tecnología seleccionada}
+  \textbf{Consideraciones}:
+  \begin{itemize}
+	\item Debido al efecto de saturación magnética del núcleo, posee
+	  limitaciones en picos de corriente y frecuencias menores al MHz.
+	\item Sensible a la influencia de los campos magnéticos externos.
+	\item Presenta un voltaje de offset que es poco estable y varía
+	  fuertemente a cambios de temperatura.
+  \end{itemize}
+
+  \begin{figure}[h!]
+	\includegraphics{./images/Open-loop_Hall_Sensor.jpg}
+	\caption{Esquemático de un sensor de Efecto Hall}
+	\label{sch_hall}
+  \end{figure}
+\end{frame}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Tecnología seleccionada}
@@ -251,7 +240,6 @@
 
 \end{frame}
 
-\subsection{Sensor de Corriente INA226}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Sensor de Corriente - INA226}
@@ -275,161 +263,39 @@
 \end{frame}
 
 
-\section{Modelado celda de Ion-Litio}
-
-\subsection{Celda NCR18650B }
+\section{Celda de Litio-Ion NCR18650PF}
 
 \begin{frame}
-\frametitle{Celda NCR18650B }
+  \frametitle{Celda NCR18650PF}
 
-\begin{wrapfigure}[2]{l}{0.3\textwidth}
-\vspace{-5pt}
-\begin{center}
-	\includegraphics[width=0.6\linewidth]{images/18650}
-	\caption{NCR18650B}
-	\end{center}
-	
-\end{wrapfigure}
-Celda seleccionada:\\ baterías comercial Panasonic NCR18650B
+  \vspace{10pt}
+  \begin{figure}[h!]
+	\begin{minipage}{0.3\textwidth}
+	  \centering
+	  \includegraphics[width=0.45\linewidth]{images/18650}
+	  \caption{Celda NCR18650PF}
+	\end{minipage}
+	\begin{minipage}{0.65\linewidth}
+	  \begin{itemize}
+		\item Capacidad: \\Min. 2750mAh | Max. 2900mAh
+		\item Voltage nominal: 3.6V
+		\item Carga: CC-CV, Std. 1375mA, 4.20V, 4.0 hrs
+		\item Densidad energética: \\577Wh/l | 207 Wh/kg
+	  \end{itemize}
+	\end{minipage}
+  \end{figure}
 
-\vspace{60pt}
+  \vspace{10pt}
 
-\begin{figure}[!b]
-
-\centering
-\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
-\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
-\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
-
-\caption{default}
-\label{fig:figure3}
-
-\end{figure}
-
-\end{frame}
-
-\subsection{Datos Experimentales}
-\begin{frame}
-\frametitle{ Datos Experimentales}
-
-\begin{figure}
+  \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\linewidth]{images/HPPC-Completo}
-	\caption{Perfil V-I de ensayo HPPC completo}
-	\label{fig:perfildeensayohppc}
-\end{figure}
-
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
-%	\caption{perfil de ensayo HPPC}
-%	\label{fig:perfildeensayohppc}
-%\end{figure}
-
-*Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
+	\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
+	\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
+	\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
+	\caption{Curvas características de la celda NCR18650PF}
+  \end{figure}
 
 \end{frame}
-
-\subsection{Modelo equivalente}
-\begin{frame}
-\frametitle{Modelo equivalente de una celda NCR18650B}
-
-El modelo equivalente propuesto para representar nuestras celdas cuentan con una fuente de tensión \emph{Em} emulando la tensión de circuito abierto en serie con una resistencia \emph{R0} y dos tanques paralelos \emph{R-C} también conectados en serie como se observa en la figura \ref{fig:ModeloBat}
-
-\begin{figure}[h!]
-
-	\begin{center}
- \ctikzset{bipoles/length=1cm}
-\begin{circuitikz}[american]
-	
-	\draw (0,3) to[vsource, v=$V_{m}$](0,0);
-	
-	 \draw (0,3) to [R = $R_{0}$](2,3);
-	 
-	 \draw (2,2.5)--(2,3.5);
-	 \draw (2,3.5) to [C=$C_{1}$] (4,3.5);
-	 \draw (2,2.5) to [R=$R_{1}$] (4,2.5);
-	 \draw (4,2.5)--(4,3.5);
-	 
-	 \draw (4,3) -- (5,3);
-	 
-	 \draw (5,2.5)--(5,3.5);
-	 \draw (5,3.5) to [C=$C_{2}$] (7,3.5);
-	 \draw (5,2.5) to [R=$R_{2}$] (7,2.5);
-	 \draw (7,2.5)--(7,3.5);
-	 
-	 \draw (7,3) -* (9,3);
-	 
-	 \draw (7,3) to[short,i^=$I$] (9,3)
-	 to[open,v^=$v_{term}$,o-o] (9,0)
-	 to[short] (0,0);
-
- \end{circuitikz}
-
-\end{center}
-
-	\caption{Modelo equivalente de una celda NCR18650B}
-	\label{fig:ModeloBat}
-\end{figure}
-
-\end{frame}
-
-\subsubsection{Validación}
-\begin{frame}
-\frametitle{Validación orden del modelo propuesto}
-
-Validamos el orden del modelo gráficamente ajustando y comparando una función suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del voltaje en terminales de la bateria en su semi-periodo de relajación. De esta forma comprobamos que el orden del modelo nos permite copiar tanto las dinámicas rapidas como lentas de la batería. 
-
-\begin{equation}
-f(x) = a*e^{b*x} + c*e^{d*x}
-\label{eq:exp2}
-\end{equation}
-
-\begin{figure}
-	\centering
-\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
-\caption{}
-\label{fig:val_exp2}
-\end{figure}
-
-\end{frame}
-
-\subsection{Estimación de parámetros}
-
-\begin{frame}[allowframebreaks]
-\frametitle{Estimación de parámetros del modelo}
-
-Implementamos en Matlab un estimador semi-automático de parámetros RC del modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox Indentificador de Sistemas de simulink.
-
-%El código implementa un algoritmo de optimización numerica a partir del uso de la herramienta \emph{Estimador de parámetros} de simulink, parte del Toolbox Indentificador de Sistemas.
- El método implementado es el de aproximaciones sucesivas a partir de comparar los datos experimentales con los obtenidos a partir de la simulación de simulink.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{images/Modelo_celda_simulink.png}
-	\caption{Modelo Simulink Simscape de celda  NCR18650B }
-	\label{fig:simulink_celda}
-\end{figure}
-
-Fraccionamos los datos experimentales obtenidos del ensayo HPPC y calculamos un juego de parámetros para cada escalon de corriente del ensayo asociado a un SOC determinado.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{images/Optimizacion.png}
-	\caption{Resultado proceso Ajuste de parametros del modelo}
-	\label{fig:RC_Opt}
-\end{figure}
-
-Obtuvimos un juego de 67 valores de cada elemento interno del modelo.
-
-%TODO: Agregar imagen comparativa de Rs y Cs
-
-Corregimos los valores de los elementos calculados ensayando el modelo con un perfil de corriente de un drive cicle y comparando los datos obtenidos con los valores experimentales.
-
-%TODO: Agregar imagen de comparación. 
-
-\end{frame}
-
 
 \section{Estimación del SoC}
 
@@ -463,76 +329,71 @@ Corregimos los valores de los elementos calculados ensayando el modelo con un pe
 
 \end{frame}
 
-\subsection{Método de estimación por FEM}
-
 \begin{frame}[allowframebreaks]
-	\frametitle{Método de estimación por FEM}
+  \frametitle{Método de estimación por FEM}
 
-	En este caso, se realiza la estimación del OCV mediante el estudio de la
-	respuesta temporal de la tensión entre los terminales de la batería
-	\emph{(fig. \ref{fig:relax_emf})} a través
-	de una ecuación diferencial de primer órden \emph{(ec. \ref{ec_fem})}.
+  En este caso, se realiza la estimación del OCV mediante el estudio de la
+  respuesta temporal de la tensión entre los terminales de la batería
+  \emph{(fig. \ref{fig:relax_emf})} a través
+  de una ecuación diferencial de primer órden \emph{(ec. \ref{ec_fem})}.
 
+  \begin{minipage}{0.4\textwidth}
+	\centering
 	\begin{equation}
 	  \frac{df(x)}{dx} = \alpha f(x)
 	  \label{ec_fem}
 	\end{equation}
-
+  \end{minipage}
+  \hspace{10pt}
+  \begin{minipage}{0.4\textwidth}
 	\begin{figure}[h!]
-	  \centering
-%TODO	  \includegraphics[width=1\textwidth]{images/EMF_relaxation.png}
+	  \includegraphics[width=1\textwidth]{images/EMF_relaxation.png}
 	  \caption{Curva de relajación de una batería de Litio-Ion}
 	  \label{fig:relax_emf}
 	\end{figure}
+  \end{minipage}
 
 \end{frame}
-
-\subsection{Estimación basada en modelos (Mecánicos, Térmicos y
-Electroquímicos)}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Estimación basada en modelos Físicos}
 
-	Este método requiere un profundo conocimiento de los fenómenos físicos y
-	electroquímicos dentro de las baterías, como también la aplicación de las
-	siguientes ecuaciones:
+  Este método requiere un profundo conocimiento de los fenómenos físicos y
+  electroquímicos dentro de las baterías, como también la aplicación de las
+  siguientes ecuaciones:
 
-	\begin{itemize}
-	  \item Conservación de carga y masa en un sólido homogéneo.
-	  \item Conservación de carga y masa en un electrolito homogéneo.
-	  \item Ecuación de Butler-Volmer de movimiento de cargas en una unión entre
-		un sólido conductor y una solucion de Litio-Ion.
-	\end{itemize}
+  \begin{itemize}
+	\item Conservación de carga y masa en un sólido homogéneo.
+	\item Conservación de carga y masa en un electrolito homogéneo.
+	\item Ecuación de Butler-Volmer de movimiento de cargas en una unión entre
+	  un sólido conductor y una solucion de Litio-Ion.
+  \end{itemize}
 
 \end{frame}
-
-\subsection{Estimación por resistencia interna}
-
 
 \begin{frame}[allowframebreaks]
   \frametitle{Estimación por resistencia interna}
-	
-  	Se excita a la celda con un pulso de corriente de corta duración y se
-	calcula la resistencia interna aplicando la ley de Ohm
-	\emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
-	Figura \ref{fig:r_ohm_result}
 
+  Se excita a la celda con un pulso de corriente de corta duración y se
+  calcula la resistencia interna aplicando la ley de Ohm
+  \emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
+  Figura \ref{fig:r_ohm_result}
+
+  \begin{minipage}{0.3\textwidth}
 	\begin{equation}
-	\frac{\Delta V}{\Delta I} = R_\Omega
+	  \frac{\Delta V}{\Delta I} = R_\Omega
 	  \label{eq:ohm_law}
 	\end{equation}
-
-	\framebreak
+  \end{minipage}
+  \hspace{10pt}
+  \begin{minipage}{0.55\textwidth}
 	\begin{figure}[h!]
-	  \centering
-%TODO	  \includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
+	  \includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
 	  \caption{Resistencia Interna vs SOC de una batería}
 	  \label{fig:r_ohm_result}
 	\end{figure}
-
+  \end{minipage}
 \end{frame}
-
-\subsection{Espectroscopía Dielétrica (EIS)}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Espectroscopía Dielétrica (EIS)}
@@ -542,13 +403,11 @@ Electroquímicos)}
 
   \begin{figure}[h!]
 	\centering
-%TODO	\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
+	\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
 	\caption{Espectroscopía Dielétrica de una batería Litio-Ion}
 	\label{fig:nyq_eis}
   \end{figure}
 \end{frame}
-
-\subsection{Filtro de Kalman}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Filtro de Kalman}
@@ -557,18 +416,146 @@ Electroquímicos)}
   mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y
   su estimación obtenida por modelos matemáticos.
 
-  \begin{table}[h!]
+  \begin{figure}[h!]
 	\centering
-	\begin{tabular}{|c|c|}
-	  \hline
-	  \rule{0pt}{4ex}	Ganancia de Kalman 							& $K_k = (H P^\prime_k)^T S_k^{-1}$  \\ \hline
-	  \rule{0pt}{4ex}	Actualización de la estimación			    &  $\hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)$\\ \hline
-	  \rule{0pt}{4ex}	Actualización de la matriz de covarianza    & $P_k = (I - K_k H) P^\prime_k$ \\ \hline
-	  \multirow{2}{*}{Proyeccion en k+1}        		  			& \rule{0pt}{4ex} $\hat{x}^\prime_{k+1} = A \hat{x}_k$ \\ \cline{2-2}
-	  & \rule{0pt}{4ex} $P^\prime_{k+1} = A P_k A^{T} + Q$ \\ \hline
-	\end{tabular}
-	\label{Ecuaciones_Kalman}
-  \end{table}
+	\includegraphics[width=0.7\textwidth]{images/KalmanFilterDiagram.png}
+	\caption{Diagrama del Filtro de Kalman}
+	\label{fig:kf_sch}
+  \end{figure}
+
 \end{frame}
+
+\subsection{Datos Experimentales}
+\begin{frame}
+  \frametitle{ Datos Experimentales}
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{images/HPPC-Completo}
+	\caption{Perfil V-I de ensayo HPPC completo}
+	\label{fig:perfildeensayohppc}
+  \end{figure}
+
+%V\begin{figure}
+%	\centering
+%	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
+%	\caption{perfil de ensayo HPPC}
+%	\label{fig:perfildeensayohppc}
+%\end{figure}
+
+  *Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. 
+  Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
+
+\end{frame}
+
+\subsection{Modelo equivalente}
+\begin{frame}
+  \frametitle{Modelo equivalente de una celda NCR18650B}
+
+  El modelo equivalente propuesto para representar nuestras celdas cuentan con una 
+  fuente de tensión \emph{Em} emulando la tensión de circuito abierto en serie con 
+  una resistencia \emph{R0} y dos tanques paralelos \emph{R-C} también conectados 
+  en serie como se observa en la figura \ref{fig:ModeloBat}
+
+  \begin{figure}
+
+	\begin{center}
+	  \ctikzset{bipoles/length=1cm}
+	  \begin{circuitikz}[american]
+
+		\draw (0,3) to[vsource, v=$V_{m}$](0,0);
+
+		\draw (0,3) to [R = $R_{0}$](2,3);
+
+		\draw (2,2.5)--(2,3.5);
+		\draw (2,3.5) to [C=$C_{1}$] (4,3.5);
+		\draw (2,2.5) to [R=$R_{1}$] (4,2.5);
+		\draw (4,2.5)--(4,3.5);
+
+		\draw (4,3) -- (5,3);
+
+		\draw (5,2.5)--(5,3.5);
+		\draw (5,3.5) to [C=$C_{2}$] (7,3.5);
+		\draw (5,2.5) to [R=$R_{2}$] (7,2.5);
+		\draw (7,2.5)--(7,3.5);
+
+		\draw (7,3) -* (9,3);
+
+		\draw (7,3) to[short,i^=$I$] (9,3)
+		to[open,v^=$v_{term}$,o-o] (9,0)
+		to[short] (0,0);
+
+	  \end{circuitikz}
+
+
+
+	  \caption{Modelo equivalente de una celda NCR18650B}
+	  \label{fig:ModeloBat}
+	\end{center}
+  \end{figure}
+
+\end{frame}
+
+\subsubsection{Validación}
+\begin{frame}
+  \frametitle{Validación orden del modelo propuesto}
+
+  Validamos el orden del modelo gráficamente ajustando y comparando una función 
+  suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del 
+  voltaje en terminales de la bateria en su semi-periodo de relajación. De esta 
+  forma comprobamos que el orden del modelo nos permite copiar tanto las 
+  dinámicas rapidas como lentas de la batería. 
+
+  \begin{equation}
+	f(x) = a*e^{b*x} + c*e^{d*x}
+	\label{eq:exp2}
+  \end{equation}
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
+	\caption{}
+	\label{fig:val_exp2}
+  \end{figure}
+
+\end{frame}
+
+\subsection{Estimación de parámetros}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Estimación de parámetros del modelo}
+
+  Implementamos en Matlab un estimador semi-automático de parámetros RC del modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox Indentificador de Sistemas de simulink.
+
+%El código implementa un algoritmo de optimización numerica a partir del uso de la herramienta \emph{Estimador de parámetros} de simulink, parte del Toolbox Indentificador de Sistemas.
+  El método implementado es el de aproximaciones sucesivas a partir de comparar los datos experimentales con los obtenidos a partir de la simulación de simulink.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Modelo_celda_simulink.png}
+	\caption{Modelo Simulink Simscape de celda  NCR18650B }
+	\label{fig:simulink_celda}
+  \end{figure}
+
+  Fraccionamos los datos experimentales obtenidos del ensayo HPPC y calculamos un juego de parámetros para cada escalon de corriente del ensayo asociado a un SOC determinado.
+
+  \begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Optimizacion.png}
+	\caption{Resultado proceso Ajuste de parametros del modelo}
+	\label{fig:RC_Opt}
+  \end{figure}
+
+  Obtuvimos un juego de 67 valores de cada elemento interno del modelo.
+
+%TODO: Agregar imagen comparativa de Rs y Cs
+
+  Corregimos los valores de los elementos calculados ensayando el modelo con un perfil de corriente de un drive cicle y comparando los datos obtenidos con los valores experimentales.
+
+%TODO: Agregar imagen de comparación. 
+
+\end{frame}
+
+
 
 \end{document}
