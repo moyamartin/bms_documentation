@@ -199,12 +199,23 @@
 
 \begin{frame}[allowframebreaks]
   \frametitle{Sensor de Efecto Hall}
-  \begin{itemize}
-	\item Sensor de efecto magnético basado en el fenómeno físico denominado
-	  \emph{Efecto Hall}.
-	\item Dispositivo aislado, no intrusivo. Mide CA como CC. Su esquemático
-	  se puede observar en la Figura \ref{sch_hall}
-  \end{itemize}
+  \begin{figure}[h!]
+	\begin{minipage}{0.45\textwidth}
+	  \begin{itemize}
+		\item Sensor de efecto magnético basado en el fenómeno físico denominado
+		  \emph{Efecto Hall}.
+		\item Dispositivo aislado, no intrusivo. Mide CA como CC. Su esquemático
+		  se puede observar en la Figura \ref{sch_hall}
+	  \end{itemize}
+	\end{minipage}
+	\hspace{10pt}
+	\begin{minipage}{0.45\textwidth}
+	  \centering
+	  \includegraphics[width=0.8\textwidth]{./images/Open-loop_Hall_Sensor.jpg}
+	  \caption{Esquemático de un sensor de Efecto Hall}
+	  \label{sch_hall}
+	\end{minipage}
+  \end{figure}
 
   \textbf{Consideraciones}:
   \begin{itemize}
@@ -214,12 +225,6 @@
 	\item Presenta un voltaje de offset que es poco estable y varía
 	  fuertemente a cambios de temperatura.
   \end{itemize}
-
-  \begin{figure}[h!]
-	\includegraphics{./images/Open-loop_Hall_Sensor.jpg}
-	\caption{Esquemático de un sensor de Efecto Hall}
-	\label{sch_hall}
-  \end{figure}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
