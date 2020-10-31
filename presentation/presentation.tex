@@ -22,6 +22,7 @@
 \usepackage{tcolorbox}
 \usepackage{physics}
 \usepackage{circuitikz}
+\usepackage{wrapfig}
 
 % Enable colored hyperlinks
 %\hypersetup{colorlinks=true}
@@ -136,6 +137,10 @@
 	  \item Estimación del estado de carga utilizando un Filtro de Kalman
 	\end{itemize}
 \end{frame}
+
+
+
+
 
 \section{Sensor de Corriente}
 
@@ -269,6 +274,163 @@
 
 \end{frame}
 
+
+\section{Modelado celda de Ion-Litio}
+
+\subsection{Celda NCR18650B }
+
+\begin{frame}
+\frametitle{Celda NCR18650B }
+
+\begin{wrapfigure}[2]{l}{0.3\textwidth}
+\vspace{-5pt}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{images/18650}
+	\caption{NCR18650B}
+	\end{center}
+	
+\end{wrapfigure}
+Celda seleccionada:\\ baterías comercial Panasonic NCR18650B
+
+\vspace{60pt}
+
+\begin{figure}[!b]
+
+\centering
+\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
+\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
+\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
+
+\caption{default}
+\label{fig:figure3}
+
+\end{figure}
+
+\end{frame}
+
+\subsection{Datos Experimentales}
+\begin{frame}
+\frametitle{ Datos Experimentales}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{images/HPPC-Completo}
+	\caption{Perfil V-I de ensayo HPPC completo}
+	\label{fig:perfildeensayohppc}
+\end{figure}
+
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=0.9\linewidth]{images/perfil_de_ensayo_HPPC}
+%	\caption{perfil de ensayo HPPC}
+%	\label{fig:perfildeensayohppc}
+%\end{figure}
+
+*Dataset: Ensayos realizador en la University of Wisconsin-Madison por el Dr. Phillip Kollmeyer (phillip.kollmeyer@gmail.com). 
+
+\end{frame}
+
+\subsection{Modelo equivalente}
+\begin{frame}
+\frametitle{Modelo equivalente de una celda NCR18650B}
+
+El modelo equivalente propuesto para representar nuestras celdas cuentan con una fuente de tensión \emph{Em} emulando la tensión de circuito abierto en serie con una resistencia \emph{R0} y dos tanques paralelos \emph{R-C} también conectados en serie como se observa en la figura \ref{fig:ModeloBat}
+
+\begin{figure}[h!]
+
+	\begin{center}
+ \ctikzset{bipoles/length=1cm}
+\begin{circuitikz}[american]
+	
+	\draw (0,3) to[vsource, v=$V_{m}$](0,0);
+	
+	 \draw (0,3) to [R = $R_{0}$](2,3);
+	 
+	 \draw (2,2.5)--(2,3.5);
+	 \draw (2,3.5) to [C=$C_{1}$] (4,3.5);
+	 \draw (2,2.5) to [R=$R_{1}$] (4,2.5);
+	 \draw (4,2.5)--(4,3.5);
+	 
+	 \draw (4,3) -- (5,3);
+	 
+	 \draw (5,2.5)--(5,3.5);
+	 \draw (5,3.5) to [C=$C_{2}$] (7,3.5);
+	 \draw (5,2.5) to [R=$R_{2}$] (7,2.5);
+	 \draw (7,2.5)--(7,3.5);
+	 
+	 \draw (7,3) -* (9,3);
+	 
+	 \draw (7,3) to[short,i^=$I$] (9,3)
+	 to[open,v^=$v_{term}$,o-o] (9,0)
+	 to[short] (0,0);
+
+ \end{circuitikz}
+
+\end{center}
+
+	\caption{Modelo equivalente de una celda NCR18650B}
+	\label{fig:ModeloBat}
+\end{figure}
+
+\end{frame}
+
+\subsubsection{Validación}
+\begin{frame}
+\frametitle{Validación orden del modelo propuesto}
+
+Validamos el orden del modelo gráficamente ajustando y comparando una función suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del voltaje en terminales de la bateria en su semi-periodo de relajación. De esta forma comprobamos que el orden del modelo nos permite copiar tanto las dinámicas rapidas como lentas de la batería. 
+
+\begin{equation}
+f(x) = a*e^{b*x} + c*e^{d*x}
+\label{eq:exp2}
+\end{equation}
+
+\begin{figure}
+	\centering
+\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
+\caption{}
+\label{fig:val_exp2}
+\end{figure}
+
+\end{frame}
+
+\subsection{Estimación de parámetros}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Estimación de parámetros del modelo}
+
+Implementamos en Matlab un estimador semi-automático de parámetros RC del modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox Indentificador de Sistemas de simulink.
+
+%El código implementa un algoritmo de optimización numerica a partir del uso de la herramienta \emph{Estimador de parámetros} de simulink, parte del Toolbox Indentificador de Sistemas.
+ El método implementado es el de aproximaciones sucesivas a partir de comparar los datos experimentales con los obtenidos a partir de la simulación de simulink.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Modelo_celda_simulink.png}
+	\caption{Modelo Simulink Simscape de celda  NCR18650B }
+	\label{fig:simulink_celda}
+\end{figure}
+
+Fraccionamos los datos experimentales obtenidos del ensayo HPPC y calculamos un juego de parámetros para cada escalon de corriente del ensayo asociado a un SOC determinado.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Optimizacion.png}
+	\caption{Resultado proceso Ajuste de parametros del modelo}
+	\label{fig:RC_Opt}
+\end{figure}
+
+Obtuvimos un juego de 67 valores de cada elemento interno del modelo.
+
+%TODO: Agregar imagen comparativa de Rs y Cs
+
+Corregimos los valores de los elementos calculados ensayando el modelo con un perfil de corriente de un drive cicle y comparando los datos obtenidos con los valores experimentales.
+
+%TODO: Agregar imagen de comparación. 
+
+\end{frame}
+
+
 \section{Estimación del SoC}
 
 \begin{frame}[allowframebreaks]
@@ -318,7 +480,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=1\textwidth]{./images/EMF_relaxation.png}
+%TODO	  \includegraphics[width=1\textwidth]{images/EMF_relaxation.png}
 	  \caption{Curva de relajación de una batería de Litio-Ion}
 	  \label{fig:relax_emf}
 	\end{figure}
@@ -363,7 +525,7 @@ Electroquímicos)}
 	\framebreak
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
+%TODO	  \includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
 	  \caption{Resistencia Interna vs SOC de una batería}
 	  \label{fig:r_ohm_result}
 	\end{figure}
@@ -380,7 +542,7 @@ Electroquímicos)}
 
   \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
+%TODO	\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
 	\caption{Espectroscopía Dielétrica de una batería Litio-Ion}
 	\label{fig:nyq_eis}
   \end{figure}
