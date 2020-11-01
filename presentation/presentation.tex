@@ -445,11 +445,13 @@
 
   \begin{itemize}
 	\item Los componentes eléctricos de un modelo y sus dinámicas ya son de
-	  nuestro conocimiento.
+	  de nuestro conocimiento y fáciles de simular.
 	\item Los cálculos de los parámetros del circuito son simples de estimar en
 	  base a un set de datos.
 	\item El Filtro de Kalman es un filtro predictor con amplia bibliografía y
 	  ejemplos, lo que facilita su implementación.
+	\item La complejidad computacional tanto del modelo eléctrico como el filtro
+	  de Kalman son bajos.
 	\item Nos permite extender el modelo a una implementación física con un
 	  ajuste fino minimizando errores.
   \end{itemize}
@@ -480,7 +482,8 @@
   \frametitle{Modelo equivalente de una celda NCR18650PF}
 
   El modelo equivalente propuesto para replicar la dinámica de la celda a
-  implementar se puede observar en la figura \ref{fig:ModeloBat}
+  implementar se puede observar en la figura \ref{fig:ModeloBat} basado en el
+  circuito de Randle %TODO: agregar referencia
 
   \begin{figure}
 
@@ -514,7 +517,7 @@
 
 
 
-	  \caption{Modelo equivalente de una celda NCR18650B}
+	  \caption{Circuito de Randle de segundo órden.}
 	  \label{fig:ModeloBat}
 	\end{center}
   \end{figure}
@@ -525,22 +528,21 @@
   \frametitle{Validación orden del modelo propuesto}
 
   Validamos el orden del modelo gráficamente ajustando y comparando una función 
-  suma de exponenciales, como la observada en \ref{eq:exp2}, a la evolución del 
-  voltaje en terminales de la bateria en su semi-periodo de relajación. De esta 
-  forma comprobamos que el orden del modelo nos permite copiar tanto las 
-  dinámicas rapidas como lentas de la batería. 
-
-  \begin{equation}
-	f(x) = a*e^{b*x} + c*e^{d*x}
-	\label{eq:exp2}
-  \end{equation}
-
-  \begin{figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
-	\caption{}
-	\label{fig:val_exp2}
-  \end{figure}
+  suma de exponenciales, como la observada en la Ecuación \ref{eq:exp2}, a la 
+  evolución del voltaje en terminales de la bateria en su semi-periodo de 
+  relajación. De esta forma comprobamos que el orden del modelo nos permite 
+  replicar las dinámicas de una celda.
+  
+	\begin{equation}
+	  f(x) = a*e^{b*x} + c*e^{d*x}
+	  \label{eq:exp2}
+	\end{equation}
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.9\linewidth]{images/exp_ord_2_val.png}
+	  \caption{}
+	  \label{fig:val_exp2}
+	\end{figure}
 
 \end{frame}
 
@@ -549,7 +551,7 @@
   \frametitle{Estimación de parámetros del modelo}
 
   Implementamos en Matlab un estimador de parámetros RC del 
-  modelo propuesto. Usamos el\emph{Estimador de parámetros} del Toolbox 
+  modelo propuesto. Usamos el \emph{Estimador de parámetros} del Toolbox 
   Identificador de Sistemas de simulink.
 
   El método implementado es el de aproximaciones sucesivas a partir de comparar 
@@ -559,7 +561,7 @@
   \begin{figure}
 	\centering
 	\includegraphics[width=0.9\linewidth]{images/Modelo_celda_simulink.png}
-	\caption{Modelo Simulink Simscape de celda  NCR18650B }
+	\caption{Modelo Simulink del circuito de Randle}
 	\label{fig:simulink_celda}
   \end{figure}
 
@@ -592,4 +594,77 @@
 	resultado obtuvimos las gráficas de la Figura \ref{fig:param_fine_tunning}.
 \end{frame}
 
+\section{Filtro de Kalman}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Filtro de Kalman - Objetivos}
+  El filtro de Kalman logra que la estimación del SoC sea robusta ante:
+  \begin{itemize}
+	\item Valor de SoC inicial incorrecto.
+	\item Ruido y offset en las mediciones.
+	\item Dispersión paramétrica entre celdas del mismo fabricante.
+  \end{itemize}
+  Como fundamento teórico, requiere que el sistema sea modelado en un sistema de
+  ecuaciones de estado, como el de la siguiente forma:
+
+  \begin{align*}
+	\dot{x} = Ax + Bu \\
+	y = Cx + Du
+	\label{sse}
+  \end{align*}
+
+  \framebreak
+
+  Donde, para el modelo desarrollado, obtenemos que:
+
+  \begin{align*}
+	\dot{x} = \begin{bmatrix} 
+	  v_1\\
+	  v_2\\
+	  SoC
+	\end{bmatrix}
+	\qquad
+	y = v
+  \end{align*}
+  \begin{align*}
+	A = \begin{bmatrix}
+	  -\frac{1}{R_1(SoC)C_1(SoC)} & 0 & 0\\
+	  0 & -\frac{1}{R_2(SoC)C_2(SoC)} & 0\\
+	  0 & 0 & 0
+	\end{bmatrix}
+	\qquad
+	B = \begin{bmatrix}
+	  \frac{1}{C_1(SoC)}\\
+	  \frac{1}{C_2(SoC)}\\
+	  -\frac{1}{S_{c, a}}
+	\end{bmatrix}
+  \end{align*}
+  \begin{align*}
+	C = \begin{bmatrix} -1 & -1 & V_{OCV}(SoC)\end{bmatrix} \qquad D = -R_0(SoC)
+  \end{align*}
+  \framebreak
+	
+  El algoritmo también requiere de las siguientes definiciones:
+  \begin{itemize}
+	\item \textbf{Matriz de incerteza en la medición (R)}: Esta incerteza se
+	  encuentra directamente relacionada con los sensores involucrados
+	  (corriente y tensión).
+	\item \textbf{Incerteza del ruido en el proceso (Q)}: Relacionado
+	  directamente a las aspectos no lineales del sistema como también
+	  perturbaciones externas (temperatura, estado de salud, etc).
+	\item \textbf{Valores iniciales del sistema}: El filtro requiere
+	  un estado inicial y una incerteza del mismo.
+  \end{itemize}
+\end{frame}
+
+
+\section{Resultados y Observaciones}
+\begin{frame}[allowframebreaks]
+  \frametitle{Resultados y Observaciones}
+
+  \begin{figure}[h!]
+	\includegraphics[width=1\textwidth]{images/kf_result_25degree.eps}
+  \end{figure}
+
+\end{frame}
 \end{document}
