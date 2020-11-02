@@ -357,6 +357,7 @@
   	calcula la resistencia interna aplicando la ley de Ohm
   	\emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
   	Figura \ref{fig:r_ohm_result}
+  	
 	\vspace{15pt}
   	\begin{minipage}{0.3\textwidth}
 		\begin{equation}
@@ -364,10 +365,10 @@
 	  		\label{eq:ohm_law}
 		\end{equation}
   	\end{minipage}
-  	\hspace{10pt}
-  	\begin{minipage}{0.55\textwidth}
+  	\hfill
+  	\begin{minipage}{0.5\textwidth}
 		\begin{figure}[h!]
-	  		\includegraphics[width=1\textwidth]{./images/Ro_vs_SOC.png}
+	  		\includegraphics[width=1.2\textwidth]{./images/Ro_vs_SOC.png}
 	  		\caption{Resistencia Interna vs SOC de una batería}
 	  		\label{fig:r_ohm_result}
 		\end{figure}
@@ -405,14 +406,16 @@
   	En este caso buscamos implementar un modelo eléctrico de una celda de
   	Litio-Ion complementado con un Filtro de Kalman debido a que:
   	\begin{itemize}
-		\item	Los componentes eléctricos de un modelo y sus dinámicas ya son de
-	  			nuestro conocimiento.
-		\item 	Los cálculos de los parámetros del circuito son simples de estimar en
-	  			base a un set de datos.
-		\item 	El Filtro de Kalman es un filtro predictor con amplia bibliografía y
-	  			ejemplos, lo que facilita su implementación.
-		\item 	Nos permite extender el modelo a una implementación física con un
-	  			ajuste fino minimizando errores.
+		\item Los componentes eléctricos de un modelo y sus dinámicas ya son de
+	  		de nuestro conocimiento y fáciles de simular.
+		\item Los cálculos de los parámetros del circuito son simples de estimar en
+	  		base a un set de datos.
+		\item El Filtro de Kalman es un filtro predictor con amplia bibliografía y
+	 	 	ejemplos, lo que facilita su implementación.
+		\item La complejidad computacional tanto del modelo eléctrico como el filtro
+	 		de Kalman son bajos.
+		\item Nos permite extender el modelo a una implementación física con un
+	  		ajuste fino minimizando errores.
   	\end{itemize}
 \end{frame}
 
@@ -509,12 +512,85 @@
   	Corregimos los valores obtenidos sometiendo el modelo calculado a multiples 
   	perfiles de corriente de distintos drive cicles y comparando los datos obtenidos con 
   	los valores experimentales.
-  	\begin{figure}[!hb]
+  	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.9\linewidth]{images/Drive_Cicle_Modelo_Bateria.png}
+		\includegraphics[width=0.85\linewidth]{images/Drive_Cicle_Modelo_Bateria.png}
 		\caption{Drive Cicle - Modelo Vs Data}
 		\label{fig:DC_modVsData}
   	\end{figure}
 \end{frame}
 
+\section{Filtro de Kalman}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Filtro de Kalman - Objetivos}
+  El filtro de Kalman logra que la estimación del SoC sea robusta ante:
+  \begin{itemize}
+	\item Valor de SoC inicial incorrecto.
+	\item Ruido y offset en las mediciones.
+	\item Dispersión paramétrica entre celdas del mismo fabricante.
+  \end{itemize}
+  Como fundamento teórico, requiere que el sistema sea modelado en un sistema de
+  ecuaciones de estado, como el de la siguiente forma:
+
+  \begin{align*}
+	\dot{x} = Ax + Bu \\
+	y = Cx + Du
+	\label{sse}
+  \end{align*}
+
+  \framebreak
+
+  Donde, para el modelo desarrollado, obtenemos que:
+
+  \begin{align*}
+	\dot{x} = \begin{bmatrix} 
+	  v_1\\
+	  v_2\\
+	  SoC
+	\end{bmatrix}
+	\qquad
+	y = v
+  \end{align*}
+  \begin{align*}
+	A = \begin{bmatrix}
+	  -\frac{1}{R_1(SoC)C_1(SoC)} & 0 & 0\\
+	  0 & -\frac{1}{R_2(SoC)C_2(SoC)} & 0\\
+	  0 & 0 & 0
+	\end{bmatrix}
+	\qquad
+	B = \begin{bmatrix}
+	  \frac{1}{C_1(SoC)}\\
+	  \frac{1}{C_2(SoC)}\\
+	  -\frac{1}{S_{c, a}}
+	\end{bmatrix}
+  \end{align*}
+  \begin{align*}
+	C = \begin{bmatrix} -1 & -1 & V_{OCV}(SoC)\end{bmatrix} \qquad D = -R_0(SoC)
+  \end{align*}
+  \framebreak
+	
+  El algoritmo también requiere de las siguientes definiciones:
+  \begin{itemize}
+	\item \textbf{Matriz de incerteza en la medición (R)}: Esta incerteza se
+	  encuentra directamente relacionada con los sensores involucrados
+	  (corriente y tensión).
+	\item \textbf{Incerteza del ruido en el proceso (Q)}: Relacionado
+	  directamente a las aspectos no lineales del sistema como también
+	  perturbaciones externas (temperatura, estado de salud, etc).
+	\item \textbf{Valores iniciales del sistema}: El filtro requiere
+	  un estado inicial y una incerteza del mismo.
+  \end{itemize}
+\end{frame}
+
+
+\section{Resultados y Observaciones}
+\begin{frame}[allowframebreaks]
+  \frametitle{Resultados y Observaciones}
+
+  \begin{figure}[h!]
+	\includegraphics[width=1\textwidth]{images/kf_result_25degree.eps}
+  \end{figure}
+
+\end{frame}
 \end{document}
