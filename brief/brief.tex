@@ -13,6 +13,7 @@
 \usepackage{epstopdf}
 \usepackage{lastpage}
 \usepackage{upgreek}
+\usepackage{xfrac}
 \usepackage{circuitikz}
 \usetikzlibrary{arrows, decorations.markings}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
@@ -1176,6 +1177,205 @@ Como se observa en la Fig. \ref{KF_Integration_concept} en base a las distribuci
 	\end{center}
 \end{figure}
 
+
+\clearpage
+
+\subsection{Simulaciones}
+\subsubsection{Filtro de Kalman}
+Para la implementación de este filtro es necesario obtener un modelo en espacio de estados de la batería de la forma :
+
+\begin{align}
+	\dot{x}(t) = Ax+Bu	\nonumber\\
+	y(t)=Cx+Du
+	\label{SS_Model_generic}	
+\end{align}
+
+
+ Para tal fin tomamos como referencia un modelo eléctrico con 2 elementes RC en serie, también conocido como modelo de Randles de segundo orden, representado en la figura \ref{Randles_2do}, ya que este módelo tiene amplia aceptación debido a que ofrece un grado de ajuste alto sin resultar en un excesivo costo computacional en comparación con modelos electroquímicos de la batería.
+
+
+\begin{figure}[h!]
+	\begin{minipage}[c]{0.45\textwidth}
+		\centering
+		\ctikzset{bipoles/length=1.0cm}
+		\ctikzset{bipoles/resistor/height=.3}
+
+		\begin{circuitikz}[american]
+			
+							
+				\draw (0,0) to[R=$R_0$] (3,0) -- (3,-0.5) to[R=$R_1$] (6,-0.5) -- (6,0);
+				\draw (3,0) -- (3,0.5) to[C=$C_1$,v=$ $] (6,0.5) -- (6,0);
+				\draw (6,0) to[short,-*] (6.5,0) -- (7,0) -- (7,0.5) to[C=$C_2$,v=$ $] (10,0.5) to[short,-o] (10,0);
+				\draw (7,0) -- (7,-0.5) to[R=$R_2$] (10,-0.5) -- (10,0) to[short,f=$i$] (11.5,0);
+				\draw  (0,0) to[battery2=$OCV(SOC)$] (0,-3) -- (11.5,-3); 
+				\draw  (11.5,0) to [open,v=$v$,invert] (11.5,-3);
+				\draw (8.5,1.75) node[anchor=north]{$V_{C2}$};
+				\draw (4.5,1.75) node[anchor=north]{$V_{C1}$};
+		\end{circuitikz}
+	\end{minipage}
+\caption{Circuito de Randles de Segundo Orden.}
+\label{Randles_2do}
+\end{figure}
+
+La fuente de tensión controlada $OCV(SOC)$ es linealizada para obtener un modelo lineal de la batería e ignoramos el hecho de la histéresis respecto a la carga y a la descarga.
+
+Obteniendo una ecuación lineal de la forma \ref{SOC_linearized}, cuyos parametros fueron obtenidos mediante la función \emph{polyfit} de matlab como se muetra en la figura \ref{SOC_vs_OCV}.\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{equation}
+			OCV = SOC \times K_e + OCV_0
+			\label{SOC_linearized}
+		\end{equation}	
+	\end{center}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{SOC_vs_OCV.eps}
+		\caption{Curva de SOC vs OCV con su correspondiente linealización }
+		\label{SOC_vs_OCV}
+	\end{center}
+\end{figure}
+
+
+
+
+Nuestro modelo eléctrico tiene 2 grados de libertad y se agrega una 3° variable de estado que es el estado de carga de la batería. Luego tomando la expresión diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente de la batería y como salida la tensión en bornes de la misma obtenemos el siguiente conjunto de ecuaciones.
+
+\begin{equation}
+\begin{array}{llcllcl}
+	\dot{x} & = & \begin{bmatrix}
+				-\frac{1}{R_1 C_1} & 			0 		& 0 \\
+				0				   & -\frac{1}{R_2 C_2} & 0 \\
+				0      			   &   			0       & 0 \\
+			\end{bmatrix} & x & + & 	\begin{bmatrix}
+				-\frac{1}{R_1 C_1} \\
+				-\frac{1}{R_2 C_2}  \\
+				-\frac{1}{3600 S_{C,a}}\\
+			\end{bmatrix} & i \\
+		y & = & \begin{bmatrix}
+			-1-1-K_e 
+		\end{bmatrix} & x & + & \begin{bmatrix}
+		R_0
+\end{bmatrix} & i \\
+\end{array}
+\end{equation}
+
+
+
+
+Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
+
+
+
+\clearpage
+Para hacer un ajuste de parámetros de las baterías se utilizó un dataset provisto por la universidad de Winsconsin-Madison por el Dr. Phillip Kollmeyer \cite{Kollmeyer2018}. si bien todos los parámetros son dependientes del estado de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones mas fuertes de los mismos se dan al entre el 0-10\% y en valores cercanos al 100\%
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{rta_escalon.eps}
+		\caption{Estudio de la Rta al escalón para estimación de parámetros}
+		\label{rta_escalon}
+	\end{center}
+\end{figure}
+
+También se necesita proporcionar valores de Varianza del modelo, ruido al que están sometidas las variables medibles, el estado inicial estimado y la varianza de esta estimación estas son denominadas Q,R,$x_0$ y $P_0$ respectivamente.
+
+Partiendo de la base que nuestro sistema debe ser robusto ante la mala estimación inicial del estado de carga  vamos a proponer un vector de estimación de estado inicial con un SOC con un error de 80%.\\ 
+
+\begin{equation}
+	\begin{array}{llll}
+		P_0 & = & \begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 0 & 1 \\
+		\end{bmatrix} 
+	\end{array} \nonumber
+\end{equation}
+El Drive cycle seleccionado comienza con la batería cargada al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el estado de carga relativo.
+\begin{equation}
+	\begin{array}{llll}
+		x_0 & = & \begin{bmatrix}
+			0 \\
+			0 \\
+			0.2 \\
+		\end{bmatrix} 
+	\end{array} \nonumber
+\end{equation}
+El error en nuestra observación es del orden de los milivolts calculado en base a la resolución del sensor.
+\begin{equation}
+R = 0.01  \nonumber
+\end{equation}
+
+El error en nuestro modelo se estima bajo ya que los dataset nos proveen una buena fuente de información obtenida en base a ensayos de laboratorio
+\begin{equation}
+	\begin{array}{llll}
+		Q & = & \begin{bmatrix}
+			1\cdot10^{-6} & 0 & 0 \\
+			0 & 1\cdot10^{-6} & 0 \\
+			0 & 0 & 1\cdot10^{-6} \\
+		\end{bmatrix} 
+	\end{array} \nonumber
+\end{equation}
+
+\clearpage
+
+Por último se volcaron estos parámetros en un bloque de la librería \emph{System Identification Toolbox} que corre el algoritmo del filtor de Kalman. Además se simuló en paralelo el circuito eléctrico equivalente, como se observa en la Figura \ref{simulink_diagram}.
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{simulink.pdf}
+		\caption{Diagrama de Simulink utilizado para simular el Filtro de Kalman}
+		\label{simulink_diagram}
+	\end{center}
+\end{figure}
+
+\clearpage
+
+Los resultados de la simulación se muestran a continuación en las Figuras \ref{Tension_sim} y \ref{Tension_sim_zoom} correspondientes a la tensión en bornes de la batería y  a las Figuras \ref{Drive_Cycle_1_SOC_sim} y \ref{error_SOC_Sim}, las cuales corresponden al SOC simulado y a un contraste del error tomando como valor verdadero el SOC provisto por el dataset.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Tension_Sim.eps}
+		\caption{Resultado de la Simulación de la tensión en bornes de la batería sometida a condiciones de ciclo de manejo}
+		\label{Tension_sim}
+	\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Tension_Sim_zoom.eps}
+		\caption{Detalle de la Simulación de la tensión en bornes de la batería sometida a condiciones de ciclo de manejo}
+		\label{Tension_sim_zoom}
+	\end{center}
+\end{figure}
+
+\clearpage 
+Si se presta especial atención el error se mantiene en una cota del 6 \% hasta que se dispara en la región de SOC menor al 15\% donde el sistema se vuelve fuertemente alineal y nuestro modelo pierde validéz. Por otro lado cumple satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 20 \% y el Filtro corrige rapidamente a un valor aproximado de 100 \%. 
+
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Drive_Cycle_1_sim.eps}
+		\caption{Resultados de la Simulación del sistema sometido a condiciones de ciclo de manejo}
+		\label{Drive_Cycle_1_SOC_sim}
+	\end{center}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{soc_error_porc.eps}
+		\caption{Resultados de Simulación del SOC de una batería sometida a condiciones de ciclo de manejo}
+		\label{error_SOC_Sim}
+	\end{center}
+\end{figure}
 
 \clearpage
 \subsection{Plan de Trabajo}
