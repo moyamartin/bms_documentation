@@ -1,8 +1,55 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: brief.aux
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: brief.aux
+Reallocating 'name_of_file' (item size: 1) to 18 items.
+Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: ieeetr.bst
 Database file #1: Bms_Documentation.bib
+Warning--entry type for "Kollmeyer2018" isn't style-file defined
+--line 23 of file Bms_Documentation.bib
 Warning--I didn't find a database entry for "def_liion"
 Too many commas in name 1 of "M.A. Hannan, M.S.H. Lipu, A. Hussain, A. Mohamed" for entry Hannan2017
 while executing---line 969 of file ieeetr.bst
 Warning--empty journal in hentunen2014
+You've used 4 entries,
+            1876 wiz_defined-function locations,
+            499 strings with 4048 characters,
+and the built_in function-call counts, 535 in all, are:
+= -- 42
+> -- 16
+< -- 0
++ -- 8
+- -- 4
+* -- 27
+:= -- 93
+add.period$ -- 4
+call.type$ -- 4
+change.case$ -- 4
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 31
+empty$ -- 70
+format.name$ -- 4
+if$ -- 124
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 3
+newline$ -- 15
+num.names$ -- 4
+pop$ -- 21
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 7
+stack$ -- 0
+substring$ -- 0
+swap$ -- 2
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 4
+width$ -- 5
+write$ -- 32
 (There was 1 error message)
