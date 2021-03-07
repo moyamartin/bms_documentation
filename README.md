@@ -6,8 +6,8 @@ It is written in [LaTeX](https://www.latex-project.org/).
 
 ## Referencing
 
-If you find this documentation, please let us know (@moyamartin, @fededc83,
-@lusho2206) and cite this work using:
+If you find this project interesting or useful for your work, please let us know 
+(@moyamartin, @fededc83, @lusho2206) and cite this work using:
 
 ```
 @article {
