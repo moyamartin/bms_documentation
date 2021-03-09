@@ -4,6 +4,12 @@ This repo contains all the documentation related to the [BMS project](https://gi
 
 It is written in [LaTeX](https://www.latex-project.org/).
 
+To compile this run
+
+```
+pdflatex brief/brief.tex
+```
+
 ## Referencing
 
 If you find this project interesting or useful for your work, please let us know 
