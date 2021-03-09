@@ -2,7 +2,8 @@
 
 This repo contains all the documentation related to the [BMS project](https://github.com/moyamartin/bms_unr) which include the main's article project and the pre-investigation paper done for receiving approval from our directors to start working on this project.
 
-It is written in [LaTeX](https://www.latex-project.org/).
+It is written in [LaTeX](https://www.latex-project.org/), before compilation
+make sure the LaTeX kernel is installed
 
 To compile this run
 
