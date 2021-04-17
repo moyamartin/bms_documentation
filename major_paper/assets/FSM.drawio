@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-04-17T21:07:19.175Z" agent="5.0 (X11)" etag="ONN3oq3JnYxCvoC1z4K2" version="14.6.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-17T21:08:06.550Z" agent="5.0 (X11)" etag="54KVb6AIsIrVEm36Fhy7" version="14.6.1" type="github">
   <diagram id="g3DpGtktaJrWY0wCHxWM" name="Page-1">
-    <mxGraphModel dx="2858" dy="2269" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2031" dy="2269" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -437,63 +437,63 @@
           <mxGeometry x="1430" y="160" width="140" height="20" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-170" value="balacing IDLE" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-325" y="-710" width="80" height="80" as="geometry" />
+          <mxGeometry x="345" y="-50" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-171" value="Detecting Disbalance" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-325" y="-570" width="80" height="80" as="geometry" />
+          <mxGeometry x="345" y="90" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-173" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="d3mwTh0rrNDCZrn80b3e-170" target="d3mwTh0rrNDCZrn80b3e-171">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="70" y="-380" as="sourcePoint" />
-            <mxPoint x="120" y="-430" as="targetPoint" />
+            <mxPoint x="740" y="280" as="sourcePoint" />
+            <mxPoint x="790" y="230" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-174" value="Charging CV" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="-410" y="-615" width="110" height="20" as="geometry" />
+          <mxGeometry x="260" y="45" width="110" height="20" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-176" value="" style="curved=1;endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="d3mwTh0rrNDCZrn80b3e-171" target="d3mwTh0rrNDCZrn80b3e-171">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="70" y="-380" as="sourcePoint" />
-            <mxPoint x="120" y="-430" as="targetPoint" />
+            <mxPoint x="740" y="280" as="sourcePoint" />
+            <mxPoint x="790" y="230" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-370" y="-450" />
-              <mxPoint x="-390" y="-510" />
+              <mxPoint x="300" y="210" />
+              <mxPoint x="280" y="150" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-177" value="Balancing" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-325" y="-415" width="80" height="80" as="geometry" />
+          <mxGeometry x="345" y="245" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-178" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="d3mwTh0rrNDCZrn80b3e-171" target="d3mwTh0rrNDCZrn80b3e-177">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="70" y="-380" as="sourcePoint" />
-            <mxPoint x="120" y="-430" as="targetPoint" />
+            <mxPoint x="740" y="280" as="sourcePoint" />
+            <mxPoint x="790" y="230" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-179" value="" style="curved=1;endArrow=classic;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d3mwTh0rrNDCZrn80b3e-177" target="d3mwTh0rrNDCZrn80b3e-171">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="70" y="-380" as="sourcePoint" />
-            <mxPoint x="120" y="-430" as="targetPoint" />
+            <mxPoint x="740" y="280" as="sourcePoint" />
+            <mxPoint x="790" y="230" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-150" y="-430" />
+              <mxPoint x="520" y="230" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-181" value="&lt;div&gt;Timeout&lt;/div&gt;&lt;div&gt;&amp;nbsp;CBT&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=90;" vertex="1" parent="1">
-          <mxGeometry x="-200" y="-475" width="40" height="20" as="geometry" />
+          <mxGeometry x="470" y="185" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-184" value="" style="curved=1;endArrow=classic;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="d3mwTh0rrNDCZrn80b3e-171" target="d3mwTh0rrNDCZrn80b3e-170">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="70" y="-380" as="sourcePoint" />
-            <mxPoint x="120" y="-430" as="targetPoint" />
+            <mxPoint x="740" y="280" as="sourcePoint" />
+            <mxPoint x="790" y="230" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-160" y="-590" />
-              <mxPoint x="-110" y="-640" />
+              <mxPoint x="510" y="70" />
+              <mxPoint x="560" y="20" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-185" value="&lt;div&gt;Charging finished&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=25;" vertex="1" parent="1">
-          <mxGeometry x="-220" y="-677.5" width="140" height="20" as="geometry" />
+          <mxGeometry x="450" y="-17.5" width="140" height="20" as="geometry" />
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-191" value="OCV?" style="rhombus;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="1330" y="-140" width="80" height="80" as="geometry" />
@@ -531,6 +531,12 @@
         </mxCell>
         <mxCell id="d3mwTh0rrNDCZrn80b3e-201" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="690" y="-680" width="1650" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="d3mwTh0rrNDCZrn80b3e-203" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="140" y="-135" width="520" height="575" as="geometry" />
+        </mxCell>
+        <mxCell id="d3mwTh0rrNDCZrn80b3e-204" value="Balancing FSM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="130" y="-130" width="130" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
