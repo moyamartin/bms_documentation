@@ -3,14 +3,15 @@
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[version=4]{mhchem}
 \usepackage{alltt}
 \usepackage{amsmath}
 \usepackage{circuitikz}
 \usepackage{epstopdf}
 \usepackage{fancyhdr}
 \usepackage{gensymb}
+\usepackage{parskip}
 \usepackage{lastpage}
-\usepackage{mhchem}
 \usepackage{multirow}
 \usepackage{pdfpages}
 \usepackage{subcaption}
@@ -35,7 +36,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 \fancyheadoffset{0.5cm}
 \fancyhead{}
 \fancyhead[L]{\includegraphics[scale=0.125]{FCEIA-logo.png}}
-\fancyhead[C]{Universidad Nacional de Rosario\\Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\Escuela de Ingeniería Electrónica}
+\fancyhead[C]{Universidad Nacional de Rosario\\Facultad de Ciencias Exactas, 
+              Ingeniería y Agrimensura\\Escuela de Ingeniería Electrónica}
 \fancyhead[R]{\includegraphics[scale=0.06]{LOGO-UNR-NEGRO.png}}
 
 \renewcommand{\figurename}{Fig.}
@@ -45,7 +47,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{minipage}\par}
 
 \setlength{\footskip}{0pt}
-\fancyfoot[L]{\textit{Anteproyecto - F. Ceccarelli, M. Moya, L. Santos}}
+\fancyfoot[L]{\textit{Proyecto Final - F. Ceccarelli, M. Moya, L. Santos}}
 \fancyfoot[C]{}
 \fancyfoot[R]{\textit{Página \thepage{} de \pageref{LastPage}}}
 
@@ -63,9 +65,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 \begin{document}
 	
 	\begin{titlepage}
-		\begin{minipage}{4cm}
+		\begin{minipage}{3.9cm}
 			\begin{flushright}
-				\includegraphics[scale=0.25]{FCEIA-logo.png}
+				\includegraphics[scale=0.2]{FCEIA-logo.png}
 			\end{flushright}
 		\end{minipage}
 		\hfill
@@ -81,8 +83,10 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 			Escuela de Ingeniería Electrónica \\[20mm]
 			\Large {\textbf{Área de Gestión de Proyectos}}\\[1.5mm]
 			\small {Ingeniería Electrónica} \\[20mm]
-			\Large {\textbf{Anteproyecto}} \\[5mm]
-			\Large{ \textbf{Estudio e Implementación de un Sistema de Administración de Baterías de Li-Ion de baja y mediana potencia}} \\[15mm]
+			\Large {\textbf{Proyecto Final}} \\[5mm]
+			\Large {\textbf{Estudio e Implementación de un Sistema de 
+                            Administración de Baterías de Li-Ion de baja y 
+                            mediana potencia}} \\[15mm]
 			
 		\end{center}
 		\begin{minipage}[t]{0.5\textwidth}
@@ -93,14 +97,15 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 				\item Lucio Santos (S-4966/2)
 			\end{itemize}
 			\vspace{10pt}
-			{\large\textbf{Directora:}}\\
-			\\
-			Dra. Monica Romero\\
-			\\
-			{\large\textbf{Asesor:}}\\
-			\\
-			Ing. Edgardo Arnejo
+			{\large\textbf{Directora:}}
+
 			
+			Dra. Monica Romero
+			
+			{\large\textbf{Asesor:}}
+
+			
+			Ing. Edgardo Arnejo
 			
 		\end{minipage}
 		\begin{minipage}[t]{0.5\textwidth}
@@ -146,8 +151,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     el mismo tiene sobre la calidad de vida de las personas, se han intentado 
     buscar distintas soluciones para apaciguar las principales causas que 
     generan un deterioro del medio ambiente, entre ellas, se encuentra el 
-    desarrollo de nuevas fuentes de energía renovables y su aprovechamiento.\\ 
-	\\
+    desarrollo de nuevas fuentes de energía renovables y su aprovechamiento.
+
     \noindent El vehículo eléctrico (VE) \emph{(fig. \ref{EV})} es considerado 
     una de las transiciones tecnológicas más importantes de los últimos años 
     debido a que no emiten dióxido de carbono ($\mathrm{CO_2}$) al medio 
@@ -179,13 +184,13 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     \subsection{Motivacion del proyecto}
 	
 	\noindent Una de las grandes problematicas de las baterias de Litio-ion 
-    reside en que se debe tener en cuenta ciertas precauciones,
-    debido a que las mismas son propensas a fallar al ser sobrecargadas, 
-    completamente descargadas u operadas fuera del
+    reside en que se debe tener en cuenta ciertas precauciones a la hora de
+    implementarlas, debido a que las mismas son propensas a fallar al ser 
+    sobrecargadas, completamente descargadas u operadas fuera del
     rango seguro de temperatura, tension o corriente, ademas, en un pack de 
     baterias conectadas en serie, se puden manifestar pequeñas diferencias de 
-    capacidades a traves de todas las celdas, debido a tolerancias de
-    produccion o diferentes condiciones de operacion, y tienden
+    capacidades a traves de todas las celdas, causado por tolerancias de
+    produccion o diferentes condiciones de operacion, que tienden
     a incrementar con cada ciclo de carga. Por ultimo, las baterias
     sufren un proceso de \emph{auto-descarga} (tipicamente entre un
     2-10\% dependiendo de la temperatura y el estado de carga de la misma). 
@@ -203,13 +208,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\item \textbf{Salud de la batería:} La degradación de la batería es 
         extremadamente sensible a la operación de la misma fuera de la zona 
         indicada. Si la temperatura de operación o la tensión máxima de carga 
-        es excedida se provoca una aceleración en la degradación de su vida 
+        es excedida esto provoca una aceleración en la degradación de su vida 
         útil.
-		\item \textbf{Carga incompleta:} Cuando el circuito de protección 
-        detecta que una de las celdas se encuentra cerca de condiciones 
-        inseguras de operación frena la carga del pack de baterías, en este 
-        caso nos encontramos con que una celda está completamente cargada y el 
-        resto no, obteniendo menos capacidad en el pack.
 		\item \textbf{Autonomía:} Consideremos que el circuito de protección 
         detecta que una de las baterías se encuentra descargada a niveles 
         cercanos de operación insegura. En este caso, la protección frena la 
@@ -219,11 +219,11 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{itemize}
     
     \noindent Lo que conlleva la implementación de un sistema de administración 
-    de baterías (\emph{BMS, por sus siglas en inglés Battery Management 
-    System}). En definitiva, un BMS es un dispositivo encargado de controlar las 
-    funciones vitales de las baterías para que operen de forma correcta y segura, 
-    con el objetivo de otorgar seguridad al usuario y prolongar la autonomía del 
-    vehículo. Las funciones más relevantes que llevan a cabo estos sistemas son:
+    de baterías. En definitiva, un BMS es un dispositivo encargado de controlar 
+    las funciones vitales de las baterías para que operen de forma correcta y 
+    segura, con el objetivo de otorgar seguridad al usuario y prolongar la 
+    autonomía del vehículo. Las funciones más relevantes que llevan a cabo estos 
+    sistemas son:
 	
 	\begin{itemize}
 		\item Protección del pack para su operación en la región segura tanto 
@@ -241,35 +241,35 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     \noindent Ademas de las problematicas mencionadas anteriormente, en el 
     mercado actual se venden una gran variedad de BMS con escaza documentacion  
     sobre el mismo, dificultando su implementacon con otros dispositivos, tales
-    como computadoras centrales de vehiculos electricos hasta UPS.\\
-    \\
+    como computadoras centrales de vehiculos electricos hasta UPS.
+
     \noindent Por su contraparte, existen solamente dos proyectos de 
     codigo/hardware abiertos relacionados al desarrollo de BMS, detallados a
     continuacion.
 
     \subsubsection{foxBMS}
 
-    \noindent foxBMS es un proyecto desarrollado por el Instituto de Sistemas 
+    \emph{foxBMS} es un proyecto desarrollado por el Instituto de Sistemas 
     Integrados y Tecnologias de Dispositivos de la sociedad \emph{Fraunhofer} o 
     tambien llamado Fraunhofer IISB (del ingles \emph{Institute for Integrated 
     Systems and Device Technology IISB}), una organizacion de investigacion 
     alemana que comprende 72 institutos esparcidos por todo el territorio
-    aleman.\\
-    \\
+    aleman.
+    
     \noindent El desarrollo de este proyecto es el resultado de 15 años de 
     investigacion en el area de energias renovables y es diseñado para 
     administrar innovadores prototipos de sistemas de bateria basados en la 
     tecnologia iones de litio, desde pocas celdas conectadas en serie hasta 
     centenares de kWh y kW, especialmente para sistemas que requieren niveles 
-    de seguridad de alta fiabilidad.\\
-    \\
+    de seguridad de alta fiabilidad.
+    
     \noindent El proyecto no tiene intenciones de ser usado de forma comercial 
     en productos ya que no cumple con estandards especificos y requieren
     determinados certificados. Solamente cumple con el proposito de ser una
     plataforma de ensayo y desarollo que provee todas las funcionalidades del
     manejo de la complejidad y tamaño de los sistemas de almacenamiento mas
-    avanzados al dia de la fecha.\\
-    \\
+    avanzados al dia de la fecha.
+    
     \noindent Si bien el mismo tiene extensa documentacion, originalmente fue
     desarrollado para manejar packs de 12 a 18 celdas en serie, lo cual excede
     el proposito de la aplicacion en cuestion por lo que no resulta viable para
@@ -282,36 +282,37 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 
     \subsubsection{openBMS}
 
-    \noindent A diferencia de \emph{foxBMS}, este proyecto fue desarrollado por 
+    A diferencia de \emph{foxBMS}, este proyecto fue desarrollado por 
     ingenieros independientes con el objetivo de diversificar los proyectos 
-    abiertos relativos al tema en cuestion.\\
-    \\
+    abiertos relativos al tema en cuestion.
+    
     \noindent Este projecto busca desarrollar un BMS capaz de manejar un pack 
     de baterias de 4 a 96 celdas en serie, realizar el balanceo de las mismas y 
-    comunicar las variables del pack a traves del protocolo CAN.\\
-    \\
+    comunicar las variables del pack a traves del protocolo CAN.
+    
     \noindent Si bien, se encuentran todos los archivos del proyecto a 
-    disponibilidad del publico, la documentacion del proyecto es muy escaza 
-    para ser implementado facilmente para un proyecto relacionado.\\
-    \\
+    disponibilidad del publico, la documentacion es muy escaza 
+    para ser implementado facilmente durante el proceso de desarrollo de un
+    vehiculo electrico.
+    
     \noindent En definitiva, la complejidad en el manejo de grandes packs de 
     baterias basadas en celdas de litio-ion y la falta de proyectos abierto 
     disponibles relacionados al tema, son la fuente de motivacion para 
-    llevar a cabo el presente trabajo.\\
-    \\
-    \noindent Finalmente, el informe se encuentra dividido en varias secciones, en la
-    seccion \ref{descripcion} se realiza una descripcion en alto nivel del
+    llevar a cabo el presente trabajo.
+    
+    \noindent Finalmente, el informe se encuentra dividido en varias secciones, 
+    en la seccion \ref{descripcion} se realiza una descripcion en alto nivel del
     proyecto, detallando los objetivos generales, las especificaciones y
     requerimientos del trabajo, a continuacion de esa seccion, se encuentra el
-    fundamento teorico (Seccion \ref{teoria}), donde se detalla el funcionamiento de una celda de
-    litio-ion, desarrollo del modelo de las celdas elegidas, los algoritmos 
-    utilizados en el proyecto en conjunto con todo su desarrollo matematico, por
-    ultimo se presentan las secciones \ref{desarrollo} y \ref{ensayos} donde se
-    describe el desarrollo tanto del firmware y hardware del dispositivo en
-    conjunto con los ensayos realizados para validar el dispositivo
-    respectivamente. Finalmente, en la seccion \ref{conclusiones }
-    se desarrollan las conclusiones y futuros proyectos a continuar sobre el 
-    eje de estudio.
+    fundamento teorico (Seccion \ref{teoria}), donde se detalla el 
+    funcionamiento de una celda de litio-ion, desarrollo del modelo de las 
+    celdas elegidas, los algoritmos utilizados en el proyecto en conjunto con 
+    todo su desarrollo matematico, por ultimo se presentan las secciones 
+    \ref{desarrollo} y \ref{ensayos} donde se describe el desarrollo tanto del 
+    firmware y hardware del dispositivo en conjunto con los ensayos realizados 
+    para validar el dispositivo respectivamente. Finalmente, en la seccion 
+    \ref{conclusiones} se desarrollan las conclusiones y futuros proyectos a 
+    continuar sobre el eje de estudio.
 	
 	\clearpage
 	
@@ -320,8 +321,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\subsection{Objetivos Generales}
 
     Como solucion a los problemas planteados en la seccion anterior, se propone
-	desarrollar un Administrador de Baterias que cumpla con los siguientes
-    requisitos:
+	desarrollar un BMS que cumpla con los siguientes requisitos:
 
     \begin{itemize}
         \item Proteger el pack de baterías evitando que el mismo salga de su 
@@ -351,7 +351,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\begin{itemize}
 		\item Sensar la tensión de las celdas individuales del pack y de la 
-        corriente que circula desde y hacia el pack de baterí asi, como tambien 
+        corriente que circula desde y hacia el pack asi, como tambien 
         la temperatura media.
 		\item Realizar el balanceo de los modulos que componen la bateria.
 		\item Proteger el mismo, desconectando el pack de baterias de la carga
@@ -571,8 +571,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     ausencia de aire, los protones en el electrolito son reducidos a hidrogeno
     en la superficie del cobre. El voltage de la celda es de aproximadamente
     0.8-1.1V, dependiendo de la exposicion al aire. Esencialmente, la pila
-    voltaica fue una bateria no recargable. \\
-    \\
+    voltaica fue una bateria no recargable. 
+    
     \noindent Despues surgieron las baterias de plomo-acido, que tiene un 
     principio de funcionamiento similar a las baterias voltaicas expuestas al 
     aire, pero con la posibilidad de ser recargadas. Esta tecnologia se basa en 
@@ -582,14 +582,14 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     en el electrodo de plomo (anodo), produciendo electrones, protones y 
     sulfato de plomo ($\mathrm{PbSO_4}$), mientras que el oxido de plomo es 
     reducido a $\mathrm{PbSO_4}$ en el catodo. En este caso, el potencial de 
-    una celda es de alrededor 2V.\\
-    \\
+    una celda es de alrededor 2V.
+    
     \noindent Otro logro en el desarrollo de baterias, ocurrio en el 1899 cuando 
     se desarrollo la primer bateria de niquel-hierro (Ni-Fe) y niquel-cadmio
     (Ni-Cd) o tambien conocidas como baterias alcalinas, que fueron
     predecedoras del hibrido niquel-metal (Ni-MH) que fue comercializada en
-    1898.\\
-    \\
+    1898.
+    
     \noindent Las baterias anteriores son basadas en soluciones acuosas, y la
     densidad energetica de las mismas no es alta, especificamente son menores a
     los 100Wh/kg. Para incrementar la densidad energetica de estas baterias, es necesario
@@ -614,20 +614,20 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     Esta proteccion al medio no es trivial, y factores, tales como 
     su caracter inerte, punto de fusion, la estabilidad del \emph{redox}, 
     solubilidad de iones de litios y sales, velocidades de transferencia 
-    ion/electron, viscosidad, entre otros deben ser considerados.\\
-    \\
+    ion/electron, viscosidad, entre otros deben ser considerados.
+    
     \noindent Las primeras baterias de litio alcanzaron el mercado en 1970 y la 
     comercialización de las mismas comenzó en Japón en el año
-    1991, cuando \emph{Sony Corporation} presento el primer modelo.\\
-    \\
+    1991, cuando \emph{Sony Corporation} presento el primer modelo.
+    
 	\noindent Las baterías de litio-ion son definidas en \cite{def_liion} como 
     almacenadores de energía que utilizan iones de Litio como portadores de 
     carga. En base a esta definición, el término \emph{batería de Litio-Ion} no 
     se corresponde con una sola composición química, como lo son las baterías 
     de ácido o niquel-cadmio, si no que expresa una familia de baterías que 
     dependen de los iones de Litio pero que pueden ser conformadas por 
-    distintos materiales.\\
-    \\
+    distintos materiales.
+    
     \noindent A diferencia de las baterías de ácido, hay dos razones principales por las 
     cuales las baterías de Litio-ion han crecido en popularidad en tan poco 
     tiempo: su excelente rendimiento y la capacidad de adaptarse al creciente 
@@ -635,9 +635,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     celulares y computadoras. A partir de la primer década del siglo XXI, se 
     comenzaron a utilizar en vehículos eléctricos, como también en grandes 
     sistemas de almacenamiento de energía, capaces de alimentar barrios 
-    residenciales enteros.\\
-    \\
-    \noindentDesde Desde el 2000 al presente, se desarrollaron varios
+    residenciales enteros.
+    
+    \noindent Desde Desde el 2000 al presente, se desarrollaron varios
     tipos de baterias basadas en el litio. Entre ellas se encuentran las
     baterias de litio-sulfuro (Li-S) y litio-aire (Li-air), cuya densidad
     energetica teorica ronda los 2600 Wh/kg y 11400 Wh/kg, repectivamente. En
@@ -705,8 +705,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     su inestabilidad térmica. Sin embargo, se desarrollaron y utilizaron 
     derivativos de esta composición, formulados como 
     $\mathrm{LiM_xNi_{1-x}O_2}$ (M: elemento metálico tales como, el Co, Mn, 
-    Al, Mg).\\
-	\\
+    Al, Mg).
+	
     Comparada con las baterias de litio-ion originales en los principios de
     1990, el rendimiento de las mismas ha sido mejorado de forma significativa
     con el paso del tiempo. Los ultimos desarrollo tienen ventajas dominantes
@@ -741,9 +741,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
             culombica se mantiene casi en un 100\% inclusive despues del primer
             ciclo.
         \item \textbf{Gran rango de temperaturas}: Las baterias de litio-ion
-            pueden operar entre -25\degreeCelsius C a +45\degreeCelsius C. Las
+            pueden operar entre -25\degree C a +45\degree C. Las
             investigaciones actuales quieren extender ese rango desde
-            -40\degreeCelsius C a +70\degreeCelsius C con mejoras en el
+            -40\degree C a +70\degree C con mejoras en el
             electrolito y los materiales de los electrodos.
 		\item \textbf{} Esto depende fuertemente del 
         alto voltaje, porque la energía específica es el producto del voltaje 
@@ -780,8 +780,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     tensión, sin embargo la combustibilidad del mismo genera problemas de 
     seguridad. Por lo tanto, es clave para el desarrollo de estas baterías 
     minimizar la causa y efecto de la combustión de la misma sin sacrificar 
-    rendimiento.\\
-	\\
+    rendimiento.
+	
 	\noindent El estado de las baterías de Litio-ion con respecto a las otras 
     tecnologías se puede observar en la Figura \ref{comparisson_batt}, donde se 
     puede observar la dominancia de las mismas sobre el resto de las 
@@ -793,7 +793,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
         \begin{center}
             \includegraphics[width=0.7\textwidth]{comparisson-liion.png}
             \caption{Grafica comparativa entre distintas
-            tecnolog\acute{i}as de bater\acute{i}as.}
+            tecnologias de baterias.}
             \label{comparisson_batt}
         \end{center}
     \end{figure}
@@ -806,8 +806,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     capacidad del pack, en serie, para incrementar el voltaje, o combinadas 
     para lograr ambos cometidos al mismo tiempo. Por ejemplo, un auto eléctrico 
     de la marca \emph{Tesla}, posee un pack de baterías de 85KWh compuesto por 
-    7104 celdas, con una arquitectura de 16 m\acute{o}dulos conectados en serie
-    , donde cada uno posee 444 celdas conectadas en paralelo.
+    7104 celdas, con una arquitectura de 16 modulos conectados en serie, 
+    donde cada uno posee 444 celdas conectadas en paralelo.
 
     \clearpage
 
@@ -900,7 +900,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\label{pack}
 	\end{figure}
 	
-    Estas celdas se caracterizan por su cátodo, cuya composición 
+    \noindent Estas celdas se caracterizan por su cátodo, cuya composición 
     química se basa en el óxido de Litio Niquel Cobalto Aluminio 
     ($\mathrm{LiNiCoAlO_2}$) y, según sus hojas de datos 
     \cite{18650_datasheet}, sus carateristicas electricas se 
@@ -925,12 +925,14 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 				\multirow{2}{*}{\textbf{Densidad Energética}} & Volumetrica: 577Wh/l               \\ \cline{2-2} 
 				& Gravimetrica: 207wh/kg             \\ \hline
 			\end{tabular}%
+            \caption{Especificaciones electricas de una celda de litio NCR18650PF}
+            \label{ncr_table}
 		\end{center}
 	\end{table}
 	
-	Por el otro lado, la hoja de datos también nos provee curvas significativas, 
-    como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv})}, 
-    la curva de descarga para distintas corrientes 
+	\noindent Por el otro lado, la hoja de datos también nos provee curvas 
+    significativas, como por ejemplo, la curva de carga 
+    \emph{(Fig. \ref{cc_cv})}, la curva de descarga para distintas corrientes 
     \emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de 
     la batería \emph{(Fig. \ref{life_cycle_18650})}.
 
@@ -966,7 +968,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\subsection{Sensado de Corriente}
 	
-	\noindentation El sensado de la corriente de carga como de descarga del 
+	El sensado de la corriente de carga como de descarga del 
     pack de batería juega un rol muy importante en el desarrollo exitoso de un 
     BMS. Es a partir de conocer con precisión la magnitud de corriente que el 
     sistema podrá mantener el pack de baterías operando dentro de la zona 
@@ -974,7 +976,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
     entre las celdas, implementar correctamente los algoritmos de ecualización 
     de carga y mantener un seguimiento preciso del estado de carga.
 	
-	Existen en el mercado una gran variedad de tecnologías y soluciones para la medición de corriente en las diferentes aplicaciones. Algunas de las tecnologías mas relevantes, disponibles en el mercado son:
+	\noindent Existen en el mercado una gran variedad de tecnologías y 
+    soluciones para la medición de corriente en las diferentes aplicaciones. 
+    Algunas de las tecnologías mas relevantes, disponibles en el mercado son:
 	\begin{itemize}
 		\item [] Resistencia Shunt
 		\item [] Transformadores de intensidad (TI)
@@ -985,24 +989,55 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\item [] Sensores Ópticos (Experimental)
 	\end{itemize}
 	
-	Dentro del amplio abanico de métodos y tecnologías utilizadas para la medición de corrientes los dos más elegidos e implementados en Sistemas de Administración de Baterías BMS son las mediciones a partir de resistencias Shunt y mediciones a partir de sensores de efecto hall.
+	\noindent Dentro del amplio abanico de métodos y tecnologías utilizadas 
+    para la medición de corrientes los dos más elegidos e implementados en 
+    BMS son las mediciones a partir de resistencias Shunt y a partir de sensores 
+    de efecto hall.
 	
 	\subsubsection{Resistencia Shunt}
-	La tecnología Shunt se vale del Sensado de la caída del voltaje sobre una resistencia de unos pocos mili ohmios en serie con el paso de la corriente incógnita para la medición indirecta de la corriente.
+
+	\noindent La tecnología Shunt se vale del Sensado de la caída del voltaje 
+    sobre una resistencia de unos pocos mili ohmios en serie con el paso de la 
+    corriente incógnita para la medición indirecta de la corriente.
 	
-	El método de sensado por resistencia tipo shunt presenta una de las mejores relaciones costos-efectividad, presentando un empaquetado compacto y aplicable en mediciones de corrientes tanto continua como alterna encontrando su frecuencia de corte por encima de las decenas de Mhz.
+	\noindent El método de sensado por resistencia tipo shunt presenta una de 
+    las mejores relaciones costos-efectividad, presentando un empaquetado 
+    compacto y aplicable en mediciones de corrientes tanto continua como alterna 
+    encontrando su frecuencia de corte por encima de las decenas de Mhz.
 	
-	Las mediciones por resistencia shunt carecen naturalmente de aislación galvánica debiendo ser resuelta a partir del circuito de implementación. Generalmente, los shunts presentan bajo coeficiente de temperatura de resistencia, TCR por sus siglas en ingles. Característica fundamental en las implementaciones de BMS en sistemas de vehículos eléctricos que permite aumentar el rango de temperatura de operación del sistema.
+	\noindent Las mediciones por resistencia shunt carecen naturalmente de 
+    aislación galvánica debiendo ser resuelta a partir del circuito de 
+    implementación. Generalmente, los shunts presentan bajo coeficiente de 
+    temperatura de resistencia, TCR por sus siglas en ingles. 
+    Característica fundamental en las implementaciones de BMS en sistemas de 
+    vehículos eléctricos que permite aumentar el rango de temperatura de 
+    operación del sistema.
 	
-	Aunque los shunts de corrientes operen bajo el principio de caida de voltaje ohmico, en la práctica las resistencias presentan una inductancia intrínseca que comprometen la precisión y el ancho de banda máximo de las mediciones.
+	\noindent Aunque los shunts de corrientes operen bajo el principio de caida 
+    de voltaje ohmico, en la práctica las resistencias presentan una inductancia 
+    intrínseca que comprometen la precisión y el ancho de banda máximo de las 
+    mediciones.
 	
-	\subsubsection{Censor de efecto Hall}
-	El sensor de efecto Hall es un sensor de efecto magnético basado en el fenómeno físico homónimo que le da su nombre. 
-	El sensor de efecto Hall es un dispositivo aislado, no intrusivo que puede ser utilizado para medir corriente tanto continua como alterna de hasta unos cientos de kHz. El sensor Hall puede ser fabricado utilizando tecnología CMOS convencional pero a un costo mayor que las implementaciones con transformadores de corriente o bobinas de Rogowski.
+	\subsubsection{Sensor de efecto Hall}
+
+	El sensor de efecto Hall es un sensor de efecto magnético basado en 
+    el fenómeno físico homónimo que le da su nombre. Es un dispositivo aislado, 
+    no intrusivo que puede ser utilizado para medir corriente tanto continua 
+    como alterna de hasta unos cientos de kHz. El sensor Hall puede ser fabricado 
+    utilizando tecnología CMOS convencional pero a un costo mayor que las 
+    implementaciones con transformadores de corriente o bobinas de Rogowski.
 	
-	El traductor de efecto Hall encuentra normalmente su límite de medición en los picos de corriente debido al fenómeno de saturación magnética del núcleo y encuentra su límite de ancho de banda en las frecuencias menores al MHz. A su vez, esta tecnología es sumamente sensible a la influencia de los campos magnéticos externos. Frente a estas limitaciones es común que los sensores de efecto Hall se implementen mayoritariamente con bobinas cerradas para lograr una mejor precisión y un rango mayor de operación dinámico.
+	\noindent El traductor de efecto Hall encuentra normalmente su límite de 
+    medición en los picos de corriente debido al fenómeno de saturación 
+    magnética del núcleo y encuentra su límite de ancho de banda en las 
+    frecuencias menores al MHz. A su vez, esta tecnología es sumamente sensible 
+    a la influencia de los campos magnéticos externos. Frente a estas 
+    limitaciones es común que los sensores de efecto Hall se implementen 
+    mayoritariamente con bobinas cerradas para lograr una mejor precisión y un 
+    rango mayor de operación dinámico.
 	
-	El voltaje de offset presente en la medición del dispositivo es poco estable y varia fuertemente frente a las variaciones de temperatura de operación.
+	El voltaje de offset presente en la medición del dispositivo es poco estable 
+    y varia fuertemente frente a las variaciones de temperatura de operación.
 	
 	\begin{figure}[h!]
 		\centering
@@ -1017,27 +1052,52 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\caption{Diagramas - Métodos de sensado de corriente}
 		\label{fig:SenseMetods}
 	\end{figure}
-	
+    
+    \clearpage
+
 	\subsubsection{Tecnología Seleccionada}
 	
-	Frente a los requerimientos y la naturaleza de un BMS hemos seleccionado la tecnología de sensado de corriente por resistencia Shunt. Actualmente existen en el mercado un sin número de soluciones de amplificadores y moduladores aislados que permiten alcanzar precisas mediciones de corrientes con este método logrando minimizar las injerencias del entorno siempre y cuando se seleccione una resistencia Shunt adecuada.
+	Frente a los requerimientos y la naturaleza de un BMS hemos seleccionado 
+    la tecnología de sensado de corriente por resistencia Shunt. 
+    Actualmente existen en el mercado un sin número de soluciones de 
+    amplificadores y moduladores aislados que permiten alcanzar precisas 
+    mediciones de corrientes con este método logrando minimizar las inherencias 
+    del entorno siempre y cuando se seleccione una resistencia Shunt adecuada.
 	
-	Las ventajas de la medición a partir del método de resistencia shunt son:
+	\noindent Las ventajas de la medición a partir del método de resistencia 
+    shunt son:
 	
 	\begin{itemize}
-		\item Bajo offset y baja susceptibilidad frente a influencias de campos magnéticos externos y variaciones de temperatura.
-		\item Alta linealidad de la solución en todo el rango de voltaje en comparación a la solución basada en tecnología Hall, sobre todo en la zona cercana a cero y la de saturación del nucleo. 
-		\item Mejor resolución para mediciones de corriente continua frente a las soluciones basadas en mediciones de efecto Hall. Particularmente debido a la baja sensitividad que presenta frente a las influencias de los campos magnéticos externos.
-		\item Pueden soportar operaciones en ambientes de altas temperaturas manteniendo la linealidad debido a su bajo TCR. Los sensores de efecto Hall encuentran su rango de operación fuertemente acotado.
-		\item Facilidad que presenta la tecnología para la integración en circuitos impresos priorizando el tamaño reducido.
+		\item Bajo offset y baja susceptibilidad frente a influencias de campos 
+            magnéticos externos y variaciones de temperatura.
+		\item Alta linealidad de la solución en todo el rango de voltaje en 
+            comparación a la solución basada en tecnología Hall, sobre todo en 
+            la zona cercana a cero y la de saturación del nucleo. 
+		\item Mejor resolución para mediciones de corriente continua frente a 
+            las soluciones basadas en mediciones de efecto Hall. 
+            Particularmente debido a la baja sensitividad que presenta frente a 
+            las influencias de los campos magnéticos externos.
+		\item Pueden soportar operaciones en ambientes de altas temperaturas 
+            manteniendo la linealidad debido a su bajo TCR. 
+            Los sensores de efecto Hall encuentran su rango de operación 
+            fuertemente acotado.
+		\item Facilidad que presenta la tecnología para la integración en 
+            circuitos impresos priorizando el tamaño reducido.
 		\item Disponibilidad en distribuidores nacionales
 	\end{itemize}
 	
-	El integrado propuesto para el sensado de corriente es el INA226 de Texas Instruments. El INA226 es un conversor analógico digital de 16 bits (ADC) que implementa una interfaz compatible I2C para la comunicación con el módulo del control. El dispositivo monitorea simultaneamente la tensión que cae en una resistencia shunt y la del bus de alimentación. Permite múltiples calibraciones y seteos, entre ellos variar los tiempos de conversión y definir conversiones múltiples que al implementar internamente un multiplicador y divisor permite obtener lecturas directas de tensión y potencia en amperes y en Vatios.
+	\noindent El integrado propuesto para el sensado de corriente es el INA226 
+    de Texas Instruments. El INA226 es un conversor analógico digital de 16 bits 
+    (ADC) que implementa una interfaz compatible I2C para la comunicación con el 
+    módulo del control. El dispositivo monitorea simultaneamente la tensión que 
+    cae en una resistencia shunt y la del bus de alimentación. Permite múltiples 
+    calibraciones y seteos, entre ellos variar los tiempos de conversión y 
+    definir conversiones múltiples que al implementar internamente un 
+    multiplicador y divisor permite obtener lecturas directas de tensión y 
+    potencia en amperes y en Vatios.
 	
-	\clearpage
-	
-	Observamos en la figura \ref{fig:ina226-commonimplementation} su implementación modelo. 
+	Observamos en la Figura \ref{fig:ina226-commonimplementation} su 
+    implementación modelo. 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1047,43 +1107,94 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}	
 	\end{figure}
 	
-	
-	
+    \clearpage	
 	
 	\subsection{Algoritmos de Estimación del Estado de Carga}
-	La estimación del estado de carga es una de las tareas fundamentales dentro del sistema de Administración de baterías ya que en base a esta información se toman importantes decisiones, de ella dependen la optima ecualización de carga de las celdas, no exceder los límites de Zona de Operación segura, realizar acciones preventivas en caso del agotamiento de carga como ser iniciar un apagado de seguridad y por último reportar al usuario la carga restante en el pack.\\
-	
-	A priori hay 2 métodos básicos de estimación de carga, el primero aprovecha la relación entre el SOC y el OCV este método es económico pero tiene 2 principales desventajas, la curva OCV vs SOC tiene una región en la cual tiene valores de pendiente despreciable lo que genera que entre el 80\% de carga y el 35\% aproximadamente, haya solo unas pocas decenas de milivoltios de diferencia. Debido a esto un error de pocos milivolts genera grandes diferencias en la estimación de la carga real. Por otro lado la estimación mediante voltaje tiene problemas a la hora de determinar el voltaje online, es decir cuando la batería esta conectada a una carga las corrientes que circulan por el pack generan caidas de tensión debido a las impedancias internas del pack, si estas no son tenidas en cuenta pueden llevar a que el ecualizador del pack desbalancee aún más el pack.\\
-	
-	El segundo método es el \textbf{\emph{Conteo de carga}} o \textbf{\emph{Coulomb Counting}}, el mismo consiste en integrar la corriente a lo largo del tiempo obteniendo así la carga total en el pack o SOC mediante la ecuación \ref{SOC_Coulomb_C}, donde \emph{i} corresponde a la corriente de la batería y $C_\eta$ la capacidad nominal de la misma.\\
+
+	La estimación del estado de carga es una de las tareas fundamentales dentro 
+    del sistema de Administración de baterías ya que en base a esta información 
+    se toman importantes decisiones, de ella dependen la optima ecualización de 
+    carga de las celdas, no exceder los límites de Zona de Operación segura, 
+    realizar acciones preventivas en caso del agotamiento de carga como ser 
+    iniciar un apagado de seguridad y por último reportar al usuario la carga 
+    restante en el pack.
+
+	\noindent A priori hay 2 métodos básicos de estimación de carga, 
+    el primero aprovecha la relación entre el SoC y el voltaje de circuito
+    abierto u OCV (del ingles \emph{Open Circuit Voltage}) este método es 
+    económico pero tiene 2 principales desventajas, la curva OCV vs SoC tiene 
+    una región en la cual tiene valores de pendiente despreciable lo que genera 
+    que entre el 80\% de carga y el 35\% aproximadamente, haya solo unas pocas 
+    decenas de milivoltios de diferencia. Debido a esto un error de pocos 
+    milivolts genera grandes diferencias en la estimación de la carga real. 
+    Por otro lado la estimación mediante voltaje tiene problemas a la hora de 
+    determinar el voltaje online, es decir cuando la batería esta conectada a 
+    una carga las corrientes que circulan por el pack generan caidas de tensión 
+    debido a las impedancias internas del pack, si estas no son tenidas en 
+    cuenta pueden llevar a que el ecualizador del pack desbalancee aún más el 
+    pack.
+
+	\noindent El segundo método es el \textbf{\emph{Conteo de carga}} o 
+    \textbf{\emph{Coulomb Counting}}, el mismo consiste en integrar la corriente 
+    a lo largo del tiempo obteniendo así la carga total en el pack o SoC 
+    mediante la ecuación \ref{SoC_Coulomb_C}, donde \emph{i} corresponde a la 
+    corriente de la batería y $C_\eta$ la capacidad nominal de la misma.
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\begin{equation}
-				SOC=1-\frac{\int{i.dt}}{C_\eta}\label{SOC_Coulomb_C}
+				SoC=1-\frac{\int{i.dt}}{C_\eta}\label{SoC_Coulomb_C}
 			\end{equation}	
 		\end{center}
 	\end{figure}
 	
-	Este método funciona muy bien en la zona donde el primer método falla, sin embargo como todo proceso de integración, genera errores iterativos en cada ciclo de cálculo generando que a lo largo del tiempo el error absoluto de este método tienda a crecer.Además de la necesidad de establecer un valor inicial de carga, estos puntos de referencia pueden ser la carga total de la batería o la máxima DOD de manera que exigen a la batería llegar a puntos límites de carga disminuyendo su vida útil.\\
+	\noindent Este método funciona muy bien en la zona donde el primer método 
+    falla, sin embargo como todo proceso de integración, genera errores 
+    iterativos en cada ciclo de cálculo generando que a lo largo del tiempo el 
+    error absoluto de este método tienda a crecer.Además de la necesidad de 
+    establecer un valor inicial de carga, estos puntos de referencia pueden ser 
+    la carga total de la batería o la máxima DOD de manera que exigen a la 
+    batería llegar a puntos límites de carga disminuyendo su vida útil.
 	
-	Debido a que nos interesa saber el SOC cuando la batería esta entregando energía o siendo cargada se deben tener en cuenta los principales factores que afectan a la estimación de carga on-line. Un modelo utilizado para relacionar la tensión entre los bornes de la batería y el OCV utilizado con gran frecuencia es el modelo eléctrico bosquejado en la \emph{Fig. \ref{Electric_model}}, este modelo es coherente con el hecho de que la tensión en los bornes de la batería en reposo es igual al OCV. Pero al ser circulada por una corriente se deben tener en cuenta los fenómenos dinámicos  y la perdida por resistencias internas así como la corriente de pérdida (auto descarga) de la batería.
+	\noindent Debido a que nos interesa saber el SoC cuando la batería esta 
+    entregando energía o siendo cargada se deben tener en cuenta los principales 
+    factores que afectan a la estimación de carga on-line. Un modelo utilizado 
+    para relacionar la tensión entre los bornes de la batería y el OCV utilizado 
+    con gran frecuencia es el modelo eléctrico bosquejado en la 
+    \emph{Fig. \ref{Electric_model}}, este modelo es coherente con el hecho de 
+    que la tensión en los bornes de la batería en reposo es igual al OCV. 
+    Pero al ser circulada por una corriente se deben tener en cuenta los 
+    fenómenos dinámicos y la perdida por resistencias internas así como la 
+    corriente de pérdida (auto descarga) de la batería.
 	
-	\begin{figure}[h!]
+	\begin{figure}[ht]
 		\begin{center}
 			\includegraphics[width=0.7\textwidth]{electric_battery_model_2_order.png}
 			\caption{Modelo Electrico de segundo orden con corriente de perdida.}
 			\label{Electric_model}
 		\end{center}
 	\end{figure}
-	Dada la naturaleza química de la batería, si se entra en detalle se puede observar que los componentes que modelan la batería tienen un comportamiento no lineal dependiendo del SOC y más aún se ven afectados por el efecto de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no estacionario.
+
+	\noindent Dada la naturaleza química de la batería, si se entra en detalle 
+    se puede observar que los componentes que modelan la batería tienen un 
+    comportamiento no lineal dependiendo del SoC y más aún se ven afectados por 
+    el efecto de envejecimiento de las celdas, es decir, estamos es un sistema 
+    no lineal no estacionario.
+
 	\clearpage
-	Como soluciones parciales fueron desarrollados varios métodos los cuales son una solución de compromiso entre aproximaciones lo suficientemente conservadoras para obtener el menor error posible y un alto costo computacional cuyas exigencias de hardware elevan el costo y el espacio necesario para su implementación, clasificándose según \cite{Hannan2017} los siguientes métodos como convencionales :\\
+
+	\noindent Como soluciones parciales fueron desarrollados varios métodos los 
+    cuales son una solución de compromiso entre aproximaciones lo suficientemente 
+    conservadoras para obtener el menor error posible y un alto costo 
+    computacional cuyas exigencias de hardware elevan el costo y el espacio 
+    necesario para su implementación, clasificándose según \cite{Hannan2017} 
+    los siguientes métodos como convencionales:
 	% \cite{Hannan2017}
 	%A review of lithium-ion battery state of charge estimation and management
 	%system in electric vehicle applications: Challenges and recommendations
 	%M.A. Hannan,⁎, M.S.H. Lipu, A. Hussain, A. Mohamed 
-	%el archivo se llama Lithium_SOC en la carpeta de papers
+	%el archivo se llama Lithium_SoC en la carpeta de papers
+
 	\begin{itemize}
 		\item Fuerza Electro-Motriz
 		\item Estimación basada en modelos (Térmico y electroquímicos)
@@ -1091,11 +1202,28 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\item Espectroscopia Dieléctrica
 	\end{itemize}
 	
-	Un gran avance en la estimación del estado de carga fue la aplicación de los Filtro de Kalman para disminuir el error. Esta es una herramienta estadística de análisis en espacio de estado que mediante las matrices de Varianza y Covarianza estiman un vector de soluciones con mayor precisión. 
-	Los Filtros de Kalman ven afectado su rendimiento a la hora de trabajar con sistemas fuertemente No Lineales, debido a esto surgen las variantes EKF, UKF y SPKF provenientes del inglés, Extended, Unscented y Sigma Point, respectivamente.\\
+	\noindent Un gran avance en la estimación del estado de carga fue la 
+    aplicación del filtro de Kalman para disminuir el error. 
+    Esta es una herramienta estadística de análisis en espacio de estado que 
+    mediante las matrices de varianza y covarianza estiman un vector de 
+    soluciones con mayor precisión.
+	Los Filtros de Kalman ven afectado su rendimiento a la hora de trabajar con 
+    sistemas fuertemente no lineales, debido a esto surgen las variantes del 
+    filtro de kalman extendido o EKF (del ingles \emph{Extended Kalman Filter}), 
+    tipo \emph{unscented} o UKF (del ingles \emph{Unscented Kalman Filter}) y 
+    tipo \emph{Sigma-point} o SPKF (del ingles \emph{Sigma-Point Kalman Filter}) 
+    .\\
 	
 	\subsubsection{Método de estimación por FEM}
-	Teniendo en cuenta la limitación del método de OCV para la estimación mientras la batería esta siendo cargada o descargada, surge como solución a esta problemática la estimación del OCV mediante el estudio de la respuesta temporal de la tensión entre los terminales de la batería dado su comportamiento temporal regido por una ecuación diferencial de primer orden como se muestra en \emph{\ref{1er_orden_eq}}, siendo k una constante, cuya solución es de la forma \emph{\ref{1er_orden_sol}}, lo cual se corresponde con la gráfica de la \emph{Fig.\ref{EMF_Method}}.
+
+	Teniendo en cuenta la limitación del método de OCV para la estimación 
+    mientras la batería esta siendo cargada o descargada, surge como solución 
+    a esta problemática la estimación del OCV mediante el estudio de la 
+    respuesta temporal de la tensión entre los terminales de la batería dado 
+    su comportamiento temporal regido por una ecuación diferencial de primer 
+    orden como se muestra en \emph{\ref{1er_orden_eq}}, siendo k una constante, 
+    cuya solución es de la forma \emph{\ref{1er_orden_sol}}, lo cual se 
+    corresponde con la gráfica de la \emph{Fig.\ref{EMF_Method}}.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1126,21 +1254,32 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\clearpage
 	
-	\subsubsection{Estimación basada en modelos (Mecánicos, Térmicos y electroquímicos)}
-	Este método requiere un profundo conocimiento de los fenomenos físicos y electroquímicos dentro de las baterías, como por ejemplo la concentración de electrolito, concentración de material, densidad microscópica de corriente. Esto constituye su principal desventaja ya que es complejo y la obtención de parámetros no es trivial para todo tipo de baterías.\\
+	\subsubsection{Estimación basada en modelos matematicos}
+
+	Este método requiere un profundo conocimiento de los fenomenos físicos y 
+    electroquímicos dentro de las baterías, como por ejemplo la concentración 
+    de electrolito, concentración de material, densidad microscópica de corriente. 
+    Esto constituye su principal desventaja ya que es complejo y la obtención 
+    de parámetros no es trivial para todo tipo de baterías.
 	
-	Las celdas de Li-Ion se componen de 5 regiones: un electrodo negativo colector de corriente, un electrodo compuesto poroso de inserción negativo, un separador poroso, un electrodo compuesto poroso de inserción positivo y un electrodo positivo colector de corriente. Esto en conjunto con las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics} se detalla en \cite{Li2016}.
+	Las celdas de Li-Ion se componen de 5 regiones: un electrodo negativo 
+    colector de corriente, un electrodo compuesto poroso de inserción negativo, 
+    un separador poroso, un electrodo compuesto poroso de inserción positivo y 
+    un electrodo positivo colector de corriente. Esto en conjunto con las 
+    ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics} se detalla 
+    en \cite{Li2016}.
 	
 	%\cite{Li2016}
 	%Li-ion dynamics and state of charge estimation
 	%Mingheng Li
 	%Department of Chemical and Materials Engineering, California State Polytechnic University, Pomona, CA 91768, United States
-	%el pdf se llama Li2016.pdf en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
+	%el pdf se llama Li2016.pdf en la carpeta xxxx\bms\docs\Bibliography\Papers\SoC Papers
 	
-	Tomando como modelo un modelo unidimensional a lo largo de la sección de la batería se aplican las siguentes ecuaciónes:\\
+	\noindent Tomando como modelo un modelo unidimensional a lo largo de la 
+    sección de la batería se aplican las siguentes ecuaciónes:
 	
-	
-	Conservación de carga en un sólido homogéneo:\\
+	\noindent Conservación de carga en un sólido homogéneo:
+
 	\begin{figure}[h!]
 		\begin{center}
 			\begin{equation}
@@ -1150,7 +1289,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Conservación de masa en un sólido homogéneo:\\
+	\noindent Conservación de masa en un sólido homogéneo:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1161,7 +1300,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Conservación de masa en un electrolito homogéneo:\\
+	\noindent Conservación de masa en un electrolito homogéneo:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1172,7 +1311,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Conservación de carga en un electrolito homogéneo:\\
+	\noindent Conservación de carga en un electrolito homogéneo:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1183,7 +1322,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Ecuación de Butler-Volmer de movimiento de cargas en una unión entre un sólido conductor y una solución de Iones de Litio con el efecto de doble capa eléctrica. \\
+	\noindent Ecuación de Butler-Volmer de movimiento de cargas en una unión 
+    entre un sólido conductor y una solución de Iones de Litio con el efecto de 
+    doble capa eléctrica.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1194,16 +1335,33 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics}, $\sigma$  conductividad de la fase sólida, $\upvarphi_s$ el potencial eléctrico de la fase sólida, $\upvarphi_e$ el potencial eléctrico del electrolito, $j^{Li}$ la corriente producida por el consumo de Li, t es el tiempo, c concentración de Iones de Litio, D el coeficiente de difusión, F la constante de Faraday, $\varepsilon$ es la fracción por volumen,
-	$t_+^0$ el número de transferencia, $\upkappa$ la conductividad del electrolito,
-	$\upkappa_D$ la conductividad de la difusión, $i_0$ la densidad de corriente de intercambio, $\eta$ la sobretensión, $a$ el area específica and $C_{dl}$ la capacidad de la doble capa. El subíndice $s$ corresponde a la fase sólida y $e$ corresponde con el electrolito. También teniendo en cuenta la relación de Bruggerman.
-	
-	
-	
-	
+	En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics}, 
+    $\mathrm{\sigma}$  conductividad de la fase sólida, $\mathrm{\upvarphi_s}$ 
+    el potencial eléctrico de la fase sólida, $\mathrm{\upvarphi_e}$ el 
+    potencial eléctrico del electrolito, $\mathrm{j^{Li}}$ la corriente 
+    producida por el consumo de Li, t es el tiempo, c concentración de Iones de 
+    Litio, D el coeficiente de difusión, F la constante de Faraday,
+    $\mathrm{\varepsilon}$ es la fracción por volumen,
+    $\mathrm{t_+^0}$ el número de transferencia, $\mathrm{\upkappa}$ la 
+    conductividad del electrolito $\mathrm{\upkappa_D}$ la conductividad de la 
+    difusión, $\mathrm{i_0}$ la densidad de corriente de intercambio, 
+    $\mathrm{\eta}$ la sobretensión, a el area específica y $\mathrm{C_{dl}}$ 
+    la capacidad de la doble capa. El subíndice s corresponde a la fase sólida y 
+    e corresponde con el electrolito. 
+    También teniendo en cuenta la relación de Bruggerman.
+    % incompleto? 
+
+    \clearpage
+
 	\subsubsection{Estimación por resistencia interna}
 	
-	Este método utiliza el voltage y la corriente de la batería en conjunto para determinar la resistencia interna esta. Durante breves instantes ( menores a 10 ms) se excita la batería con pulso de corriente , asumiendo que este período es lo suficientemente acotado para no que la variación de tensión sea atribuida a la resistencia interna y no a la carga/descarga de la batería la resistencia se obtendría según la formula :
+	Este método utiliza el voltage y la corriente de la batería en 
+    conjunto para determinar la resistencia interna. La metodologia de este
+    metodo consiste en excitar a la bateria con pulsos de corrientes lo
+    suficientemente breves como para que la variacion de tension sea
+    completamente atribuida a la resistencia interna y no al efecto quimico de
+    carga/descarga de ella, como resultado, la resistencia interna se puede
+    calcular aplicando la ley de Ohm.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1214,28 +1372,49 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Teniendo en cuenta que si el período del pulso es mayor la medición acumula un error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que este método tiene una gran precisión únicamente en valores de SOC cercanos a la descarga,debido a que varia mucho en este rango, y al bajo valor de las resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig. \ref{Internal_resistance}}, extraida de \cite{hentunen2014}, este método no termina siendo atractivo debido a las dificultades para obtener valores precisos de SOC, generando que sea poco utilizado de manera aislada.
+	\noindent Teniendo en cuenta que si el período del pulso es mayor, 
+    la medición acumula un error considerablemente mayor respecto a pulsos breves 
+    y teniendo en cuenta que este método tiene una gran precisión únicamente en 
+    valores de SoC cercanos a la descarga, debido a que varia mucho en este rango, 
+    y al bajo valor de las resistencias (del orden de los miliohmios) como se 
+    puede observar en la Figura \ref{Internal_resistance}, 
+    extraida de \cite{hentunen2014}, este método no resulta atractivo debido a 
+    las dificultades para obtener valores precisos de SoC, logrando que sea
+    dificil de implementar en BMS destinados a operaciones criticas.
 	
 	%\cite{hentunen2014}
 	%Time-Domain Parameter Extraction Method for
 	%Thevenin-Equivalent Circuit Battery Models
 	%Ari Hentunen, Member, IEEE, Teemu %Lehmuspelto, Member, IEEE, and Jussi Suomela
-	%el pdf se llama hentunen2014 en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
+	%el pdf se llama hentunen2014 en la carpeta xxxx\bms\docs\Bibliography\Papers\SoC Papers
+
 	\begin{figure}[h!]
 		\begin{center}
-			\includegraphics[width=0.7\textwidth]{Ro_vs_SOC.png}
-			\caption{Resistencia en Corriente continua de una batería de Li-Ion vs. SOC obtenida por HPPC}
+			\includegraphics[width=0.7\textwidth]{Ro_vs_SoC.png}
+			\caption{Resistencia en Corriente continua de una batería de Li-Ion 
+                     vs. SoC obtenida por HPPC}
 			\label{Internal_resistance}
 		\end{center}
 	\end{figure}
+
 	\clearpage
+
 	\subsubsection{Espectroscopía Dieléctrica (EIS)}
-	Este estudio consiste en llevar a la celda a un estado de carga conocido, y luego de un período de relajación se excita los terminales con una onda senoidal de tensión o corriente y se mide la respuesta de corriente o tensión respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas por Mingheng Li basadas en un modeló físico basado en principios de conservación de masa y carga en una interfaz entre un sólido y un electrolito detallado en \cite{Li2016}, para distintos estados de carga y en un amplio rango de frecuencias. 
+
+	Este estudio consiste en llevar a la celda a un estado de carga conocido, 
+    y luego de un período de relajación se excita los terminales con una onda 
+    senoidal de tensión o corriente y se mide la respuesta de la misma. 
+    En la Figura \ref{EIS_Nyquist} se observan las curvas obtenidas por 
+    Mingheng Li (referenciar!!) basadas en un modelo físico basado en los 
+    principios de conservación de masa y carga en una interfaz entre un sólido 
+    y un electrolito detallado en \cite{Li2016}, para distintos estados de carga 
+    y en un amplio rango de frecuencias. 
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=0.7\textwidth]{EIS_Nyquist.png}
-			\caption{Diagrama de Nyquist - Espectroscopía Dieléctrica (EIS) de una batería de Li-Ion obtenida por barrido frecuencial.}
+			\caption{Diagrama de Nyquist - Espectroscopía Dieléctrica (EIS) de 
+                     una batería de Li-Ion obtenida por barrido frecuencial.}
 			\label{EIS_Nyquist}
 		\end{center}
 	\end{figure}
@@ -1243,9 +1422,16 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\clearpage
 	
 	\subsection{Filtros de Kalman}
-	Este tipo de filtros toma importancia en sistemas de naturaleza estocástica. Cuya dinámica es afectada por ruido cuya distribución de probabilidad es Gaussiana o Normal. Este es un algoritmo recursivo que corrige las estimaciones mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y su estimación obtenida por modelos matemáticos generados en base al conocimiento del sistema.
+
+	Este tipo de filtros toma importancia en sistemas de naturaleza estocástica. 
+    Cuya dinámica es afectada por ruido cuya distribución de probabilidad es 
+    de caracter \emph{Gaussiano} o normal. Este es un algoritmo recursivo que 
+    corrige las estimaciones mediante la probabilidad conjunta de una o varias 
+    mediciones de un fenómeno y su estimación obtenida por modelos matemáticos 
+    generados en base al conocimiento del sistema.
 	
-	Dado un sistema lineal cuya dinámica es descripta por las siguientes ecuaciones:\\
+	\noindent Dado un sistema lineal cuya dinámica es descripta por las 
+    siguientes ecuaciones:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1256,8 +1442,11 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Donde $x_{k}$ es el vector de estados en el instante de tiempo k, A es la matriz de transición de estados y $w_{k}$ ruido aditivo gaussiano asociado al modelo del proceso con matriz de varianza Q. 
-	Además podemos expresar el vector de observación o medición $z_{k} $de los estados $x_{k}$ como:
+    \noindent Donde $\mathrm{x_{k}}$ es el vector de estados en el instante de 
+    tiempo k, A es la matriz de transición de estados y $\mathrm{w_{k}}$ ruido 
+    aditivo gaussiano asociado al modelo del proceso con matriz de varianza Q. 
+    Además podemos expresar el vector de observación o medición $\mathrm{z_{k}}$ 
+    de los estados $\mathrm{x_{k}}$ como:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1268,13 +1457,15 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
+	\noindent Donde H es la matriz de conexión entre los estados y las 
+    observaciones sin ruido, es decir que mediciones se están tomando y que 
+    estado representan. Por el otro lado $\mathrm{v_{k}}$ es el ruido aditivo 
+    gaussiano asociado a la medición con matriz de varianza R.
 	
-	Donde H es la matriz de conexión entre los estados y las observaciones sin ruido, es decir que mediciones se están tomando y que estado representan. Por otro lado $v_{k}$ es el ruido aditivo gaussiano asociado a la medición con matriz de varianza R.\\
+	\noindent Definiendo la función de costo al error cuadrático medio en la 
+    estimación de $\mathrm{x_k}$ (falta definicion aca)
 	
-	Definiendo la función de costo al error cuadrático medio en la estimación de $x_k$ \\
-	
-	
-	Definiendo al error como: 
+	\noindent Definiendo al error como: 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1285,10 +1476,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	
-	
-	
-	De manera que podemos expresar la Matriz de covarianza del error en el instante k como:
+	\noindent De manera que podemos expresar la matriz de covarianza del error 
+    en el instante k como:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1299,14 +1488,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	
-	
-	
-	
-	
-	\clearpage
-	
-	Podemos expresar $\hat{x}_k$ como: 
+    \noindent Podemos expresar $\mathrm{\hat{x}_k}$ como: 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1317,9 +1499,15 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Donde $K_k$ es la ganancia de Kalman la cual pondera según el criterio de minimización del error cuadrático medio si $\hat{x}_k$ es próxima a $\hat{x}^\prime_k$ o al vector $z_k$.
+    \noindent Donde $\mathrm{K_k}$ es la ganancia de Kalman la cual pondera 
+    según el criterio de minimización del error cuadrático medio si
+    $\mathrm{\hat{x}_k}$ es próxima a $\mathrm{\hat{x}^\prime_k}$ o al vector 
+    $\mathrm{z_k}$.
 	
-	Si reemplazamos $z_k$ en la ecuación \ref{KF_equation04} por la expresión \ref{KF_equation02} se obtiene la expresión del error de la estimación a priori $\hat{x}^\prime_k$ detallada a continuación:
+    \noindent Si reemplazamos $\noindent{z_k}$ en la ecuación 
+    \ref{KF_equation04} por la expresión \ref{KF_equation02} se obtiene la 
+    expresión del error de la estimación a priori $\mathrm{\hat{x}^\prime_k}$ 
+    detallada a continuación:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1329,8 +1517,10 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 			\end{equation}	
 		\end{center}
 	\end{figure}
+
+    \clearpage
 	
-	Reacomodando los terminos, 
+	\noindent Reacomodando los terminos, 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1341,7 +1531,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Multiplicando por (-1) y luego sumando en ambos miembros de la ecuación \ref{KF_equation06} el termino $x_k$ 
+	\noindent Multiplicando por (-1) y luego sumando en ambos miembros de la 
+    ecuación \ref{KF_equation06} el termino $\noindent{x_k}$ 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1362,7 +1553,10 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{figure}
 	
 	
-	Reemplazando luego en la ecuación \ref{KF_equation03} la expresión $x_k - \hat{x}_k$  por el de la ecuación \ref{KF_equation09} obtenemos la expresión de $P_k$ como función del error de la estimación a priori:
+	\noindent Reemplazando luego en la ecuación \ref{KF_equation03} la expresión 
+    $\noindent{x_k - \hat{x}_k}$ por el de la ecuación \ref{KF_equation09} 
+    obtenemos la expresión de $\mathrm{P_k}$ como función del error de la 
+    estimación a priori:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1373,7 +1567,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Aplicando propiedades de la transpuesta de una matriz e ignorando los terminos relativos a la correlación entre el ruido de la medición y el error de la estimación a priori:
+	\noindent Aplicando propiedades de la transpuesta de una matriz e ignorando 
+    los terminos relativos a la correlación entre el ruido de la medición y el 
+    error de la estimación a priori:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1384,8 +1580,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	
-	Teniendo en cuenta que la esperanza de una matriz que no es variable aleatoria es la misma matriz:
+	\noindent Teniendo en cuenta que la esperanza de una matriz, que no es 
+    variable aleatoria, es la misma matriz:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1396,7 +1592,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Obteniendose así la expresión de \textbf{la ecuación de actualización de la matriz de covarianza}:
+	\noindent Obteniendose así la expresión de la ecuación de actualización de 
+    la matriz de covarianza:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1409,7 +1606,12 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\clearpage
 	
-	Recordando la forma de la matriz $P_k$ y observando que su traza, es decir, la sumatoria de todos los elementos de la diagonal principal, es la suma del error cuadrático medio,de manera que podemos afirmar que minimizando la traza podemos minimizar el ECM o MSE por su sigla en inglés, \emph{Mean Square Error}.
+    \noindent Recordando la forma de la matriz $\mathrm{P_k}$ y observando que 
+    su traza, definida como la sumatoria de todos los elementos de la diagonal 
+    principal, es la suma del error cuadrático medio o MSE (del ingles
+    \emph{Mean Square Error}), de manera que podemos afirmar que minimizandola 
+    podemos minimizar el MSE.
+
 	\begin{equation}
 		P_k = 
 		\begin{bmatrix}
@@ -1420,8 +1622,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{bmatrix}
 	\end{equation}
 	
-	De manera que buscamos $K_k$ que cumpla con este requisito, para lo cual haremos la expansión de la ecuación \ref{KF_equation13}  para obtener luego una expresión de la traza.
-	
+    \noindent De manera que buscamos $\mathrm{K_k}$ que cumpla con este 
+    requisito, para lo cual haremos la expansión de la ecuación 
+    \ref{KF_equation13} para obtener luego una expresión de la traza.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1432,7 +1635,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Siendo la expresión de $T[P_k]$
+    \noindent Siendo la expresión de $\mathrm{T[P_k]}$
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1443,7 +1646,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Ya que $P^\prime_k$ es simétrica  y que la traza de una matriz es igual a la traza de su transpuesta.
+    \noindent Ya que $\mathrm{P^\prime_k}$ es simétrica y que la traza de una 
+    matriz es igual a la traza de su transpuesta.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1454,7 +1658,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Podemos escribir
+	\noindent Podemos escribir
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1474,7 +1678,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Reemplazando \ref{KF_equation18} en \ref{KF_equation15} ,
+	\noindent Reemplazando \ref{KF_equation18} en \ref{KF_equation15},
+
 	\begin{figure}[h!]
 		\begin{center}
 			\begin{equation}
@@ -1484,7 +1689,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Para obtener el valor mínimo calculamos la derivada de $T[P_k]$ respecto a $K_k$
+	\noindent Para obtener el valor mínimo calculamos la derivada de 
+    $\mathrm{T[P_k]}$ respecto a $\mathrm{K_k}$
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1495,7 +1701,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Luego igualando la ecuación \ref{KF_equation20} en 0 y despejando obtenemos la expresión de la Ganancia de Kalman $K_k$ :
+	\noindent Luego igualando la ecuación \ref{KF_equation20} a 0 y despejando 
+    obtenemos la expresión de la Ganancia de Kalman ($\mathrm{K_k}$):
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1508,7 +1715,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\clearpage
 	
-	Definiendo a $S_k$ como:
+    \noindent Definiendo a $\mathrm{S_k}$ como:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1519,7 +1726,7 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	La ecuación \ref{KF_equation21} queda:
+	\noindent La ecuación \ref{KF_equation21} queda:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1530,7 +1737,9 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Reemplazando la expresión de $K_k$ obtenido, en la ecuación  \ref{KF_equation14}, se cancela el tercer término con el cuarto término y queda:
+    \noindent Reemplazando la expresión de $\mathrm{K_k}$ obtenido, en la 
+    ecuación  \ref{KF_equation14}, se cancela el tercer término con el cuarto 
+    término y queda:
 	
 	\begin{align}
 		P_k  &= P^\prime_k + P^\prime_k H^T (H P^\prime_k H^T + R)^{-1} H P^\prime_k \nonumber \\
@@ -1539,7 +1748,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\label{KF_equation23}	
 	\end{align}
 	
-	La proyección del vector de estados $x_k$ en el instante $k+1$ se obtiene como:
+    \noindent La proyección del vector de estados $\mathrm{x_k}$ en el instante 
+    $\mathrm{k+1}$ se obtiene como:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1550,9 +1760,11 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Para luego proyectar la matriz de covarianza de error $P_k$ en el instante $k+1$.
+    \noindent Para luego proyectar la matriz de covarianza de error
+    $\mathrm{P_k}$ en el instante $\mathrm{k+1}$.
 	
-	Haciendo uso de la ecuación \ref{KF_equation03} y extendiéndola para $e^\prime_{k+1}$:
+	\noindent Haciendo uso de la ecuación \ref{KF_equation03} y extendiéndola 
+    para $\mathrm{e^\prime_{k+1}}$:
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1563,7 +1775,10 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	Cabe destacar que el ruido del proceso $w_k$ no tiene correlación alguna respecto a $e_k$ ya que el primero es el ruido presente entre $k$ y $k+1$ y $e_k$ es el error resultante de todos los calculos previos hasta el instante $k$.
+    \noindent Cabe destacar que el ruido del proceso $\mathrm{w_k}$ no tiene 
+    correlación alguna respecto a $\mathrm{e_k}$ ya que el primero es el ruido 
+    presente entre k y k+1 y $\mathrm{e_k}$ es el error resultante de todos los 
+    calculos previos hasta el instante k.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1578,8 +1793,8 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\subsubsection{Filtro de Kalman: resumen}
 	
-	Como dijimos los filtros de Kalman son algoritmos recursivos, los mismos se componen por las siguientes ecuaciones descriptas anteriormente :\\
-	
+	Como dijimos los filtros de Kalman son algoritmos recursivos, los mismos se 
+    componen por las siguientes ecuaciones descriptas anteriormente:
 	
 	\begin{table}[h!]
 		\centering
@@ -1595,12 +1810,19 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{table}
 	
 	
-	Una manera intuitiva de pensar los filtro de Kalman es de la siguiente manera.
-	Supongamos que tenemos la medición antes definida como $z_k$ y corriendo en paralelo tenemos un modelo matemático calculando el estado actual o vector de estados actual de nuestro sistema el cual notaremos como $\hat{x}^\prime_k$ y llamaremos estimación a priori de $x_{t}$.\\
+    \noindent Los filtros de Kalman pueden ser interpretados intuitivamente 
+    partiendo de la base de que tenemos la medición antes definida como 
+    $\mathrm{z_k}$ y corriendo en paralelo tenemos un modelo matemático 
+    calculando el estado actual o vector de estados actual de nuestro sistema el 
+    cual notaremos como $\mathrm{\hat{x}^\prime_k}$ y llamaremos estimación a 
+    priori de $\mathrm{x_{t}}$.
 	
-	Ambos valores son afectados por ruido asociado, de manera que podemos ponderar ambas de manera de obtener una medición más certera.\\
+	\noindent Ambos valores son afectados por ruido asociado, de manera que 
+    podemos ponderar ambas de manera de obtener una medición más certera.
 	
-	Como se observa en la Fig. \ref{KF_Integration_concept} en base a las distribuciones de $z_k$ y $\hat{x}^\prime_k$ obtenemos una nueva $\hat{x}_k$ la cual tiene una menor varianza.\\
+	\noindent Como se observa en la Figura \ref{KF_Integration_concept} en base 
+    a las distribuciones de $\mathrm{z_k}$ y $\mathrm{\hat{x}^\prime_k}$ 
+    obtenemos una nueva $\mathrm{\hat{x}_k}$ la cual tiene una menor varianza.
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1610,12 +1832,14 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{center}
 	\end{figure}
 	
-	
 	\clearpage
 	
 	\subsection{Simulaciones}
+
 	\subsubsection{Filtro de Kalman}
-	Para la implementación de este filtro es necesario obtener un modelo en espacio de estados de la batería de la forma :
+
+	\noindent Para la implementación de este filtro es necesario obtener un 
+    modelo en espacio de estados de la batería de la forma:
 	
 	\begin{align}
 		\dot{x}(t) = Ax+Bu	\nonumber\\
@@ -1624,8 +1848,12 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{align}
 	
 	
-	Para tal fin tomamos como referencia un modelo eléctrico con 2 elementes RC en serie, también conocido como modelo de Randles de segundo orden, representado en la figura \ref{Randles_2do}, ya que este módelo tiene amplia aceptación debido a que ofrece un grado de ajuste alto sin resultar en un excesivo costo computacional en comparación con modelos electroquímicos de la batería.
-	
+	\noindent Para tal fin tomamos como referencia un modelo eléctrico con 2 
+    elementos RC en serie, también conocido como modelo de Randles de segundo 
+    orden, representado en la figura \ref{Randles_2do}, ya que este módelo 
+    tiene amplia aceptación debido a que ofrece un grado de ajuste alto sin 
+    resultar en un excesivo costo computacional en comparación con modelos 
+    electroquímicos de la batería.
 	
 	\begin{figure}[h!]
 		\begin{minipage}[c]{0.45\textwidth}
@@ -1640,25 +1868,29 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 				\draw (3,0) -- (3,0.5) to[C=$C_1$,v=$ $] (6,0.5) -- (6,0);
 				\draw (6,0) to[short,-*] (6.5,0) -- (7,0) -- (7,0.5) to[C=$C_2$,v=$ $] (10,0.5) to[short,-o] (10,0);
 				\draw (7,0) -- (7,-0.5) to[R=$R_2$] (10,-0.5) -- (10,0) to[short,f=$i$] (11.5,0);
-				\draw  (0,0) to[battery2=$OCV(SOC)$] (0,-3) -- (11.5,-3); 
+				\draw  (0,0) to[battery2=$OCV(SoC)$] (0,-3) -- (11.5,-3); 
 				\draw  (11.5,0) to [open,v=$v$,invert] (11.5,-3);
 				\draw (8.5,1.75) node[anchor=north]{$V_{C2}$};
 				\draw (4.5,1.75) node[anchor=north]{$V_{C1}$};
 			\end{circuitikz}
 		\end{minipage}
-		\caption{Circuito de Randles de Segundo Orden.}
+		\caption{Circuito de Randles de segundo orden.}
 		\label{Randles_2do}
 	\end{figure}
 	
-	La fuente de tensión controlada $OCV(SOC)$ es linealizada para obtener un modelo lineal de la batería e ignoramos el hecho de la histéresis respecto a la carga y a la descarga.
+	\noindent La fuente de tensión controlada $OCV(SoC)$ es linealizada para 
+    obtener un modelo lineal de la batería e ignoramos el hecho de la histéresis 
+    respecto a la carga y a la descarga.
 	
-	Obteniendo una ecuación lineal de la forma \ref{SOC_linearized}, cuyos parametros fueron obtenidos mediante la función \emph{polyfit} de matlab como se muetra en la figura \ref{SOC_vs_OCV}.\\
+	\noindent Obteniendo una ecuación lineal de la forma \ref{SoC_linearized}, 
+    cuyos parametros fueron obtenidos mediante la función 
+    \emph{polyfit} de matlab como se muestra en la figura \ref{SoC_vs_OCV}.
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\begin{equation}
-				OCV = SOC \times K_e + OCV_0
-				\label{SOC_linearized}
+				OCV = SoC \times K_e + OCV_0
+				\label{SoC_linearized}
 			\end{equation}	
 		\end{center}
 	\end{figure}
@@ -1667,16 +1899,19 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\begin{figure}[h!]
 		\begin{center}
-			\includegraphics[width=1\textwidth]{SOC_vs_OCV.eps}
-			\caption{Curva de SOC vs OCV con su correspondiente linealización }
-			\label{SOC_vs_OCV}
+			\includegraphics[width=1\textwidth]{SoC_vs_OCV.eps}
+			\caption{Curva de SoC vs OCV con su correspondiente linealización }
+			\label{SoC_vs_OCV}
 		\end{center}
 	\end{figure}
 	
-	
-	
-	
-	Nuestro modelo eléctrico tiene 2 grados de libertad y se agrega una 3° variable de estado que es el estado de carga de la batería. Luego tomando la expresión diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente de la batería y como salida la tensión en bornes de la misma obtenemos el siguiente conjunto de ecuaciones.
+	\noindent Nuestro modelo eléctrico tiene 2 grados de libertad y se agrega 
+    una $\mathrm{3^{er}}$ variable de estado que es el estado de carga de la 
+    batería. Luego tomando la expresión diferencial de la ecuación 
+    \ref{SoC_Coulomb_C}, seleccionando arbitrariamente las tensiones en 
+    $C_1$ y $C_2$, y tomando como entrada del sistema la corriente de la 
+    batería y como salida la tensión en bornes de la misma obtenemos el 
+    siguiente conjunto de ecuaciones:
 	
 	\begin{equation}
 		\begin{array}{llcllcl}
@@ -1697,28 +1932,32 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 		\end{array}
 	\end{equation}
 	
-	
-	
-	
-	Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
-	
-	
-	
-	\clearpage
-	Para hacer un ajuste de parámetros de las baterías se utilizó un dataset provisto por la universidad de Winsconsin-Madison por el Dr. Phillip Kollmeyer \cite{Kollmeyer2018}. si bien todos los parámetros son dependientes del estado de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones mas fuertes de los mismos se dan al entre el 0-10\% y en valores cercanos al 100\%
-	
+    \noindent Donde $\mathrm{S_{C,a}}$ es la capacidad nominal en Ah de la 
+    batería. 
+
+    \noindent Para hacer un ajuste de parámetros de las baterías se utilizó un 
+    dataset provisto por la universidad de Winsconsin-Madison por el 
+    Dr. Phillip Kollmeyer \cite{Kollmeyer2018}. Si bien todos los parámetros 
+    son dependientes del estado de carga, seleccionamos los correspondientes al 
+    90\%, ya que las variaciones mas fuertes de los mismos se dan al entre el 
+    0-10\% y en valores cercanos al 100\%.
 	
 	\begin{figure}[h!]
 		\begin{center}
-			\includegraphics[width=1\textwidth]{rta_escalon.eps}
+			\includegraphics[width=0.85\textwidth]{rta_escalon.eps}
 			\caption{Estudio de la Rta al escalón para estimación de parámetros}
 			\label{rta_escalon}
 		\end{center}
 	\end{figure}
 	
-	También se necesita proporcionar valores de Varianza del modelo, ruido al que están sometidas las variables medibles, el estado inicial estimado y la varianza de esta estimación estas son denominadas Q,R,$x_0$ y $P_0$ respectivamente.
+	\noindent También se necesita proporcionar valores de varianza del modelo, 
+    ruido al que están sometidas las variables medibles, el estado inicial 
+    estimado y la varianza de esta estimación denominadas Q, R, $\mathrm{x_0}$ 
+    y $\mathrm{P_0}$ respectivamente.
 	
-	Partiendo de la base que nuestro sistema debe ser robusto ante la mala estimación inicial del estado de carga  vamos a proponer un vector de estimación de estado inicial con un SOC con un error de 80%.\\ 
+	\noindent Partiendo de la base que nuestro sistema debe ser robusto ante la 
+    mala estimación inicial del estado de carga vamos a proponer un vector de 
+    estimación de estado inicial con un SoC con un error de 80\%.
 	
 	\begin{equation}
 		\begin{array}{llll}
@@ -1729,7 +1968,11 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 			\end{bmatrix} 
 		\end{array} \nonumber
 	\end{equation}
-	El Drive cycle seleccionado comienza con la batería cargada al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el estado de carga relativo.
+
+    \noindent El ciclo de la bateria esseleccionado comienza con la batería 
+    cargada al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el 
+    estado de carga relativo.
+
 	\begin{equation}
 		\begin{array}{llll}
 			x_0 & = & \begin{bmatrix}
@@ -1739,12 +1982,18 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 			\end{bmatrix} 
 		\end{array} \nonumber
 	\end{equation}
-	El error en nuestra observación es del orden de los milivolts calculado en base a la resolución del sensor.
+
+    \noindent El error en nuestra observación es del orden de los milivoltios
+    (mV) calculado en base a la resolución del sensor.
+
 	\begin{equation}
 		R = 0.01  \nonumber
 	\end{equation}
 	
-	El error en nuestro modelo se estima bajo ya que los dataset nos proveen una buena fuente de información obtenida en base a ensayos de laboratorio
+	\noindent El error en nuestro modelo se estima bajo ya que los dataset nos 
+    proveen una buena fuente de información obtenida en base a ensayos de 
+    laboratorio
+
 	\begin{equation}
 		\begin{array}{llll}
 			Q & = & \begin{bmatrix}
@@ -1757,7 +2006,11 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\clearpage
 	
-	Por último se volcaron estos parámetros en un bloque de la librería \emph{System Identification Toolbox} que corre el algoritmo del filtor de Kalman. Además se simuló en paralelo el circuito eléctrico equivalente, como se observa en la Figura \ref{simulink_diagram}.
+	\noindent Por último se volcaron estos parámetros en un bloque de la 
+    librería \emph{System Identification Toolbox} de MatLAB que corre el 
+    algoritmo del filtro de Kalman. Además se simuló en paralelo el circuito 
+    eléctrico equivalente, como se observa en la Figura \ref{simulink_diagram}.
+
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=1\textwidth]{simulink.pdf}
@@ -1768,12 +2021,17 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\clearpage
 	
-	Los resultados de la simulación se muestran a continuación en las Figuras \ref{Tension_sim} y \ref{Tension_sim_zoom} correspondientes a la tensión en bornes de la batería y  a las Figuras \ref{Drive_Cycle_1_SOC_sim} y \ref{error_SOC_Sim}, las cuales corresponden al SOC simulado y a un contraste del error tomando como valor verdadero el SOC provisto por el dataset.
+	\noindent Los resultados de la simulación se muestran a continuación en las 
+    Figuras \ref{Tension_sim} y \ref{Tension_sim_zoom} correspondientes a la 
+    tensión en bornes de la batería y a las Figuras \ref{Drive_Cycle_1_SoC_sim} 
+    y \ref{error_SOC_Sim}, las cuales corresponden al SoC simulado y a un 
+    contraste del error tomando como valor verdadero el SoC provisto por el dataset.
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=1\textwidth]{Tension_Sim.eps}
-			\caption{Resultado de la Simulación de la tensión en bornes de la batería sometida a condiciones de ciclo de manejo}
+			\caption{Resultado de la Simulación de la tensión en bornes de la 
+                     batería sometida a condiciones de ciclo de manejo}
 			\label{Tension_sim}
 		\end{center}
 	\end{figure}
@@ -1781,30 +2039,36 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=1\textwidth]{Tension_Sim_zoom.eps}
-			\caption{Detalle de la Simulación de la tensión en bornes de la batería sometida a condiciones de ciclo de manejo}
+			\caption{Detalle de la Simulación de la tensión en bornes de la 
+                     batería sometida a condiciones de ciclo de manejo}
 			\label{Tension_sim_zoom}
 		\end{center}
 	\end{figure}
 	
 	\clearpage 
-	Si se presta especial atención el error se mantiene en una cota del 6 \% hasta que se dispara en la región de SOC menor al 15\% donde el sistema se vuelve fuertemente alineal y nuestro modelo pierde validéz. Por otro lado cumple satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 20 \% y el Filtro corrige rapidamente a un valor aproximado de 100 \%. 
-	
-	
+
+	\noindent Si se presta especial atención el error se mantiene en una cota 
+    del 6\% hasta que se dispara en la región de SoC menor al 15\% donde el 
+    sistema se vuelve fuertemente alineal y nuestro modelo pierde validéz. 
+    Por otro lado cumple satisfactoriamente con la corrección del SoC inicial 
+    ya que estaba seteado en 20\% y el filtro corrige rapidamente a un valor 
+    aproximado de 100\%. 
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=1\textwidth]{Drive_Cycle_1_sim.eps}
-			\caption{Resultados de la Simulación del sistema sometido a condiciones de ciclo de manejo}
-			\label{Drive_Cycle_1_SOC_sim}
+			\caption{Resultados de la Simulación del sistema sometido a 
+                     condiciones de ciclo de manejo}
+			\label{Drive_Cycle_1_SoC_sim}
 		\end{center}
 	\end{figure}
 	
-	asd
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=1\textwidth]{soc_error_porc.eps}
-			\caption{Resultados de Simulación del SOC de una batería sometida a condiciones de ciclo de manejo}
-			\label{error_SOC_Sim}
+			\caption{Resultados de Simulación del SoC de una batería sometida a 
+                     condiciones de ciclo de manejo}
+			\label{error_SoC_Sim}
 		\end{center}
 	\end{figure}
 	
@@ -1812,25 +2076,58 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\subsection{Ecualización de celdas}
 	
-	\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se encuentran conectadas en serie, el voltaje de una celda no siempre coincide con la tensión equivalente del pack de baterías dividido por el número de celdas. 
+	Como se comentó en secciones anteriores, cuando múltiples celdas 
+    se encuentran conectadas en serie, el voltaje de una celda no siempre 
+    coincide con la tensión equivalente del pack de baterías dividido por el 
+    número de celdas. 
 	
-	\noindent La ecualización de celdas es una técnica en la cual se trata de mantener los niveles de voltaje entre las celdas que conforman la cadena conectada en serie de un pack de baterías de forma homogénea, es decir, que los niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de maximizar la eficiencia del pack de baterías.\\
-	\\
-	\noindent El desbalance más típico generalmente se manifiesta en una variación en el voltaje entre éstas, que puede ser corregido instantáneamente o gradualmente conectando cargas externas en paralelo, a través de sus correspondientes transistores, provocando una corriente de descarga adicional que pueden ir desde miliamperes hasta varios Amperes, dependiendo del dimensionamiento energético del pack de baterías. Sin embargo, este desbalance en tensión es, por lo general, dado por desbalances químicos o distintas dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no esté claramente definido provocando más perjuicios que beneficios al sistema completo. De hecho, la mayoría de las metodologías basadas en el desbalance de voltage, llevan a un pack de baterías más desbalanceado que sin ellos.\\
-	\\
-	\noindent Por lo tanto es necesario conocer la naturaleza de los distintos tipos de desbalances, los cuales son descriptos a continuación:
+	\noindent La ecualización de celdas es una técnica en la cual se trata de 
+    mantener los niveles de voltaje entre las celdas que conforman la cadena 
+    conectada en serie de un pack de baterías de forma homogénea, es decir, que 
+    los niveles de tensión entre celdas sea lo más uniforme posible, con el 
+    objetivo de maximizar la eficiencia del pack de baterías.
+	
+	\noindent El desbalance más típico generalmente se manifiesta en una 
+    variación en el voltaje entre éstas, que puede ser corregido 
+    instantáneamente o gradualmente conectando cargas externas en paralelo, a 
+    través de sus correspondientes transistores, provocando una corriente de 
+    descarga adicional que pueden ir desde miliamperes hasta varios Amperes, 
+    dependiendo del dimensionamiento energético del pack de baterías. 
+    Sin embargo, este desbalance en tensión es, por lo general, dado por 
+    desbalances químicos o distintas dinámicas de descarga entre celdas, 
+    provocando que el objetivo del balanceo no esté claramente definido 
+    resultadno en más perjuicios que beneficios al sistema completo. 
+    De hecho, la mayoría de las metodologías basadas en el desbalance de 
+    voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
+
+	\noindent Por lo tanto es necesario conocer la naturaleza de los distintos 
+    tipos de desbalances, los cuales son descriptos a continuación:
 	%\noindent Por lo tanto, existen varios tipos de desbalances que se describen a continuación.
 	
 	\subsubsection{Desbalance del estado de carga (SoC)}
 	
-	\noindent El desbalanceo por estado de carga es causado por celdas que son cargadas a distintos nivels de SoC. Por ejemplo, si tenemos 3 celdas cuya carga máxima es de 2200mAh ($\mathrm{Q_{max}}$), y descargar 100mAh una de las celdas ($\mathrm{Q_1}$), la segunda por 100mAh y la tercera por 200mAh , la primer y segunda celda van a estar a un SoC de $\mathrm{\frac{(Q_{max} - Q_1)}{Q_{max}} = 95.4\%}$. pero la tercer celda estará, a cálculo hecho, en un 91\%. Por lo que podemos decir que la tercer celda presenta un desbalance de un 4.4\%. Esto se traduce en distintos voltajes de circuito abierto, ya que se encuentran directamente correlacionadas con el estado de carga de las mismas, sin embargo, a pesar de esta diferencia constante de SOC, la tensión entre celdas varía con el SOC debido a su variación con respecto a los distintos niveles de estado de carga. En la Figura \ref{diff_imbalance} se muestra como varía la diferencia de voltaje entre las celdas ante distintos niveles de SOC con un desbalance constante teniendo en cuenta la curva de la figura \ref{OCV_SOC_equalization_figure}.\\
-	
+	\noindent El desbalanceo por estado de carga es causado por celdas que son 
+    cargadas a distintos nivels de SoC. Por ejemplo, si tenemos 3 celdas cuya 
+    carga máxima es de 2200mAh ($\mathrm{Q_{max}}$), y descargar 100mAh una de 
+    las celdas ($\mathrm{Q_1}$), la segunda por 100mAh y la tercera por 200mAh, 
+    la primer y segunda celda van a estar a un SoC de 
+    $\mathrm{\frac{(Q_{max} - Q_1)}{Q_{max}} = 95.4\%}$. pero la tercer celda 
+    estará, a cálculo hecho, en un 91\%. Por lo que podemos decir que la tercer 
+    celda presenta un desbalance de un 4.4\%. Esto se traduce en distintos 
+    voltajes de circuito abierto, ya que se encuentran directamente 
+    correlacionadas con el estado de carga de las mismas, sin embargo, a pesar 
+    de esta diferencia constante de SoC, la tensión entre celdas varía con el 
+    SoC debido a su variación con respecto a los distintos niveles de estado de 
+    carga. En la Figura \ref{diff_imbalance} se muestra como varía la diferencia 
+    de voltaje entre las celdas ante distintos niveles de SoC con un desbalance 
+    constante teniendo en cuenta la curva de la figura 
+    \ref{OCV_SoC_equalization_figure}.
 	
 	\begin{figure}[h!]
 		\begin{center}
-			\includegraphics[width=0.7\textwidth]{SOC_vs_OCV_equalization.png}
-			\caption{(Gráfica superior): OCV vs SOC}
-			\label{OCV_SOC_equalization_figure}
+			\includegraphics[width=0.7\textwidth]{SoC_vs_OCV_equalization.png}
+			\caption{(Gráfica superior): OCV vs SoC}
+			\label{OCV_SoC_equalization_figure}
 		\end{center}
 	\end{figure}
 	
@@ -1839,54 +2136,109 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=0.7\textwidth]{diff_imbalance.png}
-			\caption{Diferencia de OCV a distintos estados de carga para un desbalance de 1\% de SOC}
+			\caption{Diferencia de OCV a distintos estados de carga para un desbalance de 1\% de SoC}
 			\label{diff_imbalance}
 		\end{center}
 	\end{figure}
 	
-	
-	
-	\noindent El voltaje sobre una carga puede ser aproximadamente, y rápidamente, modelada por la siguiente ecuación:
+	\noindent El voltaje sobre una carga puede ser aproximadamente, 
+    y rápidamente, modelada por la siguiente ecuación:
 	
 	\begin{equation}
-		V = OCV(SOC) + I \times R(SOC)
+		V = OCV(SoC) + I \times R(SoC)
 		\label{v_load_bat}
 	\end{equation}
 	
-	\noindent Debido a que la función $R(SOC)$ incrementa rápidamente a bajos valores de SOC, la diferencia de voltajes entre celdas, con un desbalance de SOC determinado, incrementa en un estado de carga muy bajo sugeriendo que existe un incremento en la necesidad de realizar el proceso de balanceo cuando el pack de baterías alcanza su descarga completa, sin embargo, si esta diferencia de SOC es eliminada en etapas anteriores, las diferencias de tensión que ocurren cerca del fin de descarga son eliminadas sin necesidad de altas corrientes de drenaje para cada celda.\\
+	\noindent Debido a que la función $R(SoC)$ incrementa rápidamente a bajos 
+    valores de SoC, la diferencia de voltajes entre celdas, con un desbalance 
+    de SoC determinado, incrementa en un estado de carga muy bajo sugeriendo 
+    que existe un incremento en la necesidad de realizar el proceso de balanceo 
+    cuando el pack de baterías alcanza su descarga completa, sin embargo, 
+    si esta diferencia de SoC es eliminada en etapas anteriores, las diferencias 
+    de tensión que ocurren cerca del fin de descarga son eliminadas sin 
+    necesidad de altas corrientes de drenaje para cada celda.
 	
 	\clearpage
+
 	\subsubsection{Diferencias entre impedancias internas}
 	
-	La diferencia entre impedancias internas en un bache de producción es de aproximadamente un 15\% como se puede observar en la Figura \ref{zin_diff}.\\
+	La diferencia entre impedancias internas en un bache de producción es de 
+    aproximadamente un 15\% como se puede observar en la Figura \ref{zin_diff}.
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\includegraphics[width=0.7\textwidth]{zin_diff.png}
-			\caption{Diferencias de espectrometrías entre 50 celdas. El ensayo es realizado entre 1kHz a 10mHz}
+			\caption{Diferencias de espectrometrías entre 50 celdas. 
+                     El ensayo es realizado entre 1kHz a 10mHz}
 			\label{zin_diff}
 		\end{center}
 	\end{figure}
 	
-	Desbalances en la impedancia interna de la celda no causan diferencias en el OCV, sin embargo, causará diferencias en el voltaje de la celda durante la descarga, ya que la misma viene dada por la Ecuación \ref{v_load_bat}. Si la batería se encuentra descargando, es decir, si la corriente es negativa el voltaje que entrega a la carga será menor para una celda con mayor impedancia interna. Por el otro lado, si la celda se encuentra cargando, el voltaje será mayor para aquellas celdas con mayor resistencia interna.\\
-	\\
-	A pesar de estas diferencias, no hay mecanismo de balanceo que permita solventar el problema del desbalanceo de impedancia interna.\\
+	\noindent Desbalances en la impedancia interna de la celda no causan 
+    diferencias en el OCV, sin embargo, causará diferencias en el voltaje de la 
+    celda durante la descarga, ya que la misma viene dada por la Ecuación 
+    \ref{v_load_bat}. Si la batería se encuentra descargando, es decir, si 
+    la corriente es negativa el voltaje que entrega a la carga será menor para 
+    una celda con mayor impedancia interna. Por el otro lado, si la celda se 
+    encuentra cargando, el voltaje será mayor para aquellas celdas con mayor 
+    resistencia interna.
+	
+    \noindent A pesar de estas diferencias, no hay mecanismo de balanceo que 
+    permita solventar el problema del desbalanceo de impedancia interna, ya que 
+    no es manifiesto de un desbalanceo de carga, si no, mas intrinseco al 
+    apareamiento entre las mismas.
 	
 	\subsubsection{Diferencias en la Capacidad de las celdas}
 	
-	Por el otro lado, puede suceder que la capacidad química de las celdas ($\mathrm{Q_{MAX}}$) pueden ser diferentes en un principio, esto provoca que, a pesar de que cada celda sea descargada por la misma cantidad de corriente, el estado de carga será diferente. Por ejemplo, si las 3 celdas que nombramos anteriores son descargadas por 100mAh, pero la 3er celda tiene una capacidad distinta al resto (por ejemplo, 2000mAh en vez de 2200mAh), los estados de carga resultantes serán de 95.4\% y 95\%.\\
+	Por el otro lado, puede suceder que la capacidad química de las celdas 
+    ($\mathrm{Q_{MAX}}$) pueden ser diferentes en un principio, esto provoca 
+    que, a pesar de que cada celda sea descargada por la misma cantidad de 
+    corriente, el estado de carga será diferente. Por ejemplo, si las 3 celdas 
+    que nombramos anteriores son descargadas por 100mAh, pero la 3er celda 
+    tiene una capacidad distinta al resto (por ejemplo, 2000mAh en vez de 
+    2200mAh), los estados de carga resultantes serán de 95.4\% y 95\%.
+	
+	Nuevamente esto provocará una diferencia en los OCVs de las celdas. 
+    Como puede observarse, 200mAh de diferencia en $\mathrm{Q_{MAX}}$ causa 
+    solamente una diferencia de un 0.4\% en el SoC, causando menor diferencia de 
+    voltaje que un desbalance en el estado de carga.
+	
+	Teniendo esto en cuenta las baterías no podrán estar balanceadas durante 
+    todo el ciclo de descarga o de carga ya que al quitar la misma cantidad de 
+    carga el SoC de las mismas será distinto. Un ejemplo algo más gráfico de 
+    esto es con 2 vasos de agua, uno con el doble de capacidad del otro pero 
+    llenos hasta la misma altura. Si se remueve la misma cantidad de agua de 
+    ambos el de mayor capacidad se habrá descargado la mitad que el de menor 
+    capacidad.
+	
+	En la práctica lo más común es lo que se llama \emph{top balancing}, que 
+    implica balancear en el período de carga en la que el pack se considera
+    cargado a un 100\% o durante el periodo de Tension constante o CV (del
+    ingles \emph{Constant Voltage}). El mismo consiste descargar las celdas de 
+    menor capacidad permitiendo a las celdas de mayor capacidad un margen para 
+    seguir cargando sin sobrecargar las primeras, evitando lo que generaría una 
+    drástica disminución de la vida útil del pack. Esta opción es mucho más 
+    atractiva que su contra parte denominada \emph{bottom balancing} ya que 
+    esta balancea todas las baterías a su estado de carga cercano al 0\%, lo 
+    cual no acarrea ninguna ventaja ya que el pack de baterías va a seguir 
+    entregando a la carga la misma cantidad de energía, esto es, cuando la 
+    batería de menor capacidad se descargue como pasaría si no se realizara el 
+    balanceo inferior.
 	
 	
-	Nuevamente esto provocará una diferencia en los OCVs de las celdas. Como puede observarse, 200mAh de diferencia en $\mathrm{Q_{MAX}}$ causa solamente una diferencia de un 0.4\% en el SOC, causando menor diferencia de voltaje que un desbalance en el estado de carga.\\
+	La descarga de las celdas se puede llevar a cabo disipando su energía en 
+    resistores o transfiriendo la carga a las celdas más descargadas, 
+    siendo estos métodos clasificados como balanceo pasivo o balanceo activo 
+    respectivamente. Los métodos pasivos son mucho más sencillos y económicos y 
+    en la mayoría de los casos no es justificado el uso del método activo ya que 
+    los circuitos que llevan a cabo la transferencia de energía poseen perdidas 
+    por lo que no ofrecen ventajas reales en aplicaciones de baja potencia.
 	
-	Teniendo esto en cuenta las baterías no podrán estar balanceadas durante todo el ciclo de descarga o de carga ya que al quitar la misma cantidad de carga el estado de carga de las mismas será distinto. Un ejemplo algo más gráfico de esto es con 2 vasos de agua, uno con el doble de capacidad del otro pero llenos hasta la misma altura. Si se remueve la misma cantidad de agua de ambos el de mayor  capacidad se habrá descargado la mitad que el de menor capacidad.\\
-	
-	En la práctica lo más común es lo que se llama \emph{top balancing}, que implica balancear en el período de carga todas las celdas del pack al 100\%. El mismo consiste descargar las celdas de menor capacidad permitiendo a las celdas de mayor capacidad un margen para seguir cargando sin sobrecargar las primeras, evitando lo que generaría una drástica disminución de la vida útil del pack. Esta opción es mucho más atractiva que su contra parte denominada \emph{bottom balancing} ya que esta balancea todas las baterías a su estado de carga en 0\%, lo cual no acarrea ninguna ventaja ya que el pack de baterías va a seguir entregando a la carga la misma cantidad de energía, esto es, cuando la batería de menor capacidad se descargue como pasaría si no se realizara el balanceo inferior.\\
-	
-	
-	La descarga de las celdas se puede llevar a cabo disipando su energía en resistores o transfiriendo la carga a las celdas más descargadas, siendo estos métodos clasificados como balanceo pasivo o balanceo activo respectivamente. Los métodos pasivos son mucho más sencillos y económicos y en la mayoría de los casos no es justificado el uso del método activo ya que los circuitos que llevan a cabo la transferencia de energía poseen perdidas por lo que no ofrecen ventajas reales en aplicaciones de baja potencia.\\
-	
-	Por último hay que considerar que corriente es necesaria para balancear el pack, a mayor capacidad de corriente las corrientes de auto descarga y cambios en la capacidad por envejecimiento van generando pequeños desbalances, pero los mismos son acotados, las corrientes de auto descarga generan desbalances menores al 0.1\% por ciclo. 
+	Por último hay que considerar que corriente es necesaria para balancear el 
+    pack, a mayor capacidad de corriente las corrientes de auto descarga y 
+    cambios en la capacidad por envejecimiento van generando pequeños desbalances, 
+    pero los mismos son acotados, las corrientes de auto descarga generan 
+    desbalances menores al 0.1\% por ciclo. 
 	
 	\begin{figure}[h!]
 		\begin{center}
@@ -1897,36 +2249,22 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	\end{figure}
 	
 	%Para la implementación del balanceador analizó LTC6803-2.\\
-	
-	
-	El integrado BQ76PL536 de texas instrument es un Monitor de batería con protecciones para sobre  y sub tensión y sobrecalentamiento asi como también posee varias funcionalidades entre las cuales se destacan la posibilidad de escalar el número de celdas en serie gracias a su interfaz D2D VBUS  (\emph{device to device vertical BUS}) permitiendo la conexión en serie de varios BQ76PL536 permitiendo controlar hasta 6 celdas por integrado hasta un total de 192 celdas.
-	%Anteriormente se nombró la importancia de la protección de las celdas, ya que el voltaje de ruptura del electrolito es cercano a la tensión de carga máxima de una celda (entre 4.1V a 4.3V por celda). Por lo tanto, se debe realizar un control y monitoreo riguroso para que las celdas de un pack experimente un sobrevoltaje durante el proceso de carga. Esto, conlleva a que, en un pack de baterías, cada celda sea monitoreada y controlada por separado, ya que controlar la tensión del pack de baterías no es suficiente, debido a que, a pesar de que los valores pueden encontrarse dentro de un umbral correcto, una de las celdas que componen el sistema puede estar experimentando un daño permanente por sobrevoltaje debido al desbalance que pueden encontrarse entre celdas.\\
-	%\\
-	%El balanceo de celdas es necesario para aquellas aplicaciones donde tienen grandes transitorios de energía, especialmente aquellas aplicaciones donde ocurre frecuentemente, como por ejemplo, los frenos regenerativos en los EVs y HEVs. El freno regenerativo puede causar grandes flujos de corriente provocando un incremento instantáneo en la tensión de cada celda, alcanzando la tensión de ruptura del electrolito.\\
-	%\\
-	%Las desviaciones en las celdas generalmente ocurren debido a dos fenómenos: cambios en la impedancia interna o en la reducción de capacidad debido al envejecimiento de las mismas. En ambos casos, si una celda experimenta una desviación en su comportamiento, esta celda es un posible candidato a un sobrevoltaje durante los eventos que ocurren los transitorios de potencia. Las celdas con capacidad reducida o alta impedancia interna tienden a tener altas variaciones de tensión durante los procesos de carga y descarga.\\
-	%\\
-	%Por último, en aplicaciones donde es deseable obtener la mayor capacidad usable de un pack de baterías, puede ocurrir que durante el proceso de carga, una celda desbalanceada alcance el voltaje de fin de carga y provoca que el proceso de carga termine prematuramente. Entonces, además de proteger el pack de baterías, el proceso de carga permite aprovechar la capacidad completa del pack a pesar de los desbalanceos intrínsecos de cada celda.\\
-	%\\
-	%Tradicionalmente, los desbalances entre celdas en baterías de plomo son solucionados por una sobrecarga controlada. Este tipo de baterías pueden ser llevadas a condiciones de sobrecarga sin ser dañadas permanentemente, ya que el exceso de energía es liberado a través de la gasificación de las sustancias químicas que contienen. Éste método, es el método natural para el balanceo de celdas de plomo-ácido conectadas e nserie. Otras composiciones químicas, tales como las de Niquel-metal, exhiben un mecanismo similar.\\
-	%\\
-	%Debido a que las baterías de Litio no pueden ser sobrecargadas, no existe un mecanismo natural para el balanceo de celdas. Por lo tanto, se deben emplear métodos diferentes para balancearlas. Los métodos de balanceo se pueden separar en dos grandes grupos: Métodos activos y pasivos.\\
-	%\\
-	%A continuación, se describen los métodos más comunes para realizar el balanceo de celdas.
-	
-	%\subsubsection{Balanceo de Celdas en el Fin de carga}
-	
-	%Este método es empleado cuando el pack de baterías cuando es cargada completamente y es, generalmente, implementada en aquellas aplicaciones en las cuales el pack de baterías es completamente cargado en cada ciclo de su uso. Como pueden ser en fuentes de baterías ininterrumpidas (UPS, del inglés \emph{Uninterruptible Power Supply}) o vehículos eléctricos hasta celulares. 
-	
+
+	El integrado BQ76PL536 de texas instrument es un Monitor de batería con 
+    protecciones para sobre y baja tensión y sobrecalentamiento asi como también 
+    posee varias funcionalidades entre las cuales se destacan la posibilidad de 
+    escalar el número de celdas en serie gracias a su interfaz D2D VBUS 
+    (\emph{device to device vertical BUS}) permitiendo la conexión en serie de 
+    varios BQ76PL536 permitiendo controlar hasta un total de 192 celdas
+    conectadas en serie.
+
 	
 	\clearpage
 	\subsection{Plan de Trabajo}
 	
-	Se plantea el siguiente plan de trabajo con el tiempo estimado para la finalización del proyecto:
+	Se plantea el siguiente plan de trabajo con el tiempo estimado para la 
+    finalización del proyecto:
 	
-	% Please add the following required packages to your document preamble:
-	% \usepackage[table,xcdraw]{xcolor}
-	% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 	\begin{table}[h!]
 		\begin{tabular}{|l|c|}
 			\hline
@@ -1943,9 +2281,15 @@ postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 	
 	\subsection{Extensión a futuros proyectos}
 	
-	El desarrollo del hardware y los algoritmos, tanto de ecualización como de estado de carga sirven como una buena base para futuros proyectos vinculados a la temática de energías renovables y VEs.\\
-	\\
-	Como posible extensión se plantea el desarrollo de algoritmos novedosos para la estimación del Estado de Salud, su posible aplicación a sistemas de alta potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a la composición química de las celdas.
+	El desarrollo del hardware y los algoritmos, tanto de ecualización como de 
+    estado de carga sirven como una buena base para futuros proyectos vinculados 
+    a la temática de energías renovables y VEs.
+
+	Como posible extensión se plantea el desarrollo de algoritmos novedosos para 
+    la estimación del Estado de Salud o SoH (del ingles \emph{State of Health}), 
+    su posible aplicación a sistemas de alta potencia e inclusive realizar 
+    estudios sobre nuevas tecnologías relacionadas a la composición química de 
+    las celdas.
 	
 	\clearpage
 	
