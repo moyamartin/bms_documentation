@@ -56,7 +56,10 @@
 \newacronym{hri}{HRI}{human-robot interactions}
 \newacronym{rnn}{RNN}{Recurrent Neural Network}
 \newacronym{lstm}{LSTM}{Long Short-Term Memory}
-
+\newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
+\newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
+\newacronym{CC}{CC}{Constant Current}
+\newacronym{CV}{CV}{Constant Voltage}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
 	1 with {\arrow[semithick]{open triangle 60}}},
@@ -1704,14 +1707,152 @@ Escuela de Ingeniería Electrónica}
 			\label{error_SOC_Sim}
 		\end{center}
 	\end{figure}
+	\FloatBarrier
+
+\subsection{Técnica de Carga}
+	\subsubsection{Corriente Constante CC - Voltaje Constante CV}
+
+El proceso de carga de una \acrfull{Ion-Li} no es trivial. Aplicar una tensión
+constante en  bornes, como podríamos proceder con baterias de plomo
+ácido, no es el procedimiento más adecuado en este caso. En aras de optimizar la autonomía y la vida útil del pack de baterías el
+proceso de carga debe responder a lineamientos particulares deacuerdo a las
+carácterísticas constructivas de las celdas que lo componen.
+
+El peril de carga que se ajusta a las celdas de \acrshort{Ion-Li}, como se observa en la
+figura \ref{fig:char_prof}, es el perfil \acrfull{CC} - \acrfull{CV}. Este consiste en tres fases, una primera etapa de
+acondicionamiento o pre carga donde se inyecta a la batería una corriente
+constante pequeña de magnitud equivalente a la corriente de fin de carga. Una
+fase de carga rápida a corriente constante \acrshort{CC} y una tercer y última
+fase de carga a tensión constante \acrshort{CV}.
 	
-	\subsection{Ecualización de celdas}
+    \begin{figure}[h!]
+     \centering
+     \includegraphics[width=0.8\textwidth]{bat_char/char_profile.png}
+     \caption{Perfil de carga típico de una batería de Ion-Litio}
+     \label{fig:char_prof}
+    \end{figure}
+   \FloatBarrier
+
+   El proceso de pre carga o pre-acondicionamiento proporciona a las celdas la
+capacidad de recuperar su capa de pasivación, la cual puede haberse visto
+afectada o disuelta tras largos periodos de almacenamiento en estados de
+descarga profunda. A su vez permite introducir las celdas en la zona de
+operación segura en caso de que se encuente prufundamente descargadas. 
+Es importante limitar el proceso de acondicionamiento en tiempo para prevenir pre
+cargar indefinidamente una celda que se encuentre agotada. Si tras un periodo
+completo de acondicionamiendo la celda no alcanza el voltaje mínimo necesario puede
+considerarse que la misma alcanzó el final de su vida útil.
+
+El voltaje umbral de inicio de carga rápida depende de la celda misma y en el
+caso de las baterías \acrshort{Ion-Li} se ubica generalmente entre los $2.5V$ y $3.0V$.
+Una vez que la celda supera su voltaje umbral mínimo el cargador debeŕa entra en la zona de carga
+rápida a corriente constante \acrshort{CC}. La fase de carga rápida permite a la
+batería transformar la enería eléctria entregada en
+energía electroquímica dentro de la batería en el menor tiempo posible. La magnitud de la corriente de
+carga rápida depende de la celda y es limitada generalmente entre $0.5C$ y $1C$ para prevenir el calentamiento del
+pack y su degradación prematura. El pack de batería admitrá carga rápida a corriente
+constante hasta alcanzar el voltaje límite de regulación. 
+
+En esta tercer y última fase la corriente drenada del pack decae exponencialmente hasta
+alcanzar la magnitud de fin de carga, situación que nos indica que el ciclo 
+se completo exitosamente. La corriente de terminación de carga ronda entre
+$5\%$ y $10 \%$ de la corriente de carga rápida. Cabe aclarar que en esta
+instancia del proceso de carga la corriente decae naturalmente dado que es la
+contante de voltaje de terminales la magnitud controlada por el cargador.  
+
+Es importante remarcar que durante todo el proceso de carga, pero fundamentalmente
+durante la fase de carga rápida a corriente constante, es de vital importancia monitorear la
+temperatura de las celdas evitando que las mismas se aparten de la zona de
+operación segura. Si bien el proceso de carga implica intrínsicamente una elevación de la
+temperatura de la celda, etre otras causas debido a su resistencia interna.
+
+El tiempo total de carga es una variable determinante a la hora de implementar
+un cargador de batería que extienda al máximo la vida útil y los ciclos de carga
+de un pack de baterías y de sus celdas. Es la magnitud de corriente de carga
+rápida la variable determinante del tiempo final de carga. Por ejemplo, para una carga rápida a 1C, la bateria
+alcanzará, durante la fasé de \acrshort{CC}, el $70\%$ de su capacidad total en el $30\%$ del tiempo de carga
+mientras que tardará el $70\%$ del tiempo total de carga para acumular el $30\%$
+restante de su capacidad durante la fase \acrshort{CV}. 
+
+La existencia de una resistencia interna en serie en las celdas no ideales
+implica que a mayor corriente de carga rápida a CC se alcance más
+rápido la tensión de umbral de paso a la fase de tensión constante CV acortando
+el tiempo de CC pero extendiendo el tiempo de CV. Podemos inferir entonces que a
+menor resistencia interna menor tiempo de carga. Y que aumentar la corriente a
+CC tambien reducirá el tiempo de carga. 
+Sin embargo, se desaconseja completamente implementar regímenes de carga rápida
+que superen 1C por el impacto en el número de ciclos de vida útil de las celdas
+del pack de batería. La figura \ref{fig:C_vs_Cycle_I} muestra como a medida que
+aumentamos el régimen de carga de una celda la
+vida útil de la misma, medido en ciclos de carga, disminuye significativamente.
+
+\begin{figure}[h!]
+     \centering
+     \includegraphics[width=0.6\textwidth]{bat_char/C_vs_Cycle_I.png}
+     \caption{Relación Corriente de carga vs Ciclos de vidaútil de una
+	celda de Ion-Litio con un cátodo de $LiCoO_2$}
+     \label{fig:C_vs_Cycle_I}
+\end{figure}
+\FloatBarrier
+
+A mayores tasas de corriente, mayor cantidad de iones de litio se depositan sobre
+el ánodo conviritiendose en litio metálico al librerar sus electrónes disponibles.
+El litio metálico es sumamente reactivo con el electrolito resultando en una
+pérdida permanente de \acrshort{Ion-Li}, el elemento almacendor de la
+energía, acelerando el evenjecimiento prematuro de
+la celda y en consecuencia reduciendo los ciclos de vida útiles de la misma. 
+
+Normalmente, a mayor voltaje en bornes de una celda mayor es la capacidad de la
+misma. Podríamos entonces vernos tentados a aumentar el voltaje límite de
+regulación y sobre cargar una celda para aumentar la carga almacenada. Por
+ejemplo, una celta cargada a $4.3V$ en vez de $4.2V$ va a permitirnos almacenar
+un $10\%$ más de carga inicial. El inconveniente aqui reside nuevamente en el
+impacto que tendra estre procedimiento en el número de ciclos de carga y la vida
+útil de la celda. La vida útil de una celda sobre cargada se vería reducida en un $50\%$.
+Por el otro lado,
+cargar una celda con un un voltaje menor ($40mv$ menor) implicará una reducción
+aproximada de un $10\%$ de su carga inicial. Podemos arribar a la
+conclusión que el control del voltaje de carga 
+y su precisión es de vital importancia en un circuito de carga. La figura
+\ref{fig:C_vs_Cycle_V} muentra la relación entre el número de ciclos de carga y
+los diferentes voltajes de carga. 
+
+\begin{figure}[h!]
+     \centering
+     \includegraphics[width=0.6\textwidth]{bat_char/C_vs_Cycle_V.png}
+     \caption{Relación Voltaje de carga la bateria vs Ciclos de vida de una
+	celda de Ion-Litio con un cátodo de $LiCoO_2$}
+     \label{fig:C_vs_Cycle_V}
+\end{figure}
+\FloatBarrier
+
+A voltajes mayores el material del cátodo reacciona a mayor velocidad con el
+electrolito perdiéndose material en la reacción resultando en una perdida de
+capacidad de almacenamiento de energía. 
+
+\subsection{Ecualización de celdas}
 	
-	\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se encuentran conectadas en serie, el voltaje de una celda no siempre coincide con la tensión equivalente del pack de baterías dividido por el número de celdas. 
+	\noindent Como se comentó en secciones anteriores, cuando múltiples
+celdas se encuentran conectadas en serie, el voltaje de una celda no siempre
+coincide con la tensión equivalente del pack de baterías dividido por el número
+de celdas. 
 	
-	\noindent La ecualización de celdas es una técnica en la cual se trata de mantener los niveles de voltaje entre las celdas que conforman la cadena conectada en serie de un pack de baterías de forma homogénea, es decir, que los niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de maximizar la eficiencia del pack de baterías.
+	\noindent La ecualización de celdas es una técnica en la cual se trata
+de mantener los niveles de voltaje entre las celdas que conforman la cadena
+conectada en serie de un pack de baterías de forma homogénea, es decir, que los
+niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de
+maximizar la eficiencia del pack de baterías.
 	
-	\noindent El desbalance más típico generalmente se manifiesta en una variación en el voltaje entre éstas, que puede ser corregido instantáneamente o gradualmente conectando cargas externas en paralelo, a través de sus correspondientes transistores, provocando una corriente de descarga adicional que pueden ir desde miliamperes hasta varios Amperes, dependiendo del dimensionamiento energético del pack de baterías. Sin embargo, este desbalance en tensión es, por lo general, dado por desbalances químicos o distintas dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no esté claramente definido provocando más perjuicios que beneficios al sistema completo. De hecho, la mayoría de las metodologías basadas en el desbalance de voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
+	\noindent El desbalance más típico generalmente se manifiesta en una variación en el voltaje entre éstas, que puede ser corregido instantáneamente o
+gradualmente conectando cargas externas en paralelo, a través de sus
+correspondientes transistores, provocando una corriente de descarga adicional
+que pueden ir desde miliamperes hasta varios Amperes, dependiendo del
+dimensionamiento energético del pack de baterías. Sin embargo, este desbalance
+en tensión es, por lo general, dado por desbalances químicos o distintas
+dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no
+esté claramente definido provocando más perjuicios que beneficios al sistema
+completo. De hecho, la mayoría de las metodologías basadas en el desbalance de
+voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
 	
 	\noindent Por lo tanto es necesario conocer la naturaleza de los distintos tipos de desbalances, los cuales son descriptos a continuación:
 	
@@ -1887,12 +2028,30 @@ Escuela de Ingeniería Electrónica}
 	El desarrollo del hardware y los algoritmos, tanto de ecualización como de estado de carga sirven como una buena base para futuros proyectos vinculados a la temática de energías renovables y \acrshort{VE}s.
 	
 	Como posible extensión se plantea el desarrollo de algoritmos novedosos para la estimación del Estado de Salud, su posible aplicación a sistemas de alta potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a la composición química de las celdas.
-	
-	\newpage
+
+    \newpage
 
     \section{Desarrollo}\label{desarrollo}
-%TODO: Desarrollo
-    \newpage
+
+    \subsection{Implementación Circuito Cargador}
+
+    % La carga del pack de batería no es un proceso trivial y la extensión de la vida util del mismo depende profundamente de poder controlar el mismo con detalle. 
+
+    % El control completo de la operación del pack de batPoder controlar 
+    % Extender la vida util del pack de baterías no es un tema trivial como ya hemos expuesto anteriormente. El balanceo de carga es
+
+    Para un completo control del proceso de carga del pack de bateria implementamos un circuito de carga en nuestro \acrshort{BMS} a partir del ciucuito integrado \emph{bq24610} de la firma \emph{Texas Instrument}.
+
+    El \emph{bq24610} es un circuito altamente intedrado que implementa un controlador  de carga switching de \acrfull{Ion-Li} o \acrfull{Li-Po}, .
+    El bq21610 ofrece un controllador de corriente y de tensión sincrónico switching PWM de frecuencia constante de alta resolución, carga de pre acondicionamiento del pack de batería, sensado de fín de carga, regulación de corriente del adaptador de alimentación y monitoréo del estado de carga. 
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{bat_char/simp_sch_char.png}
+        \caption{Esquema simplificado Cargador de Batería}
+        \label{fig:simp_sch_char}
+    \end{figure}
+    \FloatBarrier
     
     \section{Ensayos}\label{ensayos}
 %TODO: Ensayos
@@ -1901,7 +2060,6 @@ Escuela de Ingeniería Electrónica}
     \section{Conclusiones}\label{conclusiones}
 %TODO: Conclusiones
     \printbibliography
-
     \newpage
     % Print table of acronyms
     \addcontentsline{toc}{section}{Tabla de Abreviaturas}
@@ -1909,3 +2067,4 @@ Escuela de Ingeniería Electrónica}
     \printnoidxglossary[type=\acronymtype,title={Abreviaturas}]
 
 \end{document}
+\documentclass[10pt,a4paper]{article}
