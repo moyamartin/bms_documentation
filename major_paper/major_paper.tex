@@ -22,8 +22,9 @@
 \usepackage{titlesec}
 \usepackage{upgreek}
 \usepackage{xfrac}
+\usepackage{tikz}
 
-\usetikzlibrary{arrows, decorations.markings}
+\usetikzlibrary{arrows, decorations.markings, positioning}
 
 % This determines the space between a paragraph and the preceding text.
 \setlength{\parskip}{0.6em}
@@ -48,9 +49,12 @@
 \newacronym{DB}{DB}{Diagrama de Bloques}
 \newacronym{DOD}{DOD}{Depth of Discharge}
 \newacronym{EC}{EC}{Eficiencia Culombica}
+\newacronym{EIS}{EIS}{Electrochemical Impedance}
 \newacronym{FPGA}{FPGA}{Field Programmable Gate Arrays}
 \newacronym{IISB}{IISB}{Institute for Integrated Systems and Device Technology}
+\newacronym{HPPC}{HPPC}{Hybrid Pulse Power Characterization}
 \newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
+\newacronym{KF}{KF}{Kalman Filter}
 \newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
 \newacronym{MCU}{MCU}{Microcontroller Unit}
 \newacronym{OCV}{OCV}{Open Circuit Voltage}
@@ -137,7 +141,6 @@ Escuela de Ingeniería Electrónica}
 \oddsidemargin = 0cm
 \textheight = 24cm
 \textwidth = 17cm
-
 
 \begin{document}
 
@@ -294,12 +297,12 @@ Esto trae varias consecuencias, entre ellas, se encuentran:
 	entregar a la carga desaprovechando la capacidad del pack entero.
 \end{itemize}
 
-\noindent Lo que conlleva la implementación de un sistema de administración 
+\noindent Lo que conllevan a la implementación de un sistema de administración 
 de baterías (\emph{\acrshort{BMS}} por sus siglas en inglés \acrlong{BMS}). En
 definitiva, un \acrshort{BMS} es un dispositivo encargado de controlar las
 funciones vitales de las baterías para que operen de forma correcta y segura, 
 con el objetivo de otorgar seguridad al usuario y prolongar la autonomía del 
-vehículo. Las funciones más relevantes que llevan a cabo estos sistemas son:
+vehículo. Las funciones más relevantes que llevan a cabo son:
 
 \begin{itemize}
     \item Protección del pack para su operación en la región segura tanto 
@@ -327,7 +330,7 @@ detallados a continuaci\'on.
 
 \emph{foxBMS} es un proyecto desarrollado por el Instituto de Sistemas
 Integrados y Tecnolog\'ias de Dispositivos de la sociedad \emph{Fraunhofer} o
-tambien llamado Fraunhofer IISB (del ingles \emph{\acrfull{IISB}}), una
+tambien llamado Fraunhofer IISB (del ingles \emph{\acrlong{IISB}}), una
 organización de investigación alemana que comprende 72 institutos esparcidos por
 todo el territorio alem\'an.
 
@@ -358,7 +361,7 @@ A diferencia de \emph{foxBMS}, este proyecto fue desarrollado por ingenieros
 independientes con el objetivo de diversificar los proyectos abiertos relativos
 al tema en cuesti\'on.
 
-\noindent Este projecto busca desarrollar un \acrshort{BMS} capaz de manejar un
+\noindent El mismo busca desarrollar un \acrshort{BMS} capaz de manejar un
 pack de bater\'ias de 4 a 96 celdas en serie, realizar el balanceo de las mismas 
 y comunicar las variables del pack a traves del protocolo \acrshort{CAN}.
 
@@ -366,40 +369,41 @@ y comunicar las variables del pack a traves del protocolo \acrshort{CAN}.
 del publico, la documentaci\'on es muy escaza para ser implementado
 f\'acilmente para un proyecto relacionado.
 
-\noindent En definitiva, la complejidad en el manejo de grandes packs de
+\noindent En definitiva, las motivaciones para llevar a cabo el presen trabajo
+se basan en la complejidad en el manejo de grandes packs de
 bater\'ias basadas en celdas de litio-ion y la falta de proyectos abiertos
-disponibles relacionados al tema, son la fuente de motivaci\'on para llevar a 
-cabo el presente trabajo.
+disponibles relacionados al tema.
 
-\noindent Finalmente, el informe se encuentra dividido en varias secciones, en
-la seccion \ref{descripcion} se realiza una descripci\'on en alto nivel del
+\noindent Finalmente, el informe se encuentra dividido en 6 secciones, en
+la Seccion \ref{descripcion} se realiza una descripci\'on en alto nivel del
 proyecto, detallando los objetivos generales, las especificaciones y
-requerimientos del trabajo, a continuaci\'on de esa seccion, se encuentra el
-fundamento te\'orico (Secci\'on \ref{teoria}), donde se detalla el 
-funcionamiento de una celda de litio-ion, desarrollo del modelo de las celdas 
-elegidas, los algoritmos utilizados en el proyecto en conjunto con todo su 
-desarrollo matem\'atico, por ultimo se presentan las secciones \ref{desarrollo} 
-y \ref{ensayos} donde se describe el desarrollo tanto del firmware y hardware 
-del dispositivo en conjunto con los ensayos realizados para validar el 
-dispositivo respectivamente. Finalmente, en la secci\'on \ref{conclusiones} se 
-desarrollan las conclusiones y futuros proyectos a continuar sobre el eje de 
-estudio.
+requerimientos del trabajo, a continuaci\'on, se encuentra el fundamento 
+te\'orico (Secci\'on \ref{teoria}), donde se detalla el funcionamiento de una 
+celda de litio-ion, los fundamentos b\'asicos de modelados de celdas y 
+algoritmos de estimaci\'on de carga, como tambi\'en aquellos relacionados a la 
+equalizaci\'on de celdas, adem\'as, se presenta el desarrollo matem\'atico de 
+mucho de los m\'etodos como tambi\'en una comparativa, por ultimo se presentan 
+las secciones \ref{desarrollo} y \ref{ensayos} donde se describe el desarrollo 
+de la bater\'ia en si, en conjunto con su modelo y algoritmos como tambi\'en su 
+final implementaci\'on en un sistema embebido con los ensayos realizados para 
+validar el funcionamiento del sistema. Finalmente, en la secci\'on 
+\ref{conclusiones} se describen las conclusiones y futuros proyectos a continuar 
+sobre el eje de estudio.
 
 \section{Descripci\'on}\label{descripcion}
 
 \subsection{Objetivos Generales}
 
-Como solución a los problemas planteados en la secci\'on anterior, se propone
-desarrollar un \acrshort{BMS} que cumpla con los siguientes requisitos:
+Como solución a los problemas planteados, se propone desarrollar un 
+\acrshort{BMS} que cumpla con los siguientes requisitos:
 
 \begin{itemize}
     \item Proteger el pack de baterías evitando que el mismo salga de su 
 	zona de operación segura, tanto en tensión, corriente como en 
-	temperatura evaluando los umbrales correspondientes de operación para 
-	las celdas de Litio-Ion.
-    \item Estimar el estado de carga en tiempo real utilizando estos datos 
-	con el fin de llevar al sistema al punto de operación óptima.
-    \item Balancear la carga entre celdas priorizando el menor costo 
+	temperatura, evaluando los umbrales correspondientes para las celdas de 
+    Litio-Ion.
+    \item Estimar el estado de carga en tiempo real.
+    \item Balancear la carga entre celdas, priorizando el menor costo 
 	energético posible del sistema y la mayor autonomía final del pack.
     \item Comunicar los parámetros fundamentales del pack a una computadora 
 	central a través de algún protocolo estandarizado.
@@ -432,6 +436,16 @@ compuesto por 3 celdas en paralelo encargado de:
     \item Comunicar las variables del sistema a una computadora central a
 	trav\'es de un protocolo especificado
 \end{itemize}
+
+\noindent La descripción anterior se puede visualizar en el \acrfull{DB} de la
+Figura \ref{bms}. Como puede observarse, el microcontrolador es el encargado de
+comunicarse y comandar los modulos de protecci\'on, ecualizaci\'on y carga de 
+la bateria, como tambi\'en obtener variables de los mismos para poder estimar 
+el \acrshort{SOC}, determinar el desbalanceo de una o m\'as celdas y tomar 
+acci\'on al respecto, y por último, pero m\'as relevante, comandar las 
+protecciones en caso de una falla y/o alerta de la batería. 
+De forma simult\'anea, el mismo debe estar a cargo de comunicar las distintas 
+variables del sistema a una computadora central.
 
 \begin{figure}[h!]
     \begin{center}
@@ -552,16 +566,6 @@ compuesto por 3 celdas en paralelo encargado de:
     \label{bms}
 \end{figure}
 
-\noindent La descripción anterior se puede visualizar en el \acrfull{DB} de la
-Figura \ref{bms}. Como puede observarse, el microcontrolador es el encargado de
-comunicarse y comandar los modulos de protecci\'on, ecualizaci\'on y carga de 
-la bateria, como tambi\'en obtener variables de los mismos para poder estimar 
-el \acrshort{SOC}, determinar el desbalanceo de una o m\'as celdas y tomar 
-acc\'on al respecto, y por último, pero m\'as relevante, comandar las 
-protecciones en caso de una falla y/o alerta de la batería. 
-De forma simult\'anea, el mismo debe estar a cargo de comunicar las distintas 
-variables del sistema a una computadora central.
-
 \section{Aspectos Te\'oricos}\label{teoria}
 
 \subsection{Batería de Litio-Ion}
@@ -582,31 +586,22 @@ a trav\'es de su gran capacidad y densidad energ\'etica.
 \subsubsection{Principios b\'asicos}
 
 El principio básico de funcionamiento de una batería, en su configuraci\'on
-b\'asica, consiste en \emph{(fig. \ref{batt_wk_ppl})} una celda compuesta por 
-dos electrodos, cada una conectada a un circuito el\'ectrico, separado por un
-electrolito que es capaz de acomodar cargas dentro de sí. Frecuentemente, los
-electrodos son f\'isicamente separados por una barrera que previene que estén en
-contacto físico entre ellos, evitando así un corto circuito en la bateria. En
-descarga, cuando la bater\'ia entrega corriente al circuito, toma lugar un 
-proceso de oxidación en el electrodo negativo (\'anodo), resultando en un 
-movimiento de electrones a trav\'es del circuito. Por el otro lado, en el 
-electrodo positivo (c\'atodo), ocurre un proceso de reducción, reabastecido por 
-los electrones del circuito. El voltaje de la celda depende fuertemente de la 
-diferencia de potencial entre los electrodos, y del proceso espontaneo en su 
-totalidad. Para baterías recargables el proceso puede ser reversible aplicando 
-electricidad externa produciendo un proceso complementario de \emph{redox}
-(reducci\'on-oxidac\'on) en los electrodos. Este proceso es dependiente de la
-energ\'ia y es no espont\'aneo, es decir, que sucederá si y solo si un agente
-externo participa en el proceso.
-
-\begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=0.4\textwidth]{batt_func_ppr.png}
-    \end{center}
-    \caption{Diagrama del principio básico de funcionamiento de una bater\'ia 
-        en el proceso de descarga.}
-    \label{batt_wk_ppl}
-\end{figure}
+b\'asica, consiste en una celda compuesta por dos electrodos 
+\emph{(fig. \ref{batt_wk_ppl})}, cada una conectada a un circuito el\'ectrico, 
+separado por un electrolito que es capaz de acomodar cargas dentro de sí. 
+Frecuentemente, los electrodos son f\'isicamente separados por una barrera que 
+previene que estén en contacto físico entre ellos, evitando así un corto 
+circuito en la bateria. En descarga, cuando la bater\'ia entrega corriente al 
+circuito, toma lugar un proceso de oxidación en el electrodo negativo (\'anodo), 
+resultando en un movimiento de electrones a trav\'es del circuito. Por el otro 
+lado, en el electrodo positivo (c\'atodo), ocurre un proceso de reducción, 
+reabastecido por los electrones del circuito. El voltaje de la celda depende 
+fuertemente de la diferencia de potencial entre los electrodos, y del proceso 
+espont\'aneo en su totalidad. Para baterías recargables el proceso puede ser 
+reversible aplicando electricidad externa produciendo un proceso complementario 
+de \emph{redox} (reducci\'on-oxidac\'on) en los electrodos. Este proceso es 
+dependiente de la energ\'ia y es no espont\'aneo, es decir, que sucederá s\'i y 
+solo s\'i un agente externo participa en el proceso.
 
 \noindent En base a este principio de funcionamiento, surgen una gran variedad
 de tecnologías, partiendo de la pila voltaica, hecha de dos discos de metales
@@ -620,6 +615,15 @@ Cu se da en el electrodo. En la ausencia de aire, los protones en el electrolito
 son reducidos a hidrógeno en la superficie del cobre. El voltaje de la celda es
 de aproximadamente 0.8-1.1V, dependiendo de la exposición al aire. 
 Esencialmente, la pila voltaica es una batería no recargable.
+
+\begin{figure}[h!]
+    \begin{center}
+	\includegraphics[width=0.4\textwidth]{batt_func_ppr.png}
+    \end{center}
+    \caption{Diagrama del principio básico de funcionamiento de una bater\'ia 
+        en el proceso de descarga.}
+    \label{batt_wk_ppl}
+\end{figure}
 
 \noindent Despu\'es surgieron las baterías de plomo-ácido, que su principio
 de operaci\'on es similar a las baterías voltaicas expuestas al aire, pero con
@@ -643,8 +647,11 @@ los 100Wh/kg. Para incrementar la densidad energética de estas baterías, es
 necesario encontrar una estabilidad electroquímica del agua ya que juega un rol
 muy importante en ello. Además, cuando \'ambos electrodos utilizando el alto
 potencial del plomo, el voltaje de salida solo puede alcanzar un máximo de 2.2V.
-Como resultado, con la necesidad de incrementar la densidad energética de una
-celda, se descubrio el potencial del metal de litio y su aplicacicación en las 
+Como resultado de los avances tecnol\'ogicos dentro del mercado de consumo
+electr\'onico y, como consecuencia, con la necesidad de incrementar la densidad 
+energética de una celda, se impuls\'o la b\'usqueda de nuevas tecnolog\'ias que
+permitan obtener una mayor capacidad en las bater\'ias con un tamaño reducido, 
+se descubrio el potencial del metal de litio y su aplicacicación en las 
 celdas que llevan su nombre.
 
 \subsubsection{Litio}
@@ -655,10 +662,10 @@ con una densidad de 0.53$\mathrm{g/cm^3}$. Tambi\'en tiene un potencial de
 reducci\'on muy bajo, que lo hace ideal para celdas de alta densidad y alto
 voltaje. Sin embargo, es un metal reactivo que debe ser protegido, por ejemplo,
 del agua y del aire, ya que el contacto con estos provoca que el mismo sea muy
-complicado de dominar, imposibilitando su uso para la aplicación deseada. Esta
+complicado de controlar, imposibilitando su uso para la aplicación deseada. Esta
 protección al medio no es trivial, y factores, tales como su caracter inerte,
 punto de fusión, la estabilidad del \emph{redox}, solubilidad de iones de litios
-y sales, velocidades de transferencia ion/electrón, viscosidad, entre otros
+y sales, velocidades de transferencia ion/electrón, viscosidad, entre otros,
 deben ser considerados.
 
 \noindent Las primeras baterías de litio alcanzaron el mercado en 1970 y la
@@ -684,12 +691,12 @@ enteros.
 \noindent Desde el 2000 al presente, se desarrollaron varios tipos de 
 bater\'ias basadas en el litio. Entre ellas se encuentran las bater\'ias de 
 litio-sulfuro (Li-S) y litio-aire (Li-air), cuya densidad energética teórica 
-ronda los 2600Wh/kg y 11400 Wh/kg, repectivamente. En 2012, se desarrolló una 
+ronda los 2600Wh/kg y 11400 Wh/kg, respectivamente. En 2012, se desarrolló una 
 bateria de litio-ion recargable acuosa o \acrshort{ARLB} (del ingles
 \emph{\acrlong{ARLB}}), que utiliza metal de litio recubierto como ánodo en una
 solución de electrolitos mejorando ampliamente la densidad energética.
 
-\subsubsection{Principio de funcionamiento}
+\subsubsection{Principio de funcionamiento}\label{battery_fun}
 
 El principio de los procesos de carga y descarga en las baterías de litio-ion se
 basan en utilizar óxido de litio-cobalto ($\mathrm{LiCoO_2}$) y grafito como
@@ -713,8 +720,8 @@ estado atómico. Durante este proceso, el estado atómico del litio pierde
 electrones convirtiendose en iones de litio, este proceso se puede resumir en 
 que el ánodo provee al electrodo positivo iones de litio. Dado que el litio se 
 mueve entre el electrodo positivo y negativo hacia ambos lados a este tipo de 
-baterías se las denomina, como una batería mecedora 
-(del ingles, \emph{rocking chair}).
+baterías se las puede redefinir como una batería mecedora (del ingles,
+\emph{rocking chair}).
 
 \begin{figure}[h!]
     \begin{center}
@@ -743,13 +750,13 @@ desarrollo de las celdas de litio, se utilizaba \'oxido de litio-cobalto.
 También se estudió el uso de $\mathrm{LiNiO_2}$ como material activo para el 
 cátodo pero fue inmediatamente descartado debido a su inestabilidad térmica. 
 Sin embargo, se desarrollaron y utilizaron derivativos de esta composición, 
-formulados como $\mathrm{LiM_xNi_{1-x}O_2}$ 
-(M: elemento metálico tales como, el Co, Mn, Al, Mg).
+formulados como $\mathrm{LiM_xNi_{1-x}O_2}$  (M: elemento metálico tales como, 
+el Co, Mn, Al, Mg).
 
-Comparada con las baterías de litio-ion originales en los principios de 1990, 
-el rendimiento de las mismas ha sido mejorado de forma significativa con el paso
-del tiempo. Los últimos desarrollos tienen ventajas dominantes sobre las
-baterías recargables tradicionales:
+\noindent Comparada con las baterías de litio-ion originales en los principios 
+de 1990, el rendimiento de las mismas ha sido mejorado de forma significativa 
+con el paso del tiempo. Los últimos desarrollos tienen ventajas dominantes sobre 
+las baterías recargables tradicionales:
 
 \begin{itemize}
     \item \textbf{Alta densidad energética:} La densidad energética por
@@ -757,8 +764,8 @@ baterías recargables tradicionales:
 	los 500 Wh/$\mathrm{dm^3}$ y 230 Wh/kg, respectivamente, que adem\'as
 	se encuentra en continuo aumento a medida que se investigan y
 	desarrollan nuevas tecnologías.
-    \item \textbf{Alto voltaje de salida (~3.6V):} Esto es 3 veces mayor a
-	las baterías recargables de Ni-Cd o Ni-MH.
+    \item \textbf{Alto voltaje de salida (3.6V):} Esto es 3 veces 
+        mayor a las baterías recargables de Ni-Cd o Ni-MH.
     \item \textbf{Alta potencia de salida:} Pueden alcanzar hasta 2kW/kg for
 	un corto per\'iodo de tiempo.
     \item \textbf{Baja auto-descarga:} La descarga media de las celdas de
@@ -818,6 +825,13 @@ la combustibilidad del mismo genera problemas de seguridad. Por lo tanto, es
 clave para el desarrollo de estas baterías minimizar la causa y efecto de la
 combustión de la misma sin sacrificar rendimiento.
 
+\noindent El estado de las baterías de Litio-ion con respecto a las otras
+tecnologías se puede observar en la Figura \ref{comparisson_batt}, donde se
+puede observar la dominancia de las mismas en términos de densidad energética 
+(Wh/L) y energía específica (Wh/kg). La flecha de la esquina derecha indica que 
+ésta tecnología se encuentra en constante desarrollo y puede mejorar con el 
+paso del tiempo.
+
 \begin{figure}[h!]
     \begin{center}
 	\includegraphics[width=0.6\textwidth]{comparisson-liion.png}
@@ -825,14 +839,6 @@ combustión de la misma sin sacrificar rendimiento.
 	\label{comparisson_batt}
     \end{center}
 \end{figure}
-\FloatBarrier
-
-\noindent El estado de las baterías de Litio-ion con respecto a las otras
-tecnologías se puede observar en la Figura \ref{comparisson_batt}, donde se
-puede observar la dominancia de las mismas en términos de densidad energética 
-(Wh/L) y energía específica (Wh/kg). La flecha de la esquina derecha indica que 
-ésta tecnología se encuentra en constante desarrollo y puede mejorar con el 
-paso del tiempo.
 
 \noindent La aplicación práctica de las baterías de Litio-ion involucra la
 integración de las mismas dentro de un sistema, involucrando un controlador
@@ -854,18 +860,17 @@ ampliamente en el mercado de consumo electr\'onico para un gran espectro de
 aplicaciones. Sin embargo, su fiabilidad y tiempo de vida son limitados y 
 depende considerablemente de condiciones ambientales como tambien su uso 
 hist\'orico. Por lo tanto, se necesitan modelos de bater\'ias exactos y eficaces 
-para que sean correctamente monitoriados por un \acrshort{BMS}.
+para que sean correctamente monitoreados por un \acrshort{BMS}.
 
-\noindent Una celda, como se describe en la secci\'on \ref{battery_fun}, puede 
-ser caracterizado como un sistema electrotermoqu\'imico y actualmente existen 
+\noindent Una celda, como se describe en la Secci\'on \ref{battery_fun}, puede 
+ser caracterizada como un sistema electrotermoqu\'imico y actualmente existen 
 una cantidad numerosa de modelos que logran describir el funcionamiento tanto 
-est\'atitoc como din\'amico de una celda de litio. Un modelo exacto y eficiente
-de una celda de litio-ion permite optimizar al m\'aximo el ciclo de vida de una
-bater\'ia ya que nos permite obtener informaci\'on sobre el \acrshort{SOC} como
-tambi\'en conocer par\'ametros cr\'iticos de la bater\'ia como el perfil de
-descarga de la misma permitiendo ajustar los distintos algoritmos de
-protecci\'on y/o ecualizaci\'on que se apliquen en el desarrollo del
-\acrshort{BMS}.
+est\'atico como din\'amico de la misma. Un modelo exacto y eficiente permite 
+optimizar al m\'aximo el ciclo de vida de una bater\'ia ya que permite 
+obtener informaci\'on sobre el \acrshort{SOC} como tambi\'en conocer 
+par\'ametros cr\'iticos de la bater\'ia como por ejemplo, el perfil de descarga 
+de la misma permitiendo ajustar los distintos algoritmos de protecci\'on y/o 
+ecualizaci\'on  que se apliquen en el desarrollo del \acrshort{BMS}.
 
 \noindent A continuaci\'on se definen y se comparan los distintos modelos 
 disponibles en la literatura actual. Esta comparaci\'on es basada en tres 
@@ -876,22 +881,22 @@ criterios:
         puede predecir los par\'ametros y/o valores de las variables de
         inter\'es de una bater\'ia.
     \item \textbf{Complejidad}: Se refiere a la cantidad de par\'ametros que
-        necesita el modelo. Dependiendo de la complejidad del modelo, la
-        computaci\'on del mismo tomara m\'as o menor tiempo, cuestionando si es
-        \'util o no para una aplicaci\'on en tiempo real.
-    \item \textbf{Interpretaci\'on f\i'sica}: Esto se define como el nivel de
+        necesita el modelo. Dependiendo de la complejidad del, el c\'alculo 
+        del mismo tomara m\'as o menor tiempo, cuestionando su utilidad para una 
+        aplicaci\'on en tiempo real.
+    \item \textbf{Interpretaci\'on f\'isica}: Esto se define como el nivel de
         interpretaci\'on anal\'itico que el modelo puede dar con respecto al
         funcionamiento interno de una bater\'ia.
 \end{itemize}
 
 \subsubsection{Modelos F\'isicos}\label{phyModel}
 
-\noindent Tambi\'en conocidos como cajas blancas (del ingl\'es, 
+\noindent O Tambi\'en conocidos como cajas blancas (del ingl\'es, 
 \emph{white boxes}), los modelos f\'isicos son modelos de bajo nivel con un 
 nivel de exactitud muy alto. Permiten describir la estructura de los materiales 
 y logran describir los complejos fen\'omenos electroqu\'imicos que suceden 
-dentro de celda, denominados fen\'omenos termodin\'amicos, kin\'eticos y de 
-transporte.
+dentro de celda, tambi\'en denominados fen\'omenos termodin\'amicos, kin\'eticos 
+y de transporte.
 
 \noindent Schmidt (2013) presenta un resumen del fen\'omeno f\'isico como se 
 muestra en la Figura \ref{schmidt_fen_fis}. En ella, se pueden observar cuatro 
@@ -910,7 +915,7 @@ de los electrodos, y la fase l\'iquida del electrolito.
 \noindent El primer proceso se denomina el \emph{pasaje} de cargas y se da en 
 la primer regi\'on de operaci\'on: La fase s\'olida del electrodo. 
 Este proceso describe la intercalaci\'on como tambi\'en la desintercalaci\'on 
-de los iones de lition dentro del material activo. El segundo proceso, ocurren 
+de los iones de litio dentro del material activo. El segundo proceso, ocurren 
 en la misma regi\'on, y se la denomina la \emph{difusi\'on del estado s\'olido} 
 de los iones de litio forzado por el gradiente de concentraci\'on de iones entre 
 la superficie y el volumen del electrodo. El tercer proceso, se describe como 
@@ -920,11 +925,11 @@ iones} en el electrolito a trav\'es del separador, que tambi\'en es forzado for
 un gradiente de concentraci\'on y basado en la difusi\'on pero ocurre a mucha 
 mayor velocidad que en los electrodos.
 
-\noindent Estos tipos de modelos dependen de una gran cantidad de par\'ametros
-como tambi\'en de ecuaciones diferenciales interdependientes para poder replicar
-el comportamiento de una celda, como por ejemplo, coeficientes de difusi\'on
-y propiedades de los materiales son variables relevantes utilizadas en estas
-ecuaciones. En \cite{Li2016} se basa en un modelo unidimensional a lo
+\noindent Estos tipos de modelos dependen de una gran cantidad de par\'ametros,
+como tambi\'en de ecuaciones diferenciales interdependientes, para poder 
+replicar el comportamiento de una celda, como por ejemplo, coeficientes de 
+difusi\'on y propiedades de los materiales son variables relevantes utilizadas 
+en estas ecuaciones. En \cite{Li2016} se basa en un modelo unidimensional a lo
 largo de la secci\'on de la celda, dividiendolo en cinco secciones,
 aplicando las siguientes ecuaciones diferenciales: 
 
@@ -968,11 +973,11 @@ aplicando las siguientes ecuaciones diferenciales:
 \begin{itemize}
     \item $\mathrm{\sigma}$: Conductividad de la fase s\'olida del
         electrodo.
-    \item $\matrhm{\upvarhpi_s}$: Potencial el\'ectrico de la fase
+    \item $\mathrm{\upvarphi_s}$: Potencial el\'ectrico de la fase
         s\'olida.
-    \item $\matrhm{\upvarhpi_e}$: Potencial el\'ectrico del
+    \item $\mathrm{\upvarphi_e}$: Potencial el\'ectrico del
         electrolito.
-    \item $\matrhm{j^{Li}}$: Densidad de corriente producida por el
+    \item $\mathrm{j^{Li}}$: Densidad de corriente producida por el
         consumo de iones de litio.
     \item t: Tiempo transcurrido.
     \item c: Concentraci\'on de iones de litio.
@@ -988,10 +993,15 @@ aplicando las siguientes ecuaciones diferenciales:
     \item $\mathrm{C_{dl}}$: C\'apacidad de la doble capa.
 \end{itemize}
 
+A pesar de su alta exactitud, este tipo de modelo resulta complejo de
+implementar en sistemas de tiempo real debido a la gran cantidad de ecuaciones
+diferenciales a implementar con su extensa cantidad de par\'ametros a ajustar en
+el mismo, imposibilitando su uso en veh\'iculos el\'ectricos.
+
 \subsubsection{Modelos emp\'iricos}\label{empModels}
 
 \noindent Los modelos emp\'iricos, o tambi\'en conocidos como 
-\emph{cajas negras} debido a que proveen pobres conocimientos sobre el 
+\emph{cajas negras}, debido a que proveen pobres conocimientos sobre el 
 funcionamiento interno del sistema, se basan en par\'ametros emp\'iricos que no 
 tienen ning\'un significado f\'isico en algunos casos. 
 Las aproximaciones matem\'aticas que se utilizan para definir la
@@ -1005,33 +1015,32 @@ con un modelo de bajo nivel.
 
 \noindent Tambi\'en conocidos como \emph{cajas grises}, los modelos abstractos 
 proveen una representaci\'on alternativa de la entidad f\'isica a modelar. 
-En el contexto de las bater\'ias de litio-ion, estos modelos presentan una 
-representaci\'on equivalente del sistema. A pesar de que hay varias formas 
-posibles de realizarlo, la m\'as utilizada dentro de la bibliograf\'ia es su
-representaci\'on en un circuito el\'ectrico equivalente. Los modelos basados
-en circuitos son simples y pr\'acticos porque permiten que el complejo proceso
-electroqu\'imico que ocurre dentro de la celda sea reemplazado por un simple
-circuito. La correlaci'on con las din\'amicas de la bater\'ia son preservados
-sin comprometer exactitud en su predicci\'on.
+A pesar de que hay varias formas posibles de realizarlo, la m\'as utilizada 
+dentro de la bibliograf\'ia es su representaci\'on en un circuito el\'ectrico 
+equivalente. Los modelos basados en circuitos son simples y pr\'acticos porque 
+permiten que el proceso electroqu\'imico que ocurre dentro de la celda sea 
+reemplazado por un simple circuito. La correlaci\'on con las din\'amicas de la 
+bater\'ia son preservados sin comprometer demasiada exactitud en su 
+predicci\'on.
 
-El costo de configuraci\'on para talesm odelos es reducido en comparaci'\on a
-modelos de bajo nivel, sin embargo \'estos requiren de \emph{Look-up Tables}
-para coincidir con los datos experimentales. La complejidad de los mismos es
-m\'as flexible dependiendo de la unidad de c\'omputo como tambi\'en de la
-memoria disponible. Los mismo se pueden acomplejizar utilizando efectos de
-segundo \'orden, tales como la temperatura, degradaci\'on de la capacidad como
-tambi\'en el envejecimiento de las celdas.
+\noindent El costo de configuraci\'on para tales modelos es reducido en 
+comparaci\'on a modelos de bajo nivel, sin embargo \'estos requiren de 
+\emph{Look-up Tables} para coincidir con los datos experimentales. 
+La complejidad de los mismos es m\'as flexible dependiendo de la unidad de 
+c\'omputo como tambi\'en de la memoria disponible. Los mismo se pueden 
+acomplejizar utilizando efectos de segundo \'orden, tales como la temperatura, 
+degradaci\'on de la capacidad como tambi\'en el envejecimiento de las celdas.
 
-A continuaci\'on se describen los modelos m\'as utilizados dentro de la
-literatura actual.
+\noindent A continuaci\'on se describen los modelos m\'as utilizados dentro de 
+la literatura actual.
 
 \subsubsubsection{Circuito simple}
 
-\noindent El circuito el\'ectrico mas simple que representa una bater\'ia de litio ion es
-un circuito con constante de tiempo cero que se puede observar en la Figura
-\ref{zero_time_constant_sch}. Si el usuario no necesita representar la din\'amica de la
-bater\'ia, este modelo es capaz de representar el comportamiento est\'atico del
-sistema. 
+\noindent El circuito el\'ectrico mas simple que representa una bater\'ia de 
+litio ion es un circuito con constante de tiempo cero que se puede observar en 
+la Figura \ref{zero_time_constant_sch}. Si el usuario no necesita representar la 
+din\'amica de la bater\'ia, este modelo es capaz de representar el 
+comportamiento est\'atico del sistema. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -1042,7 +1051,7 @@ sistema.
                 (0, 1.5) to[american voltage source, v_=$V_{OCV}$] (0, 0.5)
                 (0, 1.5) -- (0, 2) to[R, l_=$R_S$] (3, 2) 
                 to [short, i_=$I_{batt}$] (3.5, 2)
-                (4, 2) to [open, v=$V_{batt}$] (4, 0)
+                (4, 2) to [open, v=$V_{batt}$] (4, 0);
         \end{circuitikz}
         \caption{Modelo de constante de tiempo cero para una celda de litio 
                  ion.}
@@ -1051,8 +1060,8 @@ sistema.
 \end{figure}
 
 
-El \acrshort{OCV} se relaciona directamente con el \acrshort{SOC},
-definido en la Ecuacion \ref{ocv_soc}
+\noindent El \acrshort{OCV} se relaciona directamente con el \acrshort{SOC},
+definido en la Ecuacion \ref{ocv_soc_ztc}
 
 \begin{equation}
     SoC = \frac{C_{current}}{C_{full}}\dot 100\% \label{ocv_soc_ztc}
@@ -1079,11 +1088,11 @@ m\'as altas que la ambiente, la resistencia interna disminuye, mejorando la
 velocidad de la actividad qu\'imica, por lo tanto, y desafortunadamente,
 induciendo un efecto de auto descarga.
 
-La desventaja principal del modelo de constante de tiempo cero es que no
-contempla la din\'amica de las celdas. Sin embargo, esto puede ser mitigado de
-forma f\'acil agregando un tanque RC en serie a la resistencia (\emph{fig.
-\ref{one_time_constant_sch}}), que describe la repueste de la bater\'ia durante
-el proceso de carga/descarga.
+\noindent La desventaja principal del modelo de constante de tiempo cero es que 
+no contempla la din\'amica de las celdas. Sin embargo, esto puede ser mitigado 
+de forma f\'acil agregando un tanque RC en serie a la resistencia (\emph{fig.
+\ref{one_time_constant_sch}}), que describe la respuesta din\'amica de la 
+bater\'ia durante el proceso de carga/descarga.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1095,23 +1104,23 @@ el proceso de carga/descarga.
                 (0, 2) -- (0, 3) to[R, l_=$R_s$] (3, 3) to[R, l_=$R_p$] (6, 3)
                 (3, 3) to[short, *-] (3, 1.5) to [C, l_=$C_p$] 
                 (6, 1.5) -- (6, 3) to [short, i_=$I_{batt}$] (7, 3)
-                (7.5, 3) to [open, v=$V_{batt}$] (7.5, 0)
+                (7.5, 3) to [open, v=$V_{batt}$] (7.5, 0);
         \end{circuitikz}
         \caption{Modelo de primer \'orden para una celda de litio ion.}
         \label{one_time_constant_sch}
     \end{center}
 \end{figure}
 
-La exactitud del modelo y su comportamiento din\'amico, pueden ser 
+\noindent La exactitud del modelo y su comportamiento din\'amico, pueden ser 
 mejorados agregando m\'as tanques RC al circuito, esto a su vez incrementa la
 complejidad del mismo. 
 
-\subsubsection{Modelos basados en el espectro de impedancia}
+\subsubsubsection{Modelos basados en el espectro de impedancia}
 
-Para describir la din\'amica de una celda a niveles de medianas y altas
-frecuencies, se utiliza el m'etodo de impedancia electroqu\'imica por 
-espectroscop\'ia (\acrshort{EIS}, del ing\'es \acrlong{EIS}). Sin embargo, para
-aplicar este m\'etodo, es necesario un sistema linear invariante en el tiempo,
+\noindent Para describir la din\'amica de una celda a niveles de medianas y 
+altas frecuencias, se utiliza el m\'etodo de impedancia electroqu\'imica por 
+espectroscop\'ia (\acrshort{EIS}, del ingl\'es \acrlong{EIS}). Sin embargo, para
+aplicar este m\'etodo, es necesario un sistema lineal invariante en el tiempo,
 por lo tanto, dado que las bater\'ias son sistemas altamente no lineales durante
 el proceso de carga y descarga, el \acrshort{EIS} es aplicado a dados niveles de
 \acrshort{SOC} cuando la bater\'ia tiene un determinado tiempo de descanso, para
@@ -1126,17 +1135,19 @@ anteriormente, la temperatura, el \acrshort{SOC} y la corriente de carga.
 
 \begin{figure}[h!]
     \begin{center}
-	\includegraphics[width=0.6\textwidth]{EIS_Nyquist.png}
+	\includegraphics[width=0.4\textwidth]{EIS_Nyquist.png}
 	\caption{Diagrama de Nyquist - Espectroscopía Dieléctrica (EIS) de 
 	una batería de Li-Ion obtenida por barrido frecuencial.}
 	\label{EIS_Nyquist}
     \end{center}
 \end{figure}
 
+\newpage
+
 \noindent La curva puede ser subdividida seg\'un los rangos de frecuencia en
 distintas secciones, como se puede observar en la Figura
-\ref{EIS_nyquist_sections} que se pueden asociar con fen\'omenos f\'isicos y 
-electroqu\'imicos bien definidos que ocurren dentro de la celda.
+\ref{EIS_nyquist_sections}. Estas secciones se pueden asociar con fen\'omenos 
+f\'isicos y electroqu\'imicos bien definidos que ocurren dentro de la celda.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1146,14 +1157,15 @@ electroqu\'imicos bien definidos que ocurren dentro de la celda.
     \end{center}
 \end{figure}
 
-\noindet La secion con Z" < 0 consiste de tres \'areas bien reconocibles. 
-El arco a frecuencies muy bajas (cercanas a DC) se asocia con el comportamiento 
-de difusi'on introducido en la Seccion \ref{battery_func} is representado por 
-la impedancia de \emph{estado s\'olido de Warburg}. El segundo arco a 
-frecuencias un pcoo m\'as altas (arco [ii] en Fig. \ref{EIS_nyquist_sections}) 
-corresponde a la kin\'etica de la transferencia de carga. El tercer y arco m\'as 
-pequeño arc cerca del eje real (arco [iii] en Fig. \ref{EIS_nyquist_sections}) 
-representa los efectos entre capas de la inerface s\'olida del electrolito.
+\noindent La secci\'on con $\mathrm{Z" < 0}$ consiste de tres \'areas bien 
+reconocibles. El arco a frecuencies muy bajas (cercanas a DC) se asocia con el 
+comportamiento de difusi\'on introducido en la Seccion \ref{battery_fun} y es 
+representado por la impedancia de \emph{estado s\'olido de Warburg}. El segundo 
+arco a frecuencias un poco m\'as altas (arco [ii] en Fig. 
+\ref{EIS_nyquist_sections}) corresponde a la kin\'etica de la transferencia de 
+carga. El tercer y arco m\'as pequeño arc cerca del eje real (arco [iii] en Fig. 
+\ref{EIS_nyquist_sections}) representa los efectos entre capas de la interface 
+s\'olida del electrolito.
 
 \noindent El punto (iv) de la Figura \ref{EIS_nyquist_sections} representa la 
 resistencia \'ohmica total del sistema, incluyendo la resistencia del 
@@ -1161,9 +1173,10 @@ electrolito como tambi\'en la de los electrodos. Este punto generalmente occurre
 a una frecuencia dentro del rango de los KHz pero puede variar considerablemente 
 con el diseño de la celda y los materiales utilizados.
 
-\noindent Las altas frecuencias muestran un comportamiento inductivo con Z" > 0
-(secci\'on (v) de la Figura \ref{EIS_nyquist_sections}) correspondiente a la
-estructura porosa de los electrodos y los conectores de la bater\'ia.
+\noindent Las altas frecuencias muestran un comportamiento inductivo con 
+$\mathrm{Z" > 0}$ (secci\'on (v) de la Figura \ref{EIS_nyquist_sections}) 
+correspondiente a la estructura porosa de los electrodos y los conectores de la 
+bater\'ia.
 
 \noindent El circuito equivalente de la respuesta de la impedancia es
 introducido por Moss et al. (2008) y se puede observar en la Figura
@@ -1179,20 +1192,21 @@ introducido por Moss et al. (2008) y se puede observar en la Figura
             (6, 0) to[short, -*] (7, 0) to [C, l=$C_{dl}$] (11, 0)
             (7, 0) to[short] (7, -2) to[R, l=$R_{CT}$] 
             (9, -2) to[R, l=$Z(\omega)$] (11, -2) to[short, -*] (11, 0)
-            to[C, -o, l=$C_{int}$] (12, 0)
+            to[C, -o, l=$C_{int}$] (12, 0);
         \end{circuitikz}
         \caption{Modelo equivalente a la respuesta del \acrshort{EIS}}
         \label{sch_modelo_EIS}
     \end{center}
 \end{figure}
 
-Donde los componentes representan las siguientes partes f\'isica de la celda:
+\noindent Donde los componentes representan las siguientes partes f\'isica de 
+la celda:
 
 \begin{itemize}
     \item $\mathrm{C_{dl}}$: Es la capacitancia electroqu\'imica de doble capa
         de la celda.
     \item $\mathrm{R_{CT}}$: Es la resistencia a la corriente
-        farad\'aica
+        far\'adica
     \item $\mathrm{C_{int}}$: Es la capacitancia de intercalaci\'on
         correspondiente a la acumuluaci\'on de iones de litio dentro de la
         matriz del electrodo.
@@ -1206,30 +1220,31 @@ la impedancia del elemento de warburg pero representa una aproximaci\'on con una
 exactitud aceptable. Tomando esta aproximaci\'on en consideraci\'on, se valida 
 el uso de modelos el\'ectricos para modelar celdas en un circuito compuesto 
 por una fuente de tensi\'on con una resistencia $\mathrm{R_s}$ y una cadena de 
-tanques RC conectadas en serie. Esto es solo posible grcias a las relaciones de 
+tanques RC conectadas en serie. Esto es solo posible gracias a las relaciones de 
 Kramers-Kronig (Schmidt, 2013), que pueden ser aplicadas en redes equivalentes, 
-y sugiere que distintos circuitos puede tener una respuesta equivalente o 
+y sugiere que distintos circuitos pueden tener una respuesta equivalente o 
 similar sin tener la misma topolog\'ia. En otras palabras, la bater\'ia puede 
 ser modelada con una topolog\'ia m\'as simple con elementos de circuito que no 
 tienen una directa interpretaci\'on f\'isica. Este modelo es v\'alido, porque 
 tiene la misma respuesta en frecuencia, y es m\'as f\'acil de parametrizar.
 
-\subsubsubsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
+\subsubsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
 en veh\'iculos el\'ectricos}\label{compModels}
 
 \noindent La Tabla \ref{table_comp_models} presenta un vistazo general sobre la
-comparaci\'on de los models seg\'un el criterio previamente explicado. Los
+comparaci\'on de los modelos seg\'un el criterio previamente explicado. Los
 modelos simples pueden ser menos costosos desde un punto de vista computacional
 como tambi\'en en desarrollo, a su vez, \'estos son mas susceptibles a
-incertezas en los par\'ametros delo model. Por el otro lado, modelos complejos
+incertezas en los par\'ametros del mismo. Por el otro lado, modelos complejos
 necesitan mayor tiempo para resolver los algoritmos inherentes a ellos.
 Dependiendo de la aplicaci\'on, la extracci\'on del m\'etodo del modelo y
-usabilidad puede ser evaluado. Dentro de un ambiente de laboratorio, se puede
-invertir m\'as tiempo para extraer un modelo m\'as preciso. Sin embargo, en el
-campo se necesitan resultados de forma r\'apida para evaluar si las celdas son
-aptas para ser aplicadas en un veh\'iculo, por ejemplo, en estos casos los
-modelos son utilizados para el desarrollo de un \acrshort{BMS} como es lo que se
-busca en el presente trabajo. 
+usabilidad deben ser evaluados antes de comenzar su desarrollo. 
+Dentro de un ambiente de laboratorio, se puede invertir m\'as tiempo para 
+extraer un modelo m\'as preciso. Sin embargo, en el campo se necesitan 
+resultados de forma r\'apida para evaluar si las celdas son aptas para ser 
+aplicadas en un veh\'iculo, por ejemplo, en estos casos los modelos son 
+utilizados para el desarrollo de un \acrshort{BMS} como es lo que se busca en el 
+presente trabajo. 
 
 \noindent Tener una extensa comprensi\'on de la bater\'ia en estos casos no es
 necesario, aunque puede resultar beneficioso. Dado que el mismo es embebido
@@ -1255,15 +1270,548 @@ Monitoreo y diagn\'ostico
 \end{center}
 \end{table}
 
+\subsection{Algoritmos de Estimaci\'on del Estado de Carga}\label{algSoc}
 
-\subsubsection{Batería Seleccionada}\label{batSel}
+\noindent El \acrshort{SOC} es el equivalente a medir la cantidad de combustible
+restante en un veh\'iculo convencional basado en combustibles f\'osiles. La
+funci\'on principal de esta variable es comunicar de forma instintiva el estado
+de la bater\'ia al conductor y, al mismo tiempo, evitar problemas tales como la
+sobrecarga y sobredescarga del pack de bater\'ias, en otras palabras, mantener
+el pack de bater\'ia dentro de la zona de operaci\'on segura como tambi\'en 
+lograr mantener las celdas ecualizadas entre si.
 
-\noindent En este caso utilizaremos celdas de Litio-ion modelo NCR18650PF para
-conformar el pack de bater\'ias, integrando una arquitectura \emph{6S3P}, 
-es decir, 6 modulos conectados en serie donde cada uno esta compuesto por 3 
-celdas conectadas en paralelo. En la Figura \ref{pack} se muestra el esquemático 
-de la arquitectura del pack como también una foto de la celda que se utilizará 
-para conformar el pack. 
+\noindent \'Esta tarea involucra el uso de sensores que permitan obtener las
+señales de tensi\'on, corriente y temperatura de la bater\'ia para que el
+circuito de control pueda procesarlos y computar el \acrshort{SOC},
+usando uno de los algoritmos disponibles en la literatura actual que 
+un tema que se encuentra en constante investigaci\'on debido al funcionamiento 
+no-lineal de las celdas de litio ion inherentes a sus elementos 
+electroqu\'imicos, que se  ven afectados por condiciones internas y externas.
+
+\newpage
+
+\noindent Cuando se menciona el \acrshort{SOC}, se refiere a la relaci\'on entre
+la capacidad de corriente que queda en la bater\'ia con respecto a la capacidad
+total bajo determinadas condiciones (temperatura, corriente de carga/descarga,
+envejecimiento, entre otras), y su expresi\'on matem\'atica se puede observar en
+la Ecuaci\'on \ref{eq_soc_int}
+
+\begin{equation}
+    SOC = \frac{Q_c}{Q}\times100\% 
+    \label{eq_soc_int}
+\end{equation}
+
+\noindent Donde, desde el punto de vista de los veh\'iculos el\'ectricos,
+$\mathrm{Q_c}$ es la energia residual de la bater\'ia en el momento que se
+calcula, y su unidad es Ah (Ampere-hora); Q es la capacidad total de la
+bater\'ia teniendo la misma unidad que $\mathrm{Q_c}$.
+
+\noindent El hecho de que la bater\'ia dependa de varios factores, obliga a que
+la Ecuaci\'on \ref{eq_soc_int} sea modificada, obteniendo la siguiente 
+expresi\'on (\emph{eq. \ref{eq_soc_extended}}).
+
+\begin{equation}
+    SOC(t) = SOC(t_0) - \int_{t_0}^t \frac{\eta I}{C_n }d\tau
+    \label{eq_soc_extended}
+\end{equation}
+
+\noindent En la Ecuaci\'on \ref{eq_soc_extended}, $\mathrm{C_n}$ es la 
+capacidad nominal de la bater\'ia (en Ah), $\mathrm{\eta}$ es la eficiencia 
+cul\'ombica de la celda e I es la corriente que circula sobre la celda en el 
+instante de tiempo t.
+
+\noindent Adem\'as del comportamiento de la celda, tambi\'en se debe modelar el
+efecto de envejecimiento de la celda sobre el estado de carga, que puede ser
+afectado por el ensamblado de la bater\'ia, temperatura, condiciones de
+ventilaci\'on, corriente de auto-descarga, concentraci\'on de electrolitos, por
+el otro lado, tambi\'en se lo relaciona con inconsistencias entre las distintas
+celdas que componen el pack de bater\'ias, como por ejemplo, voltaje,
+resistencia interna, capacidad y otros par\'ametros que afectan el 
+envejecimiento del pack. La relaci\'on del envejecimiento y el \acrshort{SOC} se
+ve reflejado por el \acrshort{SOH}, que es una variable que permite cuantificar
+la antigüedad de una bater\'ia. La influencia del envejecimiento de la celda
+sobre el \acrshort{SOC} se puede expresar en la Ecuaci\'on \ref{soc_soh}.
+
+\begin{equation}
+    SOC(t) = SOH(t) - DOD(t) \label{soc_soh}
+\end{equation}
+
+\noindent En la Ecuaci\'on \ref{soc_soh}, SOH(t) es el estado de salud. 
+Cuando la bater\'ia es nueva, se considera que el SOH est\'a a un 100\%. 
+Por el otro lado, el \acrshort{DOD} (del ingl\'es, \acrlong{DOD}) indica cuanto 
+de la capacidad total de la bater\'ia puede ser descargado realmente, este valor 
+se toma en cuenta cuando solo se puede descargar el 80\% de la capacidad total 
+de la celda.
+
+\noindent Basado en caracter\'isticas experimentales y te\'oricas, existen 
+varios m\'etodos para estimar el \acrshort{SOC} y pueden ser clasificados dentro 
+de tres grupos: Los m\'etodos tradicionales de estimaci\'on que se basan 
+meramente en datos experimentales, m\'etodos modernos basados en teor\'ias de 
+control y, por \'ultimo, m\'etodos basados novedosos basados en algoritmos
+pertenecientes a lo que hoy se denomina la \emph{ciencia de datos}.
+
+\subsubsection{M\'etodos tradicionales basados en experimentos}
+\label{tradSocMeth}
+
+\subsubsubsection{M\'etodo en base al voltaje de circuito abierto}
+\label{ocv_section}
+
+\noindent La medici\'on del voltaje de circuito abierto, u \acrshort{OCV}, se
+basa en la relaci\'on entre la medici\'on de este voltage y el \acrshort{SOC}
+representado en la Ecuaci\'on \ref{ocv_soc_eq}.
+
+\begin{equation}
+    V_{OC} = f(SOC) \label{ocv_soc_eq}
+\end{equation}
+
+\noindent Esta relaci\'on se determina realizando el experimento \acrshort{HPPC} 
+(del ingl\'es, \acrlong{HPPC}) que consiste en descargar la bater\'ia con pulsos 
+de corrientes equivalentes a un tercio de su capacidad comenzando desde el 
+100\% de la bater\'ia hasta un 10\% de su capacidad en donde, despu\'es de cada 
+pulso, se deja descansar a la celda por un un intervalo de 2 horas, permitiendo 
+que la misma se equilibre de forma t\'ermica y electroqu\'imica antes de aplicar 
+el pr\'oximo pulso de corriente. Durante el proceso de este ensayo, se toman 
+mediciones de corriente y tensi\'on en bornes de la bater\'ia, permiti\'endo 
+obtener una curva de \acrshort{OCV} vs \acrshort{SOC} como se puede observar en 
+la Figura \ref{soc_ocv_paper}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{soc_ocv_paper.png}
+        \caption{Curva \acrshort{OCV} vs \acrshort{SOC} de una celda de hierro
+        litio fosfato y otra de litio \'acido manganeso.}
+        \label{soc_ocv_paper}
+    \end{center}
+\end{figure}
+
+\noindent La ventaja del m\'etodo basado en la medici\'on del \acrshort{OCV} es
+que es muy simple de implementar, solo hace falta tener una lectura de la
+tensi\'on en bornes de la celda. Sin embargo, a pesar de su simpleza, el
+m\'etodo no es apto para realizar una estimaci\'on en tiempo real debido a las
+din\'amicas internas de la celda.
+
+\noindent Por ejemplo, el voltage de la celda tiene una respuesta muy din\'amica
+ante fluctuaciones de corriente, como se puede observar en la Figura
+\ref{relaxation_ocv}, lo que imposibilita utilizar este m\'etodo como estimador
+del \acrshort{SOC} en tiempo real, ya que ante una pequeña circulaci\'on de
+corriente la correlaci\'on entre el voltaje y el \acrshort{SOC} no es directa.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{ocv_relaxation.png}
+        \caption{Repuesta de la tensi\'on de salida de una celda de Litio-ion
+        ante un escal\'on de corriente}
+        \label{relaxation_ocv}
+    \end{center}
+\end{figure}
+
+\noindent Por el otro lado, las celdas de litio-ion poseen un voltage de
+hist\'eresis en el proceso de carga y descarga, como se puede observar en la
+Figura \ref{histeresis_plot}, donde en la misma se muestrea el \acrshort{SOC}
+para distintos per\'iodos de relajaci\'on, en ella se puede notar como
+afecta el per\'iodo de relajaci\'on para realizar la estimaci\'on, donde a
+mayor tiempo mejor es la estimaci\'on, esto es directamente relacionado con la
+difusi\'on del litio dentro de la celda.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{soc_histeresis.png}
+        \caption{\acrshort{OCV} vs \acrshort{SOC} mostrando la variaci\'on del
+        voltaje ante la variaci\'on del tiempo de descanso} 
+        \label{histeresis_plot}
+    \end{center}
+\end{figure}
+
+\noindent Finalmente, la curva \acrshort{OCV} vs \acrshort{SOC} de la Figura
+\ref{soc_ocv_paper} muestra secciones en la que la señal del \acrshort{OCV} es
+plana ante una variaci\'on del \acrshort{SOC}, particularmente entre el 40\% y
+el 60\%. Adem\'as, hay una variaci\'on muy pequeña en tensi\'on entre el 20\% y
+80\%, lo cual, ante un m\'inimo error en la lectura de la tensi\'on de la celda
+puede llevar a mediciones muy inexactas del \acrshort{SOC}. Estas observaciones
+son los principales retos de estimar el \acrshort{SOC} utilizando solamente la
+medici\'on del \acrshort{OCV}, lo cual llev\'o al desarrollo de nuevas
+metodolog\'ias de estimaci\'on.
+
+\newpage
+
+\subsubsubsection{M\'etodo de integraci\'on de corriente}\label{ahMethod}
+
+\noindent \'Este m\'etodo es utilizado com\'unmente para medir la corriente
+el\'ectrica acumulada/entregada en determinado per\'iodo de tiempo. Se basa en
+el c\'alculo de la circulaci\'on de corriente acumulada durante el proceso de
+carga y descarga de una bater\'ia. En la literatura se plantean varias versiones
+de una descripci\'on matem\'atica de este m\'etodo, la m\'as utilizada se
+puede describir en la Ecuaci\'on \ref{ah_soc_general}.
+
+\begin{equation}
+    SOC = \frac{Q_0 + \int_{0}^t i_c\eta dt - \int_{0}^t i_d dt - S}{Q}
+    \label{ah_soc_general}
+\end{equation}
+
+\noindent En la Ecuaci\'on \ref{ah_soc_general}, Q es la capacidad total de la 
+bater\'ia, $\mathrm{Q_0}$ es la carga inicial de la celda, $\mathrm{\eta}$ es la 
+eficiencia de carga, S es la cantidad estimada de auto-descarga de la celda, 
+$\mathrm{i_c}$ es la corriente de carga e $\mathrm{i_d}$ es la corriente de 
+descarga.
+
+\noindent Por el otro lado, en la literatura tambi\'en se encuentran versiones
+mejoradas de \'este m\'etodo para corregir el error estimado. El principio de
+operaci\'on se puede observar en la Ecuaci\'on \ref{ah_soc_enhanced}.
+
+\begin{equation}
+    SOC = \alpha SOC_0 - \frac{1}{\delta c}\int \eta_\epsilon I dt
+    \label{ah_soc_enhanced}
+\end{equation}
+
+En esta ecuaci\'on, $\mathrm{SOC_0}$ es obtenida por el m\'etodo de
+\acrshort{OCV} descripto en la Secci\'on \ref{ocv_section}, $\mathrm{\alpha}$ es
+el coeficiente que representa el factor de correcci\'on de auto-descarga y
+envejecimiento de la celda, que se obtiene en base a varios experimentos en la
+celda, $\mathrm{\delta}$ es el factor de correcci\'on por la capacidad de la
+bater\'ia que se puede obtener a partir de la Ecuaci\'on
+\ref{batt_cap_correction}. El par\'ametro $\mathrm{\eta_\epsilon}$ es la
+eficiencia cul\'ombica equivalente de la celda, cuyo valor se obitene unificando
+la eficiencia cul\'ombica de distintas corrientes.
+
+\begin{equation}
+    \delta = 0.0010N^2 - 0.032N + 11.8819\label{batt_cap_correction}\;
+    \text{donde N es el n\'umero de ciclos}
+\end{equation}
+
+\noindent El m\'etodo de integraci\'on de corriente tiene la ventaja de ser un
+c\'alculo simple, estable y permite ser implementado en tiempo real.
+Considerando la auto-descarga, temperatura, eficiencia de carga y descarga, el
+m\'etodo puede alcanzar niveles de exactitud aceptables para una
+implementaci\'on r\'apida para la estimaci\'on del \acrshort{SOC} en un BMS. Sin
+embargo, este m\'etodo tiene dos principales desventajas:
+
+\begin{enumerate}
+    \item Dado que solo se integra corriente en un largo per\'iodo de tiempo, el
+        m\'etodo es propenso a acumular una considerable cantidad de error en el
+        tiempo.
+    \item El mismo no logra eliminar la p\'erdida de la capacidad de carga como
+        consecuencia del envejecimiento de la celda, logrando que se acumule
+        error por cada ciclo de carga.
+\end{enumerate}
+
+\noindent Por esto mismo, varias bibliograf\'ias proponen fusionar el m\'etodo
+por \acrshort{OCV} junto a \'este para compensar los errores inherentes, as\'i
+obteniendo una metodolog\'ia simple y eficiente para estimar el \acrshort{SOC}
+de una celda.
+
+\subsubsubsection{Medici\'on de resistencia interna}\label{internalRMethod}
+
+\noindent \'Este m\'etodo tiene el objetivo de relacionar la resistencia interna
+de una celda con el \acrshort{SOC}, considerando la corriente de descarga y la
+resistencia interna de la bater\'ia. Sin embargo, en la pr\'actica, la
+relaci\'on entre los par\'ametros de una celda y el \acrshort{SOC} es bastante
+compleja. En la etapa inicial de la descarga, la eficiencia de descarga de la
+resistencia interna es estable y su fluctuaci\'on es casi impercetible. Sin
+embargo, en la etapa final, la resistencia interna aumenta considerablemente
+obteniendo como resultado grandes fluctuaciones, denotando que este m\'etodo es
+generalmente aplicado en esta etapa del proceso de descarga. Este comportamiento
+se puede observar en la Figura \ref{res_int_graph}.
+
+\begin{figure}[h]
+    \begin{center}
+	\includegraphics[width=0.7\textwidth]{Ro_vs_SOC.png}
+	\caption{Resistencia en corriente continua de una batería de litio ion vs. 
+        SOC obtenida por HPPC}
+	\label{res_int_graph}
+    \end{center}
+\end{figure}
+
+\noindent La resistencia interna de una bater\'ia puede ser dividida en la
+resistencia de corriente alterna y corriente continua. Por lo tanto,
+\'este m\'etodo puede ser dividido en dos m\'etodos para cada uno. 
+La impendancia en alterna es la funci\'on transferencia entre el
+voltage y la corriente de la celda cuando se le aplica una corriente
+alterna y ambos pueden ser medidos f\'acilmente con un medidor de impedancias. 
+Sin embargo, a pesar de ser un m\'etodo muy simple de implementar, la relaci\'on 
+de la resistencia interna con el SOC se acomplejiza dependiendo de la 
+tecnolog\'ia de la bater\'ia, especialmente en las celdas de litio ion.
+
+\noindent El m\'etodo consiste en excitar la bater\'ia breves instantes 
+(menores a 10ms) un pulso de corriente, asumiendo que este per\'iodo es lo 
+suficientemente acotado para que la variaci\'on de tensi\'on sea atribuida a la 
+resistencia interna y no a la carga/descarga de la bater\'ia, el c\'alculo de la 
+resistencia se podr\'ia obtener seg\'un la Ecuaci\'on
+\ref{rint_batt_eq}:
+
+\begin{equation}
+    \frac{\Delta V}{\Delta I} = R_{\ohm} \label{rint_batt_eq}
+\end{equation}
+
+Sin embargo, a pesar de su simpleza, este m\'etodo no resulta atractivo para
+implementar en sistemas en tiempo real dado que, como se menciona anteriormente,
+tiene una gran exactitud \'unicamente en bajos valores de \acrshort{SOC},
+adem\'as, tambi\'en debe inyectarse un valor de corriente conocido para poder
+estimar su valor, resultando en mayor complejidad al circuito del \acrshort{BMS}
+para poder generar este valor de corriente conocido en tiempo real.
+
+\noindent En resumen, los m\'etodos de estimaci\'on del \acrshort{SOC} basados
+en experimentos tienen la ventaja de ser simples y f\'aciles de implementar,
+pero requieren de mucha inversi\'on experimental en las celdas para un bajo
+rendimiento en estimar de forma exacta el \acrshort{SOC}. Con respecto a la
+exactitud de estimaci\'on y caractter\'isticas de los ensayos de cada m\'etodo,
+se puede decir que:
+
+\begin{itemize}
+    \item \textbf{Estimaci\'on por OCV:} La exactitud de \'este m\'etodo depende
+        exclusivamente del tiempo en el que la bater\'ia estuvo relajada,
+        mientras mayor sea este tiempo m\'as exacto es la estimaci\'on.
+    \item \textbf{Estimaci\'on por integraci\'on de corriente:} Es
+        principalmente utilizado para determinar el \acrshort{SOC} inicial, pero
+        si exactitud disminuye con el tiempo de medici\'on, debido a que la
+        resistencia interna cambia constantemente y es propenso a acumular
+        errores.
+    \item \textbf{M\'etodo de resistencia interna:} \'Este m\'etodo es solo
+        estable sobre la etapa final de descarga y tiene un alto grado de
+        precisi\'on, pero el tiempo de ensayo no se puede obtener de forma
+        precisa por lo que genera un error en el mismo.
+    \item \textbf{M\'etodo de descarga:} \'Este m\'etodo tiene una
+        alta exactitud pero es solo aplicable en laboratorios y no sirve para
+        veh\'iculos reales.
+\end{itemize}
+
+
+\subsubsection{M\'etodos modernos basados en la teor\'ia de control}
+\label{controlTheoryMethod}
+
+\noindent Dentro de la ingenier\'ia y las matem\'aticas, la teor\'ia de control 
+se encarga de modelar y controlar la din\'amica de un sistema 
+independientemente de su naturaleza. Cuando una o m\'as variables de salida 
+necesitan seguir determinada referencia, un controlador manipula las 
+entradas del mismo para que el sistema pueda lograr el efecto deseado a su 
+salida.
+
+\noindent La mayor\'ia de los conceptos dentro de \'esta tem\'atica son
+basados en sensores que permiten medir la variable bajo control. De hecho, 
+tambi\'en se asume una perfecta disponibilidad de la variable de 
+retroalimentaci\'on dentro del esquema de control. Desafortunadamente, tal
+suposici\'on no siempre es v\'alida. Los sensores f\'isicos siempre tienen
+limitaciones que afectan estos sistemas. Por ejemplo, en algunos casos
+los sensores son componentes muy costosos tanto econ\'omicamente como en su
+implementaci\'on, en otros casos la variable a medir no puede ser accesible o 
+f\'isicamente medida debido a ambientes hostiles. Finalmente, los sensores 
+inducen errores significativos, tales como el ruido, retardo de fase, errores 
+determin\'isticos y respuesta limitada en ancho de banda.
+
+\noindent Para mitigar este problema, se plantea el uso de \emph{observadores}. 
+Los observadores son algoritmos que combinan señales que provienen de sensores 
+con conocimientos del sistema para producir señales \emph{observadas}. 
+\'Estas señales pueden ser igual de exactas que el sensado, menos costosas de 
+producir, y de mayor confianza que las señales proveniente de sensores. 
+Los observadores le ofrece al diseñador la alternativa de agregar nuevos 
+sensores, o mejorar los existentes agregando solamente costo computacional, sin 
+reimplementaciones de hardware que puede traer altos costos de diseño durante la
+etapa de desarrollo de un producto.
+
+\noindent El principio de operaci\'on de un observador se basa en combinar la
+medici\'on de salida de la planta con conocimientos previos de los distintos 
+componentes que modelan a la misma, obteniendo un mayor conocimiento sobre el 
+comportamiento de la planta a comparaci\'on de utilizar solamente la señal de 
+salida de la misma. Como se puede observar en la Figura \ref{role_observer}, el 
+observador aumenta la capacidad del sensor de salida y provee una señal de 
+realimentaci\'on a las leyes de control.
+
+\begin{figure}[h!]
+    \begin{center}
+    \begin{tikzpicture}
+        \draw (-.75, 0) node {Set Point};
+        \draw[-stealth] (0, 0) -> (1, 0);
+        \draw (1.5, 0) circle (0.5);
+        \draw[-stealth] (2, 0) -> (2.5, 0);
+        \draw (2.5, .5) rectangle (5, -.5) node[pos=.5]{Ley de Control};
+        \draw[-stealth] (5, 0) -> (5.5, 0);
+        \draw (6, 0) circle (0.5);
+        \draw[-stealth] (6, 1) -> (6, 0.5);
+        \draw (6, 1.5) node {Ruido};
+        \draw[-stealth] (6.5, 0) -> (7, 0); 
+        \draw (7, .5) rectangle (8.5, -.5) node[pos=.5]{Planta};
+        \draw[-stealth] (8.5, 0) -> (9, 0);
+        \draw (9, .5) rectangle (10.5, -.5) node[pos=.5]{Sensor};
+        \draw (10.5, 0) -> (11, 0) -> (11, -4);
+        \draw[-stealth] (11, -4) -- (9, -4);
+        \draw (11, -4.5) node {Medici\'on de salida};
+        \draw (9, -3.5) rectangle (4, -4.5) node[pos=.5]{Observador};
+        \draw[-stealth](6.5, -2.5) -- (6.5, -3.5);
+        \draw (6.5, -2) node {Modelo de la planta};
+        \draw (4, -4) -- (1.5, -4);
+        \draw (1.5, -4.5) node {Realimentaci\'on del observador};
+        \draw[-stealth] (1.5, -4) -- (1.5, -.5);
+    \end{tikzpicture}
+    \caption{Rol del observador en un sistema de control}
+    \label{role_observer}
+    \end{center}
+\end{figure}
+
+\noindent Sin embargo, la tecnolog\'ia del observador no es la soluci\'on final
+a estos problemas. Como mencionamos anteriormente, los observadores agregan
+trabajo computacional al producto final y, adem\'as, no son igual de robustos
+que un sensor, especialmente cuando la planta se modifica substancialmente
+cuando se mueve dentro del punto de operaci\'on. 
+
+\newpage
+
+\noindent Dentro de los observadores disponibles, la bibliograf\'ia relacionada
+a la estimaci\'on del \acrshort{SOC} hace un gran \'enfasis en la utilizaci\'on
+del \emph{filtro de Kalman} como un buen candidato (\emph{spagnoli et. al 2011}, 
+\emph{zhihao et. al 2015}, \emph{atsushi et. al 2014}) obteniendo resultados
+prometedores. A continuaci\'on se desarrolla su principio de funcionamiento, 
+beneficios y como se utiliza como observador del \acrshort{SOC}.
+
+\subsubsubsection{M\'etodo del Filtro de Kalman}\label{kalmanFilterMethod}
+
+\noindent Dentro de las herramientas matem\'aticas que pueden ser utilizada para
+estimaci\'on de variables a partir de mediciones ruidosas, una de las m\'as
+conocidas y usadas es el \emph{Filtro de Kalman}. Esencialmente, el filtro de
+Kalman es un conjunto de ecuaciones matem\'aticas que implementan un estimador
+de tipo \emph{predictor-corrector} que es \'optimo en el sentido de que minimiza
+la covarianza del error dadas determinadas condiciones y, a pesar de que estas
+condiciones son rara vez dadas, se obtienen buenos resultados para varias
+aplicaciones.
+
+\noindent En principio, el filtro logra estimar la variable de inter\'es usando 
+un control de retroalimentaci\'on: El filtro estima el estado del proceso en 
+determinado instante de tiempo y despu\'es obtiene la realimentaci\'on en forma 
+de mediciones ruidosas, en base a esta realimentaci\'on, calcula el error y
+reacomoda su ganancia para disminuir el mismo. Las ecuaciones del filtro se
+dividen en dos grupos: \emph{ecuaciones de actualizaci\'on en el tiempo} 
+y \emph{ecuaciones de actualizaci\'on de medici\'on}. El primer conjunto de
+ecuaciones es responsable de proyectar la estimaci\'on el estado actual y la
+covarianza del error en el tiempo para obtener estimaciones \emph{a priori} para
+el proximo paso en el tiempo. El segundo conjunto de ecuaciones son responsables
+de la realimentaci\'on, por ejemplo, incorporando nuevas mediciones dentro del
+estado estimado de forma \emph{a priori} para obtener una estimaci\'on \emph{a
+posteriori} mejorada.
+
+\noindent Las ecuaciones de actualizaci\'on del tiempo tambi\'en pueden ser 
+interpretadas como ecuaciones de \emph{predicci\'on}, mientras que las 
+ecuaciores de actualizaci\'on de medici\'on pueden ser interpretadas como 
+ecuaciones de \emph{correcci\'on}. Obteniendo como resultado, un algoritmo 
+recursivo de tipo \emph{predictor-corrector} para resolver problemas num\'ericos 
+como se puede observar en la Figura \ref{kalman_filter_sch}.
+
+\begin{figure}[h!]
+    \begin{center}
+    \begin{tikzpicture}
+        \draw (0, 0) node {Predicci\'on};
+        \draw[-stealth] (0, -.25) to[out=-90, in=-90] (3, -.25);
+        \draw (3, 0) node {Correcci\'on};
+        \draw[stealth-] (0, .25) to[out=90, in=90] (3, .25);
+    \end{tikzpicture}
+    \caption{El ciclo perp\'etuo del filtro de Kalman. La actualizaci\'on en el
+    tiempo proyecta el estado actual en el tiempo. Mientras que la 
+    actualizaci\'on de medici\'on ajusta la proyecci\'on estimada previamente a
+    una actual medici\'on a ese instante.}
+    \label{kalman_filter_sch}
+    \end{center}
+\end{figure}
+
+Las ecuaciones especificas para la estimaci\'on del estado (o actualizaci\'on
+en el tiempo) se representan en las Ecuaciones \ref{est_state} y 
+\ref{est_uncert}.
+
+\begin{align}
+    \hat{x}_{n+1, n} &= F\hat{x}_{n,n} + Gu_n & & \textrm{Estimaci\'on de estado}
+    \label{est_state} \\
+    P_{n+1,n} &= FP_{n,n}F^T + Q & & \textrm{Estimaci\'on de incerteza}
+    \label{est_uncert}
+\end{align}
+
+\noindent Donde F es una matriz (n x n, donde n es la cantidad de estados del 
+sistema) que relaciona la proyecci\'on del estado con el estado actual, G es una 
+matriz (n x l, donde l es la cantidad de entradas del sistema) que relaciona las 
+señales de entrada con la proyecci\'on del estado del sistema y, por \'ultimo, 
+Q (n x n) es la covarianza del ruido relacionado al proceso interno del sistema.
+
+\noindent En las ecuaciones anteriores se puede observar como se projecta el 
+estado y la covarianza desde el paso k al paso k+1, obteniendo una predicci\'on 
+del estado del sistema.
+
+\noindent Por el otro lado, las ecuaciones relacionadas a la actualizaci\'on de 
+las mediciones se pueden observar en las Ecuaciones \ref{kalman_gain},
+\ref{estimate_w_measurement} y \ref{estimate_uncertainty}.
+
+\begin{align}
+    K_n &= P_{n, n-1}H^T(HP_{n,n-1}H^T + R_n)^{-1} & & \textrm{Ganacia de Kalman}
+    \label{kalman_gain}\\
+    \hat{x}_{n, n} &= \hat{x}_{n,n-1} + K_n \left(z_n - H\hat{x}_{n, n-1}\right)
+    & & \textrm{Actualizaci\'on del estado}\label{estimate_w_measurement}\\
+    P_{n, n} &= \left(I - K_nH\right)P_{n,n-1}\left(I - K_nH\right)^T + K_n R_n
+    K_n^T & & \textrm{Actualizaci\'on de la covarianza}
+    \label{estimate_uncertainty}
+\end{align}
+
+\noindent La primer tarea durante el proceso de \emph{correcci\'on} es calcular 
+la ganancia de Kalman, $\mathrm{K_k}$, despu\'es el algoritmo procede a medir el
+proceso obteniendo la variable $\mathrm{z_k}$, y con esta informaci\'on generar
+el estado \emph{a posteriori} incorporando las mediciones como se puede observar
+en la Ecuaci\'on \ref{estimate_w_measurement}, que es similar a la Ecuaci\'on
+\ref{est_state} pero con mediciones actuales utilizando la ganancia de Kalman
+como un corrector. Por \'ultimo se obtiene una estimaci\'on del error de
+covarianza \emph{a posteriori} como se realiza en la Ecuaci\'on
+\ref{estimate_uncertainty}. 
+
+\noindent Para cada instante de tiempo y medici\'on, el proceso se repite con 
+estimaciones previas usadas para proyectar o predicir nuevo estados. Esta 
+naturaleza recursiva es una de las caracter\'isticas atractivas del filtro de 
+Kalman que lo hace atractivo en su implementaci\'on, a comparaci\'on de, por 
+ejemplo, un filtro de Wiener (Brown and Hwang 1996) que es diseñado para operar 
+con toda la informaci\'on en cda estimaci\'on. En cambio, el filtro de Kalman, 
+utiliza de forma recursiva las mediciones pasadas para estimar el estado actual.
+La Figura \ref{complete_kf} muestra la operaci\'on del fitro, combinando un
+diagrama de alto nivel combinando las ecuaciones 
+\ref{est_state}-\ref{estimate_uncertainty}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{kf_complete.png}
+        \caption{Diagrama detallado del funcionamieno del filtro de Kalman}
+        \label{complete_kf}
+    \end{center}
+\end{figure}
+
+\noindent \'Este m\'etodo puede ser f\'acilmente utilizado para estimar el 
+\acrshort{SOC} de una celda. En principio se necesita un modelo linealizado de la 
+celda de litio-ion representado en un sistema de ecuaciones de estado e 
+implementar el filtro para poder estimar el \acrshort{SOC} tomando una variable 
+que se pueda utilizar y medir como salida para poder calcular un error de la 
+estimaci\'on del estado, de forma tal que el algoritmo pueda iterar y calcular 
+la ganancia de Kalman para poder \emph{corregir} su estimaci\'on.
+
+\noindent Por ejemplo, \emph{Spagnol et. al} propone implementar un filtro de
+Kalman utilizando un modelo en ecuaciones de estado que permite fusionar la
+representaci\'on de la celda en un modelo el\'ectrico (t\'ipico para
+estimaci\'on del \acrshort{OCV}) con metodolog\'ias de conteo de Coulomb
+(desarrollada en \ref{ahMethod}) obteniendo un m\'etodo que permite rechazar
+tanto el ruido de las mediciones como tambi\'en errores param\'etricos del
+modelo.
+
+\noindent Los autores plantean el uso de un modelo el\'ectrico de la bater\'ia
+basado en dos tanques RC conectados a una resistencia en serie y dos fuentes de
+tensi\'on controladas por el \acrshort{SOC} representa el \acrshort{OCV} de la 
+celda, como se puede observar en la Figura \ref{2rc_circuit}.
+
+\newpage
+
+\begin{figure}[h!]
+    \begin{center}    
+        \begin{circuitikz}[american voltages]
+            \draw (0, 0) to[D] (0, -1.5) to[cV, r_=$OCV_{CC}(SoC)$] (0, -3);
+
+
+        \end{circuitikz}
+    \end{center}
+\end{figure}
+
+\noindent
+
+
+
+\newpage
+
 
 \begin{figure}[h!]
     \begin{subfigure}[b]{.5\textwidth}
@@ -1553,259 +2101,6 @@ modelo.
 	\caption{Implementación Tipo - INA226}
 	\label{fig:ina226-commonimplementation}
     \end{center}	
-\end{figure}
-\FloatBarrier
-
-\subsection{Algoritmos de Estimación del Estado de Carga}
-
-La estimación del estado de carga es una de las tareas fundamentales dentro del
-sistema de Administración de baterías ya que en base a esta información se toman
-importantes decisiones, de ella dependen la optima ecualización de carga de las
-celdas, no exceder los límites de Zona de Operación segura, realizar acciones
-preventivas en caso del agotamiento de carga como ser iniciar un apagado de
-seguridad y por último reportar al usuario la carga restante en el pack.
-
-A priori hay 2 métodos básicos de estimación de carga, el primero,
-\textbf{\emph{OCV vs SoC}}, aprovecha la relación entre el Estado de Carga SoC
-(del ingles \acrfull{SOC}) y el voltaje de circuito abierto o OCV (del ingles
-\acrfull{OCV} éste método es económico pero tiene 2 principales desventajas, la
-curva OCV vs SoC tiene una región en la cual tiene valores de pendiente
-despreciable lo que genera que entre el 80\% de carga y el 35\% aproximadamente,
-haya solo unas pocas decenas de milivoltios de diferencia. Debido a esto un
-error de pocos milivolts genera grandes diferencias en la estimación de la carga
-real. Por otro lado la estimación mediante voltaje tiene problemas a la hora de
-determinar el voltaje online, es decir cuando la batería esta conectada a una
-carga las corrientes que circulan por el pack generan caidas de tensión debido a
-las impedancias internas del pack, si estas no son tenidas en cuenta pueden
-llevar a que el ecualizador del pack desbalancee aún más el pack.
-
-El segundo método es el \textbf{\emph{Conteo de carga}} o \textbf{\emph{Coulomb
-Counting}}, el mismo consiste en integrar la corriente a lo largo del tiempo
-obteniendo así la carga total en el pack o SoC mediante la ecuación
-\ref{SOC_Coulomb_C}, donde \emph{i} corresponde a la corriente de la batería y
-$C_\eta$ la capacidad nominal de la misma.
-
-\begin{equation}
-    SOC=1-\frac{\int{i.dt}}{C_\eta}
-    \label{SOC_Coulomb_C}
-\end{equation}	
-
-Este método funciona muy bien en la zona donde el primer método falla, sin
-embargo como todo proceso de integración, genera errores iterativos en cada
-ciclo de cálculo generando que a lo largo del tiempo el error absoluto de este
-método tienda a crecer.Además de la necesidad de establecer un valor inicial de
-carga, estos puntos de referencia pueden ser la carga total de la batería o la
-máxima profundidad de descarga o DOD (de sus siglas en ingles \acrfull{DOD} ) de
-manera que exigen a la batería llegar a puntos límites de carga disminuyendo su
-vida útil.
-
-Debido a que nos interesa saber el \acrshort{SOC} cuando la batería esta
-entregando energía o siendo cargada se deben tener en cuenta los principales
-factores que afectan a la estimación de carga on-line. Un modelo utilizado para
-relacionar la tensión entre los bornes de la batería y el \acrshort{OCV}
-utilizado con gran frecuencia es el modelo eléctrico bosquejado en la \emph{Fig.
-\ref{Electric_model}}, este modelo es coherente con el hecho de que la tensión
-en los bornes de la batería en reposo es igual al \acrshort{OCV}. Pero al ser
-circulada por una corriente se deben tener en cuenta los fenómenos dinámicos  y
-la perdida por resistencias internas así como la corriente de pérdida (auto
-descarga) de la batería.
-
-\begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=0.7\textwidth]{electric_battery_model_2_order.png}
-	\caption{Modelo Electrico de segundo orden con corriente de perdida.}
-	\label{Electric_model}
-    \end{center}
-\end{figure}
-
-Dada la naturaleza química de la batería, si se entra en detalle se puede
-observar que los componentes que modelan la batería tienen un comportamiento no
-lineal dependiendo del \acrshort{SOC} y más aún se ven afectados por el efecto
-de envejecimiento de las celdas, es decir, estamos es un sistema no lineal no
-estacionario.
-
-Como soluciones parciales fueron desarrollados varios métodos los cuales son una
-solución de compromiso entre aproximaciones lo suficientemente conservadoras
-para obtener el menor error posible y un alto costo computacional cuyas
-exigencias de hardware elevan el costo y el espacio necesario para su
-implementación, clasificándose según \cite{Hannan2017} los siguientes métodos
-como convencionales :
-
-\begin{itemize}
-    \item Fuerza Electro-Motriz
-    \item Estimación basada en modelos (Térmico y electroquímicos)
-    \item Resistencia interna
-    \item Espectroscopia Dieléctrica
-\end{itemize}
-
-Un gran avance en la estimación del estado de carga fue la aplicación de los
-Filtro de Kalman para disminuir el error. Esta es una herramienta estadística de
-análisis en espacio de estado que mediante las matrices de Varianza y Covarianza
-estiman un vector de soluciones con mayor precisión.  Los Filtros de Kalman ven
-afectado su rendimiento a la hora de trabajar con sistemas fuertemente No
-Lineales, debido a esto surgen las variantes EKF, UKF y SPKF provenientes del
-inglés, Extended, Unscented y Sigma Point, respectivamente.
-
-\subsubsection{Método de estimación por FEM}
-
-Teniendo en cuenta la limitación del método de \acrshort{OCV} para la estimación
-mientras la batería esta siendo cargada o descargada, surge como solución a esta
-problemática la estimación del \acrshort{OCV} mediante el estudio de la
-respuesta temporal de la tensión entre los terminales de la batería dado su
-comportamiento temporal regido por una ecuación diferencial de primer orden como
-se muestra en \emph{\ref{1er_orden_eq}}, siendo k una constante, cuya solución
-es de la forma \emph{\ref{1er_orden_sol}}, lo cual se corresponde con la gráfica
-de la \emph{Fig.\ref{EMF_Method}}.
-
-\begin{equation}
-    \frac{df(x)}{dx} = \alpha f(x)
-    \label{1er_orden_eq}
-\end{equation}  
-
-\begin{equation}
-    f(x)= x_{(\infty)}+(x_0-x_{(\infty)})e^{-\alpha x}
-    \label{1er_orden_sol}
-\end{equation}  
-
-\begin{figure}[h]
-    \begin{center}
-	\includegraphics[width=0.7\textwidth]{EMF_Relaxation.png}
-	\caption{Curva de relajación de una Batería de Li-Ion}
-	\label{EMF_Method}
-    \end{center}
-\end{figure}
-
-\subsubsection{Estimación basada en modelos (Mecánicos, Térmicos y electroquímicos)}
-
-Este método requiere un profundo conocimiento de los fenomenos físicos y
-electroquímicos dentro de las baterías, como por ejemplo la concentración de
-electrolito, concentración de material, densidad microscópica de corriente. Esto
-constituye su principal desventaja ya que es complejo y la obtención de
-parámetros no es trivial para todo tipo de baterías.
-
-Las celdas de Li-Ion se componen de 5 regiones: un electrodo negativo colector
-de corriente, un electrodo compuesto poroso de inserción negativo, un separador
-poroso, un electrodo compuesto poroso de inserción positivo y un electrodo
-positivo colector de corriente. Esto en conjunto con las ecuaciones
-\ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics} se detalla en
-\cite{Li2016}.
-
-%\cite{Li2016}
-%Li-ion dynamics and state of charge estimation
-%Mingheng Li
-%Department of Chemical and Materials Engineering, California State Polytechnic University, Pomona, CA 91768, United States
-%el pdf se llama Li2016.pdf en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
-
-Tomando como modelo un modelo unidimensional a lo largo de la sección de la
-batería se aplican las siguentes ecuaciónes:
-
-\vspace{5mm}
-
-Conservación de carga en un sólido homogéneo:
-
-\begin{equation}
-    \nabla \cdot (-\sigma\nabla\upvarphi_s)=-j^{Li} 
-    \label{Chrg_cons_hom_sol}
-\end{equation}	
-
-Conservación de masa en un sólido homogéneo:
-
-\begin{equation}
-    \frac{\partial c_s}{\partial t}=\nabla \cdot (D_s\nabla c_s) 
-    \label{Mass_cons_hom_sol}
-\end{equation}	
-
-Conservación de masa en un electrolito homogéneo:
-
-\begin{equation}
-    \varepsilon_e\frac{\partial c_e}{\partial t} + \nabla \cdot (-D_e\nabla c_e) = (\frac{1-t_+^0}{F})j^{Li}
-    \label{Mass_cons_hom_electrolyte}
-\end{equation}	
-
-Conservación de carga en un electrolito homogéneo:
-
-\begin{equation}
-    \nabla \cdot (\upkappa \nabla \upvarphi_e + \upkappa_D \nabla \ln c_e) = -j^{Li}
-    \label{Chrg_cons_hom_electrolyte}
-\end{equation}	
-
-Ecuación de Butler-Volmer de movimiento de cargas en una unión entre un sólido
-conductor y una solución de Iones de Litio con el efecto de doble capa
-eléctrica.
-
-\begin{equation}
-    j^{Li} = a_si_0[{e^\frac{F\eta}{2RT}-e^{-\frac{F\eta}{2RT}}}]+ a_sC_{dl}\frac{\partial{(\upvarphi_s - \upvarphi_e)}}{\partial t}
-    \label{Butler_Volmer_kinetics}
-\end{equation}	
-
-En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics},
-$\sigma$  conductividad de la fase sólida, $\upvarphi_s$ el potencial eléctrico
-de la fase sólida, $\upvarphi_e$ el potencial eléctrico del electrolito,
-$j^{Li}$ la corriente producida por el consumo de Li, t es el tiempo, c
-concentración de Iones de Litio, D el coeficiente de difusión, F la constante de
-Faraday, $\varepsilon$ es la fracción por volumen, $t_+^0$ el número de
-transferencia, $\upkappa$ la conductividad del electrolito, $\upkappa_D$ la
-conductividad de la difusión, $i_0$ la densidad de corriente de intercambio,
-$\eta$ la sobretensión, $a$ el area específica and $C_{dl}$ la capacidad de la
-doble capa. El subíndice $s$ corresponde a la fase sólida y $e$ corresponde con
-el electrolito. También teniendo en cuenta la relación de Bruggerman.
-
-\subsubsection{Estimación por resistencia interna}
-
-Este método utiliza el voltaje y la corriente de la batería en conjunto para
-determinar la resistencia interna esta. Durante breves instantes ( menores a 10
-ms) se excita la batería con pulso de corriente , asumiendo que este período es
-lo suficientemente acotado para no que la variación de tensión sea atribuida a
-la resistencia interna y no a la carga/descarga de la batería la resistencia se
-obtendría según la formula :
-
-\begin{equation}
-    \frac{\Delta V}{\Delta I} = R_\Omega 
-    \label{Internal_resistance_EQ}
-\end{equation}  
-
-Teniendo en cuenta que si el período del pulso es mayor la medición acumula un
-error considerablemente mayor respecto a pulsos breves y teniendo en cuenta que
-este método tiene una gran precisión únicamente en valores de SOC cercanos a la
-descarga,debido a que varia mucho en este rango, y al bajo valor de las
-resistencias (del orden de los miliohm) como se muestra en la \emph{ Fig.
-\ref{Internal_resistance}}, extraida de \cite{Hentunen2014}, este método no
-termina siendo atractivo debido a las dificultades para obtener valores precisos
-de SOC, generando que sea poco utilizado de manera aislada.
-
-%\cite{hentunen2014}
-%Time-Domain Parameter Extraction Method for
-%Thevenin-Equivalent Circuit Battery Models
-%Ari Hentunen, Member, IEEE, Teemu %Lehmuspelto, Member, IEEE, and Jussi Suomela
-%el pdf se llama hentunen2014 en la carpeta xxxx\bms\docs\Bibliography\Papers\SOC Papers
-
-\begin{figure}[h]
-    \begin{center}
-	\includegraphics[width=0.7\textwidth]{Ro_vs_SOC.png}
-	\caption{Resistencia en Corriente continua de una batería de Li-Ion vs. SOC
-	obtenida por HPPC}
-	\label{Internal_resistance}
-    \end{center}
-\end{figure}
-\FloatBarrier
-
-\subsubsection{Espectroscopía Dieléctrica (EIS)}
-
-Este estudio consiste en llevar a la celda a un estado de carga conocido, y
-luego de un período de relajación se excita los terminales con una onda senoidal
-de tensión o corriente y se mide la respuesta de corriente o tensión
-respectivamente. En la Fig. \ref{EIS_Nyquist} se observan las curvas obtenidas
-por Mingheng Li basadas en un modeló físico basado en principios de conservación
-de masa y carga en una interfaz entre un sólido y un electrolito detallado en
-\cite{Li2016}, para distintos estados de carga y en un amplio rango de
-frecuencias. 
-
-\begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=0.7\textwidth]{EIS_nyquist_section.png}
-	\caption{Secciones identificables dentro del diagrama de Nyquist.}
-	\label{EIS_Nyquist}
-    \end{center}
 \end{figure}
 \FloatBarrier
 
