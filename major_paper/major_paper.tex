@@ -26,7 +26,12 @@
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
 
-% This determines the space between a paragraph and the preceding text.
+% Print a DRAFT water mark on the document
+% Comment to remove for final version
+\usepackage{draftwatermark}
+\SetWatermarkText{ DRAFT }
+\SetWatermarkScale{5}
+
 \setlength{\parskip}{0.6em}
 
 % Set the indentation length 
@@ -2742,17 +2747,15 @@ capacidad de almacenamiento de energía.
 
 \subsubsection{Tenología Seleccionada}
 
-Para un completo control del proceso de carga del pack de batería diseñamos e
-implementamos un circuito de carga en nuestro \acrshort{BMS} a partir de la
-implementación del ciucuito integrado \emph{bq24610} de la firma \emph{Texas
+Para un completo control del perfil de carga ariba descripto es que
+seleccionamos circuito integrado \emph{bq24610} de la firma \emph{Texas
 Instrument}.
 
-El \emph{bq24610} es un circuito altamente intedrado que implementa un
-controlador  de carga switching de \acrfull{Ion-Li} o \acrfull{Li-Po}. El
-bq24610 ofrece un controllador de corriente y de tensión sincrónico switching
-PWM de frecuencia constante y de alta resolución, carga de pre acondicionamiento
-del pack de batería, sensado de fín de carga, regulación de corriente del
-adaptador de alimentación y monitoréo del estado de carga. 
+El \emph{bq24610} es un circuito altamente integrado que implementa un cargador
+de \acrfull{Ion-Li} o \acrfull{Li-Po} y capaz de operar de forma independiente o
+stand-alone. Emplea un controllador de corriente y de tensión sincrónico
+switching PWM de frecuencia constante y de alta resolución del tipo buck cuya
+topología simplificada puede observarse en la figura \ref{fig:simp_sch_char}. 
 
 \begin{figure}[h!]
     \centering
@@ -2761,6 +2764,12 @@ adaptador de alimentación y monitoréo del estado de carga.
     \label{fig:simp_sch_char}
 \end{figure}
 \FloatBarrier
+
+El mismo admite la conexión de hasta 6 celdas en serie con una tensión y
+corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salída
+de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
+la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
+El empaquedato del mismo es del tipo VQFN.
 
 \subsection{Ecualización de celdas}
 
@@ -3072,7 +3081,8 @@ la composición química de las celdas.
 \newpage
 
 \section{Desarrollo}\label{desarrollo}
-\subsection{Implementación Circuito Cargador}
+(Sección en desarrollo)
+%\subsection{Implementación Circuito Cargador}
 
 % La carga del pack de batería no es un proceso trivial y la extensión de la
 % vida util del mismo depende profundamente de poder controlar el mismo con
@@ -3083,10 +3093,12 @@ la composición química de las celdas.
 % anteriormente. El balanceo de carga es
 
 \section{Ensayos}\label{ensayos}
+(Sección en desarrollo)
 %TODO: Ensayos
 \newpage
 
 \section{Conclusiones}\label{conclusiones}
+(Sección en desarrollo)
 %TODO: Conclusiones
 \printbibliography
 \newpage
