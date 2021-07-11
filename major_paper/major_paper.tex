@@ -2,6 +2,7 @@
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
 \usepackage[spanish]{babel}
+\usepackage[toc, page]{appendix}
 \usepackage[utf8]{inputenc}
 \usepackage[version=4]{mhchem}
 \usepackage{alltt}
@@ -19,18 +20,18 @@
 \usepackage{subcaption}
 \usepackage{tabularx}
 \usepackage{textcomp}
+\usepackage{tikz}
 \usepackage{titlesec}
 \usepackage{upgreek}
 \usepackage{xfrac}
-\usepackage{tikz}
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
 
 % Print a DRAFT water mark on the document
 % Comment to remove for final version
-\usepackage{draftwatermark}
-\SetWatermarkText{ DRAFT }
-\SetWatermarkScale{5}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{ DRAFT }
+%\SetWatermarkScale{5}
 
 \setlength{\parskip}{0.6em}
 
@@ -55,13 +56,16 @@
 \newacronym{DOD}{DOD}{Depth of Discharge}
 \newacronym{EC}{EC}{Eficiencia Culombica}
 \newacronym{EIS}{EIS}{Electrochemical Impedance}
+\newacronym{FIR}{FIR}{Finite Impulse Response}
 \newacronym{FPGA}{FPGA}{Field Programmable Gate Arrays}
-\newacronym{IISB}{IISB}{Institute for Integrated Systems and Device Technology}
 \newacronym{HPPC}{HPPC}{Hybrid Pulse Power Characterization}
+\newacronym{IISB}{IISB}{Institute for Integrated Systems and Device Technology}
 \newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
 \newacronym{KF}{KF}{Kalman Filter}
 \newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
 \newacronym{MCU}{MCU}{Microcontroller Unit}
+\newacronym{MLE}{MLE}{Maximum Likelihood Estimation}
+\newacronym{MSE}{MSE}{Mean Squared Error}
 \newacronym{OCV}{OCV}{Open Circuit Voltage}
 \newacronym{SOA}{SOA}{Secure Operation Area}
 \newacronym{SOC}{SoC}{State Of Charge}
@@ -1804,16 +1808,70 @@ celda, como se puede observar en la Figura \ref{2rc_circuit}.
 \begin{figure}[h!]
     \begin{center}    
         \begin{circuitikz}[american voltages]
-            \draw (0, 0) to[D] (0, -1.5) to[cV, r_=$OCV_{CC}(SoC)$] (0, -3);
-
-
+            \draw (0, 0) to[D*] (0, -2);
+            \draw (0, -2) to[cV, l=$OCV_{CC}(SoC)$] (0, -4);
+            \draw (-1.5, -2) to[D*] (-1.5, 0);
+            \draw (-1.5, -2) to[cV, l_=$OCV_{DC}(SoC)$] (-1.5, -4);
+            \draw (-1.5, 0) to[short, -*] (0, 0);
+            \draw (-1.5, -4) to[short, -*] (0, -4);
+            \draw (0, 0) to[R=$R_0$] (2, 0);
+            \draw (2, 0) to[short] (2, 1);
+            \draw (2, 0) to[short] (2, -1);
+            \draw (2, 1) to[R=$R_1$] (4, 1);
+            \draw (2, -1) to[C=$C_1$] (4, -1);
+            \draw (4, 1) to[short] (4, -1);
+            \draw (4, 0) to[short] (5, 0);
+            \draw (5, 1) to[short] (5, -1);
+            \draw (5, 1) to[R=$R_2$] (7, 1);
+            \draw (5, -1) to[C=$C_2$] (7, -1);
+            \draw (7, 1) to[short] (7, -1);
+            \draw (7, 0) to[short] (8, 0);
+            \draw (0, -4) to[short] (8, -4);
+            \draw (8, 0)  to[open, v=$v_o$] (8, -4);
         \end{circuitikz}
+        \caption{Modelo el\'ectrico utilizado para representar la din\'amica de
+        una celda de litio-ion}
+        \label{2rc_circuit}
     \end{center}
 \end{figure}
 
+\noindent Una vez caracterizado este modelo, se busca obtener un sistema de 
+ecuaciones de estado para poder implementar el filtro de Kalman, partiendo desde 
+la ecuaci\'on de la tensi\'on de salida sobre un punto conocido del 
+\acrshort{SOC} con el objetivo de linealizarlo, una vez planteado este sistema 
+de ecuaciones, se puede proceder a implementar el Filtro de Kalman, donde su 
+ganancia es recalculada para minimizar el error entre la tensi\'on de salida 
+estimada con la obtenida en la medici\'on. 
+
+\noindent Este procedimiento nos permite obtener un algoritmo apto para operar
+en tiempo real bajo la aplicaci\'on de un veh\'iculo el\'ectrico, ya que no es
+costoso de implementar a nivel de requerimiento computacional y solo depende de
+dos sensores, un sensor de corriente y un sensor de tensi\'on que permita medir
+ambas variables para fusionarlas dentro del algoritmo. Por \'ultimo, cabe
+destacar que el mismo es robusto ante ruido en las mediciones, errores en la
+parametrizaci\'on del modelo y error de inicializaci\'on, es decir, tener una
+estimaci\'on err\'onea del estado incial del sistema. Esto se puede observar en
+los resultados de la Figura \ref{resultados_soc_spagnoli}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{soc_results_spagnoli.png}
+        \caption{Resultados obtenidos en \emph{spagnoli et. al.} sobre la
+        estimaci\'on del Kalman con distintos par\'ametros de ajuste, con un
+        \acrshort{SOC} inicial de un 50\%, se puede observar que la señal del
+        \acrshort{SOC} converge a distintas velocidades al valor real.}
+        \label{resultados_soc_spagnoli}
+    \end{center}
+\end{figure}
+
+\noindent Los resultados de investigaciones relacionadas al Filtro de Kalman
+como un observador del Estado de Carga obtuvieron resultados prometedores que
+hacen que el algoritmo sea un gran candidato para sistemas en tiempo real, tales
+como \acrshort{VVEE} o \acrshort{UPS}.
+
+\subsubsection{M\'etodos basados en el aprendizaje autom\'atico}
+
 \noindent
-
-
 
 \newpage
 
@@ -2106,299 +2164,6 @@ modelo.
 	\caption{Implementación Tipo - INA226}
 	\label{fig:ina226-commonimplementation}
     \end{center}	
-\end{figure}
-\FloatBarrier
-
-\subsection{Filtros de Kalman}
-
-Este tipo de filtros toma importancia en sistemas de naturaleza estocástica.
-Cuya dinámica es afectada por ruido cuya distribución de probabilidad es
-Gaussiana o Normal. Este es un algoritmo recursivo que corrige las estimaciones
-mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y su
-estimación obtenida por modelos matemáticos generados en base al conocimiento
-del sistema.
-
-Dado un sistema lineal cuya dinámica es descripta por las siguientes ecuaciones:
-
-\begin{equation}
-    x_{k+1}= Ax_{k} + w_{k}
-    \label{KF_equation01}
-\end{equation}	
-
-\noindent Donde $\mathrm{x_{k}}$ es el vector de estados en el instante de 
-tiempo k, A es la matriz de transición de estados y $\mathrm{w_{k}}$ ruido 
-aditivo gaussiano asociado al modelo del proceso con matriz de varianza Q. 
-Además podemos expresar el vector de observación o medición $\mathrm{z_{k}}$ 
-de los estados $\mathrm{x_{k}}$ como:
-
-\begin{equation}
-    z_{k}= Hx_{k} + v_{k}
-    \label{KF_equation02}
-\end{equation}	
-
-Donde H es la matriz de conexión entre los estados y las observaciones sin
-ruido, es decir que mediciones se están tomando y que estado representan. Por
-otro lado $v_{k}$ es el ruido aditivo gaussiano asociado a la medición con
-matriz de varianza R.
-
-Definiendo la función de costo al error cuadrático medio en la estimación de
-$x_k$ 
-
-Definiendo al error como: 
-
-\begin{equation}
-    e_{k} = x_k  - \hat{x}_k
-    \label{KF_error}
-\end{equation}	
-
-De manera que podemos expresar la Matriz de covarianza del error en el instante
-k como:
-
-\begin{equation}
-    P_{k} = E[e_k.{e_k}^{T}] = E[(x_k-\hat{x}_k).(x_k-\hat{x}_k)^{T}]
-    \label{KF_equation03}
-\end{equation}	
-
-Podemos expresar $\hat{x}_k$ como: 
-
-\begin{equation}
-    \hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)
-    \label{KF_equation04}
-\end{equation}	
-
-Donde $K_k$ es la ganancia de Kalman la cual pondera según el criterio de
-minimización del error cuadrático medio si $\hat{x}_k$ es próxima a
-$\hat{x}^\prime_k$ o al vector $z_k$.
-
-Si reemplazamos $z_k$ en la ecuación \ref{KF_equation04} por la expresión
-\ref{KF_equation02} se obtiene la expresión del error de la estimación a priori
-$\hat{x}^\prime_k$ detallada a continuación:
-
-\begin{equation}
-    \hat{x}_k = \hat{x}^\prime_k + K_k (Hx_{k} + v_{k} - H\hat{x}^\prime_k)
-    \label{KF_equation05}
-\end{equation}	
-
-Reacomodando los terminos, 
-
-\begin{equation}
-    \hat{x}_k = \hat{x}^\prime_k + K_k H (x_{k}  - \hat{x}^\prime_k) + K_kv_{k}
-    \label{KF_equation06}
-\end{equation}	
-
-Multiplicando por (-1) y luego sumando en ambos miembros de la ecuación
-\ref{KF_equation06} el termino $x_k$ 
-
-\begin{equation}
-    x_k - \hat{x}_k = x_{k} -\hat{x}^\prime_k - K_k H (x_{k}  - \hat{x}^\prime_k) - K_kv_{k}
-    \label{KF_equation08}
-\end{equation}	
-
-\begin{equation}
-    x_k - \hat{x}_k = (I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}
-    \label{KF_equation09}
-\end{equation}	
-
-Reemplazando luego en la ecuación \ref{KF_equation03} la expresión $x_k -
-\hat{x}_k$  por el de la ecuación \ref{KF_equation09} obtenemos la expresión de
-$P_k$ como función del error de la estimación a priori:
-
-\begin{equation}
-    P_k = E[[(I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}][ (I-K_k H)(x_k - \hat{x}^\prime_k) - K_kv_{k}]^T]
-    \label{KF_equation10}
-\end{equation}	
-
-\noindent Aplicando propiedades de la transpuesta de una matriz e ignorando 
-los terminos relativos a la correlación entre el ruido de la medición y el 
-error de la estimación a priori:
-
-\begin{equation}
-    P_k = E[[(I-K_k H)(x_k - \hat{x}^\prime_k)(x_k - \hat{x}^\prime_k)^T(I-K_k H)^T + K_k v_{k} v_{k}^T K_k^T 
-    \label{KF_equation11}
-\end{equation}	
-
-Teniendo en cuenta que la esperanza de una matriz que no es variable aleatoria
-es la misma matriz:
-
-\begin{equation}
-    P_k = (I-K_k H) E[(x_k - \hat{x}^\prime_k)(x_k - \hat{x}^\prime_k)^T](I-K_k H)^T + K_k E[v_{k} v_{k}^T] K_k^T 
-    \label{KF_equation12}
-\end{equation}	
-
-\noindent Obteniendose así la expresión de la ecuación de actualización de 
-la matriz de covarianza:
-
-\begin{equation}
-    P_k = (I-K_k H)P^\prime_k(I-K_k H)^T + K_k R K_k^T 
-    \label{KF_equation13}
-\end{equation}	
-
-Recordando la forma de la matriz $P_k$ y observando que su traza, es decir, la
-sumatoria de todos los elementos de la diagonal principal, es la suma del error
-cuadrático medio,de manera que podemos afirmar que minimizando la traza podemos
-minimizar el ECM o MSE por su sigla en inglés, \emph{Mean Square Error}.
-
-\begin{equation}
-    P_k = 
-    \begin{bmatrix}
-	e_{1k}e_{1k} & e_{1k}e_{2k} &	\dots  & e_{1k}e_{nk} \\
-	e_{2k}e_{1k} & e_{2k}e_{2k} &	\dots  & e_{2k}e_{nk} \\
-	\vdots       &   \vdots     &	\ddots & \vdots       \\
-	e_{nk}e_{1k} & e_{nk}e_{2k} &	\dots  & e_{nk}e_{nk} \\
-    \end{bmatrix}
-\end{equation}
-
-De manera que buscamos $K_k$ que cumpla con este requisito, para lo cual haremos
-la expansión de la ecuación \ref{KF_equation13}  para obtener luego una
-expresión de la traza.
-
-\begin{equation}
-    P_k = P^\prime_k - K_k H P^\prime_k - P^\prime_k H^T K^T_k + K_k (H P^\prime_k H^T + R) K^T_k
-    \label{KF_equation14}
-\end{equation}	
-
-Siendo la expresión de $T[P_k]$
-
-\begin{equation}
-    T[P_k] = T[P^\prime_k] - T[K_k H P^\prime_k] - T[P^\prime_k H^T K^T_k] + T[K_k (H P^\prime_k H^T + R) K^T_k]
-    \label{KF_equation15}
-\end{equation}	
-
-Ya que $P^\prime_k$ es simétrica  y que la traza de una matriz es igual a la
-traza de su transpuesta.
-
-\begin{equation}
-    P^{\prime T}_k  = P^\prime_k
-    \label{KF_equation16}
-\end{equation}	
-
-\noindent Podemos escribir
-
-\begin{equation}
-    P^\prime_k H^T K^T_k = P^{\prime T}_k H^T K^T_k = (K_k H P^\prime_k )^T
-    \label{KF_equation17}
-\end{equation}	
-
-\begin{equation}
-    T[P^\prime_k H^T K^T_k] = T[K_k H P^\prime_k]
-    \label{KF_equation18}
-\end{equation}	
-
-Reemplazando \ref{KF_equation18} en \ref{KF_equation15}
-
-\begin{equation}
-    T[P_k] = T[P^\prime_k] -2 T[K_k H P^\prime_k] + T[K_k (H P^\prime_k H^T + R) K^T_k]
-    \label{KF_equation19}
-\end{equation}	
-
-\noindent Para obtener el valor mínimo calculamos la derivada de 
-$\mathrm{T[P_k]}$ respecto a $\mathrm{K_k}$
-
-\begin{equation}
-    \frac{dT[P_k]}{dK_k} = -2 (H P^\prime_k)^T + 2K_k (H P^\prime_k H^T + R)
-    \label{KF_equation20}
-\end{equation}	
-
-\noindent Luego igualando la ecuación \ref{KF_equation20} a 0 y despejando 
-obtenemos la expresión de la Ganancia de Kalman ($\mathrm{K_k}$):
-
-\begin{equation}
-    K_k = (H P^\prime_k)^T (H P^\prime_k H^T + R)^{-1} 
-    \label{KF_equation21}
-\end{equation}	
-
-\noindent Definiendo a $\mathrm{S_k}$ como:
-
-\begin{equation}
-    S_k = (H P^\prime_k H^T + R)
-    \label{KF_equation22}
-\end{equation}	
-
-\noindent La ecuación \ref{KF_equation21} queda:
-
-\begin{equation}
-    K_k = (H P^\prime_k)^T S_k^{-1} 
-    \label{K_Gain}
-\end{equation}	
-
-\noindent Reemplazando la expresión de $\mathrm{K_k}$ obtenido, en la 
-ecuación  \ref{KF_equation14}, se cancela el tercer término con el cuarto 
-término y queda:
-
-\begin{align}
-    P_k  &= P^\prime_k + P^\prime_k H^T (H P^\prime_k H^T + R)^{-1} H P^\prime_k \nonumber \\
-    P_k  &= P^\prime_k - K_k H P^\prime_k \nonumber\\
-    P_k  &= (I - K_k H) P^\prime_k	
-    \label{KF_equation23}	
-\end{align}
-
-\noindent La proyección del vector de estados $\mathrm{x_k}$ en el instante 
-$\mathrm{k+1}$ se obtiene como:
-
-\begin{equation}
-    \hat{x}^\prime_{k+1} = A \hat{x}_k 
-    \label{x_k_projection}
-\end{equation}	
-
-\noindent Para luego proyectar la matriz de covarianza de error
-$\mathrm{P_k}$ en el instante $\mathrm{k+1}$.
-
-\noindent Haciendo uso de la ecuación \ref{KF_equation03} y extendiéndola 
-para $\mathrm{e^\prime_{k+1}}$:
-
-\begin{equation}
-    P_{k+1} = E[e_{k+1}.e_{k+1}^{T}] = E[(A e_k-w_k).(A  e_k-w_k)^{T}]
-    \label{projection_p_k_aux}
-\end{equation}	
-
-\noindent Cabe destacar que el ruido del proceso $\mathrm{w_k}$ no tiene 
-correlación alguna respecto a $\mathrm{e_k}$ ya que el primero es el ruido 
-presente entre k y k+1 y $\mathrm{e_k}$ es el error resultante de todos los 
-calculos previos hasta el instante k.
-
-\begin{equation}
-    P^\prime_{k+1} = E[A e_{k}.e_{k}^{T}A^{T}]+ E[w_k w_k^{T}]= A P_k A^{T} + Q
-    \label{projection_p_k}
-\end{equation}	
-
-\subsubsection{Filtro de Kalman: resumen}
-
-Como dijimos los filtros de Kalman son algoritmos recursivos, los mismos se
-componen por las siguientes ecuaciones descriptas anteriormente:
-
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|}
-	\hline
-	\rule{0pt}{4ex}	Ganancia de Kalman 							& $K_k = (H P^\prime_k)^T S_k^{-1}$  \\ \hline
-	\rule{0pt}{4ex}	Actualización de la estimación			    &  $\hat{x}_k = \hat{x}^\prime_k + K_k (z_k - H\hat{x}^\prime_k)$\\ \hline
-	\rule{0pt}{4ex}	Actualización de la matriz de covarianza    & $P_k = (I - K_k H) P^\prime_k$ \\ \hline
-	\multirow{2}{*}{Proyeccion en k+1}        		  			& \rule{0pt}{4ex} $\hat{x}^\prime_{k+1} = A \hat{x}_k$ \\ \cline{2-2}
-	& \rule{0pt}{4ex} $P^\prime_{k+1} = A P_k A^{T} + Q$ \\ \hline
-    \end{tabular}
-    \label{Ecuaciones_Kalman}
-\end{table}
-
-Una manera intuitiva de pensar los filtro de Kalman es de la siguiente.
-Supongamos que tenemos la medición antes definida como $z_k$ y corriendo en
-paralelo tenemos un modelo matemático calculando el estado actual o vector de
-estados actual de nuestro sistema el cual notaremos como $\hat{x}^\prime_k$ y
-llamaremos estimación a priori de $x_{t}$.
-
-Ambos valores son afectados por ruido asociado, de manera que podemos ponderar
-ambas de manera de obtener una medición más certera.
-
-Como se observa en la Fig. \ref{KF_Integration_concept} en base a las
-distribuciones de $z_k$ y $\hat{x}^\prime_k$ obtenemos una nueva $\hat{x}_k$ la
-cual tiene una menor varianza.
-
-\begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=1\textwidth]{KF_Integration_concept.eps}
-	\caption{Gráfico ilustrativo de la estimación de $x_{t}$ mediante $z_k$ y
-	$\hat{x}^\prime_k$ .}
-	\label{KF_Integration_concept}
-    \end{center}
 \end{figure}
 \FloatBarrier
 
@@ -2704,9 +2469,6 @@ tambien reducirá el tiempo de carga.  Sin embargo, se desaconseja completamente
 implementar regímenes de carga rápida que superen 1C por el impacto en el número
 de ciclos de vida útil de las celdas del pack de batería. La figura
 \ref{fig:C_vs_Cycle_I} muestra como a medida que aumentamos el régimen de carga
-de una celda la vida útil de la misma, medido en ciclos de carga, disminuye
-significativamente.
-
 \begin{figure}[h!] \centering
     \includegraphics[width=0.6\textwidth]{bat_char/C_vs_Cycle_I.png}
     \caption{Relación Corriente de carga vs Ciclos de vidaútil de una celda de
@@ -2745,7 +2507,7 @@ A voltajes mayores el material del cátodo reacciona a mayor velocidad con el
 electrolito perdiéndose material en la reacción resultando en una perdida de
 capacidad de almacenamiento de energía. 
 
-\subsubsection{Tenología Seleccionada}
+\subsubsection{Tecnología Seleccionada}
 
 Para un completo control del perfil de carga ariba descripto es que
 seleccionamos circuito integrado \emph{bq24610} de la firma \emph{Texas
@@ -3100,7 +2862,407 @@ la composición química de las celdas.
 \section{Conclusiones}\label{conclusiones}
 (Sección en desarrollo)
 %TODO: Conclusiones
-\printbibliography
+\newpage
+
+\appendix
+
+\section{Desarrollo matem\'atico del Filtro de Kalman}\label{matKalman}
+
+\noindent El filtro de Kalman es construido como un minimizador del error 
+cuadr\'atico medio (o \acrshort{MSE}, del ingl\'es 
+\emph{\acrlong{MSE}}), pero tambi\'en existe una derivaci\'on 
+alternativa del filtro motrando como el mismo maximiza las estad\'isticas de 
+probabilidad.
+
+\noindent El prop\'osito de filtrar es extraer la informaci\'on requerida de una
+señal, ignorando el resto. Evaluar el funcionamiento del filtro puede ser
+realizado utilizando funciones de costo o p\'erdida, por lo tanto, podemos
+definir que el objetivo del filtro es minimizar la funci\'on de p\'erdida (o en
+ingl\'es, \emph{loss}).
+
+\subsection{Error Cuadr\'atico Medio}
+
+\noindent Las señales lineales pueden ser descriptas de la siguiente forma
+(\emph{ec.\ref{lineal_signal}}):
+
+\begin{equation}
+    y_k = a_k x_k + n_k \label{lineal_signal}
+\end{equation}
+
+\noindent Donde $\mathrm{y_k}$ es la señal observada, $\mathrm{a_k}$ es la 
+ganancia, $\mathrm{x_k}$ es la informaci\'on que lleva la señal y $\mathrm{n_k}$ 
+es el ruido aditivo.
+
+\noindent El objetivo del filtro es estimar $\mathrm{x_k}$. La diferencia entre
+la estimaci\'on de $\mathrm{\hat{x}_k}$ y $\mathrm{x_k}$ se puede definir en la
+Ecuaci\'on \ref{error_estimacion} como el error:
+
+\begin{equation}
+    f(e_k) = f(x_k - \hat{x}_k) \label{error_estimacion}
+\end{equation}
+
+La forma de $\mathrm{f(e_k)}$ depende de la aplicaci\'on, sin embargo, es claro
+que la misma debe ser positiva y aumentar de forma monot\'onica. Una funci\'on
+de error que exhibe estas caracter\'isticas es la funci\'on de error
+cuadr\'atico (\emph{ec. \ref{error_cuadratico}}).
+
+\begin{equation}
+    f(e_k) = (x_k - \hat{x}_k)^2 \label{error_cuadratico}
+\end{equation}
+
+Dado que es necesario considerar la habilidad del filtro en predecir una
+cantidad de informaci\'on determinada sobre un per\'iodo de tiempo, cobra mayor
+sentido evaluar la m\'etrica de la funci\'on de error sobre el tiempo,
+obteniendo la Ecuaci\'on \ref{loss_function}.
+
+\begin{equation}
+    lossfuncion = E\left(f(e_k)\right) \label{loss_function}
+\end{equation}
+
+Que esto resulta en la funci\'on \acrshort{MSE} (\emph{ec. \ref{mse}}).
+
+\begin{equation}
+    \epsilon(t) = E(e^2_k) \label{mse}
+\end{equation}
+
+\subsection{M\'axima Probabilidad}\label{maximum_likelihood_section}
+
+La derivaci\'on del error cuadr\'atico medio, a pesar de ser intuitivo, se lo
+considera de car\'acter heur\'istico. Una derivaci\'on m\'as rigurosa puede ser
+desarollada usando la m\'axima probabilidad estad\'istica (o \acrshort{MLE}, del
+ingl\'es \acrlong{MLE}). Esto es logrado redefiniendo el objetivo del filtro en
+encontrar $\mathrm{\hat{x}}$ que maximiza la probabilidad de y. Que se define
+matem\'aticamente en la Ecuaci\'on \ref{mle}.
+
+\begin{equation}
+    max\left[P\left(y|\hat{x}\right)\right] \label{mle}
+\end{equation}
+
+Asumiendo que el ruido aditivo es Gaussiano con una desviaci\'on estandard
+$\mathrm{\sigma_k}$, obtenemos la Ecuaci\'on \label{probabilidad_y_x};
+
+\begin{equation}
+    P\left(y_k|\hat{x}_k\right) = K_ke^{\left(- \frac{(y_k - a_k\hat{x}_k)^2}{2\sigma^2_k}\right)} \label{probabilidad_y_x}
+\end{equation}
+
+Donde $\mathrm{K_k}$ es una constante de normalizaci\'on. La funci\'on de
+m\'axima probabilidad Ecuaci\'on \ref{probabilidad_y_x} se encuentra expresada
+en la Ecuaci\'on \ref{max_likelihood};
+
+\begin{equation}
+    P(y|\hat{x}) = \prod_k K_ke^{\left(- \frac{(y_k - a_k\hat{x}_k)^2}{2\sigma^2_k}\right)} \label{max_likelihood}
+\end{equation}
+
+Que lleva a la Ecuaci\'on \ref{derivation_mse};
+
+\begin{equation}
+    log[P\left(y|\hat{x}\right)] = - \frac{1}{2}\sum_k \left(\frac{(y_k -
+    a_k\hat{x}_k)^2}{2\sigma^2_k}\right) + constante \label{derivation_mse}
+\end{equation}
+
+La funci\'on a la que deriva la Ecuaci\'on \ref{derivation_mse} es la
+\acrshort{MSE}, que puede ser maximizada ante una variaci\'on de
+$\mathrm{\hat{x}_k}$. Por lo tanto, el error cuadr\'atico medio es una funci\'on
+aplicable cuando $\mathrm{y_k}$ es modelada con una distribuci\'on Gaussiana.
+En tal caso el \acrshort{MSE} sirve para proveer el valor de
+$\mathrm{\hat{x}_k}$ que maximiza la probabilidad de la señal $\mathrm{y_k}$.
+
+En la pr\'oxima derivaci\'on se define el filtro \emph{\'optimo} como aqu\'el
+filtro, de todos los posibles filtros que minimizan el \acrshort{MSE}.
+
+\subsection{Derivaci\'on del Filtro de Kalman}
+
+\noindent Al momento de desarrolar el filtro de Wiener, Wiener describe un 
+filtro \'optimo de tipo respuesta al impulso finito, o \acrshort{FIR} (del 
+ing\'es, \acrlong{FIR}) en el sentido del \acrshort{MSE}, utilizando la auto
+correlaci\'on y la correlaci\'on cruzada de la señal recibida con la
+informaci\'on original, para poder derivar la respuesta al impulso para el
+filtro. 
+
+\noindent Por el otro lado, Kalman presenta su filtro que logra optimizar el
+\acrshort{MSE} pero a diferencia de que no necesita obtener la respuesta al
+impulso para poder determinar el filtro. Kalman describe su filtro usando
+t\'ecnicas basadas en el espacio de estados, lo que permite al filtro ser
+utilizado como un \emph{suavizador} (o del ingl\'es, \emph{smoother}), un filtro
+o un predictor. El uso del mismo como predictor, permiti\'o que el mismo sea
+aplicado en un gran rango de aplicaciones para problemas de trackeo y
+navegaci\'on. Definiendo el filtro en t\'erminos de un espacio de estados
+tambi\'en simplifica la implementaci\'on del filtro en el dominio discreto, otra
+raz\'on por la cual es utilizado ampliamente.
+
+\subsubsection{Derivaci\'on a partir del espacio de estados}
+
+\noindent Asumiendo que se quiere conocer el valor de una variable dentro de un 
+proceso de la forma dada por la Ecuaci\'on \ref{system_eq}.
+
+\begin{equation}
+    x_{x+1} = Ax_k + w_k \label{system_eq}
+\end{equation}
+
+\noindent Donde $\mathrm{x_k}$ es el vector de estados en el instante de tiempo 
+k, A es la matriz de transici\'on de estados (nxm) y $\mathrm{w_k}$ ruido 
+aditivo Gaussiano asociado al modelo del proceso con covarianza conocida (nx1). 
+Podemos entonces, modelar las observaciones de esta variable con la forma 
+propuesta por la Ecuaci\'on \ref{observer_eq};
+
+\begin{equation}
+    z_k = Hx_k + v_k \label{observer_eq}
+\end{equation}
+
+\noindent Donde $\mathrm{z_k}$ es la medici\'on actual de x en el instante k 
+(mx1), H es la conexi\'on sin ruido entre el vector de estados y el vector de 
+medici\'on, que se asume estacionario en el tiempo (mxn) y, por \'ultimo, 
+$\mathrm{v_k}$ es asociado con el error de medici\'on. Que, nuevamente, esta 
+\'ultima variable se asume como un ruido Gaussiano con una conocida covarianza y 
+es independiente al ruido inherente al proceso (mx1).
+
+\noindent Como se describe en la secci\'on \ref{maximum_likelihood_section} para
+minimizar \acrshort{MSE} se debe poder modelar correctamente los errores del
+sistema utilizando distribuciones Gaussianas. La covarianza de los dos modelos
+de ruido se asumen estacionarios en el tiempo y est\'an dadas por las Ecuaciones
+\ref{Q_eq} y \ref{R_eq};
+
+\begin{align}
+    Q &= E\left[w_kw_k^T\right] \label{Q_eq} \\
+    R &= E\left[v_kv_k^T\right] \label{R_eq}
+\end{align}
+
+El \acrshort{MSE} est\'a dada por la Ecuaci\'on \ref{e_mse_def};
+
+\begin{equation}
+    E\left[e_ke_k^T\right] = P_k \label{e_mse_def}
+\end{equation}
+
+Donde $\mathrm{P_k}$ es la matriz de covarianza del error en el instante k, 
+(nxn). La Ecuaci\'on \ref{e_mse_def} puede expandirse en la Ecuaci\'on
+\ref{e_mse_def_exp};
+
+\begin{equation}
+    P_k = E\left[e_ke_k^T\right] = E\left[\left(x_k - \hat{x}_k\right)\left(x_k -
+    \hat{x}_k\right)^T\right]\label{e_mse_def_exp}
+\end{equation}
+
+Asumiendo que la estimaci\'on anterior de $\mathrm{\hat{x}_k}$ se llama
+$\mathrm{\hat{x}_{k-1}}$, y que fue obtenido a partir del conocimiento del
+sistema. Es posible escribir una ecuaci\'on de actualizaci\'on para la nueva
+estimaci\'on, combinando el estado anterior con datos obtenidos de los sensores
+obteniendo la Ecuaci\'on \ref{est_update_eq}.
+
+\begin{equation}
+    \hat{x}_k = \hat{x}_{k-1} + K_k\left(z_k - H\hat{x}_{k-1}\right)
+    \label{est_update_eq}
+\end{equation}
+
+Donde $\mathrm{K_k}$ es la ganancia de Kalman, cuya expresi\'on es derivada en
+el desarrollo del tema. El t\'ermino $\mathrm{z_k - H\hat{x}_{k-1}}$ en la
+Ecuaci\'on \ref{est_update_eq} es conocida como \emph{innovaci\'on} o
+\emph{medici\'on residual}, y sustituyendo la Ecuaci\'on \ref{observer_eq} en la
+Ecuaci\'on \ref{est_update_eq} se obtiene la Ecuaci\'on \ref{exp_est_update_eq};
+
+\begin{equation}
+    \hat{x}_k = \hat{x}_{k-1} + K_k\left(Hx_k + v_k - H\hat{x}_{k-1}\right)
+    \label{exp_est_update_eq}
+\end{equation}
+
+Sustituyendo la Ecuaci\'on \ref{exp_est_update_eq} en la Ecuaci\'on
+\ref{e_mse_def_exp} obtenemos una nueva expresi\'on de la matriz de covarianza
+del error en el instante k, en la que se ve involucrada el ruido del proceso
+como tambi\'en la ganancia de Kalman \emph{(ec. \ref{e_mse_def_exp_kalman})}.
+
+\begin{equation}
+    P_k = E\left[\left[\left(I - K_kH\right)\left(x_k - \hat{x}_{k-1}\right) -
+    K_kv_k\right]\left[\left(I - K_kH\right)\left(x_k -\hat{x}_{k-1}\right) -
+    K_kv_k\right]^T\right] \label{e_mse_def_exp_kalman}
+\end{equation}
+
+En esta instancia del desarrollo se puede observar que $\mathrm{x_k - \hat{x}_k}$
+es el error previo a la estimaci\'on. Es claro que esto es independiente al
+error de la medici\'on, por lo tanto la probabilidad de expectativa puede ser
+re-escrita en la Ecuaci\'on \ref{e_mse_def_exp_kalman_indep};
+
+\begin{equation}
+    P_k = \left(I - K_kH\right)E\left[\left(x_k - \hat{x}_{k-1}\right)\left(x_k
+        - \hat{x}_{k-1}\right)^T\right]\left(I - K_kH\right)^T +
+        K_kE\left[v_kv_k^T\right]K_k^T\label{e_mse_def_exp_kalman_indep}
+\end{equation}
+
+Sustituyendo las Ecuaciones \ref{R_eq} y \ref{e_mse_def_exp} en la Ecuaci\'on
+\ref{e_mse_def_exp_kalman_indep}, obtenemos la Ecuaci\'on \ref{prior_error_cov};
+
+\begin{equation}
+    P_k = \left(I - K_kH\right)P_{k-1}\left(I-K_kH\right)^T + K_kRK_k^T \label{prior_error_cov}
+\end{equation}
+
+donde $\mathrm{P_{k-1}}$ es la estimaci\'on previa de $P_k$.
+
+La Ecuaci\'on \ref{prior_error_cov} es la ecuaci\'on de la actualizaci\'on de la
+covarianza del error. La diagonal de la matriz de covarianza contiene el
+\acrshort{MSE} de los errores, como se puede observar en la Ecuaci\'on
+\ref{cov_matrix_diagonal};
+
+\begin{gather}
+    P_{k,kc}  = \begin{bmatrix}
+E\left[e_{k-1}e^T_{k-1}\right]  & E\left[e_ke^T_{k-1}\right] & E\left[e_{k+1}e^T_{k-1}\right] \\
+E\left[e_{k-1}e^T_k\right]  & E\left[e_ke^T_k\right] & E\left[e_{k+1}e^T_k\right] \\
+E\left[e_{k-1}e^T_{k+1}\right]  & E\left[e_ke^T_{k+1}\right] & E\left[e_{k+1}e^T_{k+1}\right] \\
+                \end{bmatrix}\label{cov_matrix_diagonal}
+\end{gather}
+
+La suma de los elementos de la diagonal de una matriz es definida como la
+\emph{traza} de una matriz. En el caso de la matriz de covarianza del error,
+la traza es la suma de los \acrshort{MSE}. Por lo tanto, el \acrshort{MSE} puede
+ser minimizado con solo minimizar la traza de $\mathrm{P_k}$ que,
+consecuentemente, minimiza la traza de $\mathrm{P_{k,k}}$.
+
+La traza de $\mathrm{P_k}$ es primero derivado con respecto a $\mathrm{K_k}$ y
+se iguala a cero para encontrar las condiciones del m\'inimo/m\'aximo. Partiendo
+de la expansi\'on de la Ecuaci\'on \ref{prior_error_cov} obtenemos la Ecuaci\'on
+\ref{cov_error_expanded_prior};
+
+\begin{equation}
+    P_k = P_k - K_kHP_{k-1} - P_{k-1}H^TK_k^T + K_k\left(HP_{k-1}H^T + R\right)K_k^T\label{cov_error_expanded_prior}
+\end{equation}
+
+Teniendo en cuenta que la traza de la matriz, es igual a la traza de su
+transpuesta, podemos re-escribir \ref{cov_error_expanded_prior} en la Ecuaci\'on
+\ref{cov_error_expanded_prior_trpsed};
+
+\begin{equation}
+    T\left[P_k\right] = T\left[P_{k-1}\right] - 2T\left[K_kHP_{k-1}\right] +
+    T\left[K_k\left(HP_{k-1}H^T + R\right)K_k^T\right]
+    \label{cov_error_expanded_prior_trpsed}
+\end{equation}
+
+donde; T[$\mathrm{P_k}$] es la traza de la matriz $\mathrm{P_k}$. Derivando con
+respecto a $\mathrm{K_k}$, obtenemos la Ecuaci\'on \ref{deriv_cov_kalman};
+
+\begin{equation}
+    \frac{dT\left[P_k\right]}{dK_k} = -2\left(HP_{k-1}\right)^T + 2K_k\left(HP_{k-1}H^T + R\right) \label{deriv_cov_kalman}
+\end{equation}
+
+Igualando a cero, reacomodando la Ecuaci\'on \ref{deriv_cov_kalman} y
+resolviendo para $\mathrm{K_k}$, obtenemos la Ecuaci\'on \ref{kalman_gain_func};
+
+\begin{equation}
+    K_k = P_{k-1}H^T\left(HP_{k-1}H^T + R\right)^{-1}\label{kalman_gain_func}
+\end{equation}
+
+La Ecuaci\'on \ref{kalman_gain_func} es la ecuaci\'on de la ganancia de Kalman,
+La \emph{innovaci\'on} tiene una covariancia de predicci\'on de la medici\'on 
+definida como \ref{cov_pred_medicion};
+
+\begin{equation}
+    S_k = HP_{k-1}H^T + R \label{cov_pred_medicion}
+\end{equation}
+
+Finalmente, sustituyendo la Ecuaci\'on \ref{kalman_gain_func} en la Ecuaci\'on 
+\ref{cov_error_expanded_prior} obtenemos la Ecuaci\'on
+\ref{update_eq_cov_error_opt_gain}:
+
+\begin{align}
+    P_k &= P_{k-1} - P_{k-1}H^T\left(HP_{k-1}H^T + R\right)^{-1}HP_{k-1}\nonumber\\
+        &= P_{k-1} - K_kHP_{k-1} \nonumber \\
+        &= (I - K_kH)P_{k-1} \label{update_eq_cov_error_opt_gain}
+\end{align}
+
+que representa la ecuaci\'on de actualizaci\'on para la matriz de error de
+covarianza con la ganancia \'optima. Las Ecuaciones \ref{kalman_gain_func} y
+\ref{update_eq_cov_error_opt_gain} junto a la expresi\'on de \emph{innovaci\'on}
+desarrollan una estima de la variable $\mathrm{x_k}$. La proyecci\'on del estado
+es lograda utilizando la Ecuaci\'on \ref{proyec_estado};
+
+\begin{equation}
+    \hat{x}_{k+1} = A\hat{x}_k\label{proyec_estado}
+\end{equation}
+
+Para completar la recursividad del algoritmo es necesario encontrar una
+ecuaci\'on que proyecte la matriz de la covarianza del error en el pr\'oximo
+intervalo (k+1). Esto es logrado formando una expresi\'on para el error previo;
+
+\begin{align}
+    \hat{e}_{k+1} &= x_{k+1} - \hat{x}_{k+1} \nonumber \\
+                  &= \left(Ax_k + w_k\right) - A\hat{x}_k \nonumber \\
+                  &= Ae_k + w_k \label{prior_err_exp}
+\end{align}
+
+Extendiendo la Ecuaci\'on \ref{e_mse_def_exp} al tiempo k+1, obtenemos la
+Ecuaci\'on \ref{e_mse_def_exp_proy}
+
+\begin{equation}
+    P_{k+1} = E\left[e_{k+1}e_{k+1}^T\right] = E\left[\left(Ae_k +
+    w_k\right)\left(Ae_k + w_k\right)^T\right]\label{e_mse_def_exp_proy}
+\end{equation}
+
+Cabe destacar que la correlaci\'on cruzada entre $\mathrm{e_k}$ y $\mathrm{w_k}$ 
+es nula ya que el ruido se acumula entre k y k+1 mientras que el error es el
+error hasta el instante k. Por lo tanto;
+
+\begin{align}
+    P_{k+1} &= E\left[e_{k+1}e_{k+1}^T\right]\nonumber\\
+            &= E\left[Ae_k\left(Ae_k\right)^T\right] +
+            E\left[w_kw_k^T\right]\nonumber\\
+            &= AP_kA^T + Q \label{proy_cov}
+\end{align}
+
+Esto completa la recursividad del filtro, que puede ser visibilizada en la
+Figura \ref{kalman_filter_recursivity}. 
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{tikzpicture}
+            \draw (0, 0) node {Estimaci\'on Inicial};
+            \draw[-stealth] (0, -.25) -- (0, -1);
+            \draw (-2, -1) rectangle (2, -1.5);
+            \draw (0, -1.26) node {Ganancia de Kalman};
+            \draw (2, -1.25) -- (3, -1.25);
+            \draw [-stealth] (3, -1.25) -- (3, -3);
+            \draw (2, -3) rectangle (4, -3.5);
+            \draw (3, -3.25) node {Estimaci\'on};
+            \draw [-stealth] (3.5, -2) -- (3.5, -3);
+            \draw (4, -1.75) node {Mediciones};
+            \draw [-stealth] (3.5, -3.5) -- (3.5, -5.5);
+            \draw (4, -5.75) node {Actualizaci\'on de estados estimados};
+            \draw (3, -3.5) -- (3, -5.25);
+            \draw [-stealth] (3, -5.25) -- (2, -5.25);
+            \draw (-2, -5.5) rectangle (2, -5);
+            \draw (0, -5.25) node {Actualizaci\'on Covarianza};
+            \draw (-2, -5.25) -- (-3, -5.25);
+            \draw [-stealth] (-3, -5.25) -- (-3, -3.5);
+            \draw (-5, -3) rectangle (-1, -3.5);
+            \draw [-stealth] (-4, -3.5) -- (-4, -5.5);
+            \draw (-4, -5.75) node {Estimaciones proyectadas};
+            \draw (-3, -3.25) node {Proyecci\'on en k+1};
+            \draw (-3, -3) -- (-3, -1.25);
+            \draw [-stealth] (-3, -1.25) -- (-2, -1.25);
+        \end{tikzpicture}
+        \caption{\acrshort{DB} del algoritmo recursivo del Filtro de Kalman}
+        \label{kalman_filter_recursivity}
+    \end{center}
+\end{figure}
+
+Por \'ultimo, las ecuaciones del Filtro de Kalman son resumidas en la Tabla
+\ref{resumen_kalman_filter}.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Ganancia de Kalman                                               & $K_k = \left(HP_k'\right)^TS_k^{-1}$                        \\ \hline
+Actualizaci\'on de la estimaci\'on & $\hat{x}_k = \hat{x}_k + K_k\left(z_k - H\hat{x}_k'\right)$ \\ \hline
+Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right)P_k'$                          \\ \hline
+\multirow{2}{*}{Proyecci\'on en k+1}              & $\hat{x}_{k+1}' = A\hat{x}_k$                               \\ \cline{2-2} 
+                                                                 & $P_{k+1}' = AP_kA^T + Q$                                    \\ \hline
+\end{tabular}
+\end{center}
+\caption{Resumen del Filtro de Kalman}
+\label{resumen_kalman_filter}
+\end{table}
+
+
+
+
+
+%\printbibliography
 \newpage
 % Print table of acronyms
 \addcontentsline{toc}{section}{Tabla de Abreviaturas}
@@ -3108,4 +3270,3 @@ la composición química de las celdas.
 \printnoidxglossary[type=\acronymtype,title={Abreviaturas}]
 
 \end{document}
-\documentclass[10pt,a4paper]{article}
