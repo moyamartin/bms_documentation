@@ -2843,10 +2843,7 @@ figura \ref{OCV_SOC_equalization_figure}.
 \noindent El voltaje sobre una carga puede ser aproximadamente, y rápidamente,
 modelada por la siguiente ecuación:
 
-\begin{equation}
-    V = OCV(SoC) + I \times R(SoC)
-    \label{v_load_bat}
-\end{equation}
+
 
 \noindent Debido a que la función $R(SOC)$ incrementa rápidamente a bajos
 valores de SOC, la diferencia de voltajes entre celdas, con un desbalance de SOC
@@ -3048,6 +3045,10 @@ total de 192 celdas.
 %Como pueden ser en fuentes de baterías ininterrumpidas (UPS, del inglés
 %\emph{Uninterruptible Power Supply}) o vehículos eléctricos hasta celulares. 
 
+
+
+
+
 \subsection{Plan de Trabajo}
 
 Se plantea el siguiente plan de trabajo con el tiempo estimado para la
@@ -3081,7 +3082,46 @@ la composición química de las celdas.
 \newpage
 
 \section{Desarrollo}\label{desarrollo}
-(Sección en desarrollo)
+
+
+(insertar somewhere):
+\subsection{Tiempo de Muestreo}
+Al trabajar con estrategias de control basadas en microcontroladores y sensores digitales nos encontramos con la necesidad de discretizar los procesos y tener en cuenta los tiempos de muestreo.
+
+El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información.
+Por el contrario, si la señal y la frecuencia de muestreo no son las adecuadas se produciría \emph{aliasing}.\\
+
+\begin{equation}
+	f_s > 2 F_{MAX}
+	\label{nyquist_condition}
+\end{equation}
+
+Teniendo esto en cuenta, analizamos lás matrices de evolución de nuestro modelo para hallar los polos  de mayor frecuencia, ya que estos determinan la dinámica de nuestro sistema.\\
+En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la ganancia esta determinada por $R_{0}$, por lo que tomamos este valor de referencia.\\
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{bode_amplitud_w_grid.eps}
+		\caption{Diagrama de Bode del sistema.}
+		\label{system_bode}
+	\end{center}
+\end{figure}
+
+Calculando la frecuencia $F$ a partir de la frecuencia  angular $\omega$ obtenemos la máxima frecuencia que queremos muestrear y consecuentemente la mínima frecuencia de muestreo $f_{smin}$.
+
+\begin{equation}
+	F = \frac{\omega}{2 \pi} = 1.5915 Hz
+	\label{ang_vs_frec}
+\end{equation}
+
+\begin{equation}
+	f_{s min} > 2 F = 3.1830 Hz
+	\label{nyquist_condition_2}
+\end{equation}
+
+Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
+
 %\subsection{Implementación Circuito Cargador}
 
 % La carga del pack de batería no es un proceso trivial y la extensión de la
@@ -3091,6 +3131,8 @@ la composición química de las celdas.
 % El control completo de la operación del pack de batPoder controlar Extender la
 % vida util del pack de baterías no es un tema trivial como ya hemos expuesto
 % anteriormente. El balanceo de carga es
+
+\clearpage
 
 \section{Ensayos}\label{ensayos}
 (Sección en desarrollo)
