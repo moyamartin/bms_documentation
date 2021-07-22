@@ -2238,7 +2238,7 @@ de estado que es el estado de carga de la batería. Luego tomando la expresión
 diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente
 las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente
 de la batería y como salida la tensión en bornes de la misma obtenemos el
-siguiente conjunto de ecuaciones.
+siguiente conjunto de ecuaciones \ref{SS_model_eq}.
 
 \begin{equation}
     \begin{array}{llcllcl}
@@ -2247,8 +2247,8 @@ siguiente conjunto de ecuaciones.
 	    0                  & -\frac{1}{R_2 C_2} & 0 \\
 	    0                  &            0       & 0 \\
 	\end{bmatrix} & x & + &     \begin{bmatrix}
-	    -\frac{1}{R_1 C_1} \\
-	    -\frac{1}{R_2 C_2}  \\
+	    -\frac{1}{C_1} \\
+	    -\frac{1}{C_2}  \\
 	    -\frac{1}{3600 S_{C,a}}\\
 	\end{bmatrix} & i \\
 	\\
@@ -2258,6 +2258,7 @@ siguiente conjunto de ecuaciones.
 	    R_0
 	\end{bmatrix} & i \\
     \end{array}
+	\label{SS_model_eq}
 \end{equation}
 
 Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
@@ -2852,15 +2853,36 @@ Al trabajar con estrategias de control basadas en microcontroladores y sensores 
 
 El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información.
 Por el contrario, si la señal y la frecuencia de muestreo no son las adecuadas se produciría \emph{aliasing}.\\
-
 \begin{equation}
 	f_s > 2 F_{MAX}
 	\label{nyquist_condition}
 \end{equation}
 
-Teniendo esto en cuenta, analizamos lás matrices de evolución de nuestro modelo para hallar los polos  de mayor frecuencia, ya que estos determinan la dinámica de nuestro sistema.\\
-En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la ganancia esta determinada por $R_{0}$, por lo que tomamos este valor de referencia.\\
 
+Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de nuestro sistema en espacio de estados, podemos calcular los valores de los polos sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.\\
+Además, la matriz de evolución de nuestro sistema es diagonal por lo que los autovalores y subsecuentemente los polos se corresponden con los elementos $A_{nn}$ con $n=\{1;2;3\}$.\\ 
+
+Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación \ref{eq_polo_rapido}, el valor del polo más rapido:
+
+     \begin{equation}
+     	MAX  \left \|A_{nn}(Soc)\right \| = \omega = 6.6379 rad/s
+     	\label{eq_polo_rapido}
+     \end{equation}
+
+
+Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en \ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo $f_{smin}$ de la ecuación \ref{nyquist_condition2}.
+
+\begin{equation}
+	F = \frac{\omega}{2 \pi} = 1.056 Hz
+	\label{ang_vs_frec}
+\end{equation}
+
+\begin{equation}
+	f_{s min} > 2 F = 2.113 Hz
+	\label{nyquist_condition_2}
+\end{equation}
+
+En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente con los calculos previos.\\
 
 \begin{figure}[h!]
 	\begin{center}
@@ -2870,19 +2892,12 @@ En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
 	\end{center}
 \end{figure}
 
-Calculando la frecuencia $F$ a partir de la frecuencia  angular $\omega$ obtenemos la máxima frecuencia que queremos muestrear y consecuentemente la mínima frecuencia de muestreo $f_{smin}$.
+Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.\\
 
-\begin{equation}
-	F = \frac{\omega}{2 \pi} = 1.5915 Hz
-	\label{ang_vs_frec}
-\end{equation}
 
-\begin{equation}
-	f_{s min} > 2 F = 3.1830 Hz
-	\label{nyquist_condition_2}
-\end{equation}
+\clearpage
 
-Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
+
 
 %\subsection{Implementación Circuito Cargador}
 
