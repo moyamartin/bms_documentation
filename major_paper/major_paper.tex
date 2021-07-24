@@ -3445,7 +3445,7 @@ de estado que es el estado de carga de la batería. Luego tomando la expresión
 diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente
 las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente
 de la batería y como salida la tensión en bornes de la misma obtenemos el
-siguiente conjunto de ecuaciones.
+siguiente conjunto de ecuaciones \ref{SS_model_eq}.
 
 \begin{equation}
     \begin{array}{llcllcl}
@@ -3454,8 +3454,8 @@ siguiente conjunto de ecuaciones.
 	    0                  & -\frac{1}{R_2 C_2} & 0 \\
 	    0                  &            0       & 0 \\
 	\end{bmatrix} & x & + &     \begin{bmatrix}
-	    -\frac{1}{R_1 C_1} \\
-	    -\frac{1}{R_2 C_2}  \\
+	    -\frac{1}{C_1} \\
+	    -\frac{1}{C_2}  \\
 	    -\frac{1}{3600 S_{C,a}}\\
 	\end{bmatrix} & i \\
 	\\
@@ -3465,6 +3465,7 @@ siguiente conjunto de ecuaciones.
 	    R_0
 	\end{bmatrix} & i \\
     \end{array}
+	\label{SS_model_eq}
 \end{equation}
 
 Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
@@ -3627,6 +3628,31 @@ de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
 la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
 El empaquedato del mismo es del tipo VQFN.
 
+
+\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se
+encuentran conectadas en serie, el voltaje de una celda no siempre coincide con
+la tensión equivalente del pack de baterías dividido por el número de celdas. 
+
+\noindent La ecualización de celdas es una técnica en la cual se trata de
+mantener los niveles de voltaje entre las celdas que conforman la cadena
+conectada en serie de un pack de baterías de forma homogénea, es decir, que los
+niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de
+maximizar la eficiencia del pack de baterías.
+
+\noindent El desbalance más típico generalmente se manifiesta en una variación
+en el voltaje entre éstas, que puede ser corregido instantáneamente o
+gradualmente conectando cargas externas en paralelo, a través de sus
+correspondientes transistores, provocando una corriente de descarga adicional
+que pueden ir desde miliamperes hasta varios Amperes, dependiendo del
+dimensionamiento energético del pack de baterías. Sin embargo, este desbalance
+en tensión es, por lo general, dado por desbalances químicos o distintas
+dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no
+esté claramente definido provocando más perjuicios que beneficios al sistema
+completo.  De hecho, la mayoría de las metodologías basadas en el desbalance de
+voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
+
+\noindent Por lo tanto es necesario conocer la naturaleza de los distintos tipos
+de desbalances, los cuales son descriptos a continuación:
 
 
 \subsection{Plan de Trabajo}
@@ -3816,6 +3842,59 @@ del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
     \caption{Curvas sgnificativas celda Panasonic 18650PF}
     \label{curvas_sign_18650}
 \end{figure}
+
+(insertar somewhere):
+\subsection{Tiempo de Muestreo}
+Al trabajar con estrategias de control basadas en microcontroladores y sensores digitales nos encontramos con la necesidad de discretizar los procesos y tener en cuenta los tiempos de muestreo.
+
+El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información.
+Por el contrario, si la señal y la frecuencia de muestreo no son las adecuadas se produciría \emph{aliasing}.\\
+\begin{equation}
+	f_s > 2 F_{MAX}
+	\label{nyquist_condition}
+\end{equation}
+
+
+Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de nuestro sistema en espacio de estados, podemos calcular los valores de los polos sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.\\
+Además, la matriz de evolución de nuestro sistema es diagonal por lo que los autovalores y subsecuentemente los polos se corresponden con los elementos $A_{nn}$ con $n=\{1;2;3\}$.\\ 
+
+Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación \ref{eq_polo_rapido}, el valor del polo más rapido:
+
+     \begin{equation}
+     	MAX  \left \|A_{nn}(Soc)\right \| = \omega = 6.6379 rad/s
+     	\label{eq_polo_rapido}
+     \end{equation}
+
+
+Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en \ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo $f_{smin}$ de la ecuación \ref{nyquist_condition2}.
+
+\begin{equation}
+	F = \frac{\omega}{2 \pi} = 1.056 Hz
+	\label{ang_vs_frec}
+\end{equation}
+
+\begin{equation}
+	f_{s min} > 2 F = 2.113 Hz
+	\label{nyquist_condition_2}
+\end{equation}
+
+En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente con los calculos previos.\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{bode_amplitud_w_grid.eps}
+		\caption{Diagrama de Bode del sistema.}
+		\label{system_bode}
+	\end{center}
+\end{figure}
+
+Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.\\
+
+
+\clearpage
+
+
+
 %\subsection{Implementación Circuito Cargador}
 
 % La carga del pack de batería no es un proceso trivial y la extensión de la
@@ -3825,6 +3904,8 @@ del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
 % El control completo de la operación del pack de batPoder controlar Extender la
 % vida util del pack de baterías no es un tema trivial como ya hemos expuesto
 % anteriormente. El balanceo de carga es
+
+\clearpage
 
 \section{Ensayos}\label{ensayos}
 
