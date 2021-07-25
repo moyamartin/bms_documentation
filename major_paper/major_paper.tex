@@ -77,6 +77,7 @@
 \newacronym{hri}{HRI}{human-robot interactions}
 \newacronym{lstm}{LSTM}{Long Short-Term Memory}
 \newacronym{rnn}{RNN}{Recurrent Neural Network}
+\newacronym{CI}{CI}{Circuito Integrado}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
 	1 with {\arrow[semithick]{open triangle 60}}},
@@ -2874,89 +2875,114 @@ del pack de batería no es un proceso trivial, como hemos enunciado en
 
 \subsubsubsection*{Entrada}
 
-El circuito de entrada de nuestro cargador de batería consta de 2 partes,
-una red de descarga RC y dos mosfets de canal P colocados en configuracion
-back to back que aislan la fuente de alimentación del circiuto del cargador
-propiamente dicho. 
+El circuito de entrada de nuestro cargador de batería consta de 2 partes, una
+red de descarga RC y dos mosfets tipo P colocados en configuracion back to back
+que aislan la fuente de alimentación del circiuto del cargador propiamente
+dicho. 
 
 \begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=1\textwidth]{hardware/bat_charger/bc_input.png}
-	\caption{Entrada de alimentación - Cargador de Bateria}
-	\label{cb_input}
+    \begin{center}7
+	\includegraphics[width=0.7\textwidth]{hardware/bat_charger/bc_input.png}
+	\caption{Entrada de alimentación}
+	\label{fig:cb_input}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 Los mosfets Q7 y Q8 colocados entre la fuente de alimentación y el IC previene
 que fluya una corriente inversa de descarga desde la batería en caso de que se
 encuentren apagados y minimizan la disipación de energía a partir de la baja
-$R_{DS(on)}$ que presentan operando en directa, en comparación a un diodo
-Schottky. Q8 a su vez provee al circuito la capacidad de variar la corriente de
-alimentación de forma controlada $di/dt$ al conectar el adaptador al circuito
-mediante el control del tiempo de encendido.
+resistencia $R_{DS(on)}$ que presentan operando en directa, en comparación a un
+diodo Schottky. Q8 a su vez provee al circuito la capacidad de variar la
+corriente de alimentación de forma controlada $di/dt$ al conectar la fuente de
+alimentación al circuito mediante el control del tiempo de encendido.
     
-Duránte una conexión en caliente, la presencia de picos de sobre voltaje en la
+Durante una conexión en caliente, la presencia de picos de sobre voltaje en la
 entrada pueden afectar al circuito integrado. Esto se debe al sistema de segundo
 orden formado por las inductacias y capacidades parácitas que pueden formarse en
 el cable de la fuente de alimentación. R38 y C24 en serie fornan un circuito
-snubber que elimina los picos de sobre tensión producidos por estos
+de descarga que elimina los picos de sobre tensión producidos por estos
 transitorios.
 
-El diseño del circuito RC snubber se realizo teniendo en cuenta que la disipasión
-de energía en el mismo no es crítíca. Calculamos R38 bajo la condición de que permita fluir una
-corriente suficiente que limite un posible sobre voltaje.  La disipasión de energía en R38 es indeéndiente de su valor ya que disipa la
-energía almacenada en el capacitor en serie con la misma.
+El diseño del circuito RC snubber se realizo teniendo en cuenta que la
+disipasión de energía en el mismo no es crítíca. Calculamos R38 bajo la
+condición de que permita fluir una corriente suficiente que limite un posible
+sobre voltaje.  La disipasión de energía en R38 es indeéndiente de su valor ya
+que disipa la energía almacenada en el capacitor en serie con la misma.
+
+%TODO: add Rc snubber calcs
 
 \subsubsection{I \& V set-points}
 
 \begin{figure}[h!]
     \begin{center}
-	\includegraphics[width=0.5\textwidth]{hardware/bat_charger/bc_set_points.png}
+	\includegraphics[width=0.7\textwidth]{hardware/bat_charger/bc_set_points.png}
 	\caption{Circiuto de fijación de Set-Point de I y V de carga}
-	\label{cb_set_point}
+	\label{fig:cb_set_point}
     \end{center}
 \end{figure}
+\FloatBarrier
 
-\subsubsection{Interfaz de estado}
+\subsubsection{Interfaz de estado de carga}
 
-El CI bq24610 presenta 4 señales digitales.   a partir de las
-cualkes podemos conocer el el estado en el que está operando el cargador. Tres
-señales de salida $\overline{PG}$, STAT1 y STAT2 y una señal de entrada CE.
-Las mismas han sido cableadas a la unidad de procesamiento para que esta pueda
-contar con la información necesaria del estado del proceso de carga, habilitarlo
-y desahilitarlo.
+El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales
+podemos conocer el estado en el que está operando el cargador. Tres señales de
+salida $\overline{PG}$, STAT1 y STAT2 y una señal de entrada CE.  Las mismas han
+sido cableadas a la unidad de procesamiento para que esta pueda contar con la
+información necesaria del estado del proceso de carga, habilitarlo y
+desahilitarlo.
 
 \begin{itemize}
-    \item []{\textbf{$\overline{PG}$}}: Power Good Status: Indica si el voltaje de alimentación VCC
-	es valido o no. 
+    \item []{\textbf{$\overline{PG}$}} Power Good Status: Indica si el voltaje
+	de alimentación VCC es válido o no. 
     \item []{\textbf{CE}} (Charge Enable): La entrada digital CE permite
 	habilitar y deshabilitar el proceso de carga. Una transición de alto a
 	bajo a su vez resetea el ciclo de carga, los timers internos del
 	circuito y las condiciones de falla si las hubiese.
     \item []{\textbf{STAT1 \& STAT2}}: Indican el estado de carga.
 \end{itemize}
+\begin{table}[]
+    \begin{tabular}{lcc}
+	\multicolumn{1}{c}{\textbf{Estado de Carga}}                     & \textbf{STAT1} & \textbf{STAT2} \\
+	Carga en progreso                                                & ON             & OFF            \\
+	Carga completa                                                   & OFF            & ON             \\
+	Carga suspendida, Falla Timer, Cargador Dormido, Bateria Ausente & OFF            & OFF           
+    \end{tabular}
+\end{table}
+\FloatBarrier
 
-Cabe aclarar que el cargador puede operar de forma autónoma e independiente de
-la unidad de procesamiento por lo que se agregaron señales luminosas
-indicativas. 
+El diseño del cargador que implementamos permite que el mismo sea operado de
+forma autónoma e independiente de la unidad de procesamiento. Esto se logra a
+partir del switch SW2 que permite independizar el cargador de la unidad de
+procesamiento como se indica en le imagen \ref{fig:cb_interface_ce}. Una vez que
+el cargador opere en modo autónomo el usuario cuenta con la posibilidad de
+resetear el ciclo de carga a partir del swtich SW1. 
+
+Es importante aclarar que el proceso de carga autónomo no controlado no asegura
+que el pack de batería alcance su máximo nivel de carga al no poder segurar el
+correcto balanceo del pack de batería.  Desaconsejamos fuertemente el uso de
+esta funcionalidad y recomenddamos cargar el pack de batería de forma segura y
+micro-controlada.
+
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
 	\centering
 	\includegraphics[width=1\textwidth]{hardware/bat_charger/bc_interface.png}
 	\caption{LED's y Señales de estado del cargador}
-	\label{cb_interface_status}
+	\label{fig:cb_interface_status}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
 	\centering
 	\includegraphics[width=0.6\textwidth]{hardware/bat_charger/bc_interface_ce.png}
 	\caption{Selector de fuente de señal de CE y Reset}
-	\label{cb_interface_ce}
+	\label{fig:cb_interface_ce}
     \end{subfigure}
     \caption{Interfaz de estado de carga}
-    \label{cb_interface}
+    \label{fig:cb_interface}
 \end{figure}
+\FloatBarrier
 
 % detalle. 
 
