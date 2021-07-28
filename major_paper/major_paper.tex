@@ -1,4 +1,5 @@
 \documentclass[10pt,a4paper]{article}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
 \usepackage[spanish]{babel}
@@ -28,6 +29,8 @@
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
 
+\addbibresource{major_paper.bib}
+
 % Print a DRAFT water mark on the document
 % Comment to remove for final version
 %\usepackage{draftwatermark}
@@ -39,10 +42,6 @@
 % Set the indentation length 
 \setlength{\parindent}{0em}
 
-% Bibliography settings
-\usepackage[backend=biber,style=ieee]{biblatex}
-%\setbeamertemplate{bibliography item}{\insertbiblabel}
-\addbibresource{major_paper.bib}
 
 % Glossary entries
 \usepackage[acronym, nomain]{glossaries}
@@ -366,7 +365,7 @@ detallados a continuaci\'on.
 
 \subsubsection{foxBMS}
 
-\emph{foxBMS} es un proyecto desarrollado por el Instituto de Sistemas
+\emph{foxBMS} \cite{foxbms} es un proyecto desarrollado por el Instituto de Sistemas
 Integrados y Tecnolog\'ias de Dispositivos de la sociedad \emph{Fraunhofer} o
 tambien llamado Fraunhofer IISB (del ingles \emph{\acrlong{IISB}}), una
 organización de investigación alemana que comprende 72 institutos esparcidos por
@@ -940,10 +939,11 @@ estructura de los materiales y logran describir los complejos fen\'omenos
 electroqu\'imicos que suceden dentro de celda, tambi\'en denominados fen\'omenos 
 termodin\'amicos, kin\'eticos y de transporte.
 
-\noindent Schmidt (2013) presenta un resumen del fen\'omeno f\'isico como se 
-muestra en la Figura \ref{schmidt_fen_fis}. En ella, se pueden observar cuatro 
-procesos en tres regiones de operaci\'on: las dos fases s\'olidas del material 
-de los electrodos, y la fase l\'iquida del electrolito.
+\noindent La bibliograf\'ia \cite{Schmidt2013} presenta un resumen del 
+fen\'omeno f\'isico como se muestra en la Figura \ref{schmidt_fen_fis}. En ella, 
+se pueden observar cuatro procesos en tres regiones de operaci\'on: las dos 
+fases s\'olidas del material de los electrodos, y la fase l\'iquida del 
+electrolito.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1221,7 +1221,7 @@ correspondiente a la estructura porosa de los electrodos y los conectores de la
 bater\'ia.
 
 \noindent El circuito equivalente de la respuesta de la impedancia es
-introducido por Moss et al. (2008) y se puede observar en la Figura
+introducido en \cite{Moss} y se puede observar en la Figura
 \ref{sch_modelo_EIS}
 
 \begin{figure}[h!]
@@ -1256,14 +1256,14 @@ la celda:
         que depende de la frecuencia del ensayo.
 \end{itemize}
 
-\noindent Moss et al. (2008) sugiere la substituci\'on de la impedancia de 
+\noindent En \cite{Moss} sugiere la substituci\'on de la impedancia de 
 difusi\'on de Warburg con una cadena de tanques RC. La nueva cadena no refleja 
 la impedancia del elemento de warburg pero representa una aproximaci\'on con una 
 exactitud aceptable. Tomando esta aproximaci\'on en consideraci\'on, se valida 
 el uso de modelos el\'ectricos para modelar celdas en un circuito compuesto 
 por una fuente de tensi\'on con una resistencia $\mathrm{R_s}$ y una cadena de 
 tanques RC conectadas en serie. Esto es solo posible gracias a las relaciones de 
-Kramers-Kronig (Schmidt, 2013), que pueden ser aplicadas en redes equivalentes, 
+Kramers-Kronig \cite{Schmidt2013}, que pueden ser aplicadas en redes equivalentes, 
 y sugiere que distintos circuitos pueden tener una respuesta equivalente o 
 similar sin tener la misma topolog\'ia. En otras palabras, la bater\'ia puede 
 ser modelada con una topolog\'ia m\'as simple con elementos de circuito que no 
@@ -1704,8 +1704,8 @@ cuando se mueve dentro del punto de operaci\'on.
 
 \noindent Dentro de los observadores disponibles, la bibliograf\'ia relacionada
 a la estimaci\'on del \acrshort{SOC} hace un gran \'enfasis en la utilizaci\'on
-del \emph{filtro de Kalman} como un buen candidato (\emph{spagnoli et. al 2011}, 
-\emph{zhihao et. al 2015}, \emph{atsushi et. al 2014}) obteniendo resultados
+del \emph{filtro de Kalman} como un buen candidato (\cite{spagnol_kalman}, 
+\cite{zhihao_kalman} y \cite{atsushi_kalman}) obteniendo resultados
 prometedores. A continuaci\'on se desarrolla su principio de funcionamiento, 
 beneficios y como se utiliza como observador del \acrshort{SOC}.
 
@@ -1804,12 +1804,12 @@ covarianza \emph{a posteriori} como se realiza en la Ecuaci\'on
 \noindent Para cada instante de tiempo y medici\'on, el proceso se repite con 
 estimaciones previas usadas para proyectar o predicir nuevo estados. Esta 
 naturaleza recursiva es una de las caracter\'isticas atractivas del filtro de 
-Kalman, a comparaci\'on de, por ejemplo, un filtro de Wiener 
-(Brown and Hwang 1996) que es diseñado para operar con toda la informaci\'on en
-cada estimaci\'on. En cambio, el filtro de Kalman, utiliza, de forma recursiva, 
-las mediciones pasadas para estimar el estado actual. La Figura 
-\ref{complete_kf} muestra la operaci\'on del fitro, combinando un diagrama de 
-alto nivel combinando las ecuaciones \ref{est_state}-\ref{estimate_uncertainty}.
+Kalman, a comparaci\'on de, por ejemplo, un filtro de Wiener \cite{brown_hwang} 
+que es diseñado para operar con toda la informaci\'on en cada estimaci\'on. 
+En cambio, el filtro de Kalman, utiliza, de forma recursiva, las mediciones 
+pasadas para estimar el estado actual. La Figura \ref{complete_kf} muestra la 
+operaci\'on del fitro, combinando un diagrama de alto nivel combinando las 
+ecuaciones \ref{est_state}-\ref{estimate_uncertainty}.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1827,8 +1827,8 @@ que se pueda utilizar y medir como salida para poder calcular un error de la
 estimaci\'on del estado, de forma tal que el algoritmo pueda iterar y calcular 
 la ganancia de Kalman para poder \emph{corregir} su estimaci\'on.
 
-\noindent Por ejemplo, \emph{Spagnol et. al} propone implementar un filtro de
-Kalman utilizando un modelo en ecuaciones de estado que permite fusionar la
+\noindent Por ejemplo, en \cite{spagnol_kalman} se propone implementar un filtro 
+de Kalman utilizando un modelo en ecuaciones de estado que permite fusionar la
 representaci\'on de la celda en un modelo el\'ectrico (t\'ipico para
 estimaci\'on del \acrshort{OCV}) con metodolog\'ias de conteo de Coulomb
 (desarrollada en \ref{ahMethod}) obteniendo un m\'etodo que permite rechazar
@@ -1893,7 +1893,7 @@ los resultados de la Figura \ref{resultados_soc_spagnoli}.
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.7\textwidth]{soc_results_spagnoli.png}
-        \caption{Resultados obtenidos en \emph{spagnoli et. al.} sobre la
+        \caption{Resultados obtenidos en \cite{spagnol_kalman} sobre la
         estimaci\'on del Kalman con distintos par\'ametros de ajuste, con un
         \acrshort{SOC} inicial de un 50\%, se puede observar que la señal del
         \acrshort{SOC} converge a distintas velocidades al valor real.}
@@ -1969,8 +1969,8 @@ la informaci\'on disponible.
     \label{ml_approach}
 \end{figure}
 
-T\'ecnicas m\'as avanzadas del aprendizaje autom\'atico integran conocimiento
-disponible sobre el problema dentro del proceso de aprendizaje para lograr un
+T\'ecnicas m\'as avanzadas del aprendizaje autom\'atico integran conocimientos
+disponibles sobre el problema dentro del proceso de aprendizaje para lograr un
 algoritmo m\'as robusto, esto suele ser aplicado, por ejemplo, en aplicaciones
 para el procesamiento de im\'agenes donde el conocimiento sobre la invarianza
 translacional de las caracter\'isticas visuales son utilizadas para adoptar
@@ -2031,18 +2031,18 @@ la capa de salida. La estructura de una \acrshort{ANN} para estimar el
 
 \noindent \'Este m\'etodo utiliza el voltage de la terminal, la corriente de
 carga y descarga, y la temperatura ambiental como la entrada y la salida del
-algoritmo es el \acrshort{SOC}. Ruifeng and Cui et al. [] propone el algoritmo
+algoritmo es el \acrshort{SOC}. En \cite{XIA2018694} se propone el algoritmo
 de Levenberg-Marquardt, una red neuronal optimizada basada en \emph{wavelets}.
-Xuanju Dang et al. propone una red neuronal dual fusionada con un modelo de la
-bater\'ia para estimar el \acrshort{SOC}. Shijie Tong et al. [] propone una
-nueva arquitectura para la estimaci\'on \acrshort{SOC} usando una red neuronal
-para clasificaci\'on de carga alcanzando un error de un 3.8\% en promedio. 
-La gran ventaja de este m\'etodo es que puede operar bajo condiciones 
-no-lineales obteniendo resultados \'optimos para su aplicaci\'on.
-Sin embargo, el algoritmo necesita un gran set de datos de entrenamiento, que no 
-solo requiere gran poder computacional para poder entrenarlo, si no que 
-tambi\'en un gran espacio de almacenamiento por lo cual su desarrollo es costoso 
-si el presupuesto es limitado.
+En \cite{DANG2016356} se propone una red neuronal dual fusionada con un modelo 
+de la bater\'ia para estimar el \acrshort{SOC}. Por el otro lado, 
+\cite{TONG2016236} propone una nueva arquitectura para la estimaci\'on 
+\acrshort{SOC} usando una red neuronal para clasificaci\'on de carga alcanzando 
+un error de un 3.8\% en promedio. La gran ventaja de este m\'etodo es que puede 
+operar bajo condiciones no-lineales obteniendo resultados \'optimos para su 
+aplicaci\'on. Sin embargo, el algoritmo necesita un gran set de datos de 
+entrenamiento, que no solo requiere gran poder computacional para poder 
+entrenarlo, si no que tambi\'en un gran espacio de almacenamiento por lo cual su 
+desarrollo es costoso si el presupuesto es limitado.
 
 \newpage
 
@@ -2066,7 +2066,7 @@ la Figura \ref{svn_graph}
     \end{center}
 \end{figure}
 
-\noindent J.N. Hu et al. [] propone estimar el \acrshort{SOC} basado en 
+\noindent En \cite{HU2014682} se propone estimar el \acrshort{SOC} basado en 
 \acrshort{SVM} optimizado para regresiones con un proceso de optimizaci\'on de 
 doble b\'usqueda, utilizando
 
@@ -2080,8 +2080,8 @@ lo imposibilita para funcionar en un sistema en tiempo real.
 
 \noindent La l\'ogica difusa (\acrshort{FL}, del ingl\'es \acrlong{FL}) es un
 algoritmo utilizado para generar modelos complejos no-lineales con la ayuda de
-un set de datos de entrenamiento. En este caso, Haifeng Dait et al. [] propone
-un algoritmo para la estimaci\'on del \acrshort{SOC} de forma \emph{online},
+un set de datos de entrenamiento. En este caso, \cite{DAI2015350} propone un 
+algoritmo para la estimaci\'on del \acrshort{SOC} de forma \emph{online},
 combinando un estimador cl\'asico del \acrshort{SOC} con un sistema fuzzy de
 inferencia adaptativo (\acrshort{ANFIS}, del ingl\'es \acrlong{ANFIS}). \'Este
 m\'etodo es propicio para adaptarse a distintas condiciones de operaci\'on de la
@@ -2355,11 +2355,11 @@ packs de bater\'ias tambi\'en son esenciales para mantener la consistencia de
 los par\'ametros. Por ejemplo, el grado de ajuste afectar\'a el estr\'es
 mec\'anico impuesto sobre las celdas, y el espacio entre bater\'ias puede
 afectar la disipaci\'on del calor generado por la corriente de carga/descarga.
-Ji et al. estudia el efecto la uniformidad entre el espacio entre celdas. Los
-resultados muestran un modelo t\'ermico-elecroqu\'imico acoplado que ilustra
-como la variaci\'on del espacio puede mejorar la homogeneidad entre celdas
-modelo 18650, y concluye en que la temperatura puede reducirse en un 13\% cuando
-el espacio es modificado de 3mm a 5.5mm.
+En \cite{JI2019113683} se estudia el efecto la uniformidad del espacio entre 
+celdas. Los resultados muestran un modelo t\'ermico-elecroqu\'imico acoplado que 
+ilustra como la variaci\'on del espacio puede mejorar la homogeneidad entre 
+celdas modelo 18650, y concluye en que la temperatura puede reducirse en un 13\% 
+cuando el espacio es modificado de 3mm a 5.5mm.
 
 La distribuci\'on de temperatura puede influir ampliamente en la inconsistencia
 de la bater\'ia, que se encuentra directamente relacionado con el diseño del
@@ -2489,10 +2489,10 @@ bater\'ias extendiendo su vida \'util.
 \acrshort{EMS} es aplicado en condiciones est\'aticas o semi-est\'aticas como
 por ejemplo, en el proceso de fin de carga, aunque investigaciones recientes
 mostraron aplicaciones de balanceo bajo condiciones din\'amicas del proceso de
-carga y descarga. Shen et al. propone un esquema de ecualizaci\'on activa que
-comienza el trabajo una vez que la bater\'ia est\'a compeltamente cargada o
-descargada para minimizar la transferencia de carga durante el proceso de
-balanceo.
+carga y descarga. En \cite{shen_cell_bal} se propone un esquema de 
+ecualizaci\'on activa que comienza el trabajo una vez que la bater\'ia est\'a
+completamente cargada o descargada para minimizar la transferencia de carga 
+durante el proceso de balanceo.
 
 \subsubsection{Control de balanceo pasivo}
 
@@ -2520,40 +2520,42 @@ Donde $\mathrm{Q_{disipada}}$ es la potencia disipada, $\mathrm{I_{balanceo}}$
 es la corriente de \emph{bypass} que circula por la resistencia \emph{shunt}, y
 R es el valor de la resistencia \emph{shunt}.
 
-La t\'ecnica '\acrshort{PBC} es popular en \acrshort{VVEE} debido a su simple
+La t\'ecnica \acrshort{PBC} es popular en los \acrshort{VVEE} debido a su simple
 topolog\'ia y baja complejidad. Sin embargo, posee desventajas tales como la
 baja eficiencia de balanceo y largos tiempos de ecualizaci\'on debido a su
 limitada potencia de disipaci\'on por los componentes pasivos, limitando su
 aplicaci\'on particularmente para bater\'ias de alta capacidad.
 
-Campestrini et al estudia el balanceo pasivo tradicional de celdas de litio-ion
-usando 8 m\'odulos conectados en serie, cada uno compuesto por 14 celdas
-conectadas en paralelo (8s14p). Los resultados muestran que los m\'odulos con
-\acrshort{PBC} tienen menos de 1\% de variaci\'on en capacidad despu\'es de 1200
-ciclos. Sin embargo, la celda utilizada en este estudio tiene una capacidad
+En \cite{CAMPESTRINI2016142} estudia el balanceo pasivo tradicional de celdas de 
+litio-ion usando 8 m\'odulos conectados en serie, cada uno compuesto por 14 
+celdas conectadas en paralelo (8s14p). Los resultados muestran que los m\'odulos 
+con \acrshort{PBC} tienen menos de 1\% de variaci\'on en capacidad despu\'es de 
+1200 ciclos. Sin embargo, la celda utilizada en este estudio tiene una capacidad
 nominal de 2800mAh que no es suficiente para predecir el efecto de la
 ecualizaci\'on de esta t\'ecnica sobre bater\'ias de alta capacidad.
 
-Para incrementar la corriente de balanceo, Xu et al. propone el desarrollo de
-una topolog\'ia de balanceo especial, en donde la resistencia shunt es
-reemplazada por un MOSFET, como se puede observar en la Figura
+Para incrementar la corriente de balanceo, \cite{XU20192948} propone el 
+desarrollo de una topolog\'ia de balanceo especial, en donde la resistencia 
+shunt es reemplazada por un MOSFET, como se puede observar en la Figura
 \ref{passive_eq_top}B. Por ejemplo, asumiendo que la celda 2 tiene mayor
 energ\'ia que el resto, entonces el MOSFET $\mathrm{S_2}$ funciona como una
 resistencia \emph{shunt} mientras que el resto permanece apagado. El circuito de
 control es controlable hasta 1.2A.
 
-Amin et al propone una topolog\'ia de balanceo pasiva que combina una
-resistencia shunt con MOSFETs. The \acrshort{PBC} fue implementado en un pack de
-15 celdas $\mathrm{LiFePO_4}$ con una capacidad de 200Ah. Sin embargo, el
-proceso de balanceo toma mucho tiempo bajo condiciones de operaci\'on.
+En \cite{amin_et_al_bal} se propone una topolog\'ia de balanceo pasiva que 
+combina una resistencia shunt con MOSFETs. The \acrshort{PBC} fue implementado 
+en un pack de 15 celdas $\mathrm{LiFePO_4}$ con una capacidad de 200Ah. Sin 
+embargo, el proceso de balanceo toma mucho tiempo bajo condiciones de 
+operaci\'on.
 
-Schmid et al propone una topolog\'ia de ecualizaci\'on denominada \emph{balanceo
-electroqu\'imico} para balancear celdas sin dispositivos electr\'onicos
-adicionales que consite en conectar cada celda en serie con una celda de
-niquel-metal o niquel-zinc en paralelo. Las celdas de litio-ion pueden alcanzar
-la ecualizaci\'on con el proceso electroqu\'imico de las celdas de niquel. Los
-resultados verifican que este m\'etodo es posible de implementar, sin embargo
-hay una limitaci\'on de costos, volumen y complejidad muy alta.
+En \cite{SCHMID201749} se propone una topolog\'ia de ecualizaci\'on denominada 
+\emph{balanceo electroqu\'imico} para balancear celdas sin dispositivos 
+electr\'onicos adicionales que consite en conectar cada celda en serie con una 
+celda de niquel-metal o niquel-zinc en paralelo. Las celdas de litio-ion pueden 
+alcanzar la ecualizaci\'on con el proceso electroqu\'imico de las celdas de 
+niquel. Los resultados verifican que este m\'etodo es posible de implementar, 
+sin embargo hay una limitaci\'on de costos, volumen y complejidad muy alta.
+
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.75\textwidth]{passive_eq_top.png}
@@ -2605,27 +2607,27 @@ circuito se hace m\'as complicado de implementar.
 Como se muestra en la Figura \ref{energy_transfer}B, la ecualizaci\'on
 \acrshort{C2M} puede transferir energ\'ia entre el m\'odulo  y la celda interna
 de forma bidireccional, que tiene la ventaja de desaparear la inconsistencia
-entre los m\'odulos de las bater\'ias. Lu et al propone un controlador aislado
-bidireccional tipo \acrshort{C2M} con una conmutaci\'on suave a cero voltaje.
-Cuando funciona en modo \emph{boost}, el convertidor puede transferir energ\'ia
-de la bater\'ia al m\'odulo, mientras que cuando funciona en modo \emph{buck} la
-transferencia de energ\'ia se realiza desde el m\'odulo a la celda descargada.
-\'Esta metodolog\'ia demuestra resultados experimentales con buen rendimiento
-tanto en velocidad como eficiencia.
+entre los m\'odulos de las bater\'ias. \cite{lu_et_al_bal} propone un 
+controlador aislado bidireccional tipo \acrshort{C2M} con una conmutaci\'on 
+suave a cero voltaje. Cuando funciona en modo \emph{boost}, el convertidor puede 
+transferir energ\'ia de la bater\'ia al m\'odulo, mientras que cuando funciona 
+en modo \emph{buck} la transferencia de energ\'ia se realiza desde el m\'odulo a 
+la celda descargada. \'Esta metodolog\'ia demuestra resultados experimentales 
+con buen rendimiento tanto en velocidad como eficiencia.
 
 En la Figura \ref{energy_transfer}C, muestra una arquitectura \acrshort{M2M}
 donde la transferencia de energ\'ia se realiza entre m\'odulos. Comparado con
 las arquitecturas \acrshort{C2C} y \acrshort{C2M}, \acrshort{M2M} generalmente
 tiene un tamaño considerablemente grande considerando la aislaci\'on de
 corriente y una estrategia m\'as compleja para evitar el desbalanceo, haciendo
-que esta implementaci\'on sea m\'as dificultosa que el resto. Ji et al. propone
-un esquema de ecualizaci\'on usando m\'ultiples transformadores que con los
-cuales la energ\'ia puede ser transferida entre m\'odulos de distintos voltajes,
-alcanzado una corriente de balanceo a 3A mientras que la inconsistencia entre
-voltajes es de 24mV.
+que esta implementaci\'on sea m\'as dificultosa que el resto. 
+\cite{ji_et_al_bal_mod} propone un esquema de ecualizaci\'on usando m\'ultiples 
+transformadores que con los cuales la energ\'ia puede ser transferida entre 
+m\'odulos de distintos voltajes, alcanzado una corriente de balanceo a 3A 
+mientras que la inconsistencia entre voltajes es de 24mV.
 
 Otros m\'etodos no ilustrados en la Figura \ref{energy_transfer} tambi\'en
-fueron estudiados. Li et al propone una topolog\'ia de ecualizaci\'on
+fueron estudiados. \cite{li_et_al_bal} propone una topolog\'ia de ecualizaci\'on
 m\'odulo-a-celda-a-m\'odulo. Con la ayuda de conmutaci\'on suave a cero voltaje
 y un circuito bidireccional resonante, la velocidad y eficiencia del m\'etodo
 puede ser mejorado de forma considerable. Los resultados experimentales muestran
@@ -2702,10 +2704,10 @@ esta topolog\'ia nos permite transmitir energ\'ia entre m\'odulos.
 
 Por \'ultimo, a pesar de las t\'ipicas estructuras todav\'ia se encuentran
 en desarrollo e investigaci\'on nuevas tecnolog\'ias basadas en capacitores,
-como por ejemplo, Shang et al. propoe un ecualizador de capacitores basados en
-una estructura de tipo malla (del ingl\'es \emph{mesh}) que mejora de manera
-significativa la eficiencia y velocidad del balanceo. Su estructura se puede
-observar en la Figura \ref{cbbc_mesh_top}
+como por ejemplo, en \cite{shang_et_al_bal_cap} se propone un ecualizador de 
+capacitores basados en una estructura de tipo malla (del ingl\'es \emph{mesh}) 
+que mejora de manera significativa la eficiencia y velocidad del balanceo. 
+Su estructura se puede observar en la Figura \ref{cbbc_mesh_top}
 
 \begin{figure}[h!]
     \begin{center}
@@ -2912,8 +2914,9 @@ controlar la transferencia de energ\'ia entre celdas a trav\'es de los MOSFETs.
 Esta topolog\'ia bidireccional es ideal para las aplicaciones de balanceo debido
 a su eficiencia y conveniencia. Sin embargo, nuevamente son costosos y complejos
 de implementar, por lo que solo rinden para bater\'ias a gran escala y con
-grandes capacidades. Shang et al. introdujo la investigaci\'on de convertidores
-reductores-elevadores junto a sus resultados experimentales.
+grandes capacidades. Por ejemplo, \cite{shang_et_al_bal_rect} introdujo la 
+investigaci\'on de convertidores reductores-elevadores junto a sus resultados 
+experimentales.
 
 Los convertidores Cuk aumentan o disminuyen y, a la vez, invierten la tensi\'on
 de entrada. Un convertidor de tipo Cuk implementado en un balanceador se puede
@@ -2926,13 +2929,13 @@ circuitos Cuk tienen un bajo riple y alta eficiencia, sin embargo, los mismos
 continenen m\'as elementos resultando en una implementaci\'on m\'as costosa.
 
 Finalmente, los convertidores tipo \emph{flyback} tambi\'en fueron implementados
-en topolog\'ias de balanceadores basados en convertidores de potencia. Lin et al
-propone una topolog\'ia bidireccional basada en convertidores tipo flyback, que
-puede transferir energ\'ia entre la bater\'ia y un capacitor, que actua como
-almacenador de energ\'ia. Los resultados experimentales demuestran su
-factibilidad sobre bater\'ias de tipo LiFeP$\mathrm{O_4}$ adoptando una
-modalidad de transferencia entre m\'odulos (\acrshort{M2M}).
-
+en topolog\'ias de balanceadores basados en convertidores de potencia. En
+\cite{lin_et_al_bal_bid} se propone una topolog\'ia bidireccional basada en 
+convertidores tipo flyback, que puede transferir energ\'ia entre la bater\'ia y 
+un capacitor, que actua como almacenador de energ\'ia. Los resultados 
+experimentales demuestran su factibilidad sobre bater\'ias de tipo 
+LiFeP$\mathrm{O_4}$ adoptando una modalidad de transferencia entre m\'odulos 
+(\acrshort{M2M}).
 
 \begin{figure}[h!]
     \begin{center}
@@ -2957,14 +2960,15 @@ del m\'odulo para cargar las bater\'ias con un voltaje bajo, y las bater\'ias
 con mayor carga pueden ser descargadas por a trav\'es de la resistencia
 \emph{shunt} conectadas en paralelo.
 
-Zhang et al propone una topolog\'ia de balanceo jer\'arquica para mejorar la
-ecualizaci\'on de celdas conectadas en serie, cuyo esquem\'atico se puede
-observar en la Figura \ref{hier_bal_top}. Esta topolog\'ia incluye dos capas de
-balanceo. La capa superior transfiere energ\'ia entre ambos m\'odulos basados en
-transformadores de m\'ultiplos devanados, y la capa inferior implementa
-convertidores de potencia reductor-elevador para transferir energ\'ia entre
-bater\'ias contiguas del mismo m\'odulo. De esta manera, esta topolog\'ia logra
-disminuir las corrientes de p\'erdida durante el proceso de balanceo.
+Los autores en \cite{zhang_et_al_hier} proponen una topolog\'ia de balanceo 
+jer\'arquica para mejorar la ecualizaci\'on de celdas conectadas en serie, cuyo 
+esquem\'atico se puede observar en la Figura \ref{hier_bal_top}. Esta 
+topolog\'ia incluye dos capas de balanceo. La capa superior transfiere energ\'ia 
+entre ambos m\'odulos basados en transformadores de m\'ultiplos devanados, y la 
+capa inferior implementa convertidores de potencia reductor-elevador para 
+transferir energ\'ia entre bater\'ias contiguas del mismo m\'odulo. De esta 
+manera, esta topolog\'ia logra disminuir las corrientes de p\'erdida durante el 
+proceso de balanceo.
 
 \begin{figure}[h!]
     \begin{center}
@@ -3121,19 +3125,19 @@ tiene que ser estimado con cierta gravedad de error.
 \subsubsubsection{Estrategia de Ecualizaci\'on basada en m\'etodos h\'ibridos}
 
 Este tipo de m\'etodo consiste en tomar ventaja de varias estrategias de
-ecualizaci\'on. Por ejemplo, Zhang et al propone el desarrollo de un algoritmo
-h\'ibrido basado en el \acrshort{SOC} y el voltaje, y adopta estrategias
-correspondientes seg\'un distintos rangos de voltaje. Las simulaciones muestran
-resultados de balanceo m\'as eficientes que las basadas solamente en el
-\acrshort{SOC}. 
+ecualizaci\'on. Por ejemplo, en \cite{ZHANG20194702} se propone el desarrollo de 
+un algoritmo h\'ibrido basado en el \acrshort{SOC} y el voltaje, y adopta 
+estrategias correspondientes seg\'un distintos rangos de voltaje. Las 
+simulaciones muestran resultados de balanceo m\'as eficientes que las basadas 
+solamente en el \acrshort{SOC}. 
 
 Por el otro lado, considerando la relaci\'on entre la inconsistencia con la
 degradaci\'on de la bater\'ia, el \acrshort{SOC} y el \acrshort{SOH} pueden ser
-combinados para obtener un mejor rendimiento de balanceo. Ren et al presenta un
-sistema de ecualizaci\'on h\'ibrido que consiste en acoplar la estimaci\'on de
-ambas variables. Los resultados de las simulaciones realizadas demuestran que un
-m\'etodo de balanceo activo puede mejorar el desbalance del \acrshort{SOC} entre
-celdas.
+combinados para obtener un mejor rendimiento de balanceo. Los autores en
+\cite{REN2019908} presentan un sistema de ecualizaci\'on h\'ibrido que consiste 
+en acoplar la estimaci\'on de ambas variables. Los resultados de las 
+simulaciones realizadas demuestran que un m\'etodo de balanceo activo puede 
+mejorar el desbalance del \acrshort{SOC} entre celdas.
 
 \subsubsubsection{Comparaci\'on de las variables de control}
 
@@ -3210,10 +3214,10 @@ de sobre-balanceo.
 
 El control basado en l\'ogica difusa es otro control perteneciente a la teor\'ia
 del control avanzo que procesa informaci\'on imprecisa que depende de un grado
-de conocimiento del sistema. Jia et al propone un controlador de tipo fuzzy que
-utiliza como entrada el nivel de desbalanceo y la corriente de carga que circula
-por el pack de bater\'ias. Los resultados de muestran que este m\'etodo es
-robusto y puede ecualizar el sistema en un tiempo corto.
+de conocimiento del sistema. En \cite{jia_et_al_fuzzy} se propone un controlador 
+de tipo fuzzy que utiliza como entrada el nivel de desbalanceo y la corriente de 
+carga que circula por el pack de bater\'ias. Los resultados de muestran que 
+este m\'etodo es robusto y puede ecualizar el sistema en un tiempo corto.
 
 Por \'ultimo, en la literatura se propuso el uso de redes neuronales,
 controladores tipo PID y algoritmos acoplados como potenciales algoritmos de
@@ -3918,6 +3922,10 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sen
 %TODO: Conclusiones
 \newpage
 
+\printbibliography[heading=bibintoc]
+
+\newpage
+
 \appendix
 
 \section{Desarrollo matem\'atico del Filtro de Kalman}\label{matKalman}
@@ -4315,12 +4323,12 @@ Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right
 
 
 
-
-%\printbibliography
 \newpage
 % Print table of acronyms
 \addcontentsline{toc}{section}{Tabla de Abreviaturas}
 \glsaddall
 \printnoidxglossary[type=\acronymtype,title={Abreviaturas}]
+
+
 
 \end{document}
