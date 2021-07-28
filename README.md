@@ -8,7 +8,7 @@ make sure the LaTeX kernel is installed
 To compile this run
 
 ```
-pdflatex brief/brief.tex
+pdflatex major_paper/major_paper.tex
 ```
 
 ## Referencing
