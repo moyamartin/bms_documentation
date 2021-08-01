@@ -97,13 +97,13 @@
 \newacronym{SPST}{SPST}{Single-Pole Single Throw}
 \newacronym{SVM}{SVM}{Support Vector Machine}
 \newacronym{SVN}{SVN}{Support Vector Machines}
-\newacronym{TBBC}{TBBC}{Transforme Based Balancing Controllers}
+\newacronym{TBBC}{TBBC}{Transformer Based Balancing Controllers}
 \newacronym{TCR}{TCR}{Temperature Coefficient of Resistance}
 \newacronym{UPS}{UPS}{Uninterruptible Power Supply}
 \newacronym{VBES}{VBES}{Voltage-based equalization strategy}
 \newacronym{VE}{VE}{vehículo eléctrico}
 \newacronym{VVEE}{VVEE}{vehículos eléctricos}
-\newacronym{EVEA}{EVEA}{Extrem Value Equalization Algorithm}
+\newacronym{EVEA}{EVEA}{Extreme Value Equalization Algorithm}
 \newacronym{AVAE}{AVAE}{Average Value Equalization Algorithm}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
@@ -949,7 +949,7 @@ electrolito.
     \begin{center}
         \includegraphics[width=0.7\textwidth]{schmidt_proceso_fisico.png}
         \caption{Descripci\'on gr\'afica del proceso interno de una celda de
-        litio ion.}
+        litio-ion.}
         \label{schmidt_fen_fis}
     \end{center}
 \end{figure}
@@ -971,9 +971,9 @@ mayor velocidad que en los electrodos.
 como tambi\'en de ecuaciones diferenciales interdependientes, para poder 
 replicar el comportamiento de una celda se utilizan coeficientes de difusi\'on y 
 propiedades de los materiales dentro de las ecuaciones dependientes del mismo. 
-En \cite{Li2016} se basa en un modelo unidimensional a lo largo de la secci\'on 
-de la celda, dividiendolo en cinco secciones, aplicando las siguientes 
-ecuaciones diferenciales: 
+Los autores en \cite{Li2016} se basan en un modelo unidimensional a lo largo de 
+la secci\'on de la celda, dividiendolo en cinco secciones, aplicando las 
+siguientes ecuaciones diferenciales: 
 
 \begin{itemize}
     \item \textbf{Conservaci\'on de carga en un s\'olido homog\'eneo}
@@ -1044,13 +1044,13 @@ el mismo, imposibilitando su uso en veh\'iculos el\'ectricos.
 
 \noindent Los modelos emp\'iricos, o tambi\'en conocidos como 
 \emph{cajas negras}, debido a que proveen pobres conocimientos sobre el 
-funcionamiento interno del sistema, se basan en par\'ametros que no significado 
-f\'isico en algunos casos. Las aproximaciones matem\'aticas que se utilizan para 
-definir la funci\'on transferencia entre las entradas y las salidas de estos 
-modelos permiten que los mismos sean f\'aciles de configurar como tambi\'en 
-generar predicciones y respuestas r\'apidas. Sin embargo, la exactitud es 
-limitada, especialmente si el modelo es muy simple, aunque puede ser mejorado si 
-se combina con un modelo de bajo nivel.
+funcionamiento interno del sistema, se basan en par\'ametros que no tienen 
+significado f\'isico en algunos casos. Las aproximaciones matem\'aticas que se 
+utilizan para definir la funci\'on transferencia entre las entradas y las 
+salidas de estos modelos permiten que los mismos sean f\'aciles de configurar 
+como tambi\'en generar predicciones y respuestas r\'apidas. Sin embargo, la 
+exactitud es limitada, especialmente si el modelo es muy simple, aunque puede 
+ser mejorado si se combina con un modelo de bajo nivel.
 
 \subsubsection{Modelos abstractos}\label{absModels}
 
@@ -1078,7 +1078,7 @@ la literatura actual.
 \subsubsubsection{Circuito simple}
 
 \noindent El circuito el\'ectrico mas simple que representa una bater\'ia de 
-litio ion es un circuito con constante de tiempo cero que se puede observar en 
+litio-ion es un circuito con constante de tiempo cero que se puede observar en 
 la Figura \ref{zero_time_constant_sch}. Si el usuario no necesita representar la 
 din\'amica de la bater\'ia, este modelo es capaz de representar el 
 comportamiento est\'atico del sistema. 
@@ -1118,9 +1118,9 @@ completamente cargada. La ecuaci\'on del modelo es expresada en la Ecuaci\'on
 \end{equation}
 
 \noindent La curva del \acrshort{OCV} como funci\'on del tiempo muestra una 
-caida del voltage para ciertas condiciones de descarga. Los importantes 
+caida del voltaje para ciertas condiciones de descarga. Los importantes 
 par\'ametros que afectan el proceso de descarga son la corriente de descarga, 
-la temperatura y el historia de carga/descarga.
+la temperatura y la historia de carga/descarga.
 
 \noindent El efecto de la temperatura en el proceso de descarga es visto a
 temperaturas mucho mas bajas que a temperatura ambiente, donde la actividad
@@ -1147,7 +1147,7 @@ bater\'ia durante el proceso de carga/descarga.
                 (6, 1.5) -- (6, 3) to [short, i_=$I_{batt}$] (7, 3)
                 (7.5, 3) to [open, v=$V_{batt}$] (7.5, 0);
         \end{circuitikz}
-        \caption{Modelo de primer \'orden para una celda de litio ion.}
+        \caption{Modelo de primer \'orden para una celda de litio-ion.}
         \label{one_time_constant_sch}
     \end{center}
 \end{figure}
@@ -1256,19 +1256,20 @@ la celda:
         que depende de la frecuencia del ensayo.
 \end{itemize}
 
-\noindent En \cite{Moss} sugiere la substituci\'on de la impedancia de 
+\noindent En \cite{Moss} se sugiere la substituci\'on de la impedancia de 
 difusi\'on de Warburg con una cadena de tanques RC. La nueva cadena no refleja 
-la impedancia del elemento de warburg pero representa una aproximaci\'on con una 
-exactitud aceptable. Tomando esta aproximaci\'on en consideraci\'on, se valida 
-el uso de modelos el\'ectricos para modelar celdas en un circuito compuesto 
-por una fuente de tensi\'on con una resistencia $\mathrm{R_s}$ y una cadena de 
-tanques RC conectadas en serie. Esto es solo posible gracias a las relaciones de 
-Kramers-Kronig \cite{Schmidt2013}, que pueden ser aplicadas en redes equivalentes, 
-y sugiere que distintos circuitos pueden tener una respuesta equivalente o 
-similar sin tener la misma topolog\'ia. En otras palabras, la bater\'ia puede 
-ser modelada con una topolog\'ia m\'as simple con elementos de circuito que no 
-tienen una directa interpretaci\'on f\'isica. Este modelo es v\'alido, porque 
-tiene la misma respuesta en frecuencia, y es m\'as f\'acil de parametrizar.
+la impedancia del elemento de Warburg pero representa una aproximaci\'on 
+con una exactitud aceptable. Tomando esta aproximaci\'on en consideraci\'on, se 
+valida el uso de modelos el\'ectricos para modelar celdas en un circuito 
+compuesto por una fuente de tensi\'on con una resistencia $\mathrm{R_s}$ y una 
+cadena de tanques RC conectadas en serie. Esto es solo posible gracias a las 
+relaciones de Kramers-Kronig \cite{Schmidt2013}, que pueden ser aplicadas en 
+redes equivalentes, y sugiere que distintos circuitos pueden tener una respuesta 
+equivalente o similar sin tener la misma topolog\'ia. En otras palabras, la 
+bater\'ia puede ser modelada con una topolog\'ia m\'as simple usando elementos 
+que no tienen una directa interpretaci\'on f\'isica. Este modelo es v\'alido, 
+porque tiene la misma respuesta en frecuencia, y es m\'as f\'acil de 
+parametrizar.
 
 \subsubsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
 en veh\'iculos el\'ectricos}\label{compModels}
@@ -1327,7 +1328,7 @@ señales de tensi\'on, corriente y temperatura de la bater\'ia para que el
 circuito de control pueda procesarlos y computar el \acrshort{SOC},
 usando uno de los algoritmos disponibles en la literatura actual que es
 un tema en constante investigaci\'on debido al comportamiento no-lineal de las 
-celdas de litio ion inherentes a sus elementos electroqu\'imicos, que se ven 
+celdas de litio-ion inherentes a sus elementos electroqu\'imicos, que se ven 
 afectados por condiciones internas y externas.
 
 \newpage
@@ -1407,7 +1408,7 @@ modelo.
 
 \noindent La medici\'on del voltaje de circuito abierto, u \acrshort{OCV} (del
 ingl\'es \acrlong{OCV}), se basa en la relaci\'on entre la medici\'on de este 
-voltage y el \acrshort{SOC} representado en la Ecuaci\'on \ref{ocv_soc_eq}.
+voltaje y el \acrshort{SOC} representado en la Ecuaci\'on \ref{ocv_soc_eq}.
 
 \begin{equation}
     V_{OC} = f(SOC) \label{ocv_soc_eq}
@@ -1439,7 +1440,7 @@ tensi\'on en bornes de la celda. Sin embargo, a pesar de su simpleza, el
 m\'etodo no es apto para realizar una estimaci\'on en tiempo real debido a las
 din\'amicas internas de la celda.
 
-\noindent Por ejemplo, el voltage de la celda tiene una respuesta muy din\'amica
+\noindent Por ejemplo, el voltaje de la celda tiene una respuesta muy din\'amica
 ante fluctuaciones de corriente, como se puede observar en la Figura
 \ref{relaxation_ocv}, lo que imposibilita utilizar este m\'etodo como estimador
 del \acrshort{SOC} en tiempo real, ya que ante una pequeña circulaci\'on de
@@ -1454,7 +1455,7 @@ corriente la correlaci\'on entre el voltaje y el \acrshort{SOC} no es directa.
     \end{center}
 \end{figure}
 
-\noindent Por el otro lado, las celdas de litio-ion poseen un voltage de
+\noindent Por el otro lado, las celdas de litio-ion poseen un voltaje de
 hist\'eresis en el proceso de carga y descarga, como se puede observar en la
 Figura \ref{histeresis_plot}, donde en la misma se muestrea el \acrshort{SOC}
 para distintos per\'iodos de relajaci\'on, en ella se puede notar como
@@ -1503,9 +1504,10 @@ eficiencia de carga, S es la cantidad estimada de auto-descarga de la celda,
 $\mathrm{i_c}$ es la corriente de carga e $\mathrm{i_d}$ es la corriente de 
 descarga.
 
-\noindent Por el otro lado, en la literatura tambi\'en se encuentran versiones
-mejoradas de \'este m\'etodo para corregir el error estimado. El principio de
-operaci\'on se puede observar en la Ecuaci\'on \ref{ah_soc_enhanced}.
+\noindent Por el otro lado, en \cite{ZHANG201524} tambi\'en se encuentran 
+versiones mejoradas de \'este m\'etodo para corregir el error estimado. 
+El principio de operaci\'on se puede observar en la Ecuaci\'on 
+\ref{ah_soc_enhanced}.
 
 \begin{equation}
     SOC = \alpha SOC_0 - \frac{1}{\delta c}\int \eta_\epsilon I dt
@@ -1531,16 +1533,14 @@ la eficiencia cul\'ombica de distintas corrientes.
 c\'alculo simple, estable y permite ser implementado en tiempo real.
 Considerando la auto-descarga, temperatura, eficiencia de carga y descarga, el
 m\'etodo puede alcanzar niveles de exactitud aceptables para una
-implementaci\'on r\'apida para la estimaci\'on del \acrshort{SOC} en un BMS. Sin
+implementaci\'on r\'apida en la estimaci\'on del \acrshort{SOC} en un BMS. Sin
 embargo, este m\'etodo tiene dos principales desventajas:
 
 \begin{enumerate}
     \item Dado que solo se integra corriente en un largo per\'iodo de tiempo, el
-        m\'etodo es propenso a acumular una considerable cantidad de error en el
-        tiempo.
+        m\'etodo es propenso a acumular considerable error en el tiempo.
     \item El mismo no logra eliminar la p\'erdida de la capacidad de carga como
-        consecuencia del envejecimiento de la celda, logrando que se acumule
-        error por cada ciclo de carga.
+        consecuencia del envejecimiento de la celda.
 \end{enumerate}
 
 \noindent Por esto mismo, varias bibliograf\'ias proponen fusionar el m\'etodo
@@ -1564,7 +1564,7 @@ comportamiento se puede observar en la Figura \ref{res_int_graph}.
 \begin{figure}[h]
     \begin{center}
 	\includegraphics[width=0.7\textwidth]{Ro_vs_SOC.png}
-	\caption{Resistencia en corriente continua de una batería de litio ion vs. 
+	\caption{Resistencia en corriente continua de una batería de litio-ion vs. 
         SOC obtenida por HPPC}
 	\label{res_int_graph}
     \end{center}
@@ -1574,11 +1574,11 @@ comportamiento se puede observar en la Figura \ref{res_int_graph}.
 resistencia de corriente alterna y corriente continua. Por lo tanto,
 \'este m\'etodo puede ser dividido en dos m\'etodos para cada una. 
 La impendancia en alterna es la funci\'on transferencia entre el
-voltage y la corriente de la celda cuando se le aplica una corriente
+voltaje y la corriente de la celda cuando se le aplica una corriente
 alterna y ambos pueden ser medidos f\'acilmente con un medidor de impedancias. 
 Sin embargo, a pesar de ser un m\'etodo muy simple de implementar, la relaci\'on 
 de la resistencia interna con el SOC se acomplejiza dependiendo de la 
-tecnolog\'ia de la bater\'ia, especialmente en las celdas de litio ion.
+tecnolog\'ia de la bater\'ia, especialmente en las celdas de litio-ion.
 
 \noindent El m\'etodo consiste en excitar la bater\'ia por breves instantes 
 (menores a 10ms) con un pulso de corriente, asumiendo que este per\'iodo es lo 
@@ -1713,12 +1713,12 @@ beneficios y como se utiliza como observador del \acrshort{SOC}.
 
 \noindent Dentro de las herramientas matem\'aticas que pueden ser utilizadas 
 para estimaci\'on de variables a partir de mediciones ruidosas, una de las m\'as
-conocidas y usadas es el \emph{Filtro de Kalman}. Esencialmente, el filtro de
-Kalman es un conjunto de ecuaciones matem\'aticas que implementan un estimador
-de tipo \emph{predictor-corrector} que es \'optimo en el sentido de que minimiza
-la covarianza del error dadas determinadas condiciones y, a pesar de que estas
-condiciones son rara vez dadas, se obtienen buenos resultados para varias
-aplicaciones.
+conocidas y usadas es el \emph{Filtro de Kalman} \cite{kalman_filter_paper}. 
+Esencialmente, el filtro de Kalman es un conjunto de ecuaciones matem\'aticas 
+que implementan un estimador de tipo \emph{predictor-corrector} que es \'optimo 
+en el sentido de que minimiza la covarianza del error dadas determinadas 
+condiciones y, a pesar de que estas condiciones son rara vez dadas, se obtienen 
+buenos resultados para varias aplicaciones.
 
 \noindent En principio, el filtro logra estimar la variable de inter\'es usando 
 un control de retroalimentaci\'on: El filtro estima el estado del proceso en 
@@ -1825,7 +1825,7 @@ celda de litio-ion representado en un sistema de ecuaciones de estado e
 implementar el filtro para poder estimar el \acrshort{SOC} tomando una variable 
 que se pueda utilizar y medir como salida para poder calcular un error de la 
 estimaci\'on del estado, de forma tal que el algoritmo pueda iterar y calcular 
-la ganancia de Kalman para poder \emph{corregir} su estimaci\'on.
+la ganancia de Kalman para \emph{corregir} su estimaci\'on.
 
 \noindent Por ejemplo, en \cite{spagnol_kalman} se propone implementar un filtro 
 de Kalman utilizando un modelo en ecuaciones de estado que permite fusionar la
@@ -1837,8 +1837,9 @@ modelo.
 
 \noindent Los autores plantean el uso de un modelo el\'ectrico de la bater\'ia
 basado en dos tanques RC conectados a una resistencia en serie y dos fuentes de
-tensi\'on controladas por el \acrshort{SOC} representa el \acrshort{OCV} de la 
-celda, como se puede observar en la Figura \ref{2rc_circuit}.
+tensi\'on, controladas por el \acrshort{SOC}, que representa el \acrshort{OCV} 
+de la celda durante el proceso de carga y descarga, como se puede observar en la 
+Figura \ref{2rc_circuit}.
 
 \newpage
 
@@ -1874,8 +1875,8 @@ celda, como se puede observar en la Figura \ref{2rc_circuit}.
 
 \noindent Una vez caracterizado este modelo, se busca obtener un sistema de 
 ecuaciones de estado para poder implementar el filtro de Kalman, partiendo desde 
-la ecuaci\'on de la tensi\'on de salida sobre un punto conocido del 
-\acrshort{SOC} con el objetivo de linealizarlo, una vez planteado este sistema 
+la ecuaci\'on de la tensi\'on de salida, sobre un punto conocido del 
+\acrshort{SOC}, con el objetivo de linealizarlo. Una vez planteado este sistema 
 de ecuaciones, se puede proceder a implementar el Filtro de Kalman, donde su 
 ganancia es recalculada para minimizar el error entre la tensi\'on de salida 
 estimada con la obtenida en la medici\'on. 
@@ -1911,7 +1912,8 @@ como \acrshort{VVEE} o \acrshort{UPS}.
 \noindent El aprendizaje autom\'atico o, en ingl\'es, \acrlong{ML} 
 (\acrshort{ML}) surge como una metodolog\'ia alternativa a la ingenier\'ia 
 actual para el diseño de una soluci\'on basado en un algoritmo. Como se ilustra 
-en la Figura \ref{curr_eng_approach}, el diagrama de flujo comienza con la
+en la Figura \ref{curr_eng_approach}, el diagrama de flujo para el m\'etodo
+de ingenier\'ia \emph{convencional} comienza con la 
 \emph{adquisici\'on del conocimiento sobre el tema}: El problema bajo estudio se
 analiza en detalle, produciendo un \emph{modelo matem\'atico} que captura la
 \emph{f\'isica} del sistema. Con este modelo, se desarrolla un \emph{algoritmo
@@ -1946,8 +1948,8 @@ entrenada que conlleva la tarea deseada. El aprendizaje es realizado a trav\'es
 de un conjunto de algoritmos, tambi\'en conocidos como \emph{hip\'otesis}, donde
 el algoritmo de aprendizaje toma la decisi\'on durante el entrenamiento. Los
 algoritmos de aprendizaje est\'an generalmente basados en la optimizaci\'on de
-un criterio que mide cuan bien es el algoritmo de aprendizaje seleccionado para
-la informaci\'on disponible.
+un criterio que mide cuan bien se desempeña el algoritmo de aprendizaje 
+seleccionado para la tarea a la que fue diseñado.
 
 \begin{figure}[h!]
     \begin{center}
@@ -2029,7 +2031,7 @@ la capa de salida. La estructura de una \acrshort{ANN} para estimar el
     \end{center}
 \end{figure}
 
-\noindent \'Este m\'etodo utiliza el voltage de la terminal, la corriente de
+\noindent \'Este m\'etodo utiliza el voltaje de la terminal, la corriente de
 carga y descarga, y la temperatura ambiental como la entrada y la salida del
 algoritmo es el \acrshort{SOC}. En \cite{XIA2018694} se propone el algoritmo
 de Levenberg-Marquardt, una red neuronal optimizada basada en \emph{wavelets}.
@@ -2099,7 +2101,8 @@ ilustra una estructura b\'asica \acrshort{ANFIS} con cinco capas.
 \noindent A pesar de que la \acrshort{FL} tiene una poderosa habilidad para 
 predicir modelos no lineales, la misma requiere algoritmos computacionales 
 complejos y unidades de memorias de almacenamiento lo suficientemente amplios, 
-logrando que el sistema sea excesivamente costoso.
+logrando que el sistema sea excesivamente costoso para determinadas 
+aplicaciones.
 
 \newpage
 
@@ -2150,18 +2153,18 @@ fase de carga a tensión constante \acrshort{CV}.
     \caption{Perfil de carga típico de una batería de Ion-Litio}
 \label{fig:char_prof} \end{figure} \FloatBarrier
 
-El proceso de pre carga o pre-acondicionamiento proporciona a las celdas la
+El proceso de pre-carga o pre-acondicionamiento proporciona a las celdas la
 capacidad de recuperar su capa de pasivación, la cual puede haberse visto
-afectada o disuelta tras largos periodos de almacenamiento en estados de
+afectada o disuelta tras largos per\'iodos de almacenamiento en estados de
 descarga profunda. A su vez permite introducir las celdas en la zona de
 operación segura en caso de que se encuente profundamente descargadas. Es
-importante limitar el proceso de acondicionamiento en tiempo para prevenir pre
-cargar indefinidamente una celda que se encuentre agotada. Si tras un periodo
-completo de acondicionamiendo la celda no alcanza el voltaje mínimo necesario
-puede considerarse que la misma alcanzó el final de su vida útil.
+importante limitar el proceso de acondicionamiento en tiempo para prevenir 
+pre-cargar indefinidamente una celda que se encuentre agotada. Si tras un 
+periodo completo de acondicionamiendo la celda no alcanza el voltaje mínimo 
+necesario puede considerarse que la misma alcanzó el final de su vida útil.
 
 El voltaje umbral de inicio de carga rápida depende de la composici\'on
-qu\'imica de la celda y en el caso de las baterías \acrshort{Ion-Li}, la misma 
+qu\'imica de la celda y en el caso de las baterías litio-ion, la misma 
 se ubica generalmente entre los 2.5V y 3.0V. Una vez que la celda supera su 
 voltaje umbral mínimo el cargador deber\'a entrar en la zona de carga rápida, es
 decir, en la etapa de corriente constante \acrshort{CC}. La fase de carga rápida 
@@ -2205,6 +2208,9 @@ tambien reducirá el tiempo de carga.  Sin embargo, se desaconseja completamente
 implementar regímenes de carga rápida que superen 1C por el impacto en el número
 de ciclos de vida útil de las celdas del pack de batería. La figura
 \ref{fig:C_vs_Cycle_I} muestra como a medida que aumentamos el régimen de carga
+de una celda la vida \'util de la misma, medido en ciclos de carga, disminuye
+significativamente.
+
 \begin{figure}[h!] \centering
     \includegraphics[width=0.6\textwidth]{bat_char/C_vs_Cycle_I.png}
     \caption{Relación Corriente de carga vs Ciclos de vidaútil de una celda de
@@ -2282,6 +2288,8 @@ los requerimientos de estos sistemas. Por lo tanto, es esencial primero
 describir los motivos de las inconsistencias entre celdas y el estado de arte de
 la tecnolog\'ia actual para el diseño del \acrshort{BMS}
 
+\newpage
+
 \subsubsection{Inconsistencias entre celdas}
 
 Para satisfacer la demanda de voltaje, potencia y energ\'ia en los 
@@ -2293,7 +2301,7 @@ limitado por la celda de menor capacidad, este defecto tienen un nombre y es el
 \emph{efecto barril}, el mismo se puede visualizar en la Figura 
 \ref{barrel_effect}A, en este caso el pack de bater\'ias cesar\'a la descarga del
 pack si cualquiera de las celdas alcanza el fin de la descarga. De forma
-similar, la carga disponible del packa de bater\'ias, como se puede observar en
+similar, la carga disponible del pack de bater\'ias, como se puede observar en
 la Figura \ref{barrel_effect}B, est\'a limitado por la celda con menor
 capacidad, donde el pack finalizar\'a el proceso de carga si cualquiera de las
 celdas alcanza el final de carga. Por lo tanto, la capacidad de carga/descarga
@@ -2343,8 +2351,8 @@ concentraci\'on de litio-ion, grosos del separador entre otros.
 
 Las inconsistencias causadas por el proceso de producci\'on no pueden ser
 eliminadas por completo. Sin embargo, se pueden utilizar m\'etodos de
-apareamiento a la hora de ensamblar el pack de bater\'ias para aparear aquellas
-que sean consistentes entre ellas, mejorando la fiabilidad, seguridad y tiempo
+apareamiento a la hora de ensamblar el pack de bater\'ias para combinar aquellas
+que sean consistentes entre s\'i, mejorando la fiabilidad, seguridad y tiempo
 de vida de un pack de bater\'ias. \'Estos m\'etodos se basan en criterios tales
 como la capacidad, la resistencia interna y la corriente de auto-descarga.
 
@@ -2356,7 +2364,7 @@ los par\'ametros. Por ejemplo, el grado de ajuste afectar\'a el estr\'es
 mec\'anico impuesto sobre las celdas, y el espacio entre bater\'ias puede
 afectar la disipaci\'on del calor generado por la corriente de carga/descarga.
 En \cite{JI2019113683} se estudia el efecto la uniformidad del espacio entre 
-celdas. Los resultados muestran un modelo t\'ermico-elecroqu\'imico acoplado que 
+celdas. Los resultados muestran un modelo t\'ermico-electroqu\'imico acoplado que 
 ilustra como la variaci\'on del espacio puede mejorar la homogeneidad entre 
 celdas modelo 18650, y concluye en que la temperatura puede reducirse en un 13\% 
 cuando el espacio es modificado de 3mm a 5.5mm.
@@ -2370,7 +2378,7 @@ tambi\'en es diferente, por ejemplo, las bater\'ias externas tiene una gran
 superficie de intercambio de calor, mientras que las bater\'ias encapsuladas
 internamente pueden intercambiar calor solamente con las bater\'ias adjacentes.
 Por lo tanto, el diseño del ensamblaje puede llevar a diferentes distribuciones
-de temperatura, que lleva a una inconsistencia entre celdas.
+de temperatura, logrando una inconsistencia entre celdas.
 
 \subsubsubsection{Inconsistencias causadas por el uso}
 
@@ -2382,7 +2390,7 @@ de forma gradual durante el uso de la bater\'ia. El proceso de degradaci\'on es
 muy complicado, incluyendo varios mecanismos de envejecimiento y sus
 interacciones dentro de las bater\'ias, y la degradaci\'on de los electrodos es
 el factor principal que causa el decaimiento en el rendimiento de la bater\'ia.
-Factores tales como la temperatura, corriente, \acrshort{SOC} puede afectar
+Factores tales como la temperatura, corriente, \acrshort{SOC} pueden afectar
 significativamente los materiales activos y las microestructuras, y la
 variaci\'on entre estos factores inevitablemente afectar\'a de forma negativa
 las inconsistencias dentro del pack.
@@ -2392,7 +2400,7 @@ de degradaci\'on. La diferencia de temperatura causar\'a que las celdas
 envejezcan a distinta velocidad, agravando las inconsistencias dentro del pack
 de bater\'ias. Tanto altas como bajas temperaturas aceleran este proceso.
 Trabajando o almacenando en altas temperaturas pueden aceleras las reacciones
-secundarias, y cargar a bajas temperaturas puede resulta en el dep\'osito de
+secundarias, y cargar a bajas temperaturas puede resultar en el dep\'osito de
 litio s\'olido y el crecimiento de dendritas dentro del material activo.
 Adem\'as, las diferencias en la resistencia interna y la capacidad cal\'orica
 entre celdas puede resultar en una distribuci\'on heterog\'enea dentro del pack.
@@ -2400,13 +2408,13 @@ Acoplado con convecci\'on forzada y un canal de enfriamiento, la disipaci\'on de
 calor uniforme incrementa la diferencia en la degradaci\'on entre celdas
 afectando el tiempo de vida y la capacidad disponible de ellas. 
 
-Corrientes altas de circulaci\'on desde y hacia el pack pueden incrementar el
-proceso de difusi\'on inducido poniendo de esta forma las bater\'ias bajo
-estr\'es, acelerando el proceso de envejecimiento. Adicionalmente, la diferencia
+La circulaci\'on de altas corrientes desde y hacia el pack puede incrementar el
+proceso de difusi\'on inducido poniendo a las bater\'ias bajo estr\'es, 
+acelerando el proceso de envejecimiento. Adicionalmente, la diferencia
 de corriente entre bater\'ias puede causar variaciones en temperatura entre
-ellas, por lo tanto, como se mencion\'o anteriormente empeorando las
+ellas, por lo tanto, como se menciona anteriormente, empeorando las
 inconsistencias entre el pack. Para las bater\'ias conectadas en paralelo donde
-el voltage entre celdas es el mismo, se pueden encontrar pequeñas diferencias
+el voltaje entre celdas es el mismo, se pueden encontrar pequeñas diferencias
 debido a la resistencia en el cable y los puntos de soldadura hasta en la
 posici\'on de las bater\'ias. Por el otro lado, para las celdas en serie, la
 corriente que circula a trav\'es de ellas es siempre la misma, a pesar de ello,
@@ -2419,21 +2427,21 @@ mismas llegando a una instancia de riesgo t\'ermico.
 Por \'ultimo, el \acrshort{SOC} es otro factor de estr\'es importante. Un
 \acrshort{SOC} alto o una sobrecarga significa menos potencial en el \'anodo,
 que desencadena reacciones secundarias, descomposici\'on del electrolito y una
-mayor posibilidad de que se forme litio met\'alico alrededor del \'anodo (ver
-Anexo \ref{lithium_plating}) durante el proceso de carga, mientras que un
-\acrshort{SOC} puede llevar a la corrosi\'on del cobre en el colector del 
-\'anodo u desordenar la estructura del material en el c\'atodo. Diferencias de
-\acrshort{SOC} entre celdas puede llevar a velocidades de envejecimiento
-inconsistente, causando tambi\'en una diferencia entre el \acrshort{DOD}.
+mayor posibilidad de que se forme litio met\'alico alrededor del \'anodo 
+durante el proceso de carga, mientras que un \acrshort{SOC} puede llevar a la 
+corrosi\'on del cobre en el colector del \'anodo u desordenar la estructura del 
+material en el c\'atodo. Diferencias de \acrshort{SOC} entre celdas puede llevar 
+a velocidades de envejecimiento inconsistente, causando tambi\'en una diferencia 
+entre el \acrshort{DOD}.
 
 \subsubsubsection{Administraci\'on de la inconsistencia}
 
 La inconsistencia en el pack no puede ser completamente eliminada pero puede ser
-restricto a un rango de voltage razonable. Para solventar esto existe un gran
+reducida a un rango de operaci\'on razonable. Para solventar esto existe un gran
 espectro de m\'etodos a aplicar.
 
 Las inconsistencias generadas por los procesos de manufactura y ensamble pueden
-ser ateanudos mejorando la estabilidad y consistencia de los materiales
+ser atenuados mejorando la estabilidad y consistencia de los materiales
 utilizados (como por ejemplo, el material del c\'atodo, \'anodo, electrolito,
 etc) y mejorando la uniformidad de los procesos de producci\'on. El apareamiento
 de las celdas previo al ensamblado tambi\'en influye en la mejora de las
@@ -2441,10 +2449,9 @@ inconsistencias del pack de bater\'ias.
 
 Una vez ensamblado, la consistencia de las celdas disminuir\'a durante el uso de
 las mismas y puede llevar a serios desperfectos si no es administrado de manera
-correcta. La consistencia entre celdas puede ser mejorado a trav\'es de
-estructuras mec\'anicas apropiadas, mientras que el proceso de ecualizaci\'on
-en el \acrshort{BMS} es uno de los medios que permite mantener la consistencia a
-trav\'es del pack.
+correcta. La consistencia entre celdas puede ser mejorada a trav\'es de varios
+mecanismos, como por ejemplo, estructuras mec\'anicas apropiadas o el proceso de 
+ecualizaci\'on en el \acrshort{BMS}.
 
 \subsubsection{Sistema de Administraci\'on de Ecualizaci\'on}
 
@@ -2456,16 +2463,16 @@ t\'ecnicas de ecualizaci\'on que fueron investigadas e implementadas en
 
 \subsubsubsection{Clasificaciones}
 
-\acrshort{EMS} pueden ser clasificados entre sistemas pasivos y activos
+Los \acrshort{EMS} pueden ser clasificados entre sistemas pasivos y activos
 dependiendo de la topolog\'ia del circuito. Independientemente de la
 topolog\'ia, la bater\'ia a balancear debe ser seleccionada seg\'un un criterio
 espec\'ifico, que usualmente se basa en las caracter\'isticas de la misma, como
 la tensi\'on de los terminales, \acrshort{SOC} o capacidad, que son consideradas
-variables de balanceo. Dependiendo de las variables espec\'ificas, \acrshort{EMS}
-pueden ser clasificados en ecualizaci\'on basada en voltage, basado en capacidad
-y basado en \acrshort{SOC}. Dependiendo de la estrategia de control de balanceo,
-\acrshort{EMS} pueden ser divididos entre control cl\'asico, control de l\'ogica
-difusa, control predictivo y otros m\'etodos avanzados. La t\'ipica
+variables de balanceo. Dependiendo de las variables espec\'ificas, los 
+\acrshort{EMS} pueden ser clasificados en ecualizaci\'on basada en voltaje, 
+capacidad o \acrshort{SOC}. Dependiendo de la estrategia de control de balanceo,
+los \acrshort{EMS} pueden ser divididos entre control cl\'asico, control de 
+l\'ogica difusa, control predictivo y otros m\'etodos avanzados. La t\'ipica
 clasificaci\'on de los \acrshort{EMS} se puede visualizar en la Figura
 \ref{ems_classes}.
 
@@ -2480,16 +2487,16 @@ clasificaci\'on de los \acrshort{EMS} se puede visualizar en la Figura
 Como se observa en la Figura \ref{passive_eq_top}, la topolog\'ia de
 ecualizaci\'on pasiva generalmente emplea una resistencia en paralelo para
 disipar la energ\'ia excesiva. Como se muestra en las Figuras
-\ref{trans_path_top} a \ref{ind_active_top}, las topolog\'ias activas pueden
+\ref{energy_transfer} a \ref{hier_bal_top}, las topolog\'ias activas pueden
 tranferir energ\'ia entre celdas, m\'odulos y packs con la ayuda de estructuras
 que no disipan energ\'ia, tales como inductores y capacitores. Ambas
-topolog\'ias son beneficioes para desacelerar la degradaci\'on de un pack de
+topolog\'ias son beneficiosas en desacelerar la degradaci\'on de un pack de
 bater\'ias extendiendo su vida \'util.
 
-\acrshort{EMS} es aplicado en condiciones est\'aticas o semi-est\'aticas como
-por ejemplo, en el proceso de fin de carga, aunque investigaciones recientes
-mostraron aplicaciones de balanceo bajo condiciones din\'amicas del proceso de
-carga y descarga. En \cite{shen_cell_bal} se propone un esquema de 
+Los \acrshort{EMS} son aplicados en condiciones est\'aticas o semi-est\'aticas 
+como por ejemplo, en el proceso de fin de carga, aunque investigaciones 
+recientes mostraron aplicaciones de balanceo bajo condiciones din\'amicas del 
+proceso de carga y descarga. En \cite{shen_cell_bal} se propone un esquema de 
 ecualizaci\'on activa que comienza el trabajo una vez que la bater\'ia est\'a
 completamente cargada o descargada para minimizar la transferencia de carga 
 durante el proceso de balanceo.
@@ -2499,18 +2506,18 @@ durante el proceso de balanceo.
 Los controladores de balanceo pasivos (\acrshort{PBC}, del ingl\'es
 \emph{\acrlong{PBC}}) generalmente emplean resistencias \emph{shunt} en paralelo
 con las bater\'ias para disipar la energ\'ia excesiva de las celdas con alto
-voltage o alto \acrshort{SOC}.
+voltaje o alto \acrshort{SOC}.
 
 Como se muestra en la Figura \ref{passive_eq_top}A, el \acrshort{PBC} puede
 controlar switches dedicados ($\mathrm{K_1}$, $\mathrm{K_2}$, ...,
 $\mathrm{K_n}$), t\'ipicamente semiconductores como MOSFETs, que disipan
 energ\'ia de las celdas correspondientes. Por ejemplo, asumiendo que la celda 1
 tiene mayor energ\'ia que el resto, entonces el interruptor $\mathrm{K_1}$ se 
-cierrai para descargar esta celda. El camino de la energ\'ia es indicado por la 
+cierra para descargar esta celda. El camino de la energ\'ia es indicado por la 
 linea a trazos de color azul. Dependiendo de la estrategia de ecualizaci\'on, 
 los interruptores pueden funcionar continuamente o de forma intermitente, y la
-energ\'ia disipada por la resistencia \emph{shunt} peuede ser estimada por la
-ley de Joule (\emph{eq. \ref{joule_law}}).
+energ\'ia disipada por la resistencia \emph{shunt} puede ser estimada por la
+ley de Joule (\emph{Eq. \ref{joule_law}}).
 
 \begin{equation}
     Q_{disipada} = I^2_{balanceo}R \label{joule_law}
@@ -2526,8 +2533,8 @@ baja eficiencia de balanceo y largos tiempos de ecualizaci\'on debido a su
 limitada potencia de disipaci\'on por los componentes pasivos, limitando su
 aplicaci\'on particularmente para bater\'ias de alta capacidad.
 
-En \cite{CAMPESTRINI2016142} estudia el balanceo pasivo tradicional de celdas de 
-litio-ion usando 8 m\'odulos conectados en serie, cada uno compuesto por 14 
+En \cite{CAMPESTRINI2016142} se estudia el balanceo pasivo tradicional de celdas 
+de litio-ion usando 8 m\'odulos conectados en serie, cada uno compuesto por 14 
 celdas conectadas en paralelo (8s14p). Los resultados muestran que los m\'odulos 
 con \acrshort{PBC} tienen menos de 1\% de variaci\'on en capacidad despu\'es de 
 1200 ciclos. Sin embargo, la celda utilizada en este estudio tiene una capacidad
@@ -2543,7 +2550,7 @@ resistencia \emph{shunt} mientras que el resto permanece apagado. El circuito de
 control es controlable hasta 1.2A.
 
 En \cite{amin_et_al_bal} se propone una topolog\'ia de balanceo pasiva que 
-combina una resistencia shunt con MOSFETs. The \acrshort{PBC} fue implementado 
+combina una resistencia shunt con MOSFETs. El \acrshort{PBC} fue implementado 
 en un pack de 15 celdas $\mathrm{LiFePO_4}$ con una capacidad de 200Ah. Sin 
 embargo, el proceso de balanceo toma mucho tiempo bajo condiciones de 
 operaci\'on.
@@ -2566,8 +2573,6 @@ sin embargo hay una limitaci\'on de costos, volumen y complejidad muy alta.
     \end{center}
 \end{figure}
 
-\newpage
-
 \subsubsection{Controlador de Balanceo Activo}
 
 Los controladores de balanceo activo (\acrshort{ABC}, del ingl\'es \acrlong{ABC})
@@ -2577,9 +2582,10 @@ distintas celdas y m\'odulos/packs usando varios dispositivos que act\'uan como
 y convertidores de potencia.
 
 Las principales ventajas de los \acrshort{ABC}s consiste en alta eficiencia,
-alta velocidad y alta precisi\'on. Sin embargo, comparado con \acrshort{PBC}s,
-\acrshort{ABC}s tienen que enfrentar ciertas dificultades, como por ejemplo
-estructuras complejas, grandes tamaños y sistemas costosos de implementar.
+alta velocidad y alta precisi\'on. Sin embargo, comparado con los 
+\acrshort{PBC}s, los \acrshort{ABC}s tienen que enfrentar ciertas dificultades, 
+como por ejemplo estructuras complejas, grandes tamaños y sistemas costosos de 
+implementar.
 
 \subsubsubsection{Camino de transferencia de energ\'ia}
 
@@ -2596,43 +2602,44 @@ flexibilidad en la transferencia de energ\'ia se puede observar en la Figura
 
 Como se observa en la Figura \ref{energy_transfer}A, la ecualizaci\'on
 \acrshort{C2C} denota que la energ\'ia puede ser transferida entre las celdas de
-un mismo m\'odulo/pack, que es el modo fundamental de los \acrshort{ABC}s. Phung
-et. al presenta una arquitectura \acrshort{C2C} optimizada que se basa en la
-topolog\'ia tradicional de balanceo contiguo, que es m\'as compacto y f\'acil de
-implementar. Para n celdas conectadas en series, la arquitectura \acrshort{C2C}
-generalmente necesita n-1 componentes de transferencia de energ\'ia. Por lo
-tanto, a medida que el n\'umero de celdas conectadsa en serie incrementa, el
-circuito se hace m\'as complicado de implementar.
+un mismo m\'odulo/pack, que es el modo fundamental de los \acrshort{ABC}s. En
+\cite{phung_bal} se presenta una arquitectura \acrshort{C2C} optimizada que se 
+basa en la topolog\'ia tradicional de balanceo contiguo, que es m\'as compacto y 
+f\'acil de implementar. Para n celdas conectadas en series, la arquitectura 
+\acrshort{C2C} generalmente necesita n-1 componentes de transferencia de 
+energ\'ia. Por lo tanto, a medida que el n\'umero de celdas conectadsa en serie 
+incrementa, el circuito se hace m\'as complicado de implementar.
 
 Como se muestra en la Figura \ref{energy_transfer}B, la ecualizaci\'on
 \acrshort{C2M} puede transferir energ\'ia entre el m\'odulo  y la celda interna
 de forma bidireccional, que tiene la ventaja de desaparear la inconsistencia
-entre los m\'odulos de las bater\'ias. \cite{lu_et_al_bal} propone un 
-controlador aislado bidireccional tipo \acrshort{C2M} con una conmutaci\'on 
-suave a cero voltaje. Cuando funciona en modo \emph{boost}, el convertidor puede 
-transferir energ\'ia de la bater\'ia al m\'odulo, mientras que cuando funciona 
-en modo \emph{buck} la transferencia de energ\'ia se realiza desde el m\'odulo a 
-la celda descargada. \'Esta metodolog\'ia demuestra resultados experimentales 
-con buen rendimiento tanto en velocidad como eficiencia.
+entre los m\'odulos de las bater\'ias. Los autores en \cite{lu_et_al_bal} 
+proponen un controlador aislado bidireccional tipo \acrshort{C2M} con una 
+conmutaci\'on suave a cero voltaje. Cuando funciona en modo \emph{boost}, el 
+convertidor puede transferir energ\'ia de la bater\'ia al m\'odulo, mientras que 
+cuando funciona en modo \emph{buck} la transferencia de energ\'ia se realiza 
+desde el m\'odulo a la celda descargada. \'Esta metodolog\'ia demuestra 
+resultados experimentales con buen rendimiento tanto en velocidad como 
+eficiencia.
 
-En la Figura \ref{energy_transfer}C, muestra una arquitectura \acrshort{M2M}
+La Figura \ref{energy_transfer}C muestra una arquitectura \acrshort{M2M}
 donde la transferencia de energ\'ia se realiza entre m\'odulos. Comparado con
-las arquitecturas \acrshort{C2C} y \acrshort{C2M}, \acrshort{M2M} generalmente
-tiene un tamaño considerablemente grande considerando la aislaci\'on de
-corriente y una estrategia m\'as compleja para evitar el desbalanceo, haciendo
-que esta implementaci\'on sea m\'as dificultosa que el resto. 
-\cite{ji_et_al_bal_mod} propone un esquema de ecualizaci\'on usando m\'ultiples 
-transformadores que con los cuales la energ\'ia puede ser transferida entre 
-m\'odulos de distintos voltajes, alcanzado una corriente de balanceo a 3A 
-mientras que la inconsistencia entre voltajes es de 24mV.
+las arquitecturas \acrshort{C2C} y \acrshort{C2M}, la arquitectura 
+\acrshort{M2M} generalmente tiene un tamaño considerablemente grande teniendo en 
+cuenta la aislaci\'on de corriente y una estrategia compleja para evitar el 
+desbalanceo, haciendo que esta implementaci\'on sea m\'as dificultosa que el 
+resto. En \cite{ji_et_al_bal_mod} se propone un esquema de ecualizaci\'on usando 
+m\'ultiples transformadores que con permiten que la energ\'ia pueda ser 
+transferida entre m\'odulos de distintos voltajes, alcanzado una corriente de 
+balanceo de hasta 3A mientras que la inconsistencia entre voltajes es de 24mV.
 
 Otros m\'etodos no ilustrados en la Figura \ref{energy_transfer} tambi\'en
-fueron estudiados. \cite{li_et_al_bal} propone una topolog\'ia de ecualizaci\'on
-m\'odulo-a-celda-a-m\'odulo. Con la ayuda de conmutaci\'on suave a cero voltaje
-y un circuito bidireccional resonante, la velocidad y eficiencia del m\'etodo
-puede ser mejorado de forma considerable. Los resultados experimentales muestran
-que la topolog\'ia puede obtener una eficacia del 93\% en modo \acrshort{C2M} y
-72.5\% en modo \acrshort{M2C}.
+fueron estudiados. Por ejemplo, en \cite{li_et_al_bal} se propone una 
+topolog\'ia de ecualizaci\'on m\'odulo-a-celda-a-m\'odulo. Con la ayuda de 
+conmutaci\'on suave a cero voltaje y un circuito bidireccional resonante, la 
+velocidad y eficiencia del m\'etodo puede ser mejorado de forma considerable. 
+Los resultados experimentales muestran que la topolog\'ia puede obtener una 
+eficacia del 93\% en modo \acrshort{C2M} y 72.5\% en modo \acrshort{M2C}.
 
 \begin{figure}[h!]
     \begin{center}
@@ -2648,30 +2655,32 @@ que la topolog\'ia puede obtener una eficacia del 93\% en modo \acrshort{C2M} y
 
 Los controladores de balanceo basados en capacitores (\acrshort{CBBC}, del
 ingl\'es \emph{\acrlong{CBBC}}) pueden transportar energ\'ia entre celdas o
-enter celdas, m\'odulos y sistemas.
+entre celdas, m\'odulos y sistemas.
 
-Como se muestra en la Figura \ref{cbbc_top} puede ser clasificado en una
-topolog\'ia de un solo capacitor, capacitor alternado y una topolog\'ia de
-capacitores multi-capa. Los \acrshort{CBBC} solo pueden transferir energ\'ia
-entre bater\'ias que poseen un voltage de diferencia significativo.
+Como se muestra en la Figura \ref{cbbc_top}, los \acrshort{CBBC}s pueden ser 
+clasificados en una topolog\'ia de un solo capacitor, capacitor alternado y una 
+topolog\'ia de capacitores multi-capa. Los \acrshort{CBBC} solo pueden 
+transferir energ\'ia entre bater\'ias que poseen un voltaje de diferencia 
+significativo.
 
 Una t\'ipica topolog\'ia de un solo capacitor se puede observar en la Figura
-\ref{cbbc_top}A, que consiste de un solo capacitor (C), varios interruptores
-unipolares (\acrshort{SPST}, del ingl\'es \emph{\acrlong{SPST}}) y bipolares
-(\acrshort{SPDT}, del ing\'es \emph{\acrlong{SPDT}}). 
+\ref{cbbc_top}A, que adem\'as de poseer un solo capacitor (C), est\'a compuesto
+de varios interruptores unipolares (\acrshort{SPST}, del ingl\'es 
+\emph{\acrlong{SPST}}) y bipolares (\acrshort{SPDT}, del ing\'es 
+\emph{\acrlong{SPDT}}). 
 
-La topolog\'ia \acrshort{CBBC} con un solo capactiro, con una estrategia de
+La topolog\'ia \acrshort{CBBC} con un solo capacitor, con una estrategia de
 control muy simple y baja p\'erdida de energ\'ia, tiene la desventaja de que el
 tiempo de balanceo es extenso. Durante la operaci\'on, el ecualizador detecta
-las celdas con mayores y menores voltages, y despu\'es realiza la transferencia
+las celdas con mayores y menores voltajes, y despu\'es realiza la transferencia
 de energ\'ia entre las celdas seleccionados con el control de los
 \acrshort{SPST}. El proceso de ecualizaci\'on comienza con la carga del
-capacitor por la bater\'ia de alto voltage y contin\'ua con la descarga del
-capacitor en la celda de bajo voltage. Por ejemplo, asumiendo que la celda 1 y
+capacitor por la bater\'ia de alto voltaje y contin\'ua con la descarga del
+capacitor en la celda de bajo voltaje. Por ejemplo, asumiendo que la celda 1 y
 la celda 2 son las celdas con el mayor y el menor voltaje respectivamente,
 inicialmente, los \acrshort{SPST} $\mathrm{K_1}$ y $\mathrm{K_2}$ son conectados
-con el lado de bajo voltage y los \acrshort{SPDT} $\mathrm{S_1}$ y 
-$\mathrm{S_2}$ son conectados al lado de alto voltage, provocando la
+con el lado de bajo voltaje y los \acrshort{SPDT} $\mathrm{S_1}$ y 
+$\mathrm{S_2}$ son conectados al lado de alto voltaje, provocando la
 transferencia de la energ\'ia desde la celda 1 al capacitor C como se muestra en
 la linea azul. Una vez cargado el capacitor, $\mathrm{K_1}$ es desconectado,
 mientras que $\mathrm{K_2}$ y $\mathrm{K_3}$ se cierran, por el otro lado
@@ -2679,15 +2688,15 @@ $\mathrm{S_1}$ y $\mathrm{S_2}$ son conectados al lado bajo y la energ\'ia
 ser\'a transferida desde el buffer hasta la celda 2 como se muestra en la linea
 verde.
 
-Una topolog\'ia t\'ipica de un capacitor alterado se muestra en la Figura
-\ref{cbbc_top}B, que consiste de varios capacitores e \acrshort{SPDT} para
+Una topolog\'ia t\'ipica de un capacitor alternado se muestra en la Figura
+\ref{cbbc_top}B, que consiste de varios capacitores y \acrshort{SPDT}s para
 transmitir energ\'ia entre bater\'ias contiguas con el control de los
-\acrshort{SPDT}. \acrshort{CBBC}s con esta toplog\'ia tienen ventajas similares
-a la estructura de un solo capacitor, como por ejemplo, una estructura simple y
-de bajo costo, pero requiere de una estrategia de control finamente ajustada,
-especialmente cuando hay una pequeña diferencia de voltaje entre las celdas
-adjacentes. Las lineas azul y verde muestra como es el camino de transferencia
-de la energ\'ia.
+interruptores. Los \acrshort{CBBC}s con esta toplog\'ia tienen ventajas 
+similares a la estructura de un solo capacitor, como por ejemplo, una estructura 
+simple y de bajo costo, pero requiere de una estrategia de control finamente 
+ajustada, especialmente cuando hay una pequeña diferencia de voltaje entre las 
+celdas adjacentes. Las lineas azul y verde muestra como es el camino de 
+transferencia de la energ\'ia.
 
 La Figura \ref{cbbc_top}C muestra una topolog\'ia de capacitores de dos capas
 que transfiere energ\'ia entre celdas adjacentes a trav\'es de la primer capa y
@@ -2736,7 +2745,7 @@ Su estructura se puede observar en la Figura \ref{cbbc_mesh_top}
 
 Los controladores de balanceo basado en inductores (\acrshort{IBBC}, del
 ingl\'es \acrlong{IBBC}) pueden transferir energ\'ia entre celdas y m\'odulos a
-trav\'es de inductores externos. Comparado con los \acrshort{CBBC}s,
+trav\'es de inductores externos. Comparado con los \acrshort{CBBC}s, los
 \acrshort{IBBC}s t\'ipicamente est\'an relacionados con velocidades de balanceo
 m\'as r\'apidas debido a una corriente de ecualizaci\'on m\'as alta, sin embargo
 \acrshort{IBBC}s son generalmente m\'as costosos y menos eficientes.
@@ -2760,10 +2769,10 @@ Una topolog\'ia t\'ipica de inductor simple se puede observar en la
 Figura\ref{ibbc_top}A, que incluye un solo inductor y varios MOSFETs que permite
 transferir la energ\'ia entre celdas seleccionadas controlando los MOSFETs con
 señales \acrshort{PWM} (del ingl\'es \emph{\acrlong{PWM}}). Por ejemplo, 
-asumiendo que la celda 1 y 2 son las celdas con mayor y menor voltage 
-respectivamente. MOSFET S1 y S2 son inicialmente encendidos, permitiendo que la 
-energ\'ia se transfiera de la celda 1 a la inductancia L, como muestra la linea 
-azul. La energ\'ia transferida se puede calcular con la Ecuaci\'on 
+asumiendo que la celda 1 y 2 son las celdas con mayor y menor voltaje 
+respectivamente. Los MOSFETs S1 y S2 son inicialmente encendidos, permitiendo 
+que la energ\'ia se transfiera de la celda 1 a la inductancia L, como muestra la 
+linea azul. La energ\'ia transferida se puede calcular con la Ecuaci\'on 
 \ref{energy_trans_ind}:
 
 \begin{equation}
@@ -2774,17 +2783,17 @@ donde L es el valor de la inductancia, U e I son la tensi\'on de los terminales
 de la bater\'ia y la corriente que circula por el inductor respectivamente.
 Entonces cuando el interruptor S1 se apaga y se enciende S5, la energ\'ia se
 transfiere desde la inductancia a la celda 2 como muestra la linea verde.
-Las señales \acrshort{PWM} son usadas para controlar los MOSFETs para transferir
-energ\'ia entre las celdas.
+Las señales \acrshort{PWM} son utilizadas como señales de control que comandan 
+los MOSFETs para transferir energ\'ia entre las celdas.
 
 Una configuraci\'on t\'ipica de m\'ultiples inductores se puede observar en la
 Figura \ref{ibbc_top}B, que consiste de varios inductores y MOSFETs. La
-energ\'ia transferida entre celdas es controlada por los MOFESTs. Las lineas
-azules y verdes muestran los caminos de las transferencia de energ\'ia para la
-descarga de la celda 1 y la carga de la celda 2. La velocidad de ecualizaci\'on
-para tales topolog\'ias se encuentra afectada por la escala del pack, y la
-velocidad es generalmente baja porque la transferencia de energ\'ia solo se 
-puede realizar entre celdas adjacentes.
+energ\'ia transferida entre celdas es, nuevamente, controlada por los MOSFETs. 
+Las lineas azules y verdes muestran los caminos de las transferencia de 
+energ\'ia para la descarga de la celda 1 y la carga de la celda 2. La velocidad 
+de ecualizaci\'on para tales topolog\'ias se encuentra afectada por la escala 
+del pack, y la velocidad es generalmente baja porque la transferencia de 
+energ\'ia solo se puede realizar entre celdas adjacentes.
 
 En la Figura \ref{ibbc_top}C se muestra un circuito de inductor resonante. Este
 circuito es utilizado como reemplazo del inductor simple, debido a que puede
@@ -2795,14 +2804,14 @@ muestran el intercambio de energ\'ia para la descarga de la celda 1 y la carga
 de la celda 2 respectivamente.
 
 Una caracter\'istica particular de los circuitos \acrshort{IBBC}s es que la
-transferencia de energ\'ia se puede hacer desde una celda con menor voltage a
-una celda de mayor voltage. Por lo tanto, la estrateg\'ia de balanceo debe ser
+transferencia de energ\'ia se puede hacer desde una celda con menor voltaje a
+una celda de mayor voltaje. Por lo tanto, la estrateg\'ia de balanceo debe ser
 considerada cuidadosamente para evitar un error de balanceo.
 
 \subsubsubsection{Controlador de balanceo basado en transformadores}
 
 Los controladores de balanceo basados en transformadores (\acrshort{TBBC}, del
-ingl\'es \acrlong{TBBC}) pueden transferir energ\'ia entre distintas celdas y
+ingl\'es \emph{\acrlong{TBBC}}) pueden transferir energ\'ia entre distintas celdas y
 m\'odulos a trav\'es de transformadores externos. Como se muestra en la Figura
 \ref{tbbc_top}, los \acrshort{TBBC} se pueden dividr en transformadores de
 devanado simple o transformadores de m\'ultiples devanados.
@@ -2820,7 +2829,7 @@ devanado simple o transformadores de m\'ultiples devanados.
 \end{figure}
 
 En la Figura \ref{tbbc_top}A se puede observar una topolog\'ia \acrshort{TBBC}
-basada en un transformador de devanado simple, que peude transferir energ\'ia de
+basada en un transformador de devanado simple, que puede transferir energ\'ia de
 forma \acrshort{M2C} controlando los interruptores del circuito. Por ejemplo,
 asumiendo que la celda 1 es la celda con la mejor energ\'ia. Inicialmente, el
 MOSFET S se cierra y comienza a circular corriente desde el m\'odulo hacia el
@@ -2830,7 +2839,7 @@ conectados a la parte alta y baja de la celda 1 respectivamente, y la energ\'ia
 almacenada en el transformador es transferida a la misma. La linea verde muestra
 como se transfiere la energ\'ia desde el transformador a la celda 1. La primer
 desventaja que se puede observar para este tipo de topolog\'ia es que se
-necesitan transformadores de alto voltage y una gran cantidad de interruptores
+necesitan transformadores de alto voltaje y una gran cantidad de interruptores
 para packs de bater\'ias con muchas celdas conectadas en serie, lo que implica
 un costo alto y un gran tamaño para ser implementado.
 
@@ -2852,43 +2861,43 @@ señales de \acrshort{PWM} son utilizadas para regular la transferencia de
 energ\'ia entre las celdas.
 
 La velocidad de ecualizaci\'on de los \acrshort{TBBC}s son generalmente
-r\'apidas, pero los voltages en el devanado secundario son inconsistentes debido
-a p\'erdidas de inductancia en los devanados de los transformadores. Otro gran
+r\'apidas, pero los voltajes en el devanado secundario son inconsistentes debido
+a p\'erdidas de inductancia en el devanado de los transformadores. Otro gran
 problema de estas topolog\'ias es que la fabricaci\'on de devanados sim\'etricos
 para aplicaciones de alta potencia son costosos.
 
 \subsubsubsection{Balanceadores basados en convertidores de potencia}
 
 Los convertidores DC/DC, o convertidores de potencia, puede convertir una fuente
-DC de un voltage a otro distinto. Los controladores de balanceo basados en
+DC de un voltaje a otro distinto. Los controladores de balanceo basados en
 convertidores de potencia (\acrshort{PBBC}, del ing\'es \acrlong{PBBC}) tienen
 la ventaja de ser altamente eficientes y precisos para la transformaci\'on de
-energ\'ia de forma bidireccional. \acrshort{PBBC}s pueden trasnferir la
+energ\'ia de forma bidireccional. Los \acrshort{PBBC}s pueden transferir la
 energ\'ia entre distintas celdas y m\'odulos. Los convertidores de potencia
 aplicados en estas topolog\'ias pueden funcionar en modo reductor (del ingl\'es
 \emph{buck}), elevador (del ingl\'es \emph{boost}), elevador-reductor, Cuk y
 otros tipos. Ya que los convertidores de potencia DC/DC usan inductores o
 transformadores como componentes de almacenamiento de energ\'ia, los
 \acrshort{PBBC}s tienen algunas similitudes con los \acrshort{IBBC}s e
-\acrshort{TBBC}s. \acrshort{PBBC}s pueden alcanzar un control muy preciso en el
-proceso de ecualizaci\'on pero con la contraparte de ser costosos y complejos de
-implementar.
+\acrshort{TBBC}s. Los \acrshort{PBBC}s pueden alcanzar un control muy preciso en 
+el proceso de ecualizaci\'on pero con la contraparte de ser costosos y complejos 
+de implementar.
 
 El convertidor de potencia reductor disminuye el voltaje de entrada con al menos
 dos semiconductores y un inductor. Una topolog\'ia de ecualizaci\'on basado en
 un convertidor reductor se puede observar en la Figura \ref{pbbc_top}A. Durante
 el proceso de carga, cada circuito reductor puede servir como un circuito de
-carga y controlar la corriente de carga de cada celda de forma independiente.
-Asumiendo que el circuito reductor funciona en modo de conducci\'on continua, el
-voltage de cada celda conectada en serie se puede expresar en la Ecuaci\'on
-\ref{pbbc_reduc_voltage},
+carga y controlar la corriente de este proceso para cada celda de forma 
+independiente. Asumiendo que el circuito reductor funciona en modo de 
+conducci\'on continua, el voltaje de cada celda conectada en serie se puede 
+expresar en la Ecuaci\'on \ref{pbbc_reduc_voltaje},
 
 \begin{equation}
-    V_{mi} = V_{ci} \times D_i \label{pbbc_reduc_voltage}
+    V_{mi} = V_{ci} \times D_i \label{pbbc_reduc_voltaje}
 \end{equation}
 
-donde $\mathrm{V_{mi}}$ es el voltage promedio en la i-\'esima celda,
-$\mathrm{V_{ci}}$ es el voltage promedio del capacitor correspondiente, y
+donde $\mathrm{V_{mi}}$ es el voltaje promedio en la i-\'esima celda,
+$\mathrm{V_{ci}}$ es el voltaje promedio del capacitor correspondiente, y
 $\mathrm{D_i}$ es el ciclo de trabajo de la señal de \acrshort{PWM}. Debido a
 que cada m\'odulo trabaja de forma independiente, es posible alcanzar una
 ecualizaci\'on del pack en corto tiempo.
@@ -2898,17 +2907,17 @@ al menos dos semiconductores y un elemento de almacenamiento de energ\'ia. El
 esquem\'atico de un circuito de balanceo basado en convertidores elevadores se
 puede observar en la Figura \ref{pbbc_top}B. La corriente promedio de todos los
 circuitos elevadores son iguales, pero cada corriente individual difiere
-dependiendo del voltage del m\'odulo y el ciclo de trabajo de la señal de
+dependiendo del voltaje del m\'odulo y el ciclo de trabajo de la señal de
 \acrshort{PWM} para alcanzar la ecualizaci\'on.
 
 Los convertidores reductores-elevadores pueden implementar funciones de ambas
-topolog\'ias, y el voltage de salida puede ser mayor o menor al de entrada. Una
+topolog\'ias, y el voltaje de salida puede ser mayor o menor al de entrada. Una
 topolog\'ia t\'ipica que implementa estos convertidores se puede observar en
 \ref{pbbc_top}C, que permite transferir energ\'ia entre bater\'ias adjacentes a
 trav\'es del control de los interruptores.. For ejemplo, asumiendo que la
 energ\'ia debe ser transferied desde la celda 2 a la celda 1. Inicialmente, el
 MOSFET S3 se enciende y la corriente comienza a circular hacia la inductancia
-L1. Una vez que el MOSFET S3 se apaga, la energ\'ia es trasnferida a la celda 1
+L1. Una vez que el MOSFET S3 se apaga, la energ\'ia es transferida a la celda 1
 a trav\'es del diodo de S1. Las señales \acrshort{PWM} son utilizadas para
 controlar la transferencia de energ\'ia entre celdas a trav\'es de los MOSFETs.
 Esta topolog\'ia bidireccional es ideal para las aplicaciones de balanceo debido
@@ -2917,7 +2926,7 @@ de implementar, por lo que solo rinden para bater\'ias a gran escala y con
 grandes capacidades. Por ejemplo, \cite{shang_et_al_bal_rect} introdujo la 
 investigaci\'on de convertidores reductores-elevadores junto a sus resultados 
 experimentales.
-
+\newpage
 Los convertidores Cuk aumentan o disminuyen y, a la vez, invierten la tensi\'on
 de entrada. Un convertidor de tipo Cuk implementado en un balanceador se puede
 observar en la Figura \ref{pbbc_top}D, que contiene dos inductores y dos
@@ -2926,12 +2935,12 @@ transferida entre bater\'ias contiguas con MOSFETs controlados por señales
 \acrshort{PWM}, los capacitores sirven como almacenadores principales para la
 transferencia de energ\'ia. Comparado con la topolog\'ia elevador-reductor, los
 circuitos Cuk tienen un bajo riple y alta eficiencia, sin embargo, los mismos
-continenen m\'as elementos resultando en una implementaci\'on m\'as costosa.
+contienen m\'as elementos resultando en una implementaci\'on m\'as costosa.
 
 Finalmente, los convertidores tipo \emph{flyback} tambi\'en fueron implementados
 en topolog\'ias de balanceadores basados en convertidores de potencia. En
-\cite{lin_et_al_bal_bid} se propone una topolog\'ia bidireccional basada en 
-convertidores tipo flyback, que puede transferir energ\'ia entre la bater\'ia y 
+\cite{lin_et_al_bal_bid} se propone una topolog\'ia bidireccional, basada en 
+estos tipos de convertidores, que puede transferir energ\'ia entre la bater\'ia y 
 un capacitor, que actua como almacenador de energ\'ia. Los resultados 
 experimentales demuestran su factibilidad sobre bater\'ias de tipo 
 LiFeP$\mathrm{O_4}$ adoptando una modalidad de transferencia entre m\'odulos 
@@ -2950,15 +2959,17 @@ LiFeP$\mathrm{O_4}$ adoptando una modalidad de transferencia entre m\'odulos
     \end{center}
 \end{figure}
 
+\newpage
+
 \subsubsection{Topolog\'ias h\'ibridas}
 
 Las topolog\'ias h\'ibridas pueden mejorar el rendimiento del balanceador
-gracias a la combinaci\'on de una ecualizaci\'on pasiva con una activa. Fang et
-al propone una topolog\'ia h\'ibrida basada en convertidores de potencia y
-resistencias \emph{shunt}. El convertidor de potencia puede transferir energ\'ia
-del m\'odulo para cargar las bater\'ias con un voltaje bajo, y las bater\'ias
-con mayor carga pueden ser descargadas por a trav\'es de la resistencia
-\emph{shunt} conectadas en paralelo.
+gracias a la combinaci\'on de una ecualizaci\'on pasiva con una activa. 
+Los autores en \cite{fang_bal} proponen una topolog\'ia h\'ibrida basada en 
+convertidores de potencia y resistencias \emph{shunt}. El convertidor de 
+potencia puede transferir energ\'ia del m\'odulo para cargar las bater\'ias con 
+un voltaje bajo, y las bater\'ias con mayor carga pueden ser descargadas a 
+trav\'es de la resistencia \emph{shunt} conectadas en paralelo.
 
 Los autores en \cite{zhang_et_al_hier} proponen una topolog\'ia de balanceo 
 jer\'arquica para mejorar la ecualizaci\'on de celdas conectadas en serie, cuyo 
@@ -2981,7 +2992,7 @@ proceso de balanceo.
 \subsubsubsection{Comparaci\'on de topolog\'ias}
 
 La topolog\'ia es el fundamento principal de los sistemas de ecualizaci\'on de
-bater\'ias, la misma determina el costo y el tamaño del sistema completa. Una
+bater\'ias, la misma determina el costo y el tamaño del sistema completo. Una
 topolog\'ia eficiente es esencial para extender el ciclo de vida de un pack de
 bater\'ias y mejorar su rendimiento efectivamente. Es crucial seleccionar la
 topolog\'ia adecuada seg\'un los requerimientos del sistema. 
@@ -2997,7 +3008,7 @@ y bajas p\'erdidas de potencia. Comparado con la ecualizaci\'on pasiva, la
 topolog\'ia activa puede efectivamente reducir la inconsistencia entre las
 capacidades entre celdas y resistencias internas mejorando el tiempo de vida del
 pack de bater\'ias y su energ\'ia disponible.
-
+\newpage
 Dentro de los sistemas de balanceo activo, los \acrshort{CBBC}s tienen el
 m\'erito de implementar una estrategia muy simple y de bajo costo, con la
 contraparte de que los tiempos de ecualizaci\'on son muy bajos. Los
@@ -3008,8 +3019,8 @@ altas corrientes de ecualizaci\'on, con la contraparte de que su manufactura es
 compleja debido a la fabricaci\'on de transformadores con devanados
 sim\'etricos. Por \'ultimo los \acrshort{PBBC}s tales como los
 convertidores reductores-elevadores y Cuk son atractivos gracias a su alta
-corriente de balanceo y su f\'acil integrac\'on en el circuito, sin embargo,
-estos resultan complejos y traen apareados estrategias de control complicados.
+corriente de balanceo y su f\'acil integrac\'ion en el circuito, sin embargo,
+estos resultan complejos y traen apareados estrategias de control complicadas.
 
 Debido a que el esquema pasivo y activo tienen caracter\'isticas muy distintas
 entre si, pueden ser aplicados en distintos escenarios seg\'un la aplicaci\'on
@@ -3023,6 +3034,7 @@ topolog\'ia y la Figura \ref{comp_bal_results} muestra un resultado de las
 comparanciones entre ellas. 
 
 \begin{table}[h!]
+\begin{center}
 \begin{tabular}{@{}llcccccc@{}}
 \toprule
 \multicolumn{2}{l}{Topologias de balanceo}                                                 & Tiempo & Estructura & Control & Eficiencia & Volumen & Costo \\ \midrule
@@ -3038,25 +3050,26 @@ comparanciones entre ellas.
 \caption{La clasificaci\'on est\'a puntuada del 1 al 5. Donde 1 es el peor
 y 5 el mejor.}
 \label{comp_bal_table}
+\end{center}
 \end{table}
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.75\textwidth]{comp_eq_chart.png}
+        \includegraphics[width=0.8\textwidth]{comp_eq_chart.png}
         \caption{Gr\'afica comparativan de las distintas topolog\'ias disponibles}
         \label{comp_bal_results}
     \end{center}
 \end{figure}
-
+\newpage
 \subsubsection{Estrategias de ecualizaci\'on}
 
 Las estrategias de ecualizaci\'on son utilizadas para controlar la operaci\'on
-de los de balanceo teniendo un alto impacto sobre el efecto de balanceo.
-Estrategias de ecualizaci\'on inapropiadas para la ecualizaci\'on pueden llevar
-a problemas de desbalanceo o sobrebalanceo, resultando en p\'erdida de potencia
-innecesaria y decaimiento del pack de bater\'ias. Las variables a ecualizar y
-los algoritmos de control son los temas a tener en cuenta en las estrategias de
-ecualizaci\'on, y el desglose de las mismas se puede observar en la Figura
+del balanceo teniendo un alto impacto sobre este proceso. Una estrategia de 
+ecualizaci\'on inapropiadas para la ecualizaci\'on pueden llevar a problemas de 
+desbalanceo o sobrebalanceo, resultando en p\'erdida de potencia innecesaria y 
+decaimiento del pack de bater\'ias. Las variables a ecualizar y los algoritmos 
+de control son los temas a tener en cuenta en las estrategias de ecualizaci\'on, 
+y el desglose de las mismas se puede observar en la Figura 
 \ref{eq_strategy_class}.
 
 \begin{figure}[h!]
@@ -3071,23 +3084,22 @@ ecualizaci\'on, y el desglose de las mismas se puede observar en la Figura
 \subsubsection{Variables de Ecualizaci\'on}
 
 Las variables de ecualizaci\'on son la base para las estrategias de
-ecualizaci\'on. El error de la muestra, el costo computacional, el ca\'acter
+ecualizaci\'on. El error de la muestra, el costo computacional, el car\'acter de
 hist\'eresis deben ser consideradas a la hora de elegir que variable ecualizar.
-Para la ecualizaci\'on se pueden encontrar un largo espectro de variables, como
-por ejemplo, el voltaje de las celdas, \acrshort{SOC}, capacidad y resistencia
-interna.
+Para la ecualizaci\'on se encuentran tres variables disponibles, el voltaje de 
+las celdas, \acrshort{SOC}, capacidad y resistencia interna.
 
 \subsubsubsection{Estrategias de Ecualizaci\'on basadas en voltaje
 (\acrshort{VBES})}
 
-Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltage de la
+Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltaje de la
 terminal medido por el \acrshort{BMS} como la base para seleccionar que
-bater\'ias deben ser seleccionadas. El voltaje de la terminar en cada celda
+bater\'ias deben ser seleccionadas. El voltaje de la terminal en cada celda
 conectada en serie puede ser realizado de forma directa con una exactitud
 aceptable, por lo tanto, los \acrshort{VBES}s son uno de los m\'etodos viables
 m\'as b\'asicos a implementar. Sin embargo, los efectos no lineales de las
-celdas de litio, como se menciona en secciones anteriores cubre el \acrshort{OCV}
-causando problemas de ecualizaci\'on de las celdas.
+celdas de litio, como se menciona en secciones anteriores no refleja el valor
+real \acrshort{OCV} causando problemas de ecualizaci\'on de las celdas.
 
 Para subsanar este problema, se propone una estrategia de ecualizaci\'on basada
 en el \acrshort{OCV}. Sin embargo, la medici\'on en tiempo real de esta variable
@@ -3104,7 +3116,7 @@ litio-ion con una linealidad relativa en la curva \acrshort{OCV}-\acrshort{SOC},
 pero no son efectivas y corren el riesgo de un desbalanceo cuando son utilizadas
 en celdas tipo LiFeP$\mathrm{O_4}$. 
 
-\subsubsubsection{Estrategias de Ecualizaci\'on basadas en el \acrshort{SOC}
+\subsubsubsection{Estrategias de Ecualizaci\'on basadas en la capacidad
 (\acrshort{CBES})}
 
 Las \acrshort{CBES} (del ing\'es, \emph{\acrlong{CBES}}) se basan en balancear
@@ -3158,9 +3170,9 @@ ecualizaci\'on m\'as robusta del sistema.
 
 \subsubsection{Algoritmos de control para la ecualizaci\'on}
 
-Los algortimos de control son cruciales para el rendimiento de la
+Los algoritmos de control son cruciales para el rendimiento de la
 ecualizaci\'on, son utilizados para determinar el tiempo de balanceo y
-corriente. Generalmente, el estos algoritmos se pueden dividir en dos grupos:
+corriente. Generalmente, estos algoritmos se pueden dividir en dos grupos:
 algoritmos cl\'asicos de control (\acrshort{CCA}, del ingl\'es \acrlong{CCA}) y
 algortimos avanzados de control (\acrshort{ACA}, del ingl\'es \acrlong{ACA}).
 Estos algoritmos son posibles de implementar en determinados casos y deben ser
@@ -3170,17 +3182,17 @@ robustez requerido.
 \subsubsubsection{Algortimos cl\'asicos de control}
 
 Los \acrshort{CCA}s realizan operaciones matem\'aticas basadas en las variables
-de ecualizaci\'on selccionadas. Normalmente, \acrshort{CCA}s utilizan el
+de ecualizaci\'on selccionadas. Normalmente, los \acrshort{CCA}s utilizan el
 resultado de operaciones aritm\'eticas cl\'asicas tales como el promedio,
-desviaciones estandards y varianzas como los criterios de ecualizaci\'on. Devido
+desviaciones estandards y varianzas como los criterios de ecualizaci\'on. Debido
 a las ventajas en flexibilidad de c\'alculo y f\'acil implementaci\'on estos
 m\'etodos han sido adoptados en aplicaciones de \acrshort{VVEE}s en las
 \'ultimas d\'ecadas.
 
 El algoritmo de ecualizaci\'on basado en valores extremos (\acrshort{EVEA}, del
 ingl\'es \emph{\acrlong{EVEA}}) aplica los extremos de la variable de ecualizaci\'on
-como el objetivo de balanceo. \acrshort{EVEA}s son b\'asicos y efectivos con un
-costo computacional bastante limitado, sin embargo suelen tener problemas de
+como el objetivo de balanceo. Los \acrshort{EVEA}s son b\'asicos y efectivos con 
+un costo computacional bastante limitado, sin embargo suelen tener problemas de
 desbalanceo debido a que no son robustos en casos como en la que la diferencia
 entre ambos extremos no es lo suficiente grande, el sistema puede llegar a
 sobre-balancear el sistema y degradar el rendimiento de la bater\'ia.
@@ -3202,8 +3214,8 @@ aplicaciones de ecualizaci\'on.
 
 El control predictivo es un m\'etodo de la teor\'ia de control avanzada que usa
 una optimizaci\'on m\'ovil en tiempo real para predecir los cambios din\'amicos
-y ajustar el control acorde a estos cambios din\'amicos, logrando en todo punto
-de operaci\'on un \'optimo rendimiento en el balanceo. Comparado con los
+y ajustar el control acorde a estos cambios, logrando en todo punto de 
+operaci\'on un \'optimo rendimiento en el balanceo. Comparado con los
 algoritmos de optimizaci\'on, el control predictivo tiene menor costo
 computacional y ha sido usado ampliamente en sistemas de control no lineales.
 \'Este m\'etodo puede subsanar la no linealidad de las celdas de litio, ya que
@@ -3213,11 +3225,11 @@ Comparado con un control promedio de \acrshort{SOC}, el mismo puede converger a
 de sobre-balanceo.
 
 El control basado en l\'ogica difusa es otro control perteneciente a la teor\'ia
-del control avanzo que procesa informaci\'on imprecisa que depende de un grado
+del control avanzado que procesa informaci\'on imprecisa que depende de un grado
 de conocimiento del sistema. En \cite{jia_et_al_fuzzy} se propone un controlador 
 de tipo fuzzy que utiliza como entrada el nivel de desbalanceo y la corriente de 
-carga que circula por el pack de bater\'ias. Los resultados de muestran que 
-este m\'etodo es robusto y puede ecualizar el sistema en un tiempo corto.
+carga que circula por el pack de bater\'ias. Los resultados demuestran que este 
+m\'etodo es robusto y puede ecualizar el sistema en un tiempo corto.
 
 Por \'ultimo, en la literatura se propuso el uso de redes neuronales,
 controladores tipo PID y algoritmos acoplados como potenciales algoritmos de
@@ -3226,11 +3238,11 @@ control para mejorar el rendimiento del balanceo.
 \subsubsubsection{Comparaci\'on de algoritmos de control}
 
 Los algoritmos basados en el control cl\'asico fueron las primeras
-implementaciones de balanceo utilizadas en \acrshort{VVEE}s en \acrshort{VVEE}s
-debido a sus ventajas en cuanto a la baja complejicidad de implementaci\'on. Sin
-embargo, \'estos son propensos a causar desbalanceos debido a factores
-relacionados al ruido y al error de muestreo asociado con el l\'imite
-computacional para sistemas embebidos en \acrshort{VVEE}s.
+implementaciones de balanceo utilizadas en \acrshort{VVEE}s debido a sus 
+ventajas en cuanto a la baja complejicidad de implementaci\'on. Sin embargo, 
+\'estos son propensos a causar desbalanceos debido a factores relacionados al 
+ruido y al error de muestreo asociado con el l\'imite computacional para 
+sistemas embebidos en \acrshort{VVEE}s.
 
 Adicionalmente, los algoritmos de control avanzado tambi\'en son ampliamente
 utilizados en aplicaciones de almacenamiento de energ\'ia en celdas de
@@ -3240,7 +3252,6 @@ estos sistemas est\'an apareados a un alto costo computacional, y el rendimiento
 del control depende exclusivamente de la precisi\'on del modelo, que es
 complicado de obtener.
 
-\newpage
 \subsection{Sensado de Corriente}
 
 El sensado de la corriente de carga como de descarga del pack de batería juega
@@ -3267,7 +3278,8 @@ Algunas de las tecnologías mas relevantes, disponibles en el mercado son:
 Dentro del amplio abanico de métodos y tecnologías utilizadas para la medición
 de corrientes los dos más elegidos e implementados en Sistemas de Administración
 de Baterías \acrshort{BMS} son las mediciones a partir de resistencias Shunt y
-mediciones a partir de sensores de efecto hall.
+mediciones a partir de sensores de efecto hall debido a las caracter\'isticas de
+ambas metodolog\'ias.
 
 \subsubsection{Resistencia Shunt}
 
@@ -3326,57 +3338,163 @@ varia fuertemente frente a las variaciones de temperatura de operación.
     \label{fig:SenseMetods}
 \end{figure}
 
-\subsubsection{Tecnología Seleccionada}
+\newpage
 
-Frente a los requerimientos y la naturaleza de un \acrshort{BMS} hemos
-seleccionado la tecnología de sensado de corriente por resistencia Shunt.
-Actualmente existen en el mercado un sin número de soluciones de amplificadores
-y moduladores aislados que permiten alcanzar precisas mediciones de corrientes
-con este método logrando minimizar las injerencias del entorno siempre y cuando
-se seleccione una resistencia Shunt adecuada.
+\section{Desarrollo}\label{desarrollo}
 
-\noindent Las ventajas de la medición a partir del método de resistencia 
-shunt son:
-
-\begin{itemize}
-    \item Bajo offset y baja susceptibilidad frente a influencias de campos 
-	magnéticos externos y variaciones de temperatura.
-    \item Alta linealidad de la solución en todo el rango de voltaje en 
-	comparación a la solución basada en tecnología Hall, sobre todo en 
-	la zona cercana a cero y la de saturación del nucleo. 
-    \item Mejor resolución para mediciones de corriente continua frente a 
-	las soluciones basadas en mediciones de efecto Hall. 
-	Particularmente debido a la baja sensitividad que presenta frente a 
-	las influencias de los campos magnéticos externos.
-    \item Pueden soportar operaciones en ambientes de altas temperaturas 
-	manteniendo la linealidad debido a su bajo TCR. 
-	Los sensores de efecto Hall encuentran su rango de operación 
-	fuertemente acotado.
-    \item Facilidad que presenta la tecnología para la integración en 
-	circuitos impresos priorizando el tamaño reducido.
-    \item Disponibilidad en distribuidores nacionales
-\end{itemize}
-
-\noindent El integrado propuesto para el sensado de corriente es el INA226 de
-Texas Instruments. El INA226 es un conversor analógico digital de 16 bits (ADC)
-que implementa una interfaz compatible I2C para la comunicación con el módulo
-del control. El dispositivo monitorea simultaneamente la tensión que cae en una
-resistencia shunt y la del bus de alimentación. Permite múltiples calibraciones
-y seteos, entre ellos variar los tiempos de conversión y definir conversiones
-múltiples que al implementar internamente un multiplicador y divisor permite
-obtener lecturas directas de tensión y potencia en amperes y en Vatios.
-
-Observamos en la figura \ref{fig:ina226-commonimplementation} su implementación
-modelo. 
+\subsubsection{Pack de bater\'ias}
 
 \begin{figure}[h!]
-    \begin{center}
-	\includegraphics[width=0.7\linewidth]{assets/INA226-Common_Implementation}
-	\caption{Implementación Tipo - INA226}
-	\label{fig:ina226-commonimplementation}
-    \end{center}	
+    \begin{subfigure}[b]{.5\textwidth}
+	\begin{center}
+	    \begin{minipage}[c]{0.45\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+
+		    \draw (7, 2) -- (7, 2.2);
+		    \draw (7, 2) to[battery1] (7, 1.6);
+		    \draw (7, 1.4) -- (7, 1.6);
+		    \draw (7, 1.4) to[battery1] (7, .9);			
+		    \draw (7, .7) -- (7, .9);			
+		    \draw (7, 0.7) to[battery1] (7, 0.2);			
+		    \draw (7, 0.2) -- (7, -0.2);
+		    \draw (7, -0.2) to[battery1] (7, -0.7);
+		    \draw (7, -.7) -- (7, -.9);
+		    \draw (7, -.9) to[battery1] (7, -1.4);
+		    \draw (7, -1.4) -- (7, -1.6);
+		    \draw (7, -1.6) to[battery1] (7, -2);
+		    \draw (7, -2) -- (7, -2.2);
+
+		    \draw (9, 2) -- (9, 2.2);
+		    \draw (9, 2) to[battery1] (9, 1.6);
+		    \draw (9, 1.4) -- (9, 1.6);
+		    \draw (9, 1.4) to[battery1] (9, .9);			
+		    \draw (9, .7) -- (9, .9);			
+		    \draw (9, 0.7) to[battery1] (9, 0.2);			
+		    \draw (9, 0.2) -- (9, -0.2);
+		    \draw (9, -0.2) to[battery1] (9, -0.7);
+		    \draw (9, -.7) -- (9, -.9);
+		    \draw (9, -.9) to[battery1] (9, -1.4);
+		    \draw (9, -1.4) -- (9, -1.6);
+		    \draw (9, -1.6) to[battery1] (9, -2);
+		    \draw (9, -2) -- (9, -2.2);
+
+		    \draw (11, 2) to[battery1] (11, 1.6);
+		    \draw (11, 1.4) -- (11, 1.6);
+		    \draw (11, 1.4) to[battery1] (11, .9);			
+		    \draw (11, .7) -- (11, .9);			
+		    \draw (11, 0.7) to[battery1] (11, 0.2);		
+		    \draw (11, 0.2) -- (11, -0.2);
+		    \draw (11, -0.2) to[battery1] (11, -0.7);
+		    \draw (11, -.7) -- (11, -.9);
+		    \draw (11, -.9) to[battery1] (11, -1.4);
+		    \draw (11, -1.4) -- (11, -1.6);
+		    \draw (11, -1.6) to[battery1] (11, -2);
+		    \draw (11, -2) -- (11, -2.2);
+
+		    \draw (7, 0) -- (9, 0);
+		    \draw (9, 0) -- (11, 0);
+
+		    \draw (7, 0.8) -- (9, 0.8);
+		    \draw (9, 0.8) -- (11, 0.8);
+
+		    \draw (7, 1.5) -- (9, 1.5);
+		    \draw (9, 1.5) -- (11, 1.5);
+
+		    \draw (7, 2.2) -- (9, 2.2);
+		    \draw (9, 2.2) -- (11, 2.2);			
+
+		    \draw (7, -0.8) -- (9, -0.8);
+		    \draw (9, -0.8) -- (11, -0.8);
+
+		    \draw (7, -1.5) -- (9, -1.5);
+		    \draw (9, -1.5) -- (11, -1.5);
+
+		    \draw (7, -2.2) -- (9, -2.2);
+		    \draw (9, -2.2) -- (11, -2.2);			
+
+		    \draw [dashed] (6.5, 2.4) rectangle (11.5, -2.4);
+
+		    \draw node at (8.2, 2.6) {Pack de Baterías 6s3p};
+		\end{circuitikz}
+	    \end{minipage}
+	\end{center}
+	\caption{Esquemático de la arquitectura del pack de baterías.}
+	\label{pack_bateria}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=0.7\textwidth]{18650.jpg}
+	\caption{Foto celda NCR18650PF.}
+	\label{foto_bateria}
+    \end{subfigure}
+    \caption{Pack 6s3p y Celda NCR18650PF.}
+    \label{pack}
 \end{figure}
 \FloatBarrier
+
+Estas celdas se caracterizan por su cátodo, cuya composición química se basa en
+el óxido de litio niquel cobalto aluminio ($\mathrm{LiNiCoAlO_2}$) y, según su
+hoja de datos \cite{18650_datasheet}, sus carateristicas electricas se pueden
+observar en la Tabla \ref{table:ncr}. 
+
+\begin{table}[h]
+    \begin{center}
+	\begin{tabular}{|c|l|}
+	    \hline
+	    \multicolumn{2}{|c|}{Especificaciones el\'ectricas}                          \\ \hline
+	    \textbf{Capacidad Específica}                 & 2700mAh                            \\ \hline
+	    \multirow{2}{*}{\textbf{Capacidad}}           & Mínimo: 2750mAh                    \\ \cline{2-2} 
+	    & Tipico: 2900mAh                    \\ \hline
+	    \textbf{Corriente de Descarga Máxima}         & 10000mAh($\sim$3.5C)               \\ \hline
+	    \textbf{Rango operativo de tensión}           & 2.5V - 4.2V                        \\ \hline
+	    \textbf{Voltaje Nominal}                      & 3.6V                               \\ \hline
+	    \textbf{Charga}                               & CC-CV, Std. 1375mA, 4.20V, 4.0 hrs \\ \hline
+	    \textbf{Peso}                                 & 48g                              \\ \hline
+	    \multirow{3}{*}{\textbf{Temperatura}}         & Carga: 0 a 45C                     \\ \cline{2-2} 
+	    & Descarga: -20 a 60C                \\ \cline{2-2} 
+	    & Almacenaje: -20 a 50C              \\ \hline
+	    \multirow{2}{*}{\textbf{Densidad Energética}} & Volum\'etrica: 577Wh/l               \\ \cline{2-2} 
+	    & Gravim\'etrica: 207wh/kg             \\ \hline
+	\end{tabular}%
+	\caption{Especificaciones el\'ectricas de una celda de litio NCR18650PF}
+	\label{ncr_table}
+    \end{center}
+\end{table}
+
+Por el otro lado, la hoja de datos también nos provee curvas significativas,
+como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv_18650})}, la curva de
+descarga para distintas corrientes \emph{(Fig. \ref{descarga_18650})} y la curva
+del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
+
+\begin{figure}[h!]
+    \begin{subfigure}[t]{.5\textwidth}
+	%   		\centering
+	\includegraphics[width=0.9\textwidth]{cc_cv_18650.png}
+	\caption{Curva de carga.}
+	\label{cc_cv_18650}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{.5\textwidth}
+	%    		\centering
+	\includegraphics[width=0.9\textwidth]{discharge_18650.png}
+	\caption{Curva de descarga en base a distintas corrientes de descarga (0.5C,
+	1C, 1.5C y 2C)}
+	\label{descarga_18650}
+    \end{subfigure}
+    ~ 
+    \begin{centering}
+	\begin{subfigure}[t]{1\textwidth}
+	    \centering
+	    \includegraphics[width=0.4\textwidth]{life_cycle_18650.png}
+	    \caption{Curva del ciclo de vida de una celda 18650}
+        \label{life_cycle_18650}
+	\end{subfigure}
+    \end{centering}
+    \caption{Curvas sgnificativas celda Panasonic 18650PF}
+    \label{curvas_sign_18650}
+\end{figure}
 
 \subsection{Simulaciones}
 
@@ -3605,7 +3723,6 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 \FloatBarrier
 
 
-
 \subsubsection{Tecnología Seleccionada}
 
 Para un completo control del perfil de carga ariba descripto es que
@@ -3658,194 +3775,58 @@ voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
 \noindent Por lo tanto es necesario conocer la naturaleza de los distintos tipos
 de desbalances, los cuales son descriptos a continuación:
 
+\subsubsection{Tecnología Seleccionada - INA226}
 
-\subsection{Plan de Trabajo}
+Frente a los requerimientos y la naturaleza de un \acrshort{BMS} hemos
+seleccionado la tecnología de sensado de corriente por resistencia Shunt.
+Actualmente existen en el mercado un sin número de soluciones de amplificadores
+y moduladores aislados que permiten alcanzar precisas mediciones de corrientes
+con este método logrando minimizar las injerencias del entorno siempre y cuando
+se seleccione una resistencia Shunt adecuada.
 
-Se plantea el siguiente plan de trabajo con el tiempo estimado para la
-finalización del proyecto:
+\noindent Las ventajas de la medición a partir del método de resistencia 
+shunt son:
 
-\begin{table}[h!]
-    \begin{tabular}{|l|c|}
-	\hline
-	\multicolumn{1}{|c|}{Tarea}                                                                                                                                                                              & Duración                           \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Estudio, análisis y comparación del estado del arte de la tecnología. \\Estudio de los requerimientos de hardware.\end{tabular}                         & 2 Semanas                          \\ \hline
-	    \begin{tabular}[c]{@{}l@{}}Modelado de baterías de Li-Ion en MatLab. \\Simulación de los distintos algoritmos y los circuitos de protección. \\ Estudio y comparación. Validación y elección de los más adecuados.\end{tabular} & 4 Semanas                          \\ \hline
-		\begin{tabular}[c]{@{}l@{}}Desarrollo e implementación del hardware del \acrshort{BMS}. *\end{tabular}                                                      & 6 Semanas                          \\ \hline
-		    \begin{tabular}[c]{@{}l@{}}Desarrollo del Firmware del \acrshort{BMS} con los algoritmos seleccionados.\\  Implementación y depuración sobre el hardware.\end{tabular}                                                    & 4 semanas                          \\ \hline
-			Montaje del banco de pruebas para ensayar las protecciones y los algoritmos correspondientes. *                                                                                                                       & 3 Semanas                          \\ \hline
-			Análisis de resultados, obtención de conclusiones y desarrollo del informe final.                                                                                                                                                       & 3 Semanas                          \\ \hline
-			\textbf{Total}                                                                                                                                                                                                  &\textbf{24 Semanas} \\ \hline
-    \end{tabular}
-\end{table}
+\begin{itemize}
+    \item Bajo offset y baja susceptibilidad frente a influencias de campos 
+	magnéticos externos y variaciones de temperatura.
+    \item Alta linealidad de la solución en todo el rango de voltaje en 
+	comparación a la solución basada en tecnología Hall, sobre todo en 
+	la zona cercana a cero y la de saturación del nucleo. 
+    \item Mejor resolución para mediciones de corriente continua frente a 
+	las soluciones basadas en mediciones de efecto Hall. 
+	Particularmente debido a la baja sensitividad que presenta frente a 
+	las influencias de los campos magnéticos externos.
+    \item Pueden soportar operaciones en ambientes de altas temperaturas 
+	manteniendo la linealidad debido a su bajo TCR. 
+	Los sensores de efecto Hall encuentran su rango de operación 
+	fuertemente acotado.
+    \item Facilidad que presenta la tecnología para la integración en 
+	circuitos impresos priorizando el tamaño reducido.
+    \item Disponibilidad en distribuidores nacionales
+\end{itemize}
 
-\subsection{Extensión a futuros proyectos}
+\noindent El integrado propuesto para el sensado de corriente es el INA226 de
+Texas Instruments. El INA226 es un conversor analógico digital de 16 bits (ADC)
+que implementa una interfaz compatible I2C para la comunicación con el módulo
+del control. El dispositivo monitorea simultaneamente la tensión que cae en una
+resistencia shunt y la del bus de alimentación. Permite múltiples calibraciones
+y seteos, entre ellos variar los tiempos de conversión y definir conversiones
+múltiples que al implementar internamente un multiplicador y divisor permite
+obtener lecturas directas de tensión y potencia en amperes y en Vatios.
 
-El desarrollo del hardware y los algoritmos, tanto de ecualización como de
-estado de carga sirven como una buena base para futuros proyectos vinculados a
-la temática de energías renovables y \acrshort{VE}s.
-
-Como posible extensión se plantea el desarrollo de algoritmos novedosos para la
-estimación del Estado de Salud, su posible aplicación a sistemas de alta
-potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a
-la composición química de las celdas.
-
-\newpage
-
-\section{Desarrollo}\label{desarrollo}
-
-\subsubsection{Pack de bater\'ias}
+Observamos en la figura \ref{fig:ina226-commonimplementation} su implementación
+modelo. 
 
 \begin{figure}[h!]
-    \begin{subfigure}[b]{.5\textwidth}
-	\begin{center}
-	    \begin{minipage}[c]{0.45\textwidth}
-		\centering
-		\begin{circuitikz}[european]
-
-		    \draw (7, 2) -- (7, 2.2);
-		    \draw (7, 2) to[battery1] (7, 1.6);
-		    \draw (7, 1.4) -- (7, 1.6);
-		    \draw (7, 1.4) to[battery1] (7, .9);			
-		    \draw (7, .7) -- (7, .9);			
-		    \draw (7, 0.7) to[battery1] (7, 0.2);			
-		    \draw (7, 0.2) -- (7, -0.2);
-		    \draw (7, -0.2) to[battery1] (7, -0.7);
-		    \draw (7, -.7) -- (7, -.9);
-		    \draw (7, -.9) to[battery1] (7, -1.4);
-		    \draw (7, -1.4) -- (7, -1.6);
-		    \draw (7, -1.6) to[battery1] (7, -2);
-		    \draw (7, -2) -- (7, -2.2);
-
-		    \draw (9, 2) -- (9, 2.2);
-		    \draw (9, 2) to[battery1] (9, 1.6);
-		    \draw (9, 1.4) -- (9, 1.6);
-		    \draw (9, 1.4) to[battery1] (9, .9);			
-		    \draw (9, .7) -- (9, .9);			
-		    \draw (9, 0.7) to[battery1] (9, 0.2);			
-		    \draw (9, 0.2) -- (9, -0.2);
-		    \draw (9, -0.2) to[battery1] (9, -0.7);
-		    \draw (9, -.7) -- (9, -.9);
-		    \draw (9, -.9) to[battery1] (9, -1.4);
-		    \draw (9, -1.4) -- (9, -1.6);
-		    \draw (9, -1.6) to[battery1] (9, -2);
-		    \draw (9, -2) -- (9, -2.2);
-
-		    \draw (11, 2) to[battery1] (11, 1.6);
-		    \draw (11, 1.4) -- (11, 1.6);
-		    \draw (11, 1.4) to[battery1] (11, .9);			
-		    \draw (11, .7) -- (11, .9);			
-		    \draw (11, 0.7) to[battery1] (11, 0.2);		
-		    \draw (11, 0.2) -- (11, -0.2);
-		    \draw (11, -0.2) to[battery1] (11, -0.7);
-		    \draw (11, -.7) -- (11, -.9);
-		    \draw (11, -.9) to[battery1] (11, -1.4);
-		    \draw (11, -1.4) -- (11, -1.6);
-		    \draw (11, -1.6) to[battery1] (11, -2);
-		    \draw (11, -2) -- (11, -2.2);
-
-		    \draw (7, 0) -- (9, 0);
-		    \draw (9, 0) -- (11, 0);
-
-		    \draw (7, 0.8) -- (9, 0.8);
-		    \draw (9, 0.8) -- (11, 0.8);
-
-		    \draw (7, 1.5) -- (9, 1.5);
-		    \draw (9, 1.5) -- (11, 1.5);
-
-		    \draw (7, 2.2) -- (9, 2.2);
-		    \draw (9, 2.2) -- (11, 2.2);			
-
-		    \draw (7, -0.8) -- (9, -0.8);
-		    \draw (9, -0.8) -- (11, -0.8);
-
-		    \draw (7, -1.5) -- (9, -1.5);
-		    \draw (9, -1.5) -- (11, -1.5);
-
-		    \draw (7, -2.2) -- (9, -2.2);
-		    \draw (9, -2.2) -- (11, -2.2);			
-
-		    \draw [dashed] (6.5, 2.4) rectangle (11.5, -2.4);
-
-		    \draw node at (8.2, 2.6) {Pack de Baterías 6s3p};
-		\end{circuitikz}
-	    \end{minipage}
-	\end{center}
-	\caption{Esquemático de la arquitectura del pack de baterías.}
-	\label{pack_bateria}
-    \end{subfigure}%
-    ~
-    \begin{subfigure}[b]{.45\textwidth}
-	\centering
-	\includegraphics[width=0.7\textwidth]{18650.jpg}
-	\caption{Foto celda NCR18650PF.}
-	\label{foto_bateria}
-    \end{subfigure}
-    \caption{Pack 6s3p y Celda NCR18650PF.}
-    \label{pack}
-\end{figure}
-\FloatBarrier
-
-Estas celdas se caracterizan por su cátodo, cuya composición química se basa en
-el óxido de litio niquel cobalto aluminio ($\mathrm{LiNiCoAlO_2}$) y, según su
-hoja de datos \cite{18650_datasheet}, sus carateristicas electricas se pueden
-observar en la Tabla \ref{table:ncr}. 
-
-\begin{table}[h]
     \begin{center}
-	\begin{tabular}{|c|l|}
-	    \hline
-	    \multicolumn{2}{|c|}{Especificaciones el\'ectricas}                          \\ \hline
-	    \textbf{Capacidad Específica}                 & 2700mAh                            \\ \hline
-	    \multirow{2}{*}{\textbf{Capacidad}}           & Mínimo: 2750mAh                    \\ \cline{2-2} 
-	    & Tipico: 2900mAh                    \\ \hline
-	    \textbf{Corriente de Descarga Máxima}         & 10000mAh($\sim$3.5C)               \\ \hline
-	    \textbf{Rango operativo de tensión}           & 2.5V - 4.2V                        \\ \hline
-	    \textbf{Voltaje Nominal}                      & 3.6V                               \\ \hline
-	    \textbf{Charga}                               & CC-CV, Std. 1375mA, 4.20V, 4.0 hrs \\ \hline
-	    \textbf{Peso}                                 & 48g                              \\ \hline
-	    \multirow{3}{*}{\textbf{Temperatura}}         & Carga: 0 a 45C                     \\ \cline{2-2} 
-	    & Descarga: -20 a 60C                \\ \cline{2-2} 
-	    & Almacenaje: -20 a 50C              \\ \hline
-	    \multirow{2}{*}{\textbf{Densidad Energética}} & Volum\'etrica: 577Wh/l               \\ \cline{2-2} 
-	    & Gravim\'etrica: 207wh/kg             \\ \hline
-	\end{tabular}%
-	\caption{Especificaciones el\'ectricas de una celda de litio NCR18650PF}
-	\label{ncr_table}
-    \end{center}
-\end{table}
-
-Por el otro lado, la hoja de datos también nos provee curvas significativas,
-como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv_18650})}, la curva de
-descarga para distintas corrientes \emph{(Fig. \ref{descarga_18650})} y la curva
-del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
-
-\begin{figure}[h!]
-    \begin{subfigure}[t]{.5\textwidth}
-	%   		\centering
-	\includegraphics[width=0.9\textwidth]{cc_cv_18650.png}
-	\caption{Curva de carga.}
-	\label{cc_cv_18650}
-    \end{subfigure}%
-    ~ 
-    \begin{subfigure}[t]{.5\textwidth}
-	%    		\centering
-	\includegraphics[width=0.9\textwidth]{discharge_18650.png}
-	\caption{Curva de descarga en base a distintas corrientes de descarga (0.5C,
-	1C, 1.5C y 2C)}
-	\label{descarga_18650}
-    \end{subfigure}
-    ~ 
-    \begin{centering}
-	\begin{subfigure}[t]{1\textwidth}
-	    \centering
-	    \includegraphics[width=0.4\textwidth]{life_cycle_18650.png}
-	    \caption{Curva del ciclo de vida de una celda 18650}
-        \label{life_cycle_18650}
-	\end{subfigure}
-    \end{centering}
-    \caption{Curvas sgnificativas celda Panasonic 18650PF}
-    \label{curvas_sign_18650}
+	\includegraphics[width=0.7\linewidth]{assets/INA226-Common_Implementation}
+	\caption{Implementación Tipo - INA226}
+	\label{fig:ina226-commonimplementation}
+    \end{center}	
 \end{figure}
+
+
 
 (insertar somewhere):
 \subsection{Tiempo de Muestreo}
@@ -3918,8 +3899,18 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sen
 \newpage
 
 \section{Conclusiones}\label{conclusiones}
-(Sección en desarrollo)
-%TODO: Conclusiones
+
+\subsection{Extensión a futuros proyectos}
+
+El desarrollo del hardware y los algoritmos, tanto de ecualización como de
+estado de carga sirven como una buena base para futuros proyectos vinculados a
+la temática de energías renovables y \acrshort{VE}s.
+
+Como posible extensión se plantea el desarrollo de algoritmos novedosos para la
+estimación del Estado de Salud, su posible aplicación a sistemas de alta
+potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a
+la composición química de las celdas.
+
 \newpage
 
 \printbibliography[heading=bibintoc]
