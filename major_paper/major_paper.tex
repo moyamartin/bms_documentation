@@ -453,7 +453,7 @@ planteado, a partir de un estudio teórico. Finalmente se validará la
 solución elegida a partir de la implementación y ensayo de la solución 
 desarrollada.
 
-\subsection{Especificaciones}
+\subsection{Especificaciones}\label{proy_specs}
 
 \noindent El sistema a implementar debe ser capaz de poder administrar un 
 pack de bater\'ias de 6 m\'odulos conectados en serie, donde cada modulo est\'a 
@@ -674,9 +674,9 @@ $\mathrm{PbSO_4}$ en el cátodo. En este caso, el potencial de una celda es de
 alrededor 2V.
 
 \noindent Otro logro en el desarrollo de baterías, ocurrió en el 1899 cuando se
-desarrolló la primer batería de niquel-hierro (Ni-Fe) y niquel-cadmio (Ni-Cd) o
+desarrolló la primer batería de n'iquel-hierro (Ni-Fe) y n'iquel-cadmio (Ni-Cd) o
 tambien conocidas como baterias alcalinas, que fueron predecedoras del híbrido
-niquel-metal (Ni-MH) que fue comercializada en 1898.
+n'iquel-metal (Ni-MH) que fue comercializada en 1898.
 
 \noindent Las baterías anteriores son basadas en soluciones acuosas, y la
 densidad energetica de las mismas no es alta, espec\'ificamente son menores a 
@@ -713,7 +713,7 @@ comercialización de las mismas comenzó en Japón en el año 1991, cuando
 almacenadores de energía que utilizan iones de Litio como portadores de carga.
 En base a esta definición, el término \emph{batería de Litio-Ion} no se
 corresponde con una sola composición química, como lo son las baterías de ácido
-o niquel-cadmio, si no que expresa una familia de baterías que dependen de los
+o n'iquel-cadmio, si no que expresa una familia de baterías que dependen de los
 iones de litio pero que pueden ser conformadas por distintos materiales.
 
 \newpage
@@ -2558,9 +2558,9 @@ operaci\'on.
 En \cite{SCHMID201749} se propone una topolog\'ia de ecualizaci\'on denominada 
 \emph{balanceo electroqu\'imico} para balancear celdas sin dispositivos 
 electr\'onicos adicionales que consite en conectar cada celda en serie con una 
-celda de niquel-metal o niquel-zinc en paralelo. Las celdas de litio-ion pueden 
+celda de n'iquel-metal o n'iquel-zinc en paralelo. Las celdas de litio-ion pueden 
 alcanzar la ecualizaci\'on con el proceso electroqu\'imico de las celdas de 
-niquel. Los resultados verifican que este m\'etodo es posible de implementar, 
+n'iquel. Los resultados verifican que este m\'etodo es posible de implementar, 
 sin embargo hay una limitaci\'on de costos, volumen y complejidad muy alta.
 
 \begin{figure}[h!]
@@ -3342,7 +3342,21 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 
 \section{Desarrollo}\label{desarrollo}
 
-\subsubsection{Pack de bater\'ias}
+En \'esta secci\'on se explaya el desarrollo matem\'atico y la implementaci\'on 
+f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias, el modelo 
+matem\'atico de la celda de litio-ion junto a sus algortimos de estimaci\'on de 
+\acrshort{SOC} y ecualizaci\'on de celdas, mostrando los resultados de las
+simulaciones y, finalmente, el desarrollo del hardware y firmware necesario para
+implementar los distintos componentes del sistema en un sistema f\'isico real.
+
+\subsection{Pack de bater\'ias}
+
+Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
+controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
+compuesto por 3 celdas de litio-ion conectadas en serie. En este caso, el pack
+de bater\'ias est\'a conformado por celdas de litio-ion modelo NCR18650PF. La
+arquitectura del pack se puede observar en la Figura \ref{pack_bateria} y una
+im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \begin{figure}[h!]
     \begin{subfigure}[b]{.5\textwidth}
@@ -3422,7 +3436,6 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 	\caption{Esquemático de la arquitectura del pack de baterías.}
 	\label{pack_bateria}
     \end{subfigure}%
-    ~
     \begin{subfigure}[b]{.45\textwidth}
 	\centering
 	\includegraphics[width=0.7\textwidth]{18650.jpg}
@@ -3434,10 +3447,37 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 \end{figure}
 \FloatBarrier
 
-Estas celdas se caracterizan por su cátodo, cuya composición química se basa en
-el óxido de litio niquel cobalto aluminio ($\mathrm{LiNiCoAlO_2}$) y, según su
-hoja de datos \cite{18650_datasheet}, sus carateristicas electricas se pueden
-observar en la Tabla \ref{table:ncr}. 
+\newpage
+
+\subsubsection{Celda NCR18650PF}
+
+La celda de litio-ion 18650, son bater\'ias utilizadas originalmente en
+bater\'ias de notebooks pero su uso se expandi\'o hasta ser implementados en
+\acrshort{VVEE}s. \'Estas bater\'ias se caracterizan por su tamaño reducido de
+18mm de di\'ametro por 65mm de alto y, en el mercado actual, se pueden encontrar
+muchas versiones del modelo debido a que cada uno posee una composici\'on
+qu\'imica diferente, dando lugar a distintas caracter\'isticas de capacidad y
+voltaje, que se descrien a continuaci\'on:
+
+\begin{itemize}
+    \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
+        IFR, LFP o Li-fosfato.
+    \item \textbf{LiMn2O4}: Oxido de litio manganesio o tambi\'en conocidas como
+        IMR, LMO o Li-manganesio.
+    \item \texbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
+        INR o NMC
+    \item \textbf{LiNiCoAl)2}: Oxido de Litio n'iquel cobalto aluminio o
+        tambi\'en conocidas como NCA o Li-aluminio.
+    \item \textbf{LiNiCoO2}: \'Oxido de litio n'iquel cobalto o tambi\'en
+        conocidas como NCO.
+    \item \textbf{LiCoO2}: \'Oxido de litio cobalto o tambi\'en conocido como
+        ICR, LCO o Li-cobalto.
+\end{itemize}
+
+En este caso, la celda NCR18650PF se caracteriza por su cátodo, cuya composición 
+química se basa en el óxido de litio n'iquel cobalto aluminio 
+($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus 
+carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
 
 \begin{table}[h]
     \begin{center}
@@ -3459,14 +3499,21 @@ observar en la Tabla \ref{table:ncr}.
 	    & Gravim\'etrica: 207wh/kg             \\ \hline
 	\end{tabular}%
 	\caption{Especificaciones el\'ectricas de una celda de litio NCR18650PF}
-	\label{ncr_table}
+	\label{ncr18650pf_table}
     \end{center}
 \end{table}
 
-Por el otro lado, la hoja de datos también nos provee curvas significativas,
-como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv_18650})}, la curva de
-descarga para distintas corrientes \emph{(Fig. \ref{descarga_18650})} y la curva
-del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
+Por el otro lado, \cite{18650pf} también nos provee curvas significativas, de su
+operaci\'on como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv_18650})}, 
+la curva de descarga para distintas corrientes 
+\emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de la 
+batería \emph{(Fig. \ref{life_cycle_18650})}.
+
+La elecci\'on de \'este tipo de celda se debe a principalmente a que el pack a
+controlar ya utiliza \'este modelo y, por el otro lado, ya existe un set de 
+datos abiertos \cite{Kollmeyer2018} de distintos ensayos sobre el
+mismo, con el cual se pueden desarrollar e investigar distintos modelos y 
+simulaciones. En la Figura \ref{pack_bat_foto} se puede observar 
 
 \begin{figure}[h!]
     \begin{subfigure}[t]{.5\textwidth}
@@ -3496,7 +3543,74 @@ del ciclo de vida típico de la batería \emph{(Fig. \ref{life_cycle_18650})}.
     \label{curvas_sign_18650}
 \end{figure}
 
-\subsection{Simulaciones}
+\newpage
+
+\subsubsection{Ensamblado del pack}
+
+El pack de bater\'ias es ensamblado utilizando soportes encastrables \emph{(Fig.
+\ref{soporte_18650})} impresos utilizando una impresora 3D, donde cada celda es
+conectada entre s\'i utilizando una banda de n'iquel y la conexi\'on es realizada 
+por una soldadora de puntos manual. Esto es debido a dos motivos importantes, en 
+primer instancia el tiempo en la aplicaci\'on de temperatura, por parte de la 
+soldadura de puntos, es muy corto evitando problemas t\'ermicos de la celda 
+durante el proceso de ensamblado. Por el otro lado, la banda de n'iquel tiene 
+propiedades que benefician al ensamblado del pack, por ejemplo:
+
+\begin{itemize}
+    \item Protecci\'on en contra a la corrosi\'on.
+    \item Buena conductividad el\'ectrica. El Niquel tiene la mitad de la
+        resistencia el\'ectrica que el acero 1010.
+    \item Buena resistencia mec\'anica.
+    \item Bajo costo.
+    \item Es soldable, por lo que se puede aplicar una soldadura de punto entre
+        la tira de n'iquel y los electrodos de la celda.
+\end{itemize}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{soporte_18650.png}
+        \caption{Soporte encastrable para celdas 18650}
+        \label{soporte_18650}
+    \end{center}
+\end{figure}
+
+Por el otro lado, a cada m\'odulo conectado en serie se le suelda un cable en
+bornes de cada electrodo que va conectado a un conector JST-XH-2.50 para poder
+acceder f\'acilmente al voltaje de cada m\'odulo del pack de bater\'ias. El pack
+ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
+
+\begin{figure}[h!]
+    \begin{subfigure}[b]{.3\textwidth}
+	\begin{center}
+        \includegraphics[width=.9\textwidth]{battery_top.png}
+	\end{center}
+    \caption{Im\'agen superior del pack de bater\'ias 6s3p. 
+    }
+	\label{battery_top}
+    \end{subfigure}%
+    \begin{subfigure}[b]{.3\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{battery_bot.png}
+	\caption{Im\'agen inferior del pack de bater\'ias 6s3p.}
+	\label{battery_bot}
+    \end{subfigure}
+    \begin{subfigure}[b]{.3\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{batt_side.png}
+	\caption{Im\'agen lateral del pack de bater\'ias 6s3p. En esta foto se puede
+    apreciar el conector JST}
+	\label{battery_side}
+    \end{subfigure}
+    \label{pack}
+\end{figure}
+
+\newpage
+
+\subsection{Modelo de la celda de litio-ion}
+
+Antes de desarrollar el algoritmo de ecualizaci\'on y estimaci\'on de
+\acrshort{SOC}, es necesario obtener un modelo que permita representar de forma
+matem\'atica el comportamiento de una celda NRC18650PF.
 
 \subsubsection{Simulación Filtro de Kalman}
 
