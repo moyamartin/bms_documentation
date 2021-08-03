@@ -2393,7 +2393,7 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 \end{figure}
 \FloatBarrier
 
-\subsection{Técnica de Carga} 
+\subsection{Técnica de Carga}\label{sec:tecnica_carga}
 \subsubsection{Corriente Constante CC - Voltaje Constante CV}
 
 El proceso de carga de una \acrfull{Ion-Li} no es trivial. Aplicar una tensión
@@ -2889,17 +2889,17 @@ dicho.
 \end{figure}
 \FloatBarrier
 
-Los mosfets Q7 y Q8 colocados entre la fuente de alimentación y el IC previene
-que fluya una corriente inversa de descarga desde la batería en caso de que se
-encuentren apagados y minimizan la disipación de energía a partir de la baja
-resistencia $R_{DS(on)}$ que presentan operando en directa, en comparación a un
-diodo Schottky. Q8 a su vez provee al circuito la capacidad de variar la
+Los mosfets Q7 y Q8 colocados entre la fuente de alimentación y el \acrshort{CI}
+previene que fluya una corriente inversa de descarga desde la batería en caso de
+que se encuentren apagados y minimizan la disipación de energía a partir de la
+baja resistencia $R_{DS(on)}$ que presentan operando en directa, en comparación
+a un diodo Schottky. Q8 a su vez provee al circuito la capacidad de variar la
 corriente de alimentación de forma controlada $di/dt$ al conectar la fuente de
 alimentación al circuito mediante el control del tiempo de encendido.
     
 Durante una conexión en caliente, la presencia de picos de sobre voltaje en la
 entrada pueden afectar al circuito integrado. Esto se debe al sistema de segundo
-orden formado por las inductacias y capacidades parácitas que pueden formarse en
+orden formado por las inductacias y capacidades parácitas que pueden presentarse en
 el cable de la fuente de alimentación. R38 y C24 en serie fornan un circuito
 de descarga que elimina los picos de sobre tensión producidos por estos
 transitorios.
@@ -2907,23 +2907,257 @@ transitorios.
 El diseño del circuito RC snubber se realizo teniendo en cuenta que la
 disipasión de energía en el mismo no es crítíca. Calculamos R38 bajo la
 condición de que permita fluir una corriente suficiente que limite un posible
-sobre voltaje.  La disipasión de energía en R38 es indeéndiente de su valor ya
+sobre voltaje.  La disipasión de energía en R38 es independiente de su valor ya
 que disipa la energía almacenada en el capacitor en serie con la misma.
 
 %TODO: add Rc snubber calcs
 
-\subsubsection{I \& V set-points}
+\subsubsubsection*{Control de Corriente Constante}
+
+[Texto generico de perfil de corriente]
 
 \begin{figure}[h!]
     \begin{center}
-	\includegraphics[width=0.7\textwidth]{hardware/bat_charger/bc_set_points.png}
-	\caption{Circiuto de fijación de Set-Point de I y V de carga}
+	\includegraphics[width=0.4\textwidth]{hardware/bat_charger/bc_set_points_I.png}
+	\caption{Circiuto de fijación de Set-Point de I}
 	\label{fig:cb_set_point}
     \end{center}
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Interfaz de estado de carga}
+El set poin de corriente del perfil de carga a corriente contante descripto en
+la seccion \ref{sec:tecnica_carga} es definido en el cargador de batería a
+partir de fijar una tensión en ISET1, pin 11 del bq24610. El voltaje de
+referencia lo logramos a partir de un divisor resistivo formado con R48 y R49
+entre $V_{ref} \equiv 3.3$ y masa como se puede observar en la figura
+\ref{fig:cb_set_point}. 
+
+El voltaje aplicado en ISET1 define la corriente máxima de carga rápida, la cual
+es sensada por la resistencia shunt de salida R52 ($R_{SR}$) conectada en
+paralelo a SRP y SRN, pines 14 y 13 respectivamente del \acrshort{CI}.
+
+La ecuación de corriente máxima de carga $I_{FastCharge}$ será entonces:
+
+\begin{equation}
+    I_{FastCharge}=\frac{V_{ISET1}}{20*R_{SR}}
+    \label{eq:IFastCharge}
+\end{equation}
+
+Definiendo la corriente de salida máxima que puede entregar el cargador
+$I_{max}$ en 5A seleccionamos el valor de la resistencia shunt sensora de la
+corriente de salida $R_{SR}$. La diferencia de potencial máxima admitida entre
+los pines SRP y SRN $\Delta V_{SR Max}$ es 100mV, así que calculamos el mayor
+valor de resistencia posible que nos permita maximizar la resolución del sensado
+de corriente. 
+
+\begin{equation}
+    \begin{split}
+	&R_{SR}=\frac{I_{max}}{\deltaV_{SR max}}\\
+	&R_{SR}=\frac{5A}{100mV}\\
+	&R_{SR}=20m\ohm
+    \end{split}
+\end{equation}
+
+Según la hoja de datos de nuestra celda de litio NCR18650PF la corriente de
+carga máxima de la misma debe ser 0.5 veces la capacidad nominal la misma.
+%TODO: Citar hoja de datos
+Por lo tanto, debido a la configuración 3P6S de nuestro pack de batería con 3
+celdas en paralelo la corriente de carga rápida del mismo deberá ser fijada en $
+I_{FastCharge}=0.5*C*3=4125mA$.
+
+Despejando $V_{ISET1}$ de la ecuación \ref{eq:IFastCharge} conocemos el
+valor de tensión que debemos aplicar en el terminal ISET1 del \acrshort{CI}.
+
+\begin{equation}
+    \begin{split}
+	&V_{ISET1}=I_{Fast_Charge}*20*R_{SE}\\
+	&V_{ISET1}=4125mA*20*20m\ohm\\
+	&V_{ISET1}=1.65v
+    \end{split}
+\end{equation}
+
+y a partir de conocer la tensión a aplicar en ISET1 es que dspejamos el divisor
+resistivo para conocer $R_{48}$ y $R_{49}$
+
+\begin{equation}
+    \begin{split}
+	&V_{ISET1}=V_{ref}*\frac{R_{49}}{R_{48}+R_{49}} \\
+	&V_{ref}*R_{49}=V_{ISET1}*(R_{49}+R_{48}) \\
+	&\frac{(V_{ref}-V_{ISET1})*R_{49}}{V_{ISET1}}=R_{48} \\
+	&R_{49}=R_{48}
+    \end{split}
+\end{equation}
+
+A los fines pŕacticos y evitando sobre cargar la salida de $V_{ref}$ del
+\acrshort{CI} adoptamos $R_{48}$ y $R_{49}$ de 10K\ohm de 0.5\%
+
+Si el pack de batería se encuentra profundamente descargado, el bq24610 aplicará
+una corriente de pre-carga. Este valor de corriente coincide con el de corriente
+de fin de carga durante la fase de tensión constante del ciclo de carga.
+
+El set poin de corriente del pre-carga y de fin de carga es definido en el
+cargador de batería a partir de fijar una tensión en ISET2, pin 15 del bq24610.
+El voltaje de referencia lo logramos a partir de un divisor resistivo formado
+con $R_{50}$ y $R_{51}$ entre $V_{ref} \equiv 3.3V$ y masa. 
+
+La ecuación de corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cutt
+off}$ será entonces:
+
+\begin{equation}
+    I_{cutt off}=I_{pre charge}=\frac{V_{ISET2}}{100*R_{SR}}
+    \label{eq:ICutOff}
+\end{equation}
+
+Según la hoja de datos de nuestra celda de litio NCR18650PF la corriente de
+cut-off o fín de carga es 100mA a 25°C.
+%TODO: Citar hoja de datos
+Por lo tanto, debido a la configuración 3P6S de nuestro pack de batería con 3
+celdas en paralelo la corriente de fin de carga sensada por el cargador deberá
+ser 300mA.
+
+Despejando $V_{ISET2}$ de la ecuación \ref{eq:ICutOff} conocemos el valor de
+tensión que debemos aplicar en ISET2.
+
+\begin{equation}
+    \begin{split}
+	&V_{ISET2}=I_{cutt off}*100*R_{SR}\\
+	&V_{ISET2}=300mA*100*20m\ohm\\
+	&V_{ISET2}=600mV
+    \end{split}
+\end{equation}
+
+y a partir de conocer la tensión a aplicar en ISET2 es que dspejamos el divisor
+resistivo para conocer $R_{50}$ y $R_{51}$
+
+\begin{equation}
+    \begin{split}
+	&V_{ISET2}=V_{ref}*\frac{R_{51}}{R_{50}+R_{51}} \\
+	&V_{ISET2}*(R_{50}+R_{51})=V_{ref}*R_{51}= \\
+	&\frac{(V_{ref}-V_{ISET2})*R_{51}}{V_{ISET2}}=R_{50} \\
+	&\frac{9}{2}*R_{51}=R_{50}
+    \end{split}
+\end{equation}
+
+Adoptamos $R_{51} = 8K2\ohm$ y calculamos $R_{51} = 37K\ohm$, ambas resistencias
+de 0.5\%
+
+[Set-Point sensado corriente de carga]
+
+\subsubsubsection*{Control de Tensión Constante}
+
+El set poin de voltaje de carga propio del perfil de carga a voltaje contante
+descripto en la seccion \ref{sec:tecnica_carga} es definido a partir de fijar
+una tensión en VFB, pin 12 del bq24610. El voltaje de referencia se constituye a
+partir de un divisor resistivo formado por R55, R56 y R57, entre el voltaje del
+pack de batería $V_{BAT}$ y masa como se puede observar en la figura
+\ref{fig:cb_set_point_v}. 
+
+\begin{figure}[h!]
+    \begin{center}
+	\includegraphics[width=0.3\textwidth]{hardware/bat_charger/bc_set_points_v.png}
+	\caption{Circiuto de fijación de Set-Point de I y V de carga}
+	\label{fig:cb_set_point_v}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+El voltaje aplicado en VFB es regulado a 2.1V al comparar el mismo internamente
+contra una referencia de 2.05V la cual define si el voltaje de salida se haya
+por debajo o por encima del valor deseado. 
+
+La ecuación de voltaje de carga $V_{Charge} \equiv V_{VFB}$ será entonces:
+
+\begin{equation}
+    V_{Charge}=2.1V*(1+\frac{R_{55}+R_{56}}{R_{57}})
+\end{equation}
+
+Según la hoja de datos de nuestra celda de litio NCR18650PF el vontalje de carga
+de una única celda es 4,2V a 25°C.
+%TODO: Citar hoja de datos
+Por lo tanto, debido a la configuración 3P6S de nuestro pack de batería con 6
+celdas en serie el voltaje de carga deberá ser fijado en $V_{Charge} = 4.2V*6 =
+25.2V$
+
+A partir de conocer la tensión de carga $V_{Charge}$  despejamos el divisor
+resistivo para conocer $R_{55}$, $R_{56}$ y $R_{57}$
+
+\begin{equation}
+    \begin{split}
+	&\frac{V_({Charge}- 2.1)*R_{57}}{2.1}=(R_{55}+R_{56})\\
+    \end{split}
+\end{equation}
+
+Adoptamos $R_{57}= 51K\ohm$ y calculamos $R_{55}+R_{56}=561K\ohm$, todas
+de 0.5\%.
+Vale aclarar que el divisor resistivo queda en paralelo con la batería
+y nos cersioramos que el drenado de corriente no descargue el pack de baterría
+de forma incipiente. La corriente drenada por el divisor es de $42\mu
+A=\frac{2900mAh}{42\mu A}*3=207142hs\equiv 8630 días$ tiempo que tardará en
+descargar completamente el pack de batería.
+
+\subsubsubsection*{Salida}
+
+El circuito de la figura \ref{fig:cb_output} corresponde a la etapa de salida del
+cargador tipo buck implementado. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{hardware/bat_charger/bc_output.png}
+    \caption{Circuito de salida}
+    \label{fig:cb_output}
+\end{figure}
+\FloatBarrier
+
+El bq24610 tiene una frecuencia de switcheo de salida de 600kHz lo que nos
+permite seleccionar y utilizar inductores y capacitores de salida d menor valor.
+
+Según la hoja de datos del bq24610, para una corriente de salida de 4A la
+inductancia típica recomendada es $6.8\mu H$.
+La selección de la inductancia
+de salida la realizamos siguiendo los lineamientos y recomendaciones de la hoja
+de datos del \acrshort{CI} para luego calcular y corroborar los valores
+seleccionados. 
+
+Los parámetros de referencia tomados para los cálculo de los componentes del
+circuito de salida son la tensión de alimentación máxima $V_{In max} = 30V$, la
+tensión de salida máxima $V_{Out max} = 25,2V$, la corriente de salida máxima
+$I_{Out max}=5A$ y la frecuencia de switcheo del circuito tipo buck $f_{s}=600
+KHz$ 
+
+\begin{equation}
+    D=\frac{V_{Out max}}{V_{In max}}=\frac{18,6}{30}=0.620
+\end{equation}
+
+\begin{equation}
+    I_{ripple}=\frac{V_{In max}*D*(1-D)}{f_{s}*L}=\frac{30*0.620*(1-0.620)}{600
+    kHz*6.80\mu H}=1,73A
+\end{equation}
+
+\begin{equation}
+    6.5A=I_{Sat}\geq I_{chg} +\frac{1}{2}I_{ripple}=5.865
+\end{equation}
+
+\begin{equation}
+    L=\frac{(V_{In max}-V_{Out max})*V_{Out max}}{V_{In max}*f_{s}*R*I_{Out
+max}}=\frac{30V-25.2V)*25.2V}{30V*600kHz*0.3\ohm*5A}=4.48\mu H
+\end{equation}
+
+El capacitor de salida fue seleccionado teniendo en cuenta que tenga una
+cantidad de corriente de ripple suficiente para absorver el ripple de la
+corriente del switching de salida.
+
+\begin{equation}
+    I_{C out}=\frac{I_{ripple}}{2*\sqrt{3}}\approx 500.7mA
+\end{equation}
+
+El ripple de voltaje del capacitor de salida lo calculamos como: 
+\begin{equation} 
+    \Delta V_{O}=\frac{1}{8*L*C*f_{s}²}(V_{Out max}-\frac{V_{Out
+    max}²}{V_{In max}})=6.43mV
+\end{equation}
+
+
+\subsubsubsection*{Interfaz de estado de carga}
 
 El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales
 podemos conocer el estado en el que está operando el cargador. Tres señales de
@@ -2941,7 +3175,7 @@ desahilitarlo.
 	circuito y las condiciones de falla si las hubiese.
     \item []{\textbf{STAT1 \& STAT2}}: Indican el estado de carga.
 \end{itemize}
-\begin{table}[]
+\begin{table}[h!]
     \begin{tabular}{lcc}
 	\multicolumn{1}{c}{\textbf{Estado de Carga}}                     & \textbf{STAT1} & \textbf{STAT2} \\
 	Carga en progreso                                                & ON             & OFF            \\
@@ -2960,9 +3194,9 @@ resetear el ciclo de carga a partir del swtich SW1.
 
 Es importante aclarar que el proceso de carga autónomo no controlado no asegura
 que el pack de batería alcance su máximo nivel de carga al no poder segurar el
-correcto balanceo del pack de batería.  Desaconsejamos fuertemente el uso de
-esta funcionalidad y recomenddamos cargar el pack de batería de forma segura y
-micro-controlada.
+correcto balanceo del pack de batería. Desaconsejamos fuertemente el uso de
+esta funcionalidad y recomenddamos que la carga del pack de batería sea
+realizada de forma segura a instancias del BMS.
 
 \begin{figure}[h!]
     \centering
@@ -2983,6 +3217,7 @@ micro-controlada.
     \label{fig:cb_interface}
 \end{figure}
 \FloatBarrier
+
 
 % detalle. 
 
