@@ -4016,14 +4016,27 @@ Este tipo de interruptores puede ser clasificado, según su interconexión respe
 \end{figure}
 
 
-\subsubsection{Circuito de apagado}
+\subsubsection{Caracteristicas de un MOSFET en conmutación}
 Si bien los dispositivos semiconductores de potencia generalmente son modelados como interruptores ideales, los mismos poseen características no ideales, como son resitencias intrínsecas, capacidades parásitas, etc.
 
-Por estas caracteristicas los tiempos de apagado y encendido o tiempos de conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta frecuencia.
+Por estas caracteristicas los tiempos de apagado y encendido o tiempos de conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta frecuencia, si bien nuestro interruptor no es un dispositivo que trabaje en alta frecuencia, nos propusimos minimmizar el tiempo de apagado para que la desconexión de la batería y la carga sea prácticamente instantaneo y lleve al sistema a un estado de seguridad rapidamente evitando así posibles daños en el equipo.
 
-Los transistores que funcionan como interruptores trabajan principalmente en 2 estados, en conducción y en corte(particularmente los mosfet en región ohmníca y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de saturación lo que se debe tener en cuenta para calcular los tiempos de apagado y encendido.
+Los transistores que funcionan como interruptores trabajan principalmente en 2 estados, en conducción y en corte(particularmente los mosfet en región ohmníca y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de saturación lo que se debe tener en cuenta para entender los fenómenos asociados a los tiempos de apagado y encendido.
 
 Para analizar el comportamiento durante la conmutación debemos tener en cuenta los modelos en los estados por los cuales transiciona el transistor, los mismos se muestran en la figura   \ref{modelo_mosfet}.
+La capacidad de \emph{gate-source} $C_{GS}$ tiene el mayor valor, y es prácticamente constante ya que queda determinada por la geometría del \emph{gate} y la metalización del \emph{source}.
+La capacidad de \emph{gate - drain}  $C_{GD}$ es la capacidad entre el \emph{gate} y la zona n- conductora fuera de la zona de deplexión formada por la polarización directa \emph{drain-source}. El dieléctrico de esta capacidad es la zona de óxido y la zona empobrecida de portadores contigua a la zona del \emph{gate-source}, aproximandose al valor de $C_{GS}$ cuando $V_{DS}= 0V$ y disminuyendo rápidamente con $V_{DS}$ creciente. Con tensión $V_{DS}$ del orden de la tensión $V_{GS}$ de comando del MOSFET (10-15V) la capacidad es aproximadamente 30 veces menor  que con $V_{DS}\approx1V$.
+Para efectos de estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la figura \ref{aprox_CGD}.\\
+Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores que la tensión de comando de \emph{gate} (llave todavía abierta) y un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando (llave cerrándose) (Mohan et al. 1995).
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{Capacitor_vs_Vds.pdf}
+		\caption{Variación de las capacidades del MOSFET en base a $V_{DS}$.}
+		\label{aprox_CGD}
+	\end{center}
+\end{figure}
+
 
 
 \begin{figure}[h!]
@@ -4060,6 +4073,47 @@ Para analizar el comportamiento durante la conmutación debemos tener en cuenta 
 	\label{modelo_mosfet}
 \end{figure}
 \FloatBarrier
+
+
+\subsubsection{Análisis del tiempo de apagado}
+
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{minipage}[c]{0.95\textwidth}
+			\centering
+			\begin{circuitikz}[american]
+				\draw (0,5)	to [short]						(1.5,5);
+				\draw (0,2.4)	to [short]						(1.5,2.4);
+				\draw (0,5) 	to [short,-*]				(0,6) node[above] {$V_{bat}$};
+				\draw (0,5) 	to [isource,l=$I_0$] 			(0,2.4);
+				\draw (1.5,2.4)		to [diode]						(1.5,5);
+				%Transistor
+				\draw (0,2) 	to [short,-*]					(0,2.4) node[left] {D};
+				\draw (-2,2)	to [short]						(0,2);
+				\draw (0,2) 	 -- 							(0,0.5);
+				\draw (0,0) 	node[nigfete]{};
+				\draw (-2,0)	to [short]						(0,0);
+				\draw (-2,0) 	to [C = $C_{GD1}$]   			(-2,2);
+				\draw (-2,-2) 	to [C = $C_{GS}$]				(-2,0);
+				\draw (-2.5,0) 	node[above] {G} to [short,*-]	(-2,0);
+				\draw (0,-0.5)  to [short,-*] 					(0,-2.4)node[left] {S};
+				\draw (0,-2.4)  to (0,-3) 						node[ground]{};
+				\draw (-2,-2)   to [short] 						(0,-2);
+			\end{circuitikz}
+		\end{minipage}
+	\end{center}
+	\caption{Modelos de transistor mosfet en zonas de saturación y ohmnica respectivamente.}
+	\label{comando_mosfet}
+\end{figure}
+\FloatBarrier
+
+Nuestra carga es un motor por lo que no podemos ignorar su caracter inductivo a la hora de realizar el análisis siguiente:
+
+
+
+
 
 %\subsection{Implementación Circuito Cargador}
 
