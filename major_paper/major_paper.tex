@@ -3464,7 +3464,7 @@ voltaje, que se descrien a continuaci\'on:
         IFR, LFP o Li-fosfato.
     \item \textbf{LiMn2O4}: Oxido de litio manganesio o tambi\'en conocidas como
         IMR, LMO o Li-manganesio.
-    \item \texbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
+    \item \textbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
         INR o NMC
     \item \textbf{LiNiCoAl)2}: Oxido de Litio n'iquel cobalto aluminio o
         tambi\'en conocidas como NCA o Li-aluminio.
@@ -3993,6 +3993,73 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sen
 \clearpage
 
 
+\subsection{Interruptor de desconexión entre batería y el Vehículo}
+Uno de los objetivos principales del BMS es el de garantizar la seguridad del pack, del usuario y del vehículo eléctrico. Para tal propósito el sistema debe contar con un interruptor que permita a la batería salir de servicio si las condiciones de seguridad no se cumplen en su totalidad.
+
+Para el diseño del interruptor se tienen en cuenta las características del sistema las cuales son:
+
+\begin{itemize}
+	\item Tensión de bloqueo = 25V
+	\item Corriente Máxima = 20A
+\end{itemize}
+
+
+Este tipo de interruptores puede ser clasificado, según su interconexión respecto a al vehículo o carga y la alimentación o fuente, como \emph{high side} o \emph{low side} drivers. La diferencia principal radica en que el primero desconecta la carga del borne de mayor potencial de la batería, el positivo, y el otro desconecta la carga del borne de menor potencial, el negativo o masa. La figura \ref{low_high_driver_sch} muestra los dos tipos de interruptores implementados con transistores mosfet.
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.35\textwidth]{low_high_driver_sch.png}
+		\caption{Esquema interruptor a masa e interruptor a positivo.}
+		\label{low_high_driver_sch}
+	\end{center}
+\end{figure}
+
+
+\subsubsection{Circuito de apagado}
+Si bien los dispositivos semiconductores de potencia generalmente son modelados como interruptores ideales, los mismos poseen características no ideales, como son resitencias intrínsecas, capacidades parásitas, etc.
+
+Por estas caracteristicas los tiempos de apagado y encendido o tiempos de conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta frecuencia.
+
+Los transistores que funcionan como interruptores trabajan principalmente en 2 estados, en conducción y en corte(particularmente los mosfet en región ohmníca y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de saturación lo que se debe tener en cuenta para calcular los tiempos de apagado y encendido.
+
+Para analizar el comportamiento durante la conmutación debemos tener en cuenta los modelos en los estados por los cuales transiciona el transistor, los mismos se muestran en la figura   \ref{modelo_mosfet}.
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{minipage}[c]{0.95\textwidth}
+			\centering
+			\begin{circuitikz}[american]
+				%Zona ohmnica
+				\draw (7,2) 	to [short,-*]					(7,2.4) node[above] {D};
+				\draw (5,2)	to [short]							(7,2);
+				\draw (7,2) 	 -- 							(7,1);
+				\draw (7,1) 	to [R,l=$R(V_{GS})$] 			(7,-1);
+				\draw (5,0) 	to [C = $C_{GD2}$]   			(5,2);
+				\draw (5,-2) 	to [C = $C_{GS}$]				(5,0);
+				\draw (4.5,0) 	node[above] {G} to [short,*-]	(5,0);
+				\draw (7,-1)    to [short,-*] 					(7,-2.4)node[below] {S};
+				\draw (5,-2)   to [short] 						(7,-2);
+				
+				
+				%Zona saturación
+				\draw (0,2) 	to [short,-*]					(0,2.4) node[above] {D};
+				\draw (-2,2)	to [short]						(0,2);
+				\draw (0,2) 	 -- 							(0,1);
+				\draw (0,1) 	to [isource,l=$I(V_{GS})$] 		(0,-1);
+				\draw (-2,0) 	to [C = $C_{GD1}$]   			(-2,2);
+				\draw (-2,-2) 	to [C = $C_{GS}$]				(-2,0);
+				\draw (-2.5,0) 	node[above] {G} to [short,*-]	(-2,0);
+				\draw (0,-1)    to [short,-*] 					(0,-2.4)node[below] {S};
+				\draw (-2,-2)   to [short] 						(0,-2);
+			\end{circuitikz}
+		\end{minipage}
+	\end{center}
+	\caption{Modelos de transistor mosfet en zonas de saturación y ohmnica respectivamente.}
+	\label{modelo_mosfet}
+\end{figure}
+\FloatBarrier
 
 %\subsection{Implementación Circuito Cargador}
 
