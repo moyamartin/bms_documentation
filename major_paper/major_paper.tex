@@ -27,6 +27,7 @@
 \usepackage{upgreek}
 \usepackage{xfrac}
 
+
 \usetikzlibrary{arrows, decorations.markings, positioning}
 
 \addbibresource{major_paper.bib}
@@ -3946,7 +3947,7 @@ modelo.
 \subsection{Tiempo de Muestreo}
 Al trabajar con estrategias de control basadas en microcontroladores y sensores digitales nos encontramos con la necesidad de discretizar los procesos y tener en cuenta los tiempos de muestreo.
 
-El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información.
+El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información \cite{Nyquist1928}, \cite{Shannon1949}.
 Por el contrario, si la señal y la frecuencia de muestreo no son las adecuadas se produciría \emph{aliasing}.\\
 \begin{equation}
 	f_s > 2 F_{MAX}
@@ -3995,7 +3996,7 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sen
 \subsection{Interruptor de desconexión entre batería y el Vehículo}
 Uno de los objetivos principales del BMS es el de garantizar la seguridad del pack, del usuario y del vehículo eléctrico. Para tal propósito el sistema debe contar con un interruptor que permita a la batería salir de servicio si las condiciones de seguridad no se cumplen en su totalidad.
 
-Para el diseño del interruptor se tienen en cuenta las características del sistema las cuales son:\\
+Para el diseño del interruptor se tiene en cuenta las características del sistema las cuales son:\\
 
 \begin{itemize}
 	\item Tensión de bloqueo = 25V
@@ -4003,13 +4004,13 @@ Para el diseño del interruptor se tienen en cuenta las características del sis
 \end{itemize}
 
 \subsubsection{Caracteristicas de un MOSFET en conmutación}
-Si bien los dispositivos semiconductores de potencia generalmente son modelados como interruptores ideales, los mismos poseen características no ideales, como son resitencias intrínsecas, capacidades parásitas, etc.\\
+Si bien los dispositivos semiconductores de potencia generalmente son modelados como interruptores ideales, los mismos poseen características que los dista de la perfección, como lo son las resistencias intrínsecas, capacidades parásitas, etc.\\
 
-Por estas caracteristicas los tiempos de apagado y encendido o tiempos de conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta frecuencia, si bien nuestro interruptor no es un dispositivo que trabaje en alta frecuencia, nos propusimos minimizar el tiempo de apagado para que la desconexión de la batería y la carga sea prácticamente instantaneo y lleve al sistema a un estado de seguridad rapidamente evitando así posibles daños en el equipo.\\
+Por estas caracteristicas los tiempos de apagado y encendido o tiempos de conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta frecuencia.Si bien la aplicación en particular no es de alta frecuencia, se propone minimizar el tiempo de apagado para que la desconexión de la batería y la carga sea prácticamente instantanea y lleve al sistema a un estado de seguridad rapidamente evitando así posibles daños en el equipo.\\
 
-Los transistores que funcionan como interruptores trabajan principalmente en 2 estados, en conducción y en corte(particularmente los mosfet en región ohmníca y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de saturación lo que se debe tener en cuenta para entender los fenómenos asociados a los tiempos de apagado y encendido.\\
+Los transistores que funcionan como interruptores trabajan principalmente en 2 estados, en conducción y en corte (particularmente los mosfet en región ohmníca y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de saturación lo que se debe tener en cuenta para entender los fenómenos asociados a los tiempos de apagado y encendido.\\
 
-Para analizar el comportamiento durante la conmutación debemos tener en cuenta los modelos en los estados por los cuales transiciona el transistor, los mismos se muestran en la figura   \ref{modelo_mosfet}.
+Para analizar el comportamiento durante la conmutación se debe  tener en cuenta los modelos en los estados por los cuales transiciona el transistor, los mismos se muestran en la figura   \ref{modelo_mosfet}. 
 
 \begin{figure}[h!]
 	\begin{center}
@@ -4048,13 +4049,10 @@ Para analizar el comportamiento durante la conmutación debemos tener en cuenta 
 \clearpage
 
 
-\clearpage
-
-
-Por otro lado, respecto a las capacidades intrínsecas del transistor sabemos que la capacidad de \emph{gate-source} $C_{GS}$ tiene el mayor valor, y es prácticamente constante ya que queda determinada por la geometría del \emph{gate} y la metalización del \emph{source}.
+Por otro lado, respecto a las capacidades intrínsecas del transistor se sabe que la capacidad de \emph{gate-source} $C_{GS}$ tiene el mayor valor, y es prácticamente constante ya que queda determinada por la geometría del \emph{gate} y la metalización del \emph{source}.
 La capacidad de \emph{gate - drain}  $C_{GD}$ es la capacidad entre el \emph{gate} y la zona n- conductora fuera de la zona de deplexión formada por la polarización directa \emph{drain-source}. El dieléctrico de esta capacidad es la zona de óxido y la zona empobrecida de portadores contigua a la zona del \emph{gate-source}, aproximandose al valor de $C_{GS}$ cuando $V_{DS}= 0V$ y disminuyendo rápidamente con $V_{DS}$ creciente. Con tensión $V_{DS}$ del orden de la tensión $V_{GS}$ de comando del MOSFET (10-15V) la capacidad es aproximadamente 30 veces menor  que con $V_{DS}\approx1V$.
 Para efectos de estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la figura \ref{aprox_CGD}.\\
-Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores que la tensión de comando de \emph{gate}, $V_{gg1}$, (llave todavía abierta) y un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando (llave cerrándose) (Mohan et al. 1995).\\
+Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores que la tensión de comando de \emph{gate}, $V_{gg1}$, (llave todavía abierta) y un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando (llave cerrándose)\cite{Mohan1989}.\\
 
 
 
@@ -4068,7 +4066,7 @@ Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores q
 
 \subsubsection{Análisis del tiempo de apagado}
 
-Teniendo en cuenta el punto anterior y que nuestra carga es un motor por lo que no podemos ignorar su caracter inductivo a la hora de realizar el análisis siguiente:\\
+Teniendo en cuenta el punto anterior y que la carga es un motor y no se puede ignorar su caracter inductivo surge el siguiente análisis sobre el circuito de la fig. \ref{comando_mosfet}:\\
 
 \begin{figure}[h!]
 	\begin{center}
@@ -4111,7 +4109,7 @@ Teniendo en cuenta el punto anterior y que nuestra carga es un motor por lo que 
 En condiciones de conducción $V_{DS}\approx 0V$, siendo $I_0$ la corriente de la carga en el momento de la conmutación, la tensión $V_{DS}$ es estrictamente $R_{ds(ON)}I_0$  y $V_{GS}=V_{on}$.
 En el momento que $V_{gg}$ pasa de $V_{on}$ a $0V$ las capacidades $C_{gs}$ y $C_{gd}$ comienzan a descargar a través de $R_g$ con una evolución exponencial con $\tau_1 = R_g (C_{gd2}+C_{gs})$. $C_{gd}$ en este momento posee su mayor valor ya que $V_{DS}$ es muy baja.
 Esta evolución es cursada hasta que $V_{gs}$ alcanza el valor umbral $V_{gsa}$, este valor cumple con la condición $I_D(V_{gsa})=I_0$.
-A partir de aquí $V_{DS}$ comienza a aumentar, mientras $C_{gd}$ se carga linealmente con corriente $I_g=V_{gsa}/R_g$ en principio con pendiente baja $I_g/C_{gd2}$ y para $V_{ds} > V_{gg1}$, siendo $V_{gg1}$ el valor umbra mencionado en \ref{aprox_CGD}, con pendiente más alta $I_g/C_{gd1}$.
+A partir de aquí $V_{DS}$ comienza a aumentar, mientras $C_{gd}$ se carga linealmente con corriente $I_g=V_{gsa}/R_g$ en principio con pendiente baja $I_g/C_{gd2}$ y para $V_{ds} > V_{gg1}$, siendo $V_{gg1}$ el valor umbral mencionado en \ref{aprox_CGD}, con pendiente más alta $I_g/C_{gd1}$.
 Es fundamental destacar que la corriente $I_g$ impacta directamente sobre los tiempos de apagado, por lo que generalmente se utiliza una resistencia de apagado $R_g$ menor para minimizar el tiempo de apagado del dispositivo.
 Por último cuando $V_{DS} = V_{bat} + V_{diodo-on} $ el diodo de \emph{freewheel} comienza a conducir y la corriente de $I_D$ comienza a disminuir, momento en el cual $C_{gs}$ comienza a descargarse a través de $R_g$ con $\tau_2 = R_g (C_{gd1}+C_{gs})$ hasta que $V_{ds}$ alcanza el valor $V_T$ e $I_D = 0A$, $V_{gs}$ continúa decayendo hasta $0V$.\\
 
@@ -4132,7 +4130,7 @@ Por último cuando $V_{DS} = V_{bat} + V_{diodo-on} $ el diodo de \emph{freewhee
 
 Los interruptores pueden ser clasificados, según su interconexión respecto a al vehículo o carga y la alimentación o fuente, como \emph{high side} o \emph{low side} drivers. La diferencia principal radica en que el primero desconecta la carga del borne de mayor potencial de la batería, el positivo, y el otro desconecta la carga del borne de menor potencial, el negativo o masa. La figura \ref{low_high_driver_sch} muestra los dos tipos de interruptores implementados con transistores mosfet.\\
 
-Los interruptores de tipo \emph{low-side} son generalmente utilizados en cargas asociadas a la transmisión de movimiento, como lo son los motores, también solenoides y calentadores. Por otro lado, los interruptores de tipo \emph{high-side} son utilizados en bombas de combustible y componentees asociados a la carrocería como asientos, iluminación, limpiaparabrisas y ventiladores.\\
+Los interruptores de tipo \emph{low-side} son generalmente utilizados en cargas asociadas a la transmisión de movimiento, como lo son los motores, también solenoides y calentadores. Por otro lado, los interruptores de tipo \emph{high-side} son utilizados en bombas de combustible y componentees asociados a la carrocería como asientos, iluminación, limpiaparabrisas y ventiladores \cite{DigKey2016}.\\
 
 %There are two basic ways of driving a load (Figure 2). A low-side driver is placed between the load and ground, whereas a high-side driver, shown in 2(b), is placed between the load and the supply voltage. The low-side driver is often used for powertrain-related loads such as motors, solenoids, and heaters. The high-side driver is used for fuel pumps, and body-related functions such as seats, lighting, wipers, and fans.
 
@@ -4158,7 +4156,7 @@ Esta diferencia es la que determina el uso de uno u otro interruptor, un ejemplo
 
 \clearpage
 
-Para la implementación de nuestro sistema decidimos implementar un \emph{high-side driver} con un transistor IRF9310PbF de Infineon Technologies, el cual posee una tensión de bloqueo de $30V$ y una corriente máxima de drain de $20A$, pero la característica fundamental es que a pesar de ser un MOSFET canal P posee un valor de $R_{on}=4.6 m\ohm$ minimizando perdidas en conducción. El circuito de la figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la salida del microcontrolador al gate del interruptor y un circuito de apagado rápido para incrementar la corriente de gate y minimizar el tiempo de apagado.
+Para la implementación del sistema se optó implementar un \emph{high-side driver} con un transistor IRF9310PbF de Infineon Technologies, el cual posee una tensión de bloqueo de $30V$ y una corriente máxima de drain de $20A$, pero la característica fundamental es que a pesar de ser un MOSFET canal P posee un valor de $R_{on}=4.6 m\ohm$ minimizando perdidas en conducción. El circuito de la figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la salida del microcontrolador al gate del interruptor y un circuito de apagado rápido para incrementar la corriente de gate y minimizar el tiempo de apagado.
 
 
 
@@ -4171,7 +4169,7 @@ Para la implementación de nuestro sistema decidimos implementar un \emph{high-s
 \end{figure}
 
 
-El IRF9310PbF adquiere el menor valor de $R_{DS(on)}$ cuando $V_{gs} = 10V$ según la hoja de datos, mientras que la tensión que soporta $V_{gs-max}=20V$ por lo que en conducción se calculan $R_{64}$ y $R_{65}$ para $V_{gs}=15V$.
+El IRF9310PbF adquiere el menor valor de $R_{DS(on)}$ cuando $V_{gs} = 10V$ según la hoja de datos\cite{IRF9310}, mientras que la tensión que soporta $V_{gs-max}=20V$ por lo que en conducción se calculan $R_{64}$ y $R_{65}$ para $V_{gs}=15V$.
 Además, se busca minimizar el consumo del circuito ya que la autonomía del vehículo puede verse afectada si no se tiene en cuenta.
 
 $R_1$ simplemente debe cumplir la relación $I_b = I_{R1} \beta >> I_d = I_{R65} = I_{R64}$, Para asegurar la saturación de $Q_{11}$. 
