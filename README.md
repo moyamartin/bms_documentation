@@ -8,13 +8,13 @@ make sure the LaTeX kernel is installed
 To compile this run
 
 ```
-pdflatex brief/brief.tex
+pdflatex major_paper/major_paper.tex
 ```
 
 ## Referencing
 
 If you find this project interesting or useful for your work, please let us know 
-(@moyamartin, @fededc83, @lusho2206) and cite this work using:
+(@moyamartin, @fededc88, @lusho2206) and cite this work using:
 
 ```
 @article {
