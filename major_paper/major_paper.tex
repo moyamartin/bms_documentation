@@ -3369,7 +3369,7 @@ implementar los distintos componentes del sistema en un sistema f\'isico real.
 
 Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
 controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
-compuesto por 3 celdas de litio-ion conectadas en serie. En este caso, el pack
+compuesto por 3 celdas de litio-ion conectadas en paralelo. En este caso, el pack
 de bater\'ias est\'a conformado por celdas de litio-ion modelo NCR18650PF. La
 arquitectura del pack se puede observar en la Figura \ref{pack_bateria} y una
 im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
@@ -3467,13 +3467,14 @@ im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \subsubsection{Celda NCR18650PF}
 
-La celda de litio-ion 18650, son bater\'ias utilizadas originalmente en
-bater\'ias de notebooks pero su uso se expandi\'o hasta ser implementados en
-\acrshort{VVEE}s. \'Estas bater\'ias se caracterizan por su tamaño reducido de
-18mm de di\'ametro por 65mm de alto y, en el mercado actual, se pueden encontrar
-muchas versiones del modelo debido a que cada uno posee una composici\'on
-qu\'imica diferente, dando lugar a distintas caracter\'isticas de capacidad y
-voltaje, que se descrien a continuaci\'on:
+La celda de litio-ion 18650 fue originalmente diseñada para ser utilizada en
+bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
+expandi\'o hasta ser implementados en \acrshort{VVEE}s. \'Estas bater\'ias se
+caracterizan por su tamaño reducido de 18mm de di\'ametro por 65mm de alto,
+caracteristicas que le dan su nombre. En el mercado actual, se pueden encontrar
+diferentes versiones del mismo modelo debido a que cada uno posee una
+composici\'on qu\'imica diferente, dando lugar a las distintas caracter\'isticas
+de capacidad y voltaje que se descrien a continuaci\'on:
 
 \begin{itemize}
     \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
@@ -3491,7 +3492,7 @@ voltaje, que se descrien a continuaci\'on:
 \end{itemize}
 
 En este caso, la celda NCR18650PF se caracteriza por su cátodo, cuya composición 
-química se basa en el óxido de litio n'iquel cobalto aluminio 
+química se basa en el óxido de litio níquel cobalto aluminio 
 ($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus 
 carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
 
@@ -3565,11 +3566,11 @@ simulaciones. En la Figura \ref{pack_bat_foto} se puede observar
 
 El pack de bater\'ias es ensamblado utilizando soportes encastrables \emph{(Fig.
 \ref{soporte_18650})} impresos utilizando una impresora 3D, donde cada celda es
-conectada entre s\'i utilizando una banda de n'iquel y la conexi\'on es realizada 
+conectada entre s\'i utilizando una banda de níquel y la conexi\'on es realizada 
 por una soldadora de puntos manual. Esto es debido a dos motivos importantes, en 
 primer instancia el tiempo en la aplicaci\'on de temperatura, por parte de la 
 soldadura de puntos, es muy corto evitando problemas t\'ermicos de la celda 
-durante el proceso de ensamblado. Por el otro lado, la banda de n'iquel tiene 
+durante el proceso de ensamblado. Por el otro lado, la banda de níquel tiene 
 propiedades que benefician al ensamblado del pack, por ejemplo:
 
 \begin{itemize}
@@ -3600,20 +3601,20 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
 	\begin{center}
         \includegraphics[width=.9\textwidth]{battery_top.png}
 	\end{center}
-    \caption{Im\'agen superior del pack de bater\'ias 6s3p. 
+    \caption{Imagen superior del pack de bater\'ias 6s3p. 
     }
 	\label{battery_top}
     \end{subfigure}%
     \begin{subfigure}[b]{.3\textwidth}
 	\centering
 	\includegraphics[width=.9\textwidth]{battery_bot.png}
-	\caption{Im\'agen inferior del pack de bater\'ias 6s3p.}
+	\caption{Imagen inferior del pack de bater\'ias 6s3p.}
 	\label{battery_bot}
     \end{subfigure}
     \begin{subfigure}[b]{.3\textwidth}
 	\centering
 	\includegraphics[width=.9\textwidth]{batt_side.png}
-	\caption{Im\'agen lateral del pack de bater\'ias 6s3p. En esta foto se puede
+	\caption{Imagen lateral del pack de bater\'ias 6s3p. En esta foto se puede
     apreciar el conector JST}
 	\label{battery_side}
     \end{subfigure}
