@@ -4262,13 +4262,13 @@ Por último se agregó $D_{21}$ como diodo de \emph{freewheel}.
 
 \subsubsection{Tecnología Seleccionada - TI bq24610}
 
-Para un completo control del perfil de carga ariba descripto es que
+Para un completo control del perfil de carga arriba descripto es que
 seleccionamos circuito integrado \emph{bq24610} de la firma \emph{Texas
 Instrument}.
 
 El \emph{bq24610} es un circuito altamente integrado que implementa un cargador
-de \acrfull{Ion-Li} o \acrfull{Li-Po} y capaz de operar de forma independiente o
-stand-alone. Emplea un controllador de corriente y de tensión sincrónico
+de \acrfull{Ion-Li} o \acrfull{Li-Po} y es capaz de operar de forma independiente o
+stand-alone. Emplea un controlador de corriente y de tensión sincrónico
 switching PWM de frecuencia constante y de alta resolución del tipo buck cuya
 topología simplificada puede observarse en la figura \ref{fig:simp_sch_char}. 
 
@@ -4284,7 +4284,7 @@ El mismo admite la conexión de hasta 6 celdas en serie con una tensión y
 corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salída
 de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
 la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
-El empaquedato del mismo es del tipo VQFN.
+El empaquetado del mismo es del tipo VQFN.
 
 %\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se
 %encuentran conectadas en serie, el voltaje de una celda no siempre coincide con
@@ -4315,7 +4315,7 @@ baterías de Ion-Litio a partir del \acrfull{CI} bq24610 de la firma Texas
 Instruments implementado en nuestro \acrshort{BMS}.
 
 Implementa un convertirdor de energía DC-DC del tipo buck sin aislamiento que
-nos permite optener un perfil de tensión y corriente controlado como el
+nos permite obtener un perfil de tensión y corriente controlado como el
 descripto en la sección \ref{sec:tecnica_carga} a partir de una fuente de
 alimentación de tensión continua externa.
 
@@ -4356,7 +4356,7 @@ siguientes:
 
 \subsubsubsection{Alimentación}
 
-El circuito de alimentación de nuestro cargador de batería consta una red de descarga
+El circuito de alimentación de nuestro cargador de batería consta de una red de descarga
 RC, de dos Mosfets canal-P colocados en configuración back to back con el objeto de
 aislar la fuente de alimentación externa del circiuto del cargador propiamente
 dicho y de una resistencia shunt de sensado de la corriente de entrada. 
@@ -4409,7 +4409,7 @@ por la resistencia R38 seleccionada, $1/4W$, calculamos una capacidad $C_{S}$.
    
 \subsubsection{Control de Perfil de Carga}
 
-El peril de carga \acrshort{CC} - \acrshort{CV} descripto en la sección
+El perfil de carga \acrshort{CC} - \acrshort{CV} descripto en la sección
 \ref{sec:tecnica_carga} y sus correspondientes parámetros de control se setean
 en el bq24610 a partir de los divisores resistivos que se observan en la figura
 \ref{fig:cb_set_point}.
@@ -4419,14 +4419,14 @@ en el bq24610 a partir de los divisores resistivos que se observan en la figura
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=0.75\textwidth]{hardware/bat_charger/bc_set_points_I.png}
-        \caption{Circiuto de fijación de Set-Point de corriente I}
+        \caption{Circuito de fijación de Set-Point de corriente I}
         \label{fig:cb_set_point_I}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering 
         \includegraphics[width=0.5\textwidth]{hardware/bat_charger/bc_set_points_v.png}
-        \caption{Circiuto de fijación de Set-Point de tensión V}
+        \caption{Circuito de fijación de Set-Point de tensión V}
         \label{fig:cb_set_point_V}
     \end{subfigure}
         \caption{Fijación Set-Points del perfil de carga rápida}
@@ -4434,7 +4434,7 @@ en el bq24610 a partir de los divisores resistivos que se observan en la figura
 \end{figure}
 \FloatBarrier
 
-El set poin de corriente del perfil de carga a corriente contante descripto en
+El set point de corriente del perfil de carga a corriente constante descripto en
 la seccion \ref{sec:tecnica_carga} es definido en el cargador de batería a
 partir de fijar una tensión en ISET1, pin 11 del bq24610. El voltaje de
 referencia lo logramos a partir de un divisor resistivo formado con R48 y R49
@@ -4469,7 +4469,7 @@ la corriente de carga.
 
 Según la hoja de datos de nuestra celda de litio NCR18650PF la corriente de
 carga máxima de la misma debe ser 0.5 veces la capacidad nominal de la misma.
-Debido a la configuración 3P6S de nuestro pack de batería con 3 celdas en
+Debido a la configuración 6S3P de nuestro pack de batería con 3 celdas en
 paralelo la corriente de carga rápida del mismo deberá ser fijada en $
 I_{FastCharge}=0.5*C*3=4125mA$.
 
@@ -4499,7 +4499,7 @@ Si el pack de batería se encuentra profundamente descargado, el bq24610 aplicar
 una corriente de pre-carga. Este valor de corriente coincide con el de corriente
 de fin de carga durante la fase de tensión constante del ciclo de carga.
 
-El set poin de corriente del pre-carga y de fin de carga es definido en el
+El set point de corriente de la pre-carga y de fin de carga es definido en el
 cargador de batería a partir de fijar una tensión en ISET2, pin 15 del bq24610.
 El voltaje de referencia lo logramos a partir de un divisor resistivo formado
 con $R_{50}$ y $R_{51}$ entre $V_{ref} \equiv 3.3V$ y masa. 
@@ -4514,7 +4514,7 @@ off}$ será entonces:
 
 Según la hoja de datos de nuestra celda de litio NCR18650PF la corriente de
 cut-off o fín de carga es 100mA a 25°C.
-Por lo tanto, debido a la configuración 3P6S de nuestro pack de batería con 3
+Por lo tanto, debido a la configuración 6S3P de nuestro pack de batería con 3
 celdas en paralelo la corriente de fin de carga sensada por el cargador deberá
 ser 300mA.
 
@@ -4540,7 +4540,7 @@ resistivo para conocer $R_{50}$ y $R_{51}$
 Adoptamos $R_{51} = 8K2\ohm$ y calculamos $R_{51} = 37K\ohm$, ambas resistencias
 de 0.5\%
 
-El set poin de voltaje de carga propio del perfil de carga a voltaje contante
+El set point de voltaje de carga propio del perfil de carga a voltaje contante
 descripto en la seccion \ref{sec:tecnica_carga} es definido a partir de fijar
 una tensión en VFB, pin 12 del bq24610. El voltaje de referencia se constituye a
 partir de un divisor resistivo formado por R55, R56 y R57, entre el voltaje del
@@ -4557,9 +4557,9 @@ La ecuación de voltaje de carga $V_{Charge} \equiv V_{VFB}$ será entonces:
     V_{Charge}=2.1V(1+\frac{R_{55}+R_{56}}{R_{57}})
 \end{equation}
 
-Según la hoja de datos de nuestra celda de litio NCR18650PF el vontalje de carga
+Según la hoja de datos de nuestra celda de litio NCR18650PF el voltaje de carga
 de una única celda es 4,2V a 25°C.
-Por lo tanto, debido a la configuración 3P6S de nuestro pack de batería con 6
+Por lo tanto, debido a la configuración 6S3P de nuestro pack de batería con 6
 celdas en serie el voltaje de carga deberá ser fijado en $V_{Charge} = 4.2V*6 =
 25.2V$
 
@@ -4574,7 +4574,7 @@ Adoptamos $R_{57}= 51K\ohm$ y calculamos $R_{55}+R_{56}=561K\ohm$, todas
 resistencias de 0.1\% dado el orden de magnitud.
 
 El divisor resistivo queda en paralelo con la batería, por eso nos cercioramos
-que el drenado de corriente por el mismo no descargue el pack de baterría de
+que el drenado de corriente por el mismo no descargue el pack de batería de
 forma incipiente. La corriente drenada por el divisor es de $42\mu
 A=\frac{2900mAh}{42\mu A}*3=207142 hs \equiv 8630 dias$, tiempo que tardaría en
 descargar completamente el pack de batería.
@@ -4593,7 +4593,7 @@ carga del pack de batería.
 
 ACSET se fija en su valor de rango máximo $\equiv 2V$ como puede observarse en
 la imagen \ref{fig:cb_set_point_I}. La corriente de entrada es sensada en la
-resistensia shunt R39, conectada en paralelo a ACP y ACN, pines 1 y 2
+resistencia shunt R39, conectada en paralelo a ACP y ACN, pines 1 y 2
 respectivamente.
 
 \subsubsubsection{Salida - Etapa de potencia}
