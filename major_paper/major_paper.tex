@@ -83,6 +83,7 @@
 \newacronym{IISB}{IISB}{Institute for Integrated Systems and Device Technology}
 \newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
 \newacronym{KF}{KF}{Kalman Filter}
+\newacronym{LIN}{LIN}{Local Interconnect Network}
 \newacronym{LSTM}{LSTM}{Long Short-Term Memory}
 \newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
 \newacronym{M2C}{M2C}{module-to-cell}
@@ -90,8 +91,10 @@
 \newacronym{MCU}{MCU}{Microcontroller Unit}
 \newacronym{MLE}{MLE}{Maximum Likelihood Estimation}
 \newacronym{ML}{ML}{Machine Learning}
+\newacronym{MOST}{MOST}{Media Oriented Systems Transport}
 \newacronym{MSE}{MSE}{Mean Squared Error}
 \newacronym{OCV}{OCV}{Open Circuit Voltage}
+\newacronym{OSI}{OSI}{Open Systems Interconnection}
 \newacronym{PBBC}{PBBC}{Power Converter based Balancing Controllers}
 \newacronym{PBC}{PBC}{Passive Balancing Controllers}
 \newacronym{PWM}{PWM}{Pulse-width Modulation}
@@ -3355,6 +3358,19 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 \end{figure}
 
 \newpage
+
+\subsection{Protocolos de comunicación}
+En la actualidad es innegable la expansión de la tecnología y la electrónica haciendose más presentes en nuestro día a día, hoy no es raro escuchar de domótica, IoT y Smart Devices.Los vehículos no son la excepción y aún en los vehículos de 4 plazas de gamma baja se integran un conjunto de sensores, actuadores y controladores electrónicos.
+Estos dispositivos se hayan interconectados entre sí por redes de comunicación transmitiendo señales en tiempo real y recabando información y controlando los diversos procesos que ocurren permanentemente en el vehiculo. Así como también reportando fallas al usuario permitiendo tomar deciciones anticipadas, facilitando el mantenimiento de la unidad.
+
+En los vehiculos actuales los protocolos más utilizados en los vehículos son \acrshort{CAN}, por sus siglas en inglés \acrfull{CAN},  (tanto de alta como de baja velocidad), \acrshort{LIN} del inglés, \acrfull{LIN} y \acrshort{MOST} del inglés, \acrfull{MOST} \cite{Vela2016}.
+
+Dentro del vehículo hallamos sistemas de naturaleza muy variada, por ejemplo, el sistema de frenos ABS, el cierre centralizado, las luces de interior y el canal de audio del sistema de sonido. Cada uno de los cuales tiene requerimientos totalmente distintos, en el caso del sistema ABS los tiempos de reacción deben ser del orden del milisegundo pero con un volumen de datos mínimo, mientras que por el contrario el sistema de sonido tiene un volumen de datos mucho mayor con una prioridad mucho menor ya que es un sistema de entretenimiento y no de seguridad.
+
+De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, sin mencionar que desde sus orígenes fue desarollado especificamente para el rubro automotríz.
+
+\subsubsection{Protocolo CAN}
+Este es un protocolo serie que trabaja en según el modelo \acrshort{OSI} (\acrfull{OSI}) en la primera y la segunda capa, también conocidas como la capa física y la capa de enlace de datos respectivamente.
 
 \section{Desarrollo}\label{desarrollo}
 
