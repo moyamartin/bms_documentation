@@ -3783,7 +3783,7 @@ escal\'on validando la elecci\'on del modelo de Randles.
     \end{center}
 \end{figure}
 
-\subsubsection{Preprocesamiento del conjunto de datos}
+\subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
 
 El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} 
 debe ser preprocesado para obtener ciertas variables de inter\'es, como por
@@ -3866,7 +3866,7 @@ Figura \ref{ocv_detection}.
         \includegraphics[width=.7\textwidth]{soc_detection}
         \caption{En naranja se muestra el \acrshort{OCV} en la que se observa
         que toma el mismo valor de voltaje antes de que ocurra el flanco
-        negativo en la celda}
+        negativo en la celda, y en azul la curva \acrshort{HPPC} original}
         \label{ocv_detection}
     \end{center}
 \end{figure}
@@ -3887,13 +3887,14 @@ Esta curva se puede observar en la Figura \ref{ocv_vs_soc}.
 
 \subsubsection{Algoritmo recursivo de optimizaci\'on}
 
+\newpage
 
-\subsection{Desarrollo del algoritmo de estimaci\'on de \acrshort{SOC}}
+\subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}
 
 Como se detalla en la Secci\'on \ref{algSoc}, el \acrshort{SOC} y su
 estimaci\'on son factores claves para el diseño y desarrollo de un
 \acrshort{BMS} apropiado para nuestra aplicaci\'on en particular. Como el mismo
-solo puede ser estimado, la estimaci\'on debe ser robusta con respecto a:
+solo puede ser estimado, la misma debe ser robusta con respecto a:
 
 \begin{itemize}
     \item Valor de \acrshort{SOC} incorrecto.
@@ -3902,19 +3903,27 @@ solo puede ser estimado, la estimaci\'on debe ser robusta con respecto a:
         fabricante.
 \end{itemize}
 
-En este caso, el algoritmo de estimaci\'on del \acrshort{SOC} se basa en el uso 
+Tambi\'en se menciona anteriormente la gran variedad de algoritmos disponibles
+para realizar la estimaci\'on de esta variable no medible en tiempo real. En el
+presente trabajo se desarrollaron dos algoritmos, uno basado en un filtro
+observador, como lo es el Filtro de Kalman y otro algoritmo basado en redes
+neuronales, cuyo desarrollo se describe a continuaci\'on.
+
+\subsubsection{Algoritmo basado en el Filtro de Kalman}
+
+El algoritmo de estimaci\'on del \acrshort{SOC} se basa en el uso 
 de un Filtro de Kalman Extendido en conjunto con el modelo desarrollado en la 
 Secci\'on \ref{dev_batt_model}. Como se detalla en la Secci\'on
 \ref{kalmanFilterMethod}, en conjunto con el desarrollo matem\'atico del
 m\'etodo en el Anexo \ref{matKalman}, el proceso consiste en obtener un modelo
 en ecuaciones de estados del sistema en cuesti\'on e identificar la variable a 
-observar para poder optimizar la ganancia de Kalman.
+observar para poder implementar el algoritmo del filtro.
 
-\subsubsection{Modelo de la celda en ecuaciones de estados}
+\subsubsubsection{Modelo de la celda en ecuaciones de estados}
 
 Para la implementaci\'on de este algoritmo es necesario obtener un modelo en
-espacio de estados de la celda, como se muestra en la Ecuaci\'on 
-\ref{ss_model_generic}:
+espacio de estados de la celda, como se muestra en el siguiente sistema de
+ecuaciones \emph{(Ecs. \ref{ss_model_generic})}:
 
 \begin{align}
     \dot{x}(t) = Ax+Bu	\nonumber\\
@@ -3922,87 +3931,222 @@ espacio de estados de la celda, como se muestra en la Ecuaci\'on
     \label{ss_model_generic}	
 \end{align}
 
-Partiendo del modelo desarrollado en la Secci\'on \ref{dev_batt_model}
-
-Para tal fin tomamos como referencia un modelo eléctrico con 2 elementes RC en
-serie, también conocido como modelo de Randles de segundo orden, representado en
-la figura \ref{Randles_2do}, ya que este módelo tiene amplia aceptación debido a
-que ofrece un grado de ajuste alto sin resultar en un excesivo costo
-computacional en comparación con modelos electroquímicos de la batería.
-
-\noindent La fuente de tensión controlada $OCV(SoC)$ es linealizada para 
-obtener un modelo lineal de la batería e ignoramos el hecho de la histéresis 
-respecto a la carga y a la descarga.
-
-Obteniendo una ecuación lineal de la forma \ref{SOC_linearized}, cuyos
-parametros fueron obtenidos mediante la función \emph{polyfit} de matlab como se
-muetra en la figura \ref{SOC_vs_OCV}.
+partiendo del modelo desarrollado en la Secci\'on \ref{dev_batt_model}, la
+salida del mismo es descripto por la Ecuaci\'on \ref{v_out_randles},
 
 \begin{equation}
-    OCV = SOC \times K_e + OCV_0
-    \label{SOC_linearized}
+    v(t) = v_{OCV}(SOC) - \left[i(t) \times R_0\left(SOC\right)  + v_{C_1}\left(t,
+    SOC\right) + v_{C_2}\left(t, SOC\right)\right] \label{v_out_randles}
+\end{equation}
+
+\newpage
+
+\noindent La fuente de tensión controlada $V_{OCV}(SOC)$ es linealizada para 
+cumplir con la exigencia del filtro en utilizar un modelo linealizado sobre un
+punto de operaci\'on, en este caso, se obtiene una Ecuaci\'on de la forma
+\ref{ocv_linearized}, cuyos parametros son optimizados con el uso de la
+librer\'ia \emph{polyfit} de \emph{Matlab} y los datos obtenidos en la etapa de
+pre-procesamiento descripta en la Secci\'on \ref{data_preprocessing}. En la 
+Figura \ref{soc_linealized} se observa el resultado de la linealizaci\'on y
+parametrizaci\'on de la curva.
+
+\begin{equation}
+    v_{OCV}(SoC) = SoC \times K_e + V_{OCV_0} 
+    \label{ocv_linearized}
 \end{equation}
 
 \begin{figure}[h!]
     \begin{center}
 	\includegraphics[width=1\textwidth]{SOC_vs_OCV.eps}
-	\caption{Curva de SOC vs OCV con su correspondiente linealización }
-	\label{SOC_vs_OCV}
+    \caption{Curva comparativa de \acrshort{OCV} en base al \acrshort{SOC} 
+    entre la versi\'on linealizada (azul) y la no-linealizada (naranja).} 
+	\label{soc_linealized}
     \end{center}
 \end{figure}
 \FloatBarrier
 
-Nuestro modelo eléctrico tiene 2 grados de libertad y se agrega una 3° variable
-de estado que es el estado de carga de la batería. Luego tomando la expresión
-diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente
-las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente
-de la batería y como salida la tensión en bornes de la misma obtenemos el
-siguiente conjunto de ecuaciones \ref{SS_model_eq}.
+Reemplazando \ref{ocv_linearized} en \ref{v_out_randles}, se obtiene la
+Ecuaci\'on \ref{v_out_randles_linearized},
 
 \begin{equation}
-    \begin{array}{llcllcl}
-	\dot{x} & = & \begin{bmatrix}
-	    -\frac{1}{R_1 C_1} &            0       & 0 \\
-	    0                  & -\frac{1}{R_2 C_2} & 0 \\
-	    0                  &            0       & 0 \\
-	\end{bmatrix} & x & + &     \begin{bmatrix}
-	    -\frac{1}{C_1} \\
-	    -\frac{1}{C_2}  \\
-	    -\frac{1}{3600 S_{C,a}}\\
-	\end{bmatrix} & i \\
-	\\
-	y & = & \begin{bmatrix}
-	    -1-1-K_e 
-	\end{bmatrix} & x & + & \begin{bmatrix}
-	    R_0
-	\end{bmatrix} & i \\
-    \end{array}
-	\label{SS_model_eq}
+    v(t) = SoC \times K_e + V_{OCV_0} - \left[i(t) \times R_0\left(SOC\right) 
+        + v_{C_1}\left(t, SOC\right) + v_{C_2}\left(t, SOC\right)\right] 
+    \label{v_out_randles_linearized}
 \end{equation}
 
-Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
+Dado que la Ecuaci\'on \ref{v_out_randles_linearized} representa la salida del 
+sistema, esta Ecuaci\'on es el equivalente a la expresi\'on de $y(t)$ en el 
+sistema de ecuaciones de estado \emph{(Ec. \ref{ss_model_generic})}
 
-Para hacer un ajuste de parámetros de las baterías se utilizó un dataset
-provisto por la universidad de Winsconsin-Madison por el Dr. Phillip Kollmeyer
-\cite{Kollmeyer2018}. si bien todos los parámetros son dependientes del estado
-de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones mas
-fuertes de los mismos se dan al entre el 0-10\% y en valores cercanos al 100\%
+Por lo tanto, la expresi\'on de $y(t)$ en el sistema de Ecuaciones
+\ref{ss_model_generic} es reemplazado por la Ecuaci\'on \ref{v_out_randles}, que
+a su vez se desarollada matricialmente, como se puede observar en la
+Ecuaci\'on \ref{v_out_randles_mat},
+
+\begin{equation}
+    y(t) = v(t) = \begin{bmatrix} -1 -1 -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{v_out_randles_mat}
+\end{equation}
+
+a partir de esta expresi\'on se puede deducir que las variables de estado 
+($x(t)$) es el voltaje en ambos capacitores ($\mathrm{V_{C_1}}$ y 
+$\mathrm{V_{C_2}}$) y el \acrshort{SOC} de la bater\'ia, por otro lado, la 
+variable de entrada es la corriente ($i(t)$) y la matriz D es $R_0(SoC)$, 
+obteniendo el siguiente sistema de ecuaciones de estados 
+\emph{(Ec. \ref{randles_ss_incomplete})}
+
+\begin{align}
+    \begin{bmatrix}
+        \dot{V}_{C_1}(t, SoC) \\ \dot{V}_{C_2}(t, SoC) \\ \dot{SoC}(t)
+    \end{bmatrix} &= 
+    A\times\begin{bmatrix}V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t)\end{bmatrix}
+    +
+    D\times i(t)\nonumber \\
+    v(t) &= \begin{bmatrix} -1 -1 -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{randles_ss_incomplete}
+\end{align}
+
+el \acrshort{SOC} es calculado por el m\'etodo de acumulaci\'on de
+corriente, cuya expresi\'on se observa en la Ecuaci\'on
+\label{soc_mod_integration},
+
+\begin{equation}
+    SoC(t) = SoC_{0}  - \int \frac{i\left(t\right)}{3600 S_{c,a}} dt
+    \label{soc_mod_integration}
+\end{equation}
+
+donde $\mathrm{S_{c,a}}$ es la capacidad actual de la bater\'ia medido en
+Ampere-hora [Ah]. Derivando miembro a miembro, se obtiene la Ecuaci\'on
+\ref{soc_mod_integration_der},
+
+\begin{equation}
+    \dot{SoC}(t) = - \frac{i(t)}{3600S_{c,a}}\label{soc_mod_integration_der}
+\end{equation}
+
+Por otro lado, para determinar las expresiones de $V_{C_1}(t)$ y $V_{C_2}(t)$,
+se analiza el circuito RC paralelo \emph{(Fig. \ref{tanque_rc})},
 
 \begin{figure}[h!]
     \begin{center}
-	\includegraphics[width=0.85\textwidth]{rta_escalon.eps}
-	\caption{Estudio de la Rta al escalón para estimación de parámetros}
-	\label{rta_escalon}
+        \begin{circuitikz}[american]
+            \draw (1, 0) to[short,i=$i$] (2, 0);
+            \draw (2,0) -- (2,-1) -- (3, -1) to[R=$R_1$] (5,-1) 
+            to[short,i=$i_1$] (6, -1) -- (6,0);
+            \draw (2,0) -- (2, 1) -- (3, 1) to[C=$C_1$,v=$V_{C1}$] 
+            (5, 1) to[short,i=$i_2$] (6, 1) -- (6,0) -- (7, 0);
+        \end{circuitikz}
+        \caption{Circuito RC paralelo}
+        \label{tanque_rc}
     \end{center}
 \end{figure}
-\FloatBarrier
+
+partiendo de la Ecuaci\'on de carga de un capacitor, la ley de Kirchhoff de
+corrientes y la ley de Ohm se obtiene el siguiente sistema de ecuaciones
+\emph{(Ecs. \ref{cap_sist_eq})},
+
+\begin{align}
+    i_2(t) &= C_1 \dot{v}_{C_1}(t)\nonumber\\
+    i(t) &= i_1(t) + i_2(t)\label{cap_sist_eq}\\
+    v_{c_1}(t) &= R_1i_1(t)\nonumber
+\end{align}
+
+Despejando $i_1(t)$ en la segunda ecuaci\'on de \ref{cap_sist_eq}, reemplazando
+en la tercera ecuaci\'on y reemplazando $i_2(t)$ por la primer expresi\'on,
+obtenemos la Ecuaci\'on \ref{v_cap_reemplazada},
+
+\begin{equation}
+    v_{C_1}(t) = R_1i(t) - R_1C_1\dot{v}_{C_1}(t) \rightarrow 
+    \dot{v}_{C_1}(t) = \frac{i(t)}{C_1} -
+    \frac{v_{C_1}(t)}{R_1C_1}\label{v_cap_reemplazada}
+\end{equation}
+
+Por \'ultimo, reemplazando \ref{soc_mod_integration_der} y
+\ref{v_cap_reemplazada} en el sistema de ecuaciones de estado, en forma
+matricial, finalmente se obtiene el sistema de ecuaciones correspondiente al
+circuito de Randles de segundo orden \ref{ss_randles_complete},
+
+\begin{align}
+    \begin{bmatrix}
+        \dot{V}_{C_1}(t, SoC) \\ \dot{V}_{C_2}(t, SoC) \\ \dot{SoC}(t)
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+        -\frac{1}{R_1C_1} & 0 & 0\\
+        0 & -\frac{1}{R_2C_2} & 0\\
+        0 & 0 & 0
+    \end{bmatrix}
+    \times\begin{bmatrix}V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t)\end{bmatrix}
+    +
+    \begin{bmatrix}
+        \frac{1}{C_1} \\ \frac{1}{C_2} \\ \frac{1}{3600S_{c,a}}
+    \end{bmatrix}
+    \times i(t)\nonumber \\
+    v(t) &= \begin{bmatrix} -1 & -1 & -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{ss_randles_complete}
+\end{align}
+
+\subsubsubsection{Criterio de observabilidad}
+
+Linealizado el sistema y obtenido el sistema de ecuaciones del modelo
+el\'ectrico de Randles, solo resta determinar si el sistema es observable. Un
+sistema de ecuaciones de estados es observable, si y solo si, su matriz de
+observabilidad es observable, es decir, si su determinante es diferente a cero y
+la matriz de observabilidad tiene un rango n (orden del sistema). La matriz de 
+observabilidad est\'a dada por la Ecuaci\'on \ref{observation_matrix},
+
+\begin{equation}
+    O = \begin{bmatrix}
+        C\\
+        CA\\
+        CA^2\\
+        \vdots\\
+        CA^{n-1}
+        \end{bmatrix}\label{observation_matrix}
+\end{equation}
+
+En este caso, n es igual a tres, dado que el modelo de Randles es un sistema de 
+segundo \'orden, por lo tanto, la matriz O est\'a dada por la Ecuaci\'on 
+\ref{obs_matrix_randles},
+
+\begin{equation}
+    O = \begin{bmatrix}
+        -1 & -1 & -K_e \\
+        \frac{1}{R_1C_1} & \frac{1}{R_2C_2} & 0 \\
+        \frac{1}{\left(R_1C_1\right)^2} & \frac{1}{\left(R_2C_2\right)^2} & 0
+        \end{bmatrix}\label{obs_matrix_randles}
+\end{equation}
+
+aplicando el determinante de una matriz sobre la Ecuaci\'on
+\ref{obs_matrix_randles} obtenemos la expresi\'on \ref{det_obs_matrix_randles}
+
+\begin{align}
+    det\left(O\right) &= 0 + 0 -K_e \frac{1}{R_1C_1\left(R_2C_2\right)^2} + 
+                        K_e \frac{1}{R_2C_2\left(R_1C_1\right)^2} - 0 -
+                        0\nonumber\\
+                      &= K_e \left(\frac{1}{R_2C_2\left(R_1C_1\right)^2} - 
+                                   \frac{1}{R_1C_1\left(R_2C_2\right)^2}\right)
+                                   \label{det_obs_matrix_randles}
+\end{align}
+
+Por lo tanto, la matriz O es observable, si y solo si se cumple que los
+par\'ametros de los circuitos RC del modelo de Randles no sean iguales, ya que
+en este caso la determinante ser\'ia diferente a cero. Por otro lado, se observa
+claramente que la matriz O es de dimensiones 2x2, por lo tanto es una matriz de
+orden 2, concluyendo finalmente que el sistema de Randles de segundo \'orden es
+observable, por ende, se puede implementar el Filtro de Kalman para determinar
+el \acrshort{SOC} de la celda.
+
+
+\newpage
 
 También se necesita proporcionar valores de Varianza del modelo, ruido al que
 están sometidas las variables medibles, el estado inicial estimado y la varianza
-de esta estimación estas son denominadas Q,R,$x_0$ y $P_0$ respectivamente.
+de esta estimación estas son denominadas Q, R, $x_0$ y $P_0$ respectivamente.
 
-\noindent Partiendo de la base que nuestro sistema debe ser robusto ante la mala
-estimación inicial del estado de carga vamos a proponer un vector de estimación
+Partiendo de la base que nuestro sistema debe ser robusto ante la mala
+estimación inicial del estado de carga se propone un vector de estimación
 de estado inicial con un SoC con un error de 80\%.
 
 \begin{equation}
