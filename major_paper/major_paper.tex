@@ -61,6 +61,7 @@
 \newacronym{BMS}{BMS}{Battery Management System}
 \newacronym{C2C}{C2C}{cell-to-cell}
 \newacronym{C2M}{C2M}{cell-to-module}
+\newacronym{CiA}{CiA}{CAN in AUTOMATION}
 \newacronym{CAN}{CAN}{Controller Area Network}
 \newacronym{CBBC}{CBBC}{Capacitor based balancing controllers}
 \newacronym{CBES}{CBES}{Capacity-based equalization strategy}
@@ -3367,10 +3368,72 @@ En los vehiculos actuales los protocolos más utilizados en los vehículos son \
 
 Dentro del vehículo hallamos sistemas de naturaleza muy variada, por ejemplo, el sistema de frenos ABS, el cierre centralizado, las luces de interior y el canal de audio del sistema de sonido. Cada uno de los cuales tiene requerimientos totalmente distintos, en el caso del sistema ABS los tiempos de reacción deben ser del orden del milisegundo pero con un volumen de datos mínimo, mientras que por el contrario el sistema de sonido tiene un volumen de datos mucho mayor con una prioridad mucho menor ya que es un sistema de entretenimiento y no de seguridad.
 
-De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, sin mencionar que desde sus orígenes fue desarollado especificamente para el rubro automotríz.
+De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, debido a la arquitectura multiplexada con un único bus serie que reduce costos combinada con algoritmos de detección de errores que brindan confiabilidad a la red. Otra de las ventajas de CAN es que si un dispositivo sale de servicio la red continua funcionando perfectamente, además de contar con control de acceso al medio con prioridad. Todo esto hace de CAN un protocolo que desde sus orígenes es óptimo para el rubro automotríz.
 
 \subsubsection{Protocolo CAN}
-Este es un protocolo serie que trabaja en según el modelo \acrshort{OSI} (\acrfull{OSI}) en la primera y la segunda capa, también conocidas como la capa física y la capa de enlace de datos respectivamente.
+Este es un protocolo que en su especificación ISO 11898 describe como la información será transmitida entre los diferentes dispositivos de red.
+
+Las principales características de este protocolo son:
+\begin{itemize}
+	\item Priorización de mensajes
+	\item Sistema Multi-Maestro
+	\item Configuración Flexible
+	\item Velocidad de transmisión media (hasta 1 Mbit/s)
+	\item Señalización y detección de fallas.
+\end{itemize}
+
+Para  detectar  errores  a  nivel  de  mensajes  el  protocolo  implementa  tres  
+mecanismos: chequeo de redundancia cíclica (CRC), chequeo de formato de trama y 
+acuse de recibo (ACK).
+
+Para detectar errores a nivel de bit el protocolo implementa dos mecanismos: 
+
+\begin{itemize}
+	\item Monitoreo. Cada nodo transmisor monitorea el nivel del bus a fin 
+de detectar la diferencia entre el bit enviado y el recibido. 
+	\item Bits de Relleno (Bit stuffing). CAN utiliza la codificación NRZ (no 
+retorno a cero) y la técnica de bit  stuffing,  que consiste en insertar un bit complementario cada cinco bits iguales consecutivos transmitidos. 
+\end{itemize}
+
+Trabaja en según el modelo \acrshort{OSI} (\acrfull{OSI}) en la primera y la segunda capa, también conocidas como la capa física y la capa de enlace de datos respectivamente.
+
+El protocolo CAN  sólo define las dos primeras capas del Modelo \acrshort{OSI} (\acrfull{OSI}) (física y enlace), aunque no especifica la interfaz al medio físico (Medio de transmisión, conectores).La norma ISO 11898 es el estándar internacional para la comunicación de alta velocidad usando el protocolo de bus CAN. Esencialmente este estándar define las capas física y de enlace de datos.
+
+\subsubsubsection{Capa Física} 
+La capa física en \acrshort{CAN} es responsable de la transferencia de bits entre los distintos nodos que componen la red. Define aspectos como, niveles de señal, codificación, sincronización y tiempos en que los bits se transfieren al bus.
+En la especificación original de \acrshort{CAN}, la capa física no fue definida, permitiendo diferentes opciones para la elección del medio y niveles eléctrico de transmisión. Las características de las señales eléctricas en el bus fueron establecidas más tarde por el estandar ISO 11898.
+
+La especificación \acrfull{CiA}, complementó las definiciones respecto al medio físico y conectores. Los nodos conectados al bus interpretan dos niveles lógicos denominados:
+
+\begin{itemize}
+	\item Dominante: La tensión diferencial (CAN_H - CAN-L) es del orden de 2.0V con CAN-H = 3.5V y CAN-L = 1.5V (nominales).
+	\item Recesivo: La tensión diferencial (CAN_H - CAN-L) es del orden de 0V con CAN-H = 2.5V y CAN-L = 2.5V (nominales)
+\end{itemize}
+
+La topología es bus con derivaciones de corta longitud. con perdida de prestaciones en cuanto a velocidad o longitud máxima se pueden adoptar topologias en estrella. El bus se cierra en los extremos con impedancias de carga.
+
+El número máximo de nodos no está limitado por la especificación básica y depende de las características de los transreceptores, las especificaciones de buses de campo lo limitan a 32 o 64 en una red sin repetidores.
+
+
+\subsubsubsection{Capa de Datos}
+Unas de las características que distingue a CAN con respecto a otras normas, es su técnica de acceso al medio denominada como 
+CSMA/CD+CR o "Carrier Sense, Multiple Access/Colission Detection + Collision Resolution" (Acceso múltiple con detección de 
+portadora, detección de colisión más resolución de colisión). 
+
+El  acceso  al  medio  por  medio  de  técnicas de acceso múltiple y detección de colisión evolucionaron desde el método ALOHA 
+inicial  hasta  su  consagración  como  método  de  acceso  al  medio  de  las  redes  Ethernet,  con  técnica  CSMA/CD.    El  método  de  
+acceso  al  medio  utilizado  en  bus  CAN  añade  una  característica  adicional:  la  resolución  de  colisión.    En  la  técnica  CSMA/CD  
+utilizada en redes Ethernet ante colisión de varias tramas, todas se pierden, CAN resuelve la colisión con la supervivencia de una 
+de  las  tramas  que  chocan  en  el  bus.    Además  la  trama  superviviente  es  aquella  a  la  que  se  ha  identificado  como  de  mayor  
+prioridad. 
+
+La resolución de colisión se basa en una topología eléctrica que aplica una función lógica determinista a cada bit, que se resuelve 
+con la prioridad del nivel definido como bit de tipo dominante.  Definiendo el bit dominante como equivalente al valor lógico '0' y 
+bit   recesivo  al   nivel  lógico  '1'  se  trata  de  una  función  AND  de  todos  los  bits  transmitidos  simultáneamente.    Cada  transmisor  
+escucha  continuamente  el  valor  presente  en  el  bus,  y  se  retira  cuando  ese  valor  no  coincide  con  el  que  dicho  transmisor  ha  
+forzado.    Mientras  hay  coincidencia  la  transmisión  continua,  finalmente  el  mensaje  con  identificador  de  máxima  prioridad  
+sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible
+
 
 \section{Desarrollo}\label{desarrollo}
 
@@ -4326,7 +4389,7 @@ El empaquetado del mismo es del tipo VQFN.
 
 \subsubsection{Diseño e Implementación}
 
-La seccón describe la implementación y desarrollo de un circuito cargador de
+La sección describe la implementación y desarrollo de un circuito cargador de
 baterías de Ion-Litio a partir del \acrfull{CI} bq24610 de la firma Texas
 Instruments implementado en nuestro \acrshort{BMS}.
 
