@@ -346,51 +346,50 @@ Esto trae varias consecuencias, entre ellas, se encuentran:
 
 \begin{itemize}
     \item \textbf{Seguridad:} Si el voltaje máximo de carga es excedido por 
-	unos cientos de milivoltios, puede provocar un embalamiento térmico, 
-	derritiendo el pack de baterias y, por lo tanto, el dispositivo que 
-	alimenta. En el peor de los casos puede explotar poniendo en riesgo el 
-	bienestar del usuario.
+        unos cientos de milivoltios, puede provocar un embalamiento térmico, 
+        derritiendo el pack de baterias y, por lo tanto, el dispositivo que 
+        alimenta. En el peor de los casos puede explotar poniendo en riesgo el 
+        bienestar del usuario.
     \item \textbf{Salud de la batería:} La degradación de la batería es 
-	extremadamente sensible a la operación de la misma fuera de la zona 
-	indicada. Si la temperatura de operación o la tensión máxima de carga 
-	es excedida esto provoca una aceleración en la degradación de su vida 
-	útil.
+        extremadamente sensible a la operación de la misma fuera de la zona 
+        indicada. Si la temperatura de operación o la tensión máxima de carga 
+        es excedida esto provoca una aceleración en la degradación de su vida 
+        útil.
     \item \textbf{Autonomía:} Consideremos que el circuito de protección 
-	detecta que una de las baterías se encuentra descargada a niveles 
-	cercanos de operación insegura. En este caso, la protección frena la 
-	descarga del pack por una sola celda y el resto se encuentran con 
-	voltajes más altos y, por lo tanto, con un remanente de energía para 
-	entregar a la carga desaprovechando la capacidad del pack entero.
+        detecta que una de las baterías se encuentra descargada a niveles 
+        cercanos de operación insegura. En este caso, la protección frena la 
+        descarga del pack por una sola celda y el resto se encuentran con 
+        voltajes más altos y, por lo tanto, con un remanente de energía para 
+        entregar a la carga desaprovechando la capacidad del pack entero.
 \end{itemize}
 
-\noindent Lo que conllevan a la implementación de un sistema de administración 
-de baterías (\emph{\acrshort{BMS}} por sus siglas en inglés \acrlong{BMS}). En
-definitiva, un \acrshort{BMS} es un dispositivo encargado de controlar las
-funciones vitales de las baterías para que operen de forma correcta y segura, 
-con el objetivo de otorgar seguridad al usuario y prolongar la autonomía del 
-vehículo. Las funciones más relevantes que llevan a cabo son:
+Estas situaciones hacen necesario la implementación de un sistema de
+administración de baterías (\emph{\acrshort{BMS}} por sus siglas en inglés
+\acrlong{BMS}). En definitiva, un \acrshort{BMS} es un dispositivo encargado de
+controlar las funciones vitales de las baterías para que operen de forma
+correcta y segura, con el objetivo de otorgar seguridad al usuario y prolongar
+la autonomía del vehículo. Las funciones más relevantes que llevan a cabo son:
 
 \begin{itemize}
     \item Protección del pack para su operación en la región segura tanto 
-	en tensión, corriente como también en temperatura.
+        en tensión, corriente como también en temperatura.
     \item Ecualización de las celdas individuales del pack, es decir,
-	controlar que la carga entre celdas sea uniforme
+        controlar que la carga entre celdas sea uniforme
     \item Estimación del estado de carga del pack de batería 
         (\emph{\acrshort{SOC}} por sus siglas en ingl\'es \acrlong{SOC}).
     \item Estimación del estado de salud del pack de batería 
         (\emph{\acrshort{SOH}} por sus siglas en ingl\'es \acrlong{SOH}).
     \item Informar a la computadora central del vehículo los distintos 
-	parámetros del pack de baterías.
+        parámetros del pack de baterías.
 \end{itemize}
 
 \noindent Ademas de las problem\'aticas mencionadas anteriormente, en el mercado
-actual se venden una gran variedad de \acrshort{BMS} con escaza documentaci\'on
+actual se venden una gran variedad de \acrshort{BMS} con escasa documentaci\'on
 sobre el mismo, dificultando su implementaci\'on con otros dispositivos, tales 
 como computadoras centrales de veh\'iculos el\'ectricos hasta \acrshort{UPS}.
 
-\noindent Por su contraparte, existen solamente dos proyectos de 
-c\'odigo/hardware abiertos relacionados al desarrollo de \acrshort{BMS}, 
-detallados a continuaci\'on.
+Por otro lado, existen solamente dos proyectos de c\'odigo/hardware abiertos
+relacionados al desarrollo de \acrshort{BMS}, detallados a continuaci\'on.
 
 \subsubsection{foxBMS}
 
