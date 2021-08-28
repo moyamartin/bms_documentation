@@ -347,7 +347,7 @@ Esto trae varias consecuencias, entre ellas, se encuentran:
 \begin{itemize}
     \item \textbf{Seguridad:} Si el voltaje máximo de carga es excedido por 
         unos cientos de milivoltios, puede provocar un embalamiento térmico, 
-        derritiendo el pack de baterias y, por lo tanto, el dispositivo que 
+        derritiendo el pack de baterías y, por lo tanto, el dispositivo que 
         alimenta. En el peor de los casos puede explotar poniendo en riesgo el 
         bienestar del usuario.
     \item \textbf{Salud de la batería:} La degradación de la batería es 
@@ -484,7 +484,7 @@ desarrollada.
 \subsection{Especificaciones}\label{proy_specs}
 
 \noindent El sistema a implementar debe ser capaz de poder administrar un 
-pack de bater\'ias de 6 m\'odulos conectados en serie, donde cada modulo est\'a 
+pack de bater\'ias de 6 m\'odulos conectados en serie, donde cada módulo est\'a 
 compuesto por 3 celdas en paralelo encargado de: 
 
 \begin{itemize}
@@ -504,8 +504,8 @@ compuesto por 3 celdas en paralelo encargado de:
 
 \noindent La descripción anterior se puede visualizar en el \acrfull{DB} de la
 Figura \ref{bms}. Como puede observarse, el microcontrolador es el encargado de
-comunicarse y comandar los modulos de protecci\'on, ecualizaci\'on y carga de 
-la bateria, como tambi\'en obtener variables de los mismos para poder estimar 
+comunicarse y comandar los módulos de protecci\'on, ecualizaci\'on y carga de 
+la batería, como tambi\'en obtener variables de los mismos para poder estimar 
 el \acrshort{SOC}, determinar el desbalanceo de una o m\'as celdas y tomar 
 acci\'on al respecto, y por último, pero m\'as relevante, comandar las 
 protecciones en caso de una falla y/o alerta de la batería. 
@@ -656,7 +656,7 @@ b\'asica, consiste en una celda compuesta por dos electrodos
 separado por un electrolito que es capaz de acomodar cargas dentro de sí. 
 Frecuentemente, los electrodos son f\'isicamente separados por una barrera que 
 previene que estén en contacto físico entre ellos, evitando así un corto 
-circuito en la bateria. En descarga, cuando la bater\'ia entrega corriente al 
+circuito en la batería. En descarga, cuando la bater\'ia entrega corriente al 
 circuito, toma lugar un proceso de oxidación en el electrodo negativo (\'anodo), 
 resultando en un movimiento de electrones a trav\'es del circuito. Por el otro 
 lado, en el electrodo positivo (c\'atodo), ocurre un proceso de reducción, 
@@ -703,7 +703,7 @@ alrededor 2V.
 
 \noindent Otro logro en el desarrollo de baterías, ocurrió en el 1899 cuando se
 desarrolló la primer batería de n'iquel-hierro (Ni-Fe) y n'iquel-cadmio (Ni-Cd) o
-tambien conocidas como baterias alcalinas, que fueron predecedoras del híbrido
+tambien conocidas como baterías alcalinas, que fueron predecedoras del híbrido
 n'iquel-metal (Ni-MH) que fue comercializada en 1898.
 
 \noindent Las baterías anteriores son basadas en soluciones acuosas, y la
@@ -759,7 +759,7 @@ enteros.
 bater\'ias basadas en el litio. Entre ellas se encuentran las bater\'ias de 
 litio-sulfuro (Li-S) y litio-aire (Li-air), cuya densidad energética teórica 
 ronda los 2600Wh/kg y 11400 Wh/kg, respectivamente. En 2012, se desarrolló una 
-bateria de litio-ion recargable acuosa o \acrshort{ARLB} (del ingles
+batería de litio-ion recargable acuosa o \acrshort{ARLB} (del ingles
 \emph{\acrlong{ARLB}}), que utiliza metal de litio recubierto como ánodo en una
 solución de electrolitos mejorando ampliamente la densidad energética.
 
@@ -2159,7 +2159,7 @@ envejecimiento, la temperatura y el efecto de hist\'erisis.
 \subsection{Proceso de Carga}\label{sec:tecnica_carga}
 
 El proceso de carga de una \acrfull{Ion-Li} no es trivial. Aplicar una tensión
-constante en  bornes, como podríamos proceder con baterias de plomo ácido, no es
+constante en  bornes, como podríamos proceder con baterías de plomo ácido, no es
 el procedimiento más adecuado en este caso. En aras de optimizar la autonomía y
 la vida útil del pack de baterías el proceso de carga debe responder a
 lineamientos particulares de acuerdo a las carácterísticas constructivas de las
@@ -2222,7 +2222,7 @@ El tiempo total de carga es una variable determinante a la hora de implementar
 un cargador de batería que extienda al máximo la vida útil y los ciclos de carga
 de un pack de baterías y de sus celdas. Es la magnitud de corriente de carga
 rápida la variable determinante de este tiempo. Por ejemplo, para una
-carga rápida a 1C, la bateria alcanzará, durante la fasé de \acrshort{CC}, el
+carga rápida a 1C, la batería alcanzará, durante la fasé de \acrshort{CC}, el
 $70\%$ de su capacidad total en el $30\%$ del tiempo de carga mientras que
 tardará el $70\%$ del tiempo total de carga para acumular el $30\%$ restante de
 su capacidad durante la fase \acrshort{CV}. 
@@ -2269,7 +2269,7 @@ los diferentes voltajes de carga.
 
 \begin{figure}[h!] \centering
     \includegraphics[width=0.6\textwidth]{bat_char/C_vs_Cycle_V.png}
-    \caption{Relación Voltaje de carga la bateria vs Ciclos de vida de una celda de
+    \caption{Relación Voltaje de carga la batería vs Ciclos de vida de una celda de
 Ion-Litio con un cátodo de $LiCoO_2$} \label{fig:C_vs_Cycle_V} \end{figure}
 \FloatBarrier
 
@@ -3768,7 +3768,7 @@ de estado inicial con un SoC con un error de 80\%.
     \end{array} \nonumber
 \end{equation}
 
-\noindent El ciclo de la bateria esseleccionado comienza con la batería cargada
+\noindent El ciclo de la batería esseleccionado comienza con la batería cargada
 al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el estado de
 carga relativo.
 
