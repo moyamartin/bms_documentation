@@ -929,7 +929,7 @@ celdas conectadas en paralelo.
 \noindent Como se menciona anteriormente, las celdas de litio-ion son utilizadas
 ampliamente en el mercado de consumo electr\'onico para un gran espectro de 
 aplicaciones. Sin embargo, su fiabilidad y tiempo de vida son limitados y 
-depende considerablemente de condiciones ambientales como tambien de su uso 
+depende considerablemente de condiciones ambientales como también de su uso 
 hist\'orico. Por lo tanto, se necesitan modelos de bater\'ias exactos y eficaces 
 para que sean correctamente monitoreados por un \acrshort{BMS}.
 
@@ -941,29 +941,29 @@ optimizar al m\'aximo el ciclo de vida de una bater\'ia ya que permite
 obtener informaci\'on sobre el \acrshort{SOC} como tambi\'en conocer 
 par\'ametros cr\'iticos de la bater\'ia como por ejemplo, el perfil de descarga 
 de la misma permitiendo ajustar los distintos algoritmos de protecci\'on y/o 
-ecualizaci\'on  que se apliquen en el desarrollo del \acrshort{BMS}.
+ecualizaci\'on que se apliquen en el desarrollo del \acrshort{BMS}.
 
 \noindent A continuaci\'on se definen y se comparan los distintos modelos 
 disponibles en la literatura actual. Esta comparaci\'on es basada en tres 
 criterios:
 
-\begin{itemize}
-    \item \textbf{Precisi\'on}: La precisi\'on define cu\'an cercano un modelo
-        puede predecir los par\'ametros y/o valores de las variables de
-        inter\'es de una bater\'ia.
-    \item \textbf{Complejidad}: Se refiere a la cantidad de par\'ametros que
+\begin{description}
+    \item [\textbf{Precisi\'on}:] La precisi\'on define cu\'an cercano un modelo
+        puede predecir los valores de las variables de inter\'es de una
+        bater\'ia.
+    \item [\textbf{Complejidad}:] Se refiere a la cantidad de par\'ametros que
         necesita el modelo. Dependiendo de la complejidad del modelo, el 
         c\'alculo del mismo tomar\'a mayor o menor tiempo, cuestionando su 
         utilidad para una aplicaci\'on en tiempo real.
-    \item \textbf{Interpretaci\'on f\'isica}: Esto se define como el nivel de
+    \item [\textbf{Interpretaci\'on f\'isica}:] Esto se define como el nivel de
         interpretaci\'on anal\'itico que el modelo puede dar con respecto al
         funcionamiento interno de una bater\'ia.
-\end{itemize}
+\end{description}
 
 \subsubsection{Modelos F\'isicos}\label{phyModel}
 
 \noindent Los modelos f\'isicos, o tambi\'en conocidos como cajas blancas, son 
-modelos de bajo nivel con un nivel de exactitud muy alto. Permiten describir la 
+modelos de bajo nivel con un grado de exactitud muy alto. Permiten describir la 
 estructura de los materiales y logran describir los complejos fen\'omenos 
 electroqu\'imicos que suceden dentro de celda, tambi\'en denominados fen\'omenos 
 termodin\'amicos, kin\'eticos y de transporte.
@@ -1001,7 +1001,7 @@ como tambi\'en de ecuaciones diferenciales interdependientes, para poder
 replicar el comportamiento de una celda se utilizan coeficientes de difusi\'on y 
 propiedades de los materiales dentro de las ecuaciones dependientes del mismo. 
 Los autores en \cite{Li2016} se basan en un modelo unidimensional a lo largo de 
-la secci\'on de la celda, dividiendolo en cinco secciones, aplicando las 
+la secci\'on de la celda, dividiéndolo en cinco secciones, aplicando las 
 siguientes ecuaciones diferenciales: 
 
 \begin{itemize}
