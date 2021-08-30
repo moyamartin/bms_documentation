@@ -58,6 +58,7 @@
 \newacronym{ANFIS}{ANFIS}{Adaptative neuro-fuzzy inference system}
 \newacronym{ANN}{ANN}{Artificial Neural Network}
 \newacronym{ARLB}{ARLB}{Aqueous rechargeable lithium batteries}
+\newacronym{AVAE}{AVAE}{Average Value Equalization Algorithm}
 \newacronym{BMS}{BMS}{Battery Management System}
 \newacronym{C2C}{C2C}{cell-to-cell}
 \newacronym{C2M}{C2M}{cell-to-module}
@@ -66,16 +67,21 @@
 \newacronym{CBES}{CBES}{Capacity-based equalization strategy}
 \newacronym{CCA}{CCA}{Classic Control Algorithms}
 \newacronym{CC}{CC}{Constant Current}
+\newacronym{CI}{CI}{Circuito Integrado}
 \newacronym{CNN}{CNN}{Convolutional Neural Networks}
 \newacronym{CV}{CV}{Constant Voltage}
 \newacronym{DB}{DB}{Diagrama de Bloques}
 \newacronym{DOD}{DOD}{Depth of Discharge}
+\newacronym{DPM}{DPM}{}
 \newacronym{EC}{EC}{Eficiencia Culombica}
 \newacronym{EIS}{EIS}{Electrochemical Impedance}
+\newacronym{EKF}{EKF}{Extended Kalman Filter}
 \newacronym{EMI}{EMI}{Electromagnetic Interference}
 \newacronym{EMS}{EMS}{Equalization Management System}
+\newacronym{EVEA}{EVEA}{Extreme Value Equalization Algorithm}
 \newacronym{FIR}{FIR}{Finite Impulse Response}
 \newacronym{FL}{FL}{Fuzzy Logic}
+\newacronym{FOM}{FOM}{Figure-of-merit}
 \newacronym{FPGA}{FPGA}{Field Programmable Gate Arrays}
 \newacronym{HPPC}{HPPC}{Hybrid Pulse Power Characterization}
 \newacronym{HRI}{HRI}{human-robot interactions}
@@ -84,6 +90,7 @@
 \newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
 \newacronym{KF}{KF}{Kalman Filter}
 \newacronym{LSTM}{LSTM}{Long Short-Term Memory}
+\newacronym{LUT}{LUT}{Look-up Table}
 \newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
 \newacronym{M2C}{M2C}{module-to-cell}
 \newacronym{M2M}{M2M}{Module-to-Module}
@@ -112,11 +119,6 @@
 \newacronym{hri}{HRI}{human-robot interactions}
 \newacronym{lstm}{LSTM}{Long Short-Term Memory}
 \newacronym{rnn}{RNN}{Recurrent Neural Network}
-\newacronym{CI}{CI}{Circuito Integrado}
-\newacronym{FOM}{FOM}{Figure-of-merit}
-\newacronym{DPM}{DPM}{}
-\newacronym{EVEA}{EVEA}{Extreme Value Equalization Algorithm}
-\newacronym{AVAE}{AVAE}{Average Value Equalization Algorithm}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
 	1 with {\arrow[semithick]{open triangle 60}}},
@@ -930,9 +932,8 @@ par\'ametros cr\'iticos de la bater\'ia como por ejemplo, el perfil de descarga
 de la misma permitiendo ajustar los distintos algoritmos de protecci\'on y/o 
 ecualizaci\'on  que se apliquen en el desarrollo del \acrshort{BMS}.
 
-\noindent A continuaci\'on se definen y se comparan los distintos modelos 
-disponibles en la literatura actual. Esta comparaci\'on es basada en tres 
-criterios:
+A continuaci\'on se definen y se comparan los distintos modelos disponibles 
+en la literatura actual. Esta comparaci\'on es basada en tres criterios:
 
 \begin{itemize}
     \item \textbf{Precisi\'on}: La precisi\'on define cu\'an cercano un modelo
@@ -964,8 +965,7 @@ electrolito.
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.7\textwidth]{schmidt_proceso_fisico.png}
-        \caption{Descripci\'on gr\'afica del proceso interno de una celda de
-        litio-ion.}
+        \caption{Descripci\'on gr\'afica del proceso interno de una celda de litio-ion.}
         \label{schmidt_fen_fis}
     \end{center}
 \end{figure}
@@ -1025,8 +1025,8 @@ siguientes ecuaciones diferenciales:
         \end{equation}	
 \end{itemize}
 
-\noindent En las ecuaciones \ref{Chrg_cons_hom_sol} - 
-\ref{Butler_Volmer_kinetics}, se utilizan las siguientes variables:
+En las ecuaciones \ref{Chrg_cons_hom_sol} - \ref{Butler_Volmer_kinetics}, se 
+utilizan las siguientes variables:
 
 \begin{itemize}
     \item $\mathrm{\sigma}$: Conductividad de la fase s\'olida del
@@ -3481,11 +3481,11 @@ de capacidad y voltaje que se descrien a continuaci\'on:
         IFR, LFP o Li-fosfato.
     \item \textbf{LiMn2O4}: Oxido de litio manganesio o tambi\'en conocidas como
         IMR, LMO o Li-manganesio.
-    \item \textbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
+    \item \textbf{LiNiMnCoO2}: Litio manganesio n\'iquel o tambi\'en conocidas como
         INR o NMC
     \item \textbf{LiNiCoAl)2}: Oxido de Litio n'iquel cobalto aluminio o
         tambi\'en conocidas como NCA o Li-aluminio.
-    \item \textbf{LiNiCoO2}: \'Oxido de litio n'iquel cobalto o tambi\'en
+    \item \textbf{LiNiCoO2}: \'Oxido de litio n\'iquel cobalto o tambi\'en
         conocidas como NCO.
     \item \textbf{LiCoO2}: \'Oxido de litio cobalto o tambi\'en conocido como
         ICR, LCO o Li-cobalto.
@@ -3620,132 +3620,612 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
     apreciar el conector JST}
 	\label{battery_side}
     \end{subfigure}
-    \label{pack}
 \end{figure}
 
 \newpage
 
-\subsection{Modelo de la celda de Litio-Ion}
+\subsubsection{Caracter\'isticas del pack}
 
-Antes de desarrollar el algoritmo de ecualizaci\'on y estimaci\'on de
-\acrshort{SOC}, es necesario obtener un modelo que permita representar de forma
-matem\'atica el comportamiento de una celda NRC18650PF.
+Como resultado obtenemos un pack de bater\'ias con las siguientes
+caracter\'isticas:
 
-\subsection{Implementaci\'on del Filtro de Kalman}
+\begin{itemize}
+    \item Voltaje nominal de salida: 21.6V
+    \item Voltaje m\'aximo de salida: 25.2V
+    \item Voltaje m\'inimo de salida: 15V
+    \item Capacidad t\'ipica: 8700mAh
+    \item Capacidad m\'inima: 8250mAh
+    \item Corriente de carga m\'axima: 4.35A
+    \item Corriente de descarga m\'axima: 17.4A (2C)
+\end{itemize}
 
-Para la implementación de este filtro es necesario obtener un modelo en espacio
-de estados de la batería de la forma :
+\subsection{Modelo de la celda de litio-ion}\label{dev_batt_model}
 
-\begin{align}
-    \dot{x}(t) = Ax+Bu	\nonumber\\
-    y(t)=Cx+Du
-    \label{SS_Model_generic}	
-\end{align}
+Contar con un modelo matemático preciso que describa fehacientemente el
+comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
+para la implementación exitosa de los algoritmos de estimación del
+\acrshort{SOC} y de ecualización basados en el filtro de Kalman.
 
-Para tal fin tomamos como referencia un modelo eléctrico con 2 elementes RC en
-serie, también conocido como modelo de Randles de segundo orden, representado en
-la figura \ref{Randles_2do}, ya que este módelo tiene amplia aceptación debido a
-que ofrece un grado de ajuste alto sin resultar en un excesivo costo
-computacional en comparación con modelos electroquímicos de la batería.
+El modelado de una celda de litio puede ser abordado desde distintas
+perspectivas y con difetentes herramientas matemáticas de acuerdo a los fines
+que se persigan. La necesidad de conjugar un modelo de exactitud elevada que no
+represente una carga computacional imposible de procear en tiempo real en un
+microcontrolador nos ha llevado a adoptar un modelo de segundo orden basado en
+un circuito eléctrico siguiendo \cite{spagnol_kalman}, también conocido como
+modelo de Randles de segundo orden, que se encuentra representado por el
+esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
+en la Secci\'on \ref{param_18650pf}.
 
 \begin{figure}[h!]
     \begin{center}
-	\begin{minipage}[c]{0.95\textwidth}
-	    \centering
 	    \ctikzset{bipoles/length=1.0cm}
 	    \ctikzset{bipoles/resistor/height=.3}
 
 	    \begin{circuitikz}[american]
-
-		\draw (0,0) to[R=$R_0$] (3,0) -- (3,-0.5) to[R=$R_1$] (6,-0.5) -- (6,0);
-		\draw (3,0) -- (3,0.5) to[C=$C_1$,v=$ $] (6,0.5) -- (6,0);
-		\draw (6,0) to[short,-*] (6.5,0) -- (7,0) -- (7,0.5) to[C=$C_2$,v=$ $] (10,0.5) to[short,-o] (10,0);
-		\draw (7,0) -- (7,-0.5) to[R=$R_2$] (10,-0.5) -- (10,0) to[short,f=$i$] (11.5,0);
-		\draw  (0,0) to[battery2=$OCV(SOC)$] (0,-3) -- (11.5,-3); 
-		\draw  (11.5,0) to [open,v=$v$,invert] (11.5,-3);
-		\draw (8.5,1.75) node[anchor=north]{$V_{C2}$};
-		\draw (4.5,1.75) node[anchor=north]{$V_{C1}$};
+		\draw (0,0) to[R=$R_0$] (2,0) -- (2,-1) to[R=$R_1$] (4,-1) -- (4,0);
+        \draw (2,0) -- (2, 1) to[C=$C_1$,v=$V_{C1}$] (4, 1) -- (4,0);
+        \draw (4,0) to[short] (5, 0) -- (5, 1) to[C=$C_2$,v=$V_{C2}$] (7, 1) -- (7, 0);
+		\draw (5,0) -- (5,-1) to[R=$R_2$] (7,-1) -- (7,0) to[short,f=$i$] (8,0);
+        \draw (0,0) to[battery2=$V_{OCV}(SOC)$] (0,-3) -- (8,-3); 
+        \draw  (8,0) to [open,v=$V_{out}$,invert] (8,-3);
 	    \end{circuitikz}
-	\end{minipage}
+        \caption{Circuito de Randles de Segundo Orden.}
+        \label{randles_2rc}
     \end{center}
-    \caption{Circuito de Randles de Segundo Orden.}
-    \label{Randles_2do}
 \end{figure}
 \FloatBarrier
 
-\noindent La fuente de tensión controlada $OCV(SoC)$ es linealizada para 
-obtener un modelo lineal de la batería e ignoramos el hecho de la histéresis 
-respecto a la carga y a la descarga.
-
-Obteniendo una ecuación lineal de la forma \ref{SOC_linearized}, cuyos
-parametros fueron obtenidos mediante la función \emph{polyfit} de matlab como se
-muetra en la figura \ref{SOC_vs_OCV}.
+De acuerdo a la figura \ref{randles_2rc}, la salida del modelo es descripta por
+la ecuación \ref{eq:Vout_randles_2rc}
 
 \begin{equation}
-    OCV = SOC \times K_e + OCV_0
-    \label{SOC_linearized}
+    V_{out}(t)=V_{OCV}(SOC)-(V_{R0}(t)+V_{C1}(t)+V_{C2}(t))
+    \label{eq:Vout_randles_2rc}
+\end{equation}
+
+El modelo puede ser reescrito en el dominio de la transformada de Laplace como: 
+
+\begin{align}
+    \begin{split}
+    V_{out}(t)&=V_{OCV}(SOC)-(R_{0}+\frac{R_{1}}{(1+sR_{1}C_{1})}\frac{R_{2}}{(1+sR_{2}C_{2})})i(t)\\
+    &=V_{OCV}(SOC)-(R_{0}+\frac{K_{p}(1+sT_{2})}{(1+sT_{P1})(1+sT_{P2})})i(t)\\
+    &=V_{OCV}(SOC)-R_{0}i(t)-G(s)i(t)
+    \end{split}
+       \label{eq:L_Vout_randles_2rc}
+\end{align}
+
+\subsubsection{Parametrizaci\'on del modelo}\label{param_18650pf}
+
+La estimaci\'on de par\'ametros es com\'unmente usado para ajustar la respuesta 
+de un modelo a los datos experimentales de un modelo f\'isico. En el caso de 
+las celdas de litio-ion, los datos experimentales provienen de curvas
+\acrshort{HPPC}.  Ese proceso involucra reiteradas simulaciones del modelo
+matem\'atico planteada en conjunto de un algoritmo de optimizaci\'on num\'erico,
+de esta forma, el proceso de optimizaci\'on busca ajustar los par\'ametros del
+modelo para minimizar el error entre los datos experimentales y los resultados
+de las simulaciones realizadas.
+
+En este caso, la curva \acrshort{HPPC}, que contiene un conjunto de pulsos de
+carga/descarga, provee una representaci\'on con un alto nivel de fidelidad sobre
+el comportamiento din\'amico de la bater\'ia, en m\'ultiplos niveles de
+\acrshort{SOC}. Para reflejar este comportamiento en el modelo planteado en la
+Figura \ref{randles_2rc}, se requieren elementos circuitales no lineas flexibles
+a las condiciones de operaci\'on y estados de la celda. Para realizar esto,
+com\'unmente se emplean tablas de b\'usqueda (\acrshort{LUT}, del ingl\'es
+\emph{\acrlong{LUT}}).
+
+En este caso, los datos experimentales a analizar provienen de 
+\cite{Kollmeyer2018}, que son descriptos en la siguiente secci\'on.
+
+\subsubsection{Descripci\'on del set de datos}
+
+El set de datos de \cite{Kollmeyer2018} es un conjunto de ensayos realizados en 
+la Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos 
+son realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara 
+t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una 
+capacidad de descarga de 25A a 18V.
+
+Los ensayos fueron realizados bajo 5 temperaturas diferents, en donde la
+bater\'ia es cargada a 4.2V@2.9A despu\'es de cada ciclo. Sobre la celda se
+ejecutaron los siguientes ciclos:
+
+\begin{enumerate}
+    \item 20 ciclos de Ensayo de carga y descarga.
+    \item Cinco ensayos \acrshort{HPPC} a 0.5C, 1C, 2C, 4C y 6C realizados a
+        intervalos de 5\% de \acrshort{SOC} en todo el rango de la capacidad de
+        la celda.
+    \item Ensayos \acrshort{EIS} en un rango de frecuencia de 1MHz a 100Hz, con
+        el mismo paso y rango de \acrshort{SOC} que el punto anterior.
+    \item Nueve ciclos de conducci\'on (del ing\'es, \emph{drive cycles})
+        distintos, diseñados para poder capturar din\'amicas adicionales que no
+        se pueden manifestar en el ensayo \acrshort{HPPC}.
+    \item Los pasos 3 a 5 son ensayados nuevamente bajo 5 temperaturas distintas
+        (25\degree C, 10\degree C, 0\degree C, -10\degree C y -20\degree C)
+    \item Los nueve ciclos de conducci\'on se repiten con una temperatura
+        inicial de -20\degree C, donde despu\'es se la permite evolucionar en
+        funci\'on del calor generado por las bater\'ias.
+    \item Los primeros 3 ciclos se repiten con la c\'amara a una temperatura
+        inicial de -20\degree C.
+    \item Los nueve ciclos de conducci\'on se ejecutan nuevamente con una
+        temperatura inicial de 10\degree C.
+    \item Los ciclos 1 a 4 se repiten con una temperatura inicial de 10\degree
+        C.
+    \item Finalmente, se le realizaron 10 ciclos de descarga a 1C con una
+        temperatura ambiente de 25\degree C, seguidos por dos ensayos de
+        referencia de capacidad demostrando que la capacidad m\'axima decae de
+        2.8Ah a 2.3Ah despu\'es de correr todos los ensayos enumerados
+        anteriormente.
+\end{enumerate}
+
+En este caso, la curva HPPC de inter\'es se puede observar en la Figura
+\ref{hppc_kollmeyer}, donde una ampliaci\'on sobre la respuesta din\'amica 
+de la celda se puede observar en la Figura \ref{hppc_kollmeyer_zoom}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.9\textwidth]{hppc_kollmeyer.eps}
+        \caption{Curva HPPC provista por \cite{Kollmeyer2018}}
+        \label{hppc_kollmeyer}
+    \end{center}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.9\textwidth]{hppc_kollmeyer_zoom.eps}
+        \caption{Ampliaci\'on sobre un pulso de la curva HPPC provista por 
+                 \cite{Kollmeyer2018}}
+        \label{hppc_kollmeyer_zoom}
+    \end{center}
+\end{figure}
+
+\subsubsection{Simulaci\'on del circuito de Randles}
+
+Para poder realizar el proceso de optimizaci\'on de par\'ametros, en primer 
+instancia se necesita implementar el circuito de Randles en un ambiente de 
+simulaci\'on. En este caso, el modelo fue desarrollado en \emph{Simulink}
+utilizando la librer\'ia \emph{Power Systems} de \emph{Simscape}. El modelo
+est\'a compuesto por una fuente de tensi\'on controlada, que representa el
+\acrshort{OCV} de la bater\'ia, y 5 \acrshort{LUT}s, que representan los 
+componentes pasivos del circuito, los 6 componentes depende exclusivamente del
+nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on se puede observar en la 
+Figura \ref{battery_model_simulink}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=1\textwidth]{battery_model_simulink.png}
+        \caption{Implementaci\'on del modelo de Randles en \emph{Simulink}.}
+        \label{battery_model_simulink}
+    \end{center}
+\end{figure}
+
+Por otro lado, el modelo tambi\'en logra capturar la señal de corriente 
+proveniente del set de datos, como tambi\'en medir la tensi\'on de salida que 
+simula el mismo. Finalmente, tanto el \acrshort{OCV} y los componentes pasivos 
+del circuito, dependen directamente del \acrshort{SOC} de la bater\'ia, cabe
+destacar que el modelo no contempla variaciones de temperatura de la celda.
+
+Como resultado a priori, para determinar si \'este modelo puede llegar a
+representar el set de datos, se compara la salida ante un escal\'on de corriente 
+del modelo sin optimizar, tomando todos los par\'ametros con valores
+predeterminados (1F para los capacitores, 1m$\mathrm{\Omega}$ para ls
+resistencias de los tanques y 40m$\mathrm{\Omega}$ para $\mathrm{R_0}$). 
+Esto se puede observar en la Figura \ref{comp_simulink_no_opt}, donde, a pesar
+de no estar optimizada para disminuir el error en la tensi\'on de salida, el
+modelo logra representar, de forma alejada, la din\'amica de la respuesta al 
+escal\'on validando la elecci\'on del modelo de Randles.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{v_sim_v_dataset_no_opt.eps}
+        \caption{Comparaci\'on de la tensi\'on de salida del modelo de
+                 \emph{Simulink} sin optimizar con la curva de tensi\'on de 
+                 salida del set de datos}
+         \label{comp_simulink_no_opt}
+    \end{center}
+\end{figure}
+
+\subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
+
+El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} 
+debe ser preprocesado para obtener ciertas variables de inter\'es, como por
+ejemplo, obtener una señal del \acrshort{SOC} de la curva es relevante para
+comparar los resultados de nuestro modelo, como tambi\'en la segmentaci\'on o
+modificaci\'on de los datos es \'util para el desarrollo del modelo.
+
+\subsubsubsection{Curva de \acrshort{SOC}}
+
+Dentro de los datos de la curva \acrshort{HPPC}, el ensayo de
+\cite{Kollmeyer2018} acumula la corriente que circula desde y hacia el pack en
+Ampehere-hora (Ah), en base a esto, se calcula \acrshort{SOC} en todo el ensayo
+usando la Ecuaci\'on \ref{calculo_soc_ah}.
+
+\begin{equation}
+    SOC = \frac{Ah_{acumulado} + Ah_{min}}{Ah_{min}} \label{calculo_soc_ah}
+\end{equation}
+
+implementando la Ecuaci\'on \ref{calculo_soc_ah} en Matlab sobre la curva Ah del
+ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
+\ref{soc_hppc_data}.
+
+\newpage
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=1\textwidth]{soc_hppc_data.eps}
+        \caption{Curva del \acrshort{SOC} para el ensayo HPPC de
+        \cite{Kollmeyer2018}. En el mismo se pueden observar los escalones de
+        \acrshort{SOC} generados por los pulsos de corriente aplicados en la
+        celda.}
+        \label{soc_hppc_data}
+    \end{center}
+\end{figure}
+
+\subsubsubsection{Segmentaci\'on de flancos}\label{flank_seg}
+
+Para poder evaluar la optimizaci\'on del modelo en toda la curva 
+\acrshort{HPPC}, es necesario segmentar los pulsos para comparar la salida del
+modelo a cada \acrshort{SOC} de la curva. Para ello se implementa un algoritmo
+en Matlab llamado \texttt{flanks}, que dado un arreglo de valores y un
+porcentaje espec\'ifico compara las muestras entre dos instantes contiguos [n,
+n+1]. Si la diferencia entre ambas muestras es mayor al porcentaje especificado 
+de un flanco ascendente marca ese instante con un 1, si es mayor al porcentaje
+anterior de un flanco descendiente marca ese instante con -1, caso contrario, 
+marca ese instance con un 0. Esto permite poder identificar los instantes de 
+tiempo en los que se genera un pulso de corriente/tensi\'on de la bater\'ia para 
+poder segmentar el conjunto de datos y post-procesarlo para optimizar el 
+modelo. El resultado del algoritmo se puede observar en uno de los pulsos de la 
+curva \acrshort{HPPC} en la Figura \ref{flank_seg_hppc}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{flank_seg_hppc.eps}
+        \caption{Segmentaci\'on de un pulso de corriente de la curva
+        \acrshort{HPPC}, se puede observar los picos 1 y -1 indicando los
+        instantes en los que comienza y finaliza un pulso de corriente}
+        \label{flank_seg_hppc}
+    \end{center}
+\end{figure}
+
+\subsubsubsection{Obtenci\'on del \acrshort{OCV}}
+
+Dentro de la curva \acrshort{HPPC} de la Figura \ref{hppc_kollmeyer}, podemos
+observar per\'iodos de descanso lo suficientemente largos como para considerar
+que la bater\'ia alcanz\'o la estabilidad qu\'imica, por lo tanto, presentando
+una lectura de voltaje equivalente al \acrshort{OCV}. Esta informaci\'on del 
+\acrshort{OCV} durante el ensayo, permite relacionar la tensi\'on de circuito 
+abierto de la celda con el estado de carga para los distintos pulsos de la 
+curva. \'Esta variable resulta de gran importancia para parametrizar y ajustar
+los distintos par\'ametros del modelo, porque representa la fuente de voltaje
+controlada por el \acrshort{SOC} de la Figura \ref{randles_2rc}.
+
+Para obtener estos puntos, se lee el voltaje en los puntos donde se detect\'o un
+flanco negativo en la Secci\'on \ref{flank_seg}, obteniendo la curva de la
+Figura \ref{ocv_detection}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.7\textwidth]{soc_detection}
+        \caption{En naranja se muestra el \acrshort{OCV} en la que se observa
+        que toma el mismo valor de voltaje antes de que ocurra el flanco
+        negativo en la celda, y en azul la curva \acrshort{HPPC} original}
+        \label{ocv_detection}
+    \end{center}
+\end{figure}
+
+Relacionando estos resultados con los datos obtenidos en la Figura 
+\ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
+controlada por \acrshort{OCV} del esquem\'atico en la Figura \ref{randles_2rc}.
+Esta curva se puede observar en la Figura \ref{ocv_vs_soc}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.7\textwidth]{ocv_vs_soc.eps}
+        \caption{Curva \acrshort{OCV} en relaci\'on al \acrshort{SOC}, que
+        representa el funcionamiento de la fuente de voltaje controlada por
+        \acrshort{SOC} en el esquem\'atico de Randles.}
+    \end{center}
+\end{figure}
+
+\subsubsection{Algoritmo recursivo de optimizaci\'on}
+
+\newpage
+
+\subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}
+
+Como se detalla en la Secci\'on \ref{algSoc}, el \acrshort{SOC} y su
+estimaci\'on son factores claves para el diseño y desarrollo de un
+\acrshort{BMS} apropiado para nuestra aplicaci\'on en particular. Como el mismo
+solo puede ser estimado, la misma debe ser robusta con respecto a:
+
+\begin{itemize}
+    \item Valor de \acrshort{SOC} incorrecto.
+    \item Ruido y \emph{offset} en la medici\'on.
+    \item Dispersi\'on de par\'ametros entre celdas provenientes del mismo
+        fabricante.
+\end{itemize}
+
+Tambi\'en se menciona anteriormente la gran variedad de algoritmos disponibles
+para realizar la estimaci\'on de esta variable no medible en tiempo real. En el
+presente trabajo se desarrollaron dos algoritmos, uno basado en un filtro
+observador, como lo es el Filtro de Kalman y otro algoritmo basado en redes
+neuronales, cuyo desarrollo se describe a continuaci\'on.
+
+\subsubsection{Algoritmo basado en el Filtro de Kalman}
+
+El algoritmo de estimaci\'on del \acrshort{SOC} se basa en el uso 
+de un Filtro de Kalman Extendido en conjunto con el modelo desarrollado en la 
+Secci\'on \ref{dev_batt_model}. Como se detalla en la Secci\'on
+\ref{kalmanFilterMethod}, en conjunto con el desarrollo matem\'atico del
+m\'etodo en el Anexo \ref{matKalman}, el proceso consiste en obtener un modelo
+en ecuaciones de estados del sistema en cuesti\'on e identificar la variable a 
+observar para poder implementar el algoritmo del filtro.
+
+\subsubsubsection{Modelo de la celda en ecuaciones de estados}
+
+Para la implementaci\'on de este algoritmo es necesario obtener un modelo en
+espacio de estados de la celda, como se muestra en el siguiente sistema de
+ecuaciones \emph{(Ecs. \ref{ss_model_generic})}:
+
+\begin{align}
+    \dot{x}(t) = Ax+Bu	\nonumber\\
+    y(t)=Cx+Du
+    \label{ss_model_generic}	
+\end{align}
+
+partiendo del modelo desarrollado en la Secci\'on \ref{dev_batt_model}, la
+salida del mismo es descripto por la Ecuaci\'on \ref{v_out_randles},
+
+\begin{equation}
+    v(t) = v_{OCV}(SOC) - \left[i(t) \times R_0\left(SOC\right)  + v_{C_1}\left(t,
+    SOC\right) + v_{C_2}\left(t, SOC\right)\right] \label{v_out_randles}
+\end{equation}
+
+\newpage
+
+\noindent La fuente de tensión controlada $V_{OCV}(SOC)$ es linealizada para 
+cumplir con la exigencia del filtro en utilizar un modelo linealizado sobre un
+punto de operaci\'on, en este caso, se obtiene una Ecuaci\'on de la forma
+\ref{ocv_linearized}, cuyos parametros son optimizados con el uso de la
+librer\'ia \emph{polyfit} de \emph{Matlab} y los datos obtenidos en la etapa de
+pre-procesamiento descripta en la Secci\'on \ref{data_preprocessing}. En la 
+Figura \ref{soc_linealized} se observa el resultado de la linealizaci\'on y
+parametrizaci\'on de la curva.
+
+\begin{equation}
+    v_{OCV}(SoC) = SoC \times K_e + V_{OCV_0} 
+    \label{ocv_linearized}
 \end{equation}
 
 \begin{figure}[h!]
     \begin{center}
 	\includegraphics[width=1\textwidth]{SOC_vs_OCV.eps}
-	\caption{Curva de SOC vs OCV con su correspondiente linealización }
-	\label{SOC_vs_OCV}
+    \caption{Curva comparativa de \acrshort{OCV} en base al \acrshort{SOC} 
+    entre la versi\'on linealizada (azul) y la no-linealizada (naranja).} 
+	\label{soc_linealized}
     \end{center}
 \end{figure}
 \FloatBarrier
 
-Nuestro modelo eléctrico tiene 2 grados de libertad y se agrega una 3° variable
-de estado que es el estado de carga de la batería. Luego tomando la expresión
-diferencial de la ecuación \ref{SOC_Coulomb_C}, seleccionando arbitrariamente
-las tensiones en $C_1$ y $C_2$, y tomando como entrada del sistema la corriente
-de la batería y como salida la tensión en bornes de la misma obtenemos el
-siguiente conjunto de ecuaciones \ref{SS_model_eq}.
+Reemplazando \ref{ocv_linearized} en \ref{v_out_randles}, se obtiene la
+Ecuaci\'on \ref{v_out_randles_linearized},
 
 \begin{equation}
-    \begin{array}{llcllcl}
-	\dot{x} & = & \begin{bmatrix}
-	    -\frac{1}{R_1 C_1} &            0       & 0 \\
-	    0                  & -\frac{1}{R_2 C_2} & 0 \\
-	    0                  &            0       & 0 \\
-	\end{bmatrix} & x & + &     \begin{bmatrix}
-	    -\frac{1}{C_1} \\
-	    -\frac{1}{C_2}  \\
-	    -\frac{1}{3600 S_{C,a}}\\
-	\end{bmatrix} & i \\
-	\\
-	y & = & \begin{bmatrix}
-	    -1-1-K_e 
-	\end{bmatrix} & x & + & \begin{bmatrix}
-	    R_0
-	\end{bmatrix} & i \\
-    \end{array}
-	\label{SS_model_eq}
+    v(t) = SoC \times K_e + V_{OCV_0} - \left[i(t) \times R_0\left(SOC\right) 
+        + v_{C_1}\left(t, SOC\right) + v_{C_2}\left(t, SOC\right)\right] 
+    \label{v_out_randles_linearized}
 \end{equation}
 
-Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería. 
+Dado que la Ecuaci\'on \ref{v_out_randles_linearized} representa la salida del 
+sistema, esta Ecuaci\'on es el equivalente a la expresi\'on de $y(t)$ en el 
+sistema de ecuaciones de estado \emph{(Ec. \ref{ss_model_generic})}
 
-Para hacer un ajuste de parámetros de las baterías se utilizó un dataset
-provisto por la universidad de Winsconsin-Madison por el Dr. Phillip Kollmeyer
-\cite{Kollmeyer2018}. si bien todos los parámetros son dependientes del estado
-de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones mas
-fuertes de los mismos se dan al entre el 0-10\% y en valores cercanos al 100\%
+Por lo tanto, la expresi\'on de $y(t)$ en el sistema de Ecuaciones
+\ref{ss_model_generic} es reemplazado por la Ecuaci\'on \ref{v_out_randles}, que
+a su vez se desarollada matricialmente, como se puede observar en la
+Ecuaci\'on \ref{v_out_randles_mat},
+
+\begin{equation}
+    y(t) = v(t) = \begin{bmatrix} -1 -1 -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{v_out_randles_mat}
+\end{equation}
+
+a partir de esta expresi\'on se puede deducir que las variables de estado 
+($x(t)$) es el voltaje en ambos capacitores ($\mathrm{V_{C_1}}$ y 
+$\mathrm{V_{C_2}}$) y el \acrshort{SOC} de la bater\'ia, por otro lado, la 
+variable de entrada es la corriente ($i(t)$) y la matriz D es $R_0(SoC)$, 
+obteniendo el siguiente sistema de ecuaciones de estados 
+\emph{(Ec. \ref{randles_ss_incomplete})}
+
+\begin{align}
+    \begin{bmatrix}
+        \dot{V}_{C_1}(t, SoC) \\ \dot{V}_{C_2}(t, SoC) \\ \dot{SoC}(t)
+    \end{bmatrix} &= 
+    A\times\begin{bmatrix}V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t)\end{bmatrix}
+    +
+    D\times i(t)\nonumber \\
+    v(t) &= \begin{bmatrix} -1 -1 -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{randles_ss_incomplete}
+\end{align}
+
+el \acrshort{SOC} es calculado por el m\'etodo de acumulaci\'on de
+corriente, cuya expresi\'on se observa en la Ecuaci\'on
+\label{soc_mod_integration},
+
+\begin{equation}
+    SoC(t) = SoC_{0}  - \int \frac{i\left(t\right)}{3600 S_{c,a}} dt
+    \label{soc_mod_integration}
+\end{equation}
+
+donde $\mathrm{S_{c,a}}$ es la capacidad actual de la bater\'ia medido en
+Ampere-hora [Ah]. Derivando miembro a miembro, se obtiene la Ecuaci\'on
+\ref{soc_mod_integration_der},
+
+\begin{equation}
+    \dot{SoC}(t) = - \frac{i(t)}{3600S_{c,a}}\label{soc_mod_integration_der}
+\end{equation}
+
+Por otro lado, para determinar las expresiones de $V_{C_1}(t)$ y $V_{C_2}(t)$,
+se analiza el circuito RC paralelo \emph{(Fig. \ref{tanque_rc})},
 
 \begin{figure}[h!]
     \begin{center}
-	\includegraphics[width=0.85\textwidth]{rta_escalon.eps}
-	\caption{Estudio de la Rta al escalón para estimación de parámetros}
-	\label{rta_escalon}
+        \begin{circuitikz}[american]
+            \draw (1, 0) to[short,i=$i$] (2, 0);
+            \draw (2,0) -- (2,-1) -- (3, -1) to[R=$R_1$] (5,-1) 
+            to[short,i=$i_1$] (6, -1) -- (6,0);
+            \draw (2,0) -- (2, 1) -- (3, 1) to[C=$C_1$,v=$V_{C1}$] 
+            (5, 1) to[short,i=$i_2$] (6, 1) -- (6,0) -- (7, 0);
+        \end{circuitikz}
+        \caption{Circuito RC paralelo}
+        \label{tanque_rc}
     \end{center}
 \end{figure}
-\FloatBarrier
 
-También se necesita proporcionar valores de Varianza del modelo, ruido al que
-están sometidas las variables medibles, el estado inicial estimado y la varianza
-de esta estimación estas son denominadas Q,R,$x_0$ y $P_0$ respectivamente.
+partiendo de la Ecuaci\'on de carga de un capacitor, la ley de Kirchhoff de
+corrientes y la ley de Ohm se obtiene el siguiente sistema de ecuaciones
+\emph{(Ecs. \ref{cap_sist_eq})},
 
-\noindent Partiendo de la base que nuestro sistema debe ser robusto ante la mala
-estimación inicial del estado de carga vamos a proponer un vector de estimación
+\begin{align}
+    i_2(t) &= C_1 \dot{v}_{C_1}(t)\nonumber\\
+    i(t) &= i_1(t) + i_2(t)\label{cap_sist_eq}\\
+    v_{c_1}(t) &= R_1i_1(t)\nonumber
+\end{align}
+
+Despejando $i_1(t)$ en la segunda ecuaci\'on de \ref{cap_sist_eq}, reemplazando
+en la tercera ecuaci\'on y reemplazando $i_2(t)$ por la primer expresi\'on,
+obtenemos la Ecuaci\'on \ref{v_cap_reemplazada},
+
+\begin{equation}
+    v_{C_1}(t) = R_1i(t) - R_1C_1\dot{v}_{C_1}(t) \rightarrow 
+    \dot{v}_{C_1}(t) = \frac{i(t)}{C_1} -
+    \frac{v_{C_1}(t)}{R_1C_1}\label{v_cap_reemplazada}
+\end{equation}
+
+Por \'ultimo, reemplazando \ref{soc_mod_integration_der} y
+\ref{v_cap_reemplazada} en el sistema de ecuaciones de estado, en forma
+matricial, finalmente se obtiene el sistema de ecuaciones correspondiente al
+circuito de Randles de segundo orden \ref{ss_randles_complete},
+
+\begin{align}
+    \begin{bmatrix}
+        \dot{V}_{C_1}(t, SoC) \\ \dot{V}_{C_2}(t, SoC) \\ \dot{SoC}(t)
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+        -\frac{1}{R_1C_1} & 0 & 0\\
+        0 & -\frac{1}{R_2C_2} & 0\\
+        0 & 0 & 0
+    \end{bmatrix}
+    \times\begin{bmatrix}V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t)\end{bmatrix}
+    +
+    \begin{bmatrix}
+        \frac{1}{C_1} \\ \frac{1}{C_2} \\ \frac{1}{3600S_{c,a}}
+    \end{bmatrix}
+    \times i(t)\nonumber \\
+    v(t) &= \begin{bmatrix} -1 & -1 & -K_e \end{bmatrix} \times 
+    \begin{bmatrix} V_{C_1}(t, SoC) \\ V_{C_2}(t, SoC) \\ SoC(t) \end{bmatrix} +
+    \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{ss_randles_complete}
+\end{align}
+
+\newpage
+
+\subsubsubsection{Criterio de observabilidad}
+
+Linealizado el sistema y obtenido el sistema de ecuaciones del modelo
+el\'ectrico de Randles, solo resta determinar si el sistema es observable. Un
+sistema de ecuaciones de estados es observable, si y solo si, su matriz de
+observabilidad es observable, es decir, si su determinante es diferente a cero y
+la matriz de observabilidad tiene un rango n (orden del sistema). La matriz de 
+observabilidad est\'a dada por la Ecuaci\'on \ref{observation_matrix},
+
+\begin{equation}
+    O = \begin{bmatrix}
+        C\\
+        CA\\
+        CA^2\\
+        \vdots\\
+        CA^{n-1}
+        \end{bmatrix}\label{observation_matrix}
+\end{equation}
+
+En este caso, n es igual a tres, dado que el modelo de Randles es un sistema de 
+segundo \'orden, por lo tanto, la matriz O est\'a dada por la Ecuaci\'on 
+\ref{obs_matrix_randles},
+
+\begin{equation}
+    O = \begin{bmatrix}
+        -1 & -1 & -K_e \\
+        \frac{1}{R_1C_1} & \frac{1}{R_2C_2} & 0 \\
+        \frac{1}{\left(R_1C_1\right)^2} & \frac{1}{\left(R_2C_2\right)^2} & 0
+        \end{bmatrix}\label{obs_matrix_randles}
+\end{equation}
+
+aplicando el determinante de una matriz sobre la Ecuaci\'on
+\ref{obs_matrix_randles} obtenemos la expresi\'on \ref{det_obs_matrix_randles}
+
+\begin{align}
+    det\left(O\right) &= 0 + 0 -K_e \frac{1}{R_1C_1\left(R_2C_2\right)^2} + 
+                        K_e \frac{1}{R_2C_2\left(R_1C_1\right)^2} - 0 -
+                        0\nonumber\\
+                      &= K_e \left(\frac{1}{R_2C_2\left(R_1C_1\right)^2} - 
+                                   \frac{1}{R_1C_1\left(R_2C_2\right)^2}\right)
+                                   \label{det_obs_matrix_randles}
+\end{align}
+
+Por lo tanto la matriz O es observable, si y solo si, se cumple que los
+par\'ametros de los circuitos RC del modelo de Randles no sean iguales, ya que
+en caso contrario la determinante ser\'ia igual a cero. Por otro lado, se observa
+claramente que la matriz O es de dimensi\'on 3x3, por lo tanto es una matriz de
+orden 3, concluyendo finalmente que el sistema de Randles es observable, por 
+ende, se puede implementar el Filtro de Kalman para determinar el \acrshort{SOC} 
+de la celda.
+
+Finalmente, considerando un sistema de ecuaciones de la siguiente forma \emph{(Ecs.
+\ref{ss_with_noise})},
+
+\begin{align}
+    \dot{x} = Ax + Bu + \eta_x\nonumber\\
+    y = Cx + Du + \eta_y\label{ss_with_noise}
+\end{align}
+
+donde $\eta_x$ y $\eta_y$ es ruido Gaussiano que afecta el estado y la salida
+del sistema, si se cumplen que:
+
+\begin{itemize}
+    \item El sistema de Ecuaciones \ref{ss_with_noise} es estoc\'astico.
+    \item $\eta_x$ y $\eta_y$ son variables representadas por ruido gaussiano
+        con media cero y varianzas $Var\left(\eta_x(t)\right) = Q$,
+        $Var\left(\eta_y(t)\right) = R$ y la covarianza entre ambas variables
+        est\'a dada por $Cov\left(\eta_x(t), \eta_y(y)(t)\right) = N$.
+    \item el estado inicial es un vector gaussiano con covarianza
+        $Cov\left(x(0)\right) = P_0$ y media $\E\left(x(0)\right) = x_0$
+\end{itemize}
+
+es posible considerar el siguiente observador \emph{(Eq. \ref{ss_kalman_gain})}:
+
+\begin{align}
+    \dot{\hat{x}} &= A\hat{x} + Bu + K(t)(y - \hat{y})\nonumber\\
+    \hat{y} &= C\hat{x} + Du \label{ss_kalman_gain}
+\end{align}
+
+donde $K(t)$ es la ganancia de Kalman, cuyo objetivo, como se menciona en la
+secci\'on \ref{KalmanFilterMethod}, es minimizar la covarianza del error de
+estimaci\'on. 
+
+\newpage
+
+Para poder implementar el sistemas de ecuaciones en \ref{ss_kalman_gain} sobre
+el modelo de Randles es necesario proveer las matrices que proporcionan valores 
+de varianza sobre las incertezas del modelo (Q) como tambi\'ien los valores de
+varianza sobre el ruido al que est\'an sometidas las variables de medici\'on
+(R), por el otro lado, tambi\'en es necesario proveer el estado inicial del
+sistema ($x_0$) como tambi\'en su covarianza inicial ($P_0$)
+
+Partiendo de la base que nuestro sistema debe ser robusto ante la mala
+estimación inicial del estado de carga se propone un vector de estimación
 de estado inicial con un SoC con un error de 80\%.
 
 \begin{equation}
@@ -3758,7 +4238,7 @@ de estado inicial con un SoC con un error de 80\%.
     \end{array} \nonumber
 \end{equation}
 
-\noindent El ciclo de la bateria esseleccionado comienza con la batería cargada
+\noindent El ciclo de la bateria es seleccionado comienza con la batería cargada
 al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el estado de
 carga relativo.
 
@@ -4920,7 +5400,7 @@ matem\'aticamente en la Ecuaci\'on \ref{mle}.
 \end{equation}
 
 Asumiendo que el ruido aditivo es Gaussiano con una desviaci\'on estandard
-$\mathrm{\sigma_k}$, obtenemos la Ecuaci\'on \label{probabilidad_y_x};
+$\mathrm{\sigma_k}$, obtenemos la Ecuaci\'on \ref{probabilidad_y_x};
 
 \begin{equation}
     P\left(y_k|\hat{x}_k\right) = K_ke^{\left(- \frac{(y_k - a_k\hat{x}_k)^2}{2\sigma^2_k}\right)} \label{probabilidad_y_x}
@@ -5247,7 +5727,5 @@ Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right
 \addcontentsline{toc}{section}{Tabla de Abreviaturas}
 \glsaddall
 \printnoidxglossary[type=\acronymtype,title={Abreviaturas}]
-
-
 
 \end{document}
