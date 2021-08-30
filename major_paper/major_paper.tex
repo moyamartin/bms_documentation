@@ -3624,13 +3624,20 @@ caracter\'isticas:
 
 \subsection{Modelo de la celda de litio-ion}\label{dev_batt_model}
 
-Para poder desarrollar el algoritmo de ecualizaci\'on y estimaci\'on de
-\acrshort{SOC}, es necesario obtener un modelo que permita representar de forma
-matem\'atica el comportamiento de una celda NRC18650PF. Para tal fin se
-desarrolla un modelo basado en un circuito el\'ectrico con 2 elementos RC en
-serie, tambi\'en conocido como modelo de Randles de segundo orden, que se
-encuentra representado por el esquem\'atico de la Figura \ref{randles_2rc} cuya
-parametrizaci\'on se describe en la Secci\'on \ref{param_18650pf}.
+Contar con un modelo matemático preciso que describa fehacientemente el
+comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
+para la implementación exitosa de los algoritmos de estimación del
+\acrshort{SOC} y de ecualización basados en el filtro de Kalman.
+
+El modelado de una celda de litio puede ser abordado desde distintas
+perspectivas y con difetentes herramientas matemáticas de acuerdo a los fines
+que se persigan. La necesidad de conjugar un modelo de exactitud elevada que no
+represente una carga computacional imposible de procear en tiempo real en un
+microcontrolador nos ha llevado a adoptar un modelo de segundo orden basado en
+un circuito eléctrico siguiendo \cite{spagnol_kalman}, también conocido como
+modelo de Randles de segundo orden, que se encuentra representado por el
+esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
+en la Secci\'on \ref{param_18650pf}.
 
 \begin{figure}[h!]
     \begin{center}
@@ -3643,13 +3650,32 @@ parametrizaci\'on se describe en la Secci\'on \ref{param_18650pf}.
         \draw (4,0) to[short] (5, 0) -- (5, 1) to[C=$C_2$,v=$V_{C2}$] (7, 1) -- (7, 0);
 		\draw (5,0) -- (5,-1) to[R=$R_2$] (7,-1) -- (7,0) to[short,f=$i$] (8,0);
         \draw (0,0) to[battery2=$V_{OCV}(SOC)$] (0,-3) -- (8,-3); 
-        \draw  (8,0) to [open,v=$V_{out}v$,invert] (8,-3);
+        \draw  (8,0) to [open,v=$V_{out}$,invert] (8,-3);
 	    \end{circuitikz}
         \caption{Circuito de Randles de Segundo Orden.}
         \label{randles_2rc}
     \end{center}
 \end{figure}
 \FloatBarrier
+
+De acuerdo a la figura \ref{randles_2rc}, la salida del modelo es descripta por
+la ecuación \ref{eq:Vout_randles_2rc}
+
+\begin{equation}
+    V_{out}(t)=V_{OCV}(SOC)-(V_{R0}(t)+V_{C1}(t)+V_{C2}(t))
+    \label{eq:Vout_randles_2rc}
+\end{equation}
+
+El modelo puede ser reescrito en el dominio de la transformada de Laplace como: 
+
+\begin{align}
+    \begin{split}
+    V_{out}(t)&=V_{OCV}(SOC)-(R_{0}+\frac{R_{1}}{(1+sR_{1}C_{1})}\frac{R_{2}}{(1+sR_{2}C_{2})})i(t)\\
+    &=V_{OCV}(SOC)-(R_{0}+\frac{K_{p}(1+sT_{2})}{(1+sT_{P1})(1+sT_{P2})})i(t)\\
+    &=V_{OCV}(SOC)-R_{0}i(t)-G(s)i(t)
+    \end{split}
+       \label{eq:L_Vout_randles_2rc}
+\end{align}
 
 \subsubsection{Parametrizaci\'on del modelo}\label{param_18650pf}
 
