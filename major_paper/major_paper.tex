@@ -3,7 +3,7 @@
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
 \usepackage[spanish]{babel}
-\usepackage[toc, page]{appendix}
+\usepackage{hyphsubst} \usepackage[toc, page]{appendix}
 \usepackage[utf8]{inputenc}
 \usepackage[version=4]{mhchem}
 \usepackage{alltt}
@@ -27,6 +27,7 @@
 \usepackage{upgreek}
 \usepackage{xfrac}
 
+
 \usetikzlibrary{arrows, decorations.markings, positioning}
 
 \addbibresource{major_paper.bib}
@@ -36,6 +37,11 @@
 %\usepackage{draftwatermark}
 %\SetWatermarkText{ DRAFT }
 %\SetWatermarkScale{5}
+
+% if definition for section compilling control
+\newif\ifdebug
+%\debugtrue
+\debugfalse
 
 \setlength{\parskip}{0.6em}
 
@@ -103,6 +109,12 @@
 \newacronym{VBES}{VBES}{Voltage-based equalization strategy}
 \newacronym{VE}{VE}{vehículo eléctrico}
 \newacronym{VVEE}{VVEE}{vehículos eléctricos}
+\newacronym{hri}{HRI}{human-robot interactions}
+\newacronym{lstm}{LSTM}{Long Short-Term Memory}
+\newacronym{rnn}{RNN}{Recurrent Neural Network}
+\newacronym{CI}{CI}{Circuito Integrado}
+\newacronym{FOM}{FOM}{Figure-of-merit}
+\newacronym{DPM}{DPM}{}
 \newacronym{EVEA}{EVEA}{Extreme Value Equalization Algorithm}
 \newacronym{AVAE}{AVAE}{Average Value Equalization Algorithm}
 
@@ -181,6 +193,10 @@ Escuela de Ingeniería Electrónica}
 
 \begin{document}
 
+\ifdebug
+DebugOn
+\newpage
+\else
 \begin{titlepage}
     \begin{center}
 	\begin{minipage}{.45\textwidth}
@@ -2128,7 +2144,7 @@ envejecimiento, la temperatura y el efecto de hist\'erisis.
     \end{center}
 \end{figure}
 
-\subsection{Proceso de Carga} 
+\subsection{Proceso de Carga}\label{sec:tecnica_carga}
 
 El proceso de carga de una \acrfull{Ion-Li} no es trivial. Aplicar una tensión
 constante en  bornes, como podríamos proceder con baterias de plomo ácido, no es
@@ -3353,7 +3369,7 @@ implementar los distintos componentes del sistema en un sistema f\'isico real.
 
 Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
 controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
-compuesto por 3 celdas de litio-ion conectadas en serie. En este caso, el pack
+compuesto por 3 celdas de litio-ion conectadas en paralelo. En este caso, el pack
 de bater\'ias est\'a conformado por celdas de litio-ion modelo NCR18650PF. La
 arquitectura del pack se puede observar en la Figura \ref{pack_bateria} y una
 im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
@@ -3451,20 +3467,21 @@ im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \subsubsection{Celda NCR18650PF}
 
-La celda de litio-ion 18650, son bater\'ias utilizadas originalmente en
-bater\'ias de notebooks pero su uso se expandi\'o hasta ser implementados en
-\acrshort{VVEE}s. \'Estas bater\'ias se caracterizan por su tamaño reducido de
-18mm de di\'ametro por 65mm de alto y, en el mercado actual, se pueden encontrar
-muchas versiones del modelo debido a que cada uno posee una composici\'on
-qu\'imica diferente, dando lugar a distintas caracter\'isticas de capacidad y
-voltaje, que se descrien a continuaci\'on:
+La celda de litio-ion 18650 fue originalmente diseñada para ser utilizada en
+bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
+expandi\'o hasta ser implementados en \acrshort{VVEE}s. \'Estas bater\'ias se
+caracterizan por su tamaño reducido de 18mm de di\'ametro por 65mm de alto,
+caracteristicas que le dan su nombre. En el mercado actual, se pueden encontrar
+diferentes versiones del mismo modelo debido a que cada uno posee una
+composici\'on qu\'imica diferente, dando lugar a las distintas caracter\'isticas
+de capacidad y voltaje que se descrien a continuaci\'on:
 
 \begin{itemize}
     \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
         IFR, LFP o Li-fosfato.
     \item \textbf{LiMn2O4}: Oxido de litio manganesio o tambi\'en conocidas como
         IMR, LMO o Li-manganesio.
-    \item \texbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
+    \item \textbf{LiNiMnCoO2}: Litio manganesio n'iquel o tambi\'en conocidas como
         INR o NMC
     \item \textbf{LiNiCoAl)2}: Oxido de Litio n'iquel cobalto aluminio o
         tambi\'en conocidas como NCA o Li-aluminio.
@@ -3475,7 +3492,7 @@ voltaje, que se descrien a continuaci\'on:
 \end{itemize}
 
 En este caso, la celda NCR18650PF se caracteriza por su cátodo, cuya composición 
-química se basa en el óxido de litio n'iquel cobalto aluminio 
+química se basa en el óxido de litio níquel cobalto aluminio 
 ($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus 
 carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
 
@@ -3549,11 +3566,11 @@ simulaciones. En la Figura \ref{pack_bat_foto} se puede observar
 
 El pack de bater\'ias es ensamblado utilizando soportes encastrables \emph{(Fig.
 \ref{soporte_18650})} impresos utilizando una impresora 3D, donde cada celda es
-conectada entre s\'i utilizando una banda de n'iquel y la conexi\'on es realizada 
+conectada entre s\'i utilizando una banda de níquel y la conexi\'on es realizada 
 por una soldadora de puntos manual. Esto es debido a dos motivos importantes, en 
 primer instancia el tiempo en la aplicaci\'on de temperatura, por parte de la 
 soldadura de puntos, es muy corto evitando problemas t\'ermicos de la celda 
-durante el proceso de ensamblado. Por el otro lado, la banda de n'iquel tiene 
+durante el proceso de ensamblado. Por el otro lado, la banda de níquel tiene 
 propiedades que benefician al ensamblado del pack, por ejemplo:
 
 \begin{itemize}
@@ -3586,20 +3603,20 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
 	\begin{center}
         \includegraphics[width=.9\textwidth]{battery_top.png}
 	\end{center}
-    \caption{Im\'agen superior del pack de bater\'ias 6s3p. 
+    \caption{Imagen superior del pack de bater\'ias 6s3p. 
     }
 	\label{battery_top}
     \end{subfigure}%
     \begin{subfigure}[b]{.3\textwidth}
 	\centering
 	\includegraphics[width=.9\textwidth]{battery_bot.png}
-	\caption{Im\'agen inferior del pack de bater\'ias 6s3p.}
+	\caption{Imagen inferior del pack de bater\'ias 6s3p.}
 	\label{battery_bot}
     \end{subfigure}
     \begin{subfigure}[b]{.3\textwidth}
 	\centering
 	\includegraphics[width=.9\textwidth]{batt_side.png}
-	\caption{Im\'agen lateral del pack de bater\'ias 6s3p. En esta foto se puede
+	\caption{Imagen lateral del pack de bater\'ias 6s3p. En esta foto se puede
     apreciar el conector JST}
 	\label{battery_side}
     \end{subfigure}
@@ -3608,7 +3625,7 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
 
 \newpage
 
-\subsection{Modelo de la celda de litio-ion}
+\subsection{Modelo de la celda de Litio-Ion}
 
 Antes de desarrollar el algoritmo de ecualizaci\'on y estimaci\'on de
 \acrshort{SOC}, es necesario obtener un modelo que permita representar de forma
@@ -3838,59 +3855,6 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 \end{figure}
 \FloatBarrier
 
-
-\subsubsection{Tecnología Seleccionada}
-
-Para un completo control del perfil de carga ariba descripto es que
-seleccionamos circuito integrado \emph{bq24610} de la firma \emph{Texas
-Instrument}.
-
-El \emph{bq24610} es un circuito altamente integrado que implementa un cargador
-de \acrfull{Ion-Li} o \acrfull{Li-Po} y capaz de operar de forma independiente o
-stand-alone. Emplea un controllador de corriente y de tensión sincrónico
-switching PWM de frecuencia constante y de alta resolución del tipo buck cuya
-topología simplificada puede observarse en la figura \ref{fig:simp_sch_char}. 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{bat_char/simp_sch_char.png}
-    \caption{Esquema simplificado Cargador de Batería}
-    \label{fig:simp_sch_char}
-\end{figure}
-\FloatBarrier
-
-El mismo admite la conexión de hasta 6 celdas en serie con una tensión y
-corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salída
-de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
-la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
-El empaquedato del mismo es del tipo VQFN.
-
-
-\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se
-encuentran conectadas en serie, el voltaje de una celda no siempre coincide con
-la tensión equivalente del pack de baterías dividido por el número de celdas. 
-
-\noindent La ecualización de celdas es una técnica en la cual se trata de
-mantener los niveles de voltaje entre las celdas que conforman la cadena
-conectada en serie de un pack de baterías de forma homogénea, es decir, que los
-niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de
-maximizar la eficiencia del pack de baterías.
-
-\noindent El desbalance más típico generalmente se manifiesta en una variación
-en el voltaje entre éstas, que puede ser corregido instantáneamente o
-gradualmente conectando cargas externas en paralelo, a través de sus
-correspondientes transistores, provocando una corriente de descarga adicional
-que pueden ir desde miliamperes hasta varios Amperes, dependiendo del
-dimensionamiento energético del pack de baterías. Sin embargo, este desbalance
-en tensión es, por lo general, dado por desbalances químicos o distintas
-dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no
-esté claramente definido provocando más perjuicios que beneficios al sistema
-completo.  De hecho, la mayoría de las metodologías basadas en el desbalance de
-voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
-
-\noindent Por lo tanto es necesario conocer la naturaleza de los distintos tipos
-de desbalances, los cuales son descriptos a continuación:
-
 \subsubsection{Tecnología Seleccionada - INA226}
 
 Frente a los requerimientos y la naturaleza de un \acrshort{BMS} hemos
@@ -3946,28 +3910,44 @@ modelo.
 
 (insertar somewhere):
 \subsection{Tiempo de Muestreo}
-Al trabajar con estrategias de control basadas en microcontroladores y sensores digitales nos encontramos con la necesidad de discretizar los procesos y tener en cuenta los tiempos de muestreo.
+Al trabajar con estrategias de control basadas en microcontroladores y sensores
+digitales nos encontramos con la necesidad de discretizar los procesos y tener
+en cuenta los tiempos de muestreo.
 
-El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá reconstruir la señal sin perder información.
-Por el contrario, si la señal y la frecuencia de muestreo no son las adecuadas se produciría \emph{aliasing}.\\
+El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la
+frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo
+cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de
+muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá
+reconstruir la señal sin perder información \cite{Nyquist1928},
+\cite{Shannon1949}.  Por el contrario, si la señal y la frecuencia de muestreo
+no son las adecuadas se produciría \emph{aliasing}.
+
 \begin{equation}
 	f_s > 2 F_{MAX}
 	\label{nyquist_condition}
 \end{equation}
 
+Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de
+nuestro sistema en espacio de estados, podemos calcular los valores de los polos
+sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.
 
-Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de nuestro sistema en espacio de estados, podemos calcular los valores de los polos sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.\\
-Además, la matriz de evolución de nuestro sistema es diagonal por lo que los autovalores y subsecuentemente los polos se corresponden con los elementos $A_{nn}$ con $n=\{1;2;3\}$.\\ 
+Además, la matriz de evolución de nuestro sistema es diagonal por lo que los
+autovalores y subsecuentemente los polos se corresponden con los elementos
+$A_{nn}$ con $n=\{1;2;3\}$.
 
-Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación \ref{eq_polo_rapido}, el valor del polo más rapido:
+Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las
+todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación
+\ref{eq_polo_rapido}, el valor del polo más rapido:
 
      \begin{equation}
      	MAX  \left \|A_{nn}(Soc)\right \| = \omega = 6.6379 rad/s
      	\label{eq_polo_rapido}
      \end{equation}
 
-
-Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en \ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo $f_{smin}$ de la ecuación \ref{nyquist_condition2}.
+Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula
+según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en
+\ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo
+$f_{smin}$ de la ecuación \ref{nyquist_condition_2}.
 
 \begin{equation}
 	F = \frac{\omega}{2 \pi} = 1.056 Hz
@@ -3979,7 +3959,9 @@ Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula se
 	\label{nyquist_condition_2}
 \end{equation}
 
-En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente con los calculos previos.\\
+En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
+ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente
+con los calculos previos.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -3988,23 +3970,853 @@ En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
 		\label{system_bode}
 	\end{center}
 \end{figure}
+\FloatBarrier
 
-Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.\\
+Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
+sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
+sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
 
+\subsection{Interruptor de desconexión entre batería y el Vehículo}
 
-\clearpage
+Uno de los objetivos principales del BMS es el de garantizar la seguridad del
+pack, del usuario y del vehículo eléctrico. Para tal propósito el sistema debe
+contar con un interruptor que permita a la batería salir de servicio si las
+condiciones de seguridad no se cumplen en su totalidad.
 
+Para el diseño del interruptor se tiene en cuenta las características del
+sistema las cuales son:
 
+\begin{itemize}
+	\item Tensión de bloqueo = 25V
+	\item Corriente Máxima = 15A
+\end{itemize}
 
-%\subsection{Implementación Circuito Cargador}
+\subsubsection{Caracteristicas de un MOSFET en conmutación}
 
-% La carga del pack de batería no es un proceso trivial y la extensión de la
-% vida util del mismo depende profundamente de poder controlar el mismo con
-% detalle. 
+Si bien los dispositivos semiconductores de potencia generalmente son modelados
+como interruptores ideales, los mismos poseen características que los dista de
+la perfección, como lo son las resistencias intrínsecas, capacidades parásitas,
+etc.
 
-% El control completo de la operación del pack de batPoder controlar Extender la
-% vida util del pack de baterías no es un tema trivial como ya hemos expuesto
-% anteriormente. El balanceo de carga es
+Por estas caracteristicas los tiempos de apagado y encendido o tiempos de
+conmutación no son nulos y se tienen que tener en cuenta en aplicaciones de alta
+frecuencia.Si bien la aplicación en particular no es de alta frecuencia, se
+propone minimizar el tiempo de apagado para que la desconexión de la batería y
+la carga sea prácticamente instantanea y lleve al sistema a un estado de
+seguridad rapidamente evitando así posibles daños en el equipo.
+
+Los transistores que funcionan como interruptores trabajan principalmente en 2
+estados, en conducción y en corte (particularmente los mosfet en región ohmníca
+y región de corte),al conmutar, sin embargo, se pasa brevemente por el estado de
+saturación lo que se debe tener en cuenta para entender los fenómenos asociados
+a los tiempos de apagado y encendido.
+
+Para analizar el comportamiento durante la conmutación se debe  tener en cuenta
+los modelos en los estados por los cuales transiciona el transistor, los mismos
+se muestran en la figura \ref{modelo_mosfet}. 
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{minipage}[c]{0.95\textwidth}
+			\centering
+			\begin{circuitikz}[american]
+				%Zona ohmnica
+				\draw (7,2) 	to [short,-*]					(7,2.4) node[above] {D};
+				\draw (5,2)	to [short]							(7,2);
+				\draw (7,2) 	 -- 							(7,1);
+				\draw (7,1) 	to [R,l=$R(V_{GS})$] 			(7,-1);
+				\draw (5,0) 	to [C = $C_{GD2}$]   			(5,2);
+				\draw (5,-2) 	to [C = $C_{GS}$]				(5,0);
+				\draw (4.5,0) 	node[above] {G} to [short,*-]	(5,0);
+				\draw (7,-1)    to [short,-*] 					(7,-2.4)node[below] {S};
+				\draw (5,-2)   to [short] 						(7,-2);
+				
+				%Zona saturación
+				\draw (0,2) 	to [short,-*]					(0,2.4) node[above] {D};
+				\draw (-2,2)	to [short]						(0,2);
+				\draw (0,2) 	 -- 							(0,1);
+				\draw (0,1) 	to [isource,l=$I(V_{GS})$] 		(0,-1);
+				\draw (-2,0) 	to [C = $C_{GD1}$]   			(-2,2);
+				\draw (-2,-2) 	to [C = $C_{GS}$]				(-2,0);
+				\draw (-2.5,0) 	node[above] {G} to [short,*-]	(-2,0);
+				\draw (0,-1)    to [short,-*] 					(0,-2.4)node[below] {S};
+				\draw (-2,-2)   to [short] 						(0,-2);
+			\end{circuitikz}
+		\end{minipage}
+	\end{center}
+	\caption{Modelos de transistor mosfet en zonas de saturación y ohmnica respectivamente.}
+	\label{modelo_mosfet}
+\end{figure}
+\FloatBarrier
+
+Por otro lado, respecto a las capacidades intrínsecas del transistor se sabe que
+la capacidad de \emph{gate-source} $C_{GS}$ tiene el mayor valor, y es
+prácticamente constante ya que queda determinada por la geometría del
+\emph{gate} y la metalización del \emph{source}.
+
+La capacidad de \emph{gate - drain}  $C_{GD}$ es la capacidad entre el
+\emph{gate} y la zona n- conductora fuera de la zona de deplexión formada por la
+polarización directa \emph{drain-source}. El dieléctrico de esta capacidad es la
+zona de óxido y la zona empobrecida de portadores contigua a la zona del
+\emph{gate-source}, aproximandose al valor de $C_{GS}$ cuando $V_{DS}= 0V$ y
+disminuyendo rápidamente con $V_{DS}$ creciente. Con tensión $V_{DS}$ del orden
+de la tensión $V_{GS}$ de comando del MOSFET (10-15V) la capacidad es
+aproximadamente 30 veces menor  que con $V_{DS}\approx1V$. Para efectos de
+estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la figura
+\ref{aprox_CGD}.
+
+Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores
+que la tensión de comando de \emph{gate}, $V_{gg1}$, (llave todavía abierta) y
+un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
+(llave cerrándose)\cite{Mohan1989}.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{Capacitor_vs_Vds.pdf}
+		\caption{Variación de las capacidades del MOSFET en base a $V_{DS}$.}
+		\label{aprox_CGD}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{Análisis del tiempo de apagado}
+
+Teniendo en cuenta el punto anterior y que la carga es un motor y no se puede
+ignorar su caracter inductivo surge el siguiente análisis sobre el circuito de
+la fig. \ref{comando_mosfet}:
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{minipage}[c]{0.7\textwidth}
+			\centering
+			\begin{circuitikz}[american]
+				%\draw[step=0.5,green,thin,xshift=0.5cm,yshift=0.5cm] (-6,-6) grid (6,6);
+				\draw (0,5)	to [short]						(1.5,5);
+				\draw (0,2.4)	to [short]						(1.5,2.4);
+				\draw (0,5) 	to [short,-o]				(0,6) node[above] {$V_{bat}$};
+				\draw (0,5) 	to [isource,l=$I_0$] 			(0,2.4);
+				\draw (1.5,2.4)		to [diode]						(1.5,5);
+				%Transistor
+				\draw (0,2) 	to [short,-*]					(0,2.4) node[left] {D};
+				\draw (-2,2)	to [short]						(0,2);
+				\draw (0,2) 	 -- 							(0,0.75);
+				\draw (0,0.27) 	node[nigfete]{};
+				\draw (-2,0)	to [short]						(-0.95,0);
+				\draw (-2,0) 	to [C = $C_{GD}$]   			(-2,2);
+				\draw (-2,-2) 	to [C = $C_{GS}$]				(-2,0);
+				\draw (-2.5,0) 	node[above] {G} to [short,*-]	(-2,0);
+				\draw (0,-0.5)  to [short,-*] 					(0,-2.4)node[left] {S};
+				\draw (0,-2.4)  to (0,-3) 						node[ground]{};
+				\draw (-2,-2)   to [short] 						(0,-2);
+				
+				\draw (-2.5,0)  to [R =$ $]					(-4,0);
+				\node (RG) at (-3.25,0.5){$R_g$};
+				\draw (-4,0) 	to [short,-o]				(-4.5,0) node[above] {$V_{gg}$};
+				
+				\draw (-0.5,0) to[open, v=$V_{GS}$] (-0.5,-2);
+				\draw (0.5,1) to[open, v=$V_{DS}$] (0.5,-1);
+			\end{circuitikz}
+		\end{minipage}
+	\end{center}
+	\caption{Modelos de transistor mosfet en conmutación clampeado por carga inductiva y diodo de freewheeling.}
+	\label{comando_mosfet}
+\end{figure}
+\FloatBarrier
+
+En condiciones de conducción $V_{DS}\approx 0V$, siendo $I_0$ la corriente de la
+carga en el momento de la conmutación, la tensión $V_{DS}$ es estrictamente
+$R_{ds(ON)}I_0$  y $V_{GS}=V_{on}$.
+
+En el momento que $V_{gg}$ pasa de $V_{on}$ a $0V$ las capacidades $C_{gs}$ y
+$C_{gd}$ comienzan a descargar a través de $R_g$ con una evolución exponencial
+con $\tau_1 = R_g (C_{gd2}+C_{gs})$. $C_{gd}$ en este momento posee su mayor
+valor ya que $V_{DS}$ es muy baja.
+
+Esta evolución es cursada hasta que $V_{gs}$ alcanza el valor umbral $V_{gsa}$,
+este valor cumple con la condición $I_D(V_{gsa})=I_0$.
+
+A partir de aquí $V_{DS}$ comienza a aumentar, mientras $C_{gd}$ se carga
+linealmente con corriente $I_g=V_{gsa}/R_g$ en principio con pendiente baja
+$I_g/C_{gd2}$ y para $V_{ds} > V_{gg1}$, siendo $V_{gg1}$ el valor umbral
+mencionado en \ref{aprox_CGD}, con pendiente más alta $I_g/C_{gd1}$.
+
+Es fundamental destacar que la corriente $I_g$ impacta directamente sobre los
+tiempos de apagado, por lo que generalmente se utiliza una resistencia de
+apagado $R_g$ menor para minimizar el tiempo de apagado del dispositivo.
+
+Por último cuando $V_{DS} = V_{bat} + V_{diodo-on} $ el diodo de
+\emph{freewheel} comienza a conducir y la corriente de $I_D$ comienza a
+disminuir, momento en el cual $C_{gs}$ comienza a descargarse a través de $R_g$
+con $\tau_2 = R_g (C_{gd1}+C_{gs})$ hasta que $V_{ds}$ alcanza el valor $V_T$ e
+$I_D = 0A$, $V_{gs}$ continúa decayendo hasta $0V$.\\
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{shutdown_time.pdf}
+		\caption{Evolución temporal del apagado de un MOSFET.}
+		\label{apagado_time}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+Los interruptores pueden ser clasificados, según su interconexión respecto a al
+vehículo o carga y la alimentación o fuente, como \emph{high side} o \emph{low
+side} drivers. La diferencia principal radica en que el primero desconecta la
+carga del borne de mayor potencial de la batería, el positivo, y el otro
+desconecta la carga del borne de menor potencial, el negativo o masa. La figura
+\ref{low_high_driver_sch} muestra los dos tipos de interruptores implementados
+con transistores mosfet.
+
+Los interruptores de tipo \emph{low-side} son generalmente utilizados en cargas
+asociadas a la transmisión de movimiento, como lo son los motores, también
+solenoides y calentadores. Por otro lado, los interruptores de tipo
+\emph{high-side} son utilizados en bombas de combustible y componentees
+asociados a la carrocería como asientos, iluminación, limpiaparabrisas y
+ventiladores \cite{DigKey2016}.
+
+%There are two basic ways of driving a load (Figure 2). A low-side driver is
+%placed between the load and ground, whereas a high-side driver, shown in 2(b),
+%is placed between the load and the supply voltage. The low-side driver is often
+%used for powertrain-related loads such as motors, solenoids, and heaters. The
+%high-side driver is used for fuel pumps, and body-related functions such as
+%seats, lighting, wipers, and fans.
+
+Estos interruptores difieren principalmente con respecto a su respuesta ante
+fallas. Es más probable encontrar fallas de cortocircuito a masa que
+cortocircuitos a la alimentación, dado que el chasis integro del vehiculo esta
+conectado a masa. Para un interruptor \emph{low-side} un cortocircuito a masa
+provoca el encendido de la carga. Para el caso del \emph{high-side} un
+cortocircuito en su salida generará una sobrecorriente en el interuptor por lo
+que se deben tener en cuenta protecciones para el interruptor.
+
+%The two drivers differ primarily with respect to their response to fault
+%conditions. In an automobile, a short-to-ground fault is more likely to occur
+%than a short-to-supply fault, given that grounded sheet metal is everywhere to
+%be found. For a low-side driver, a short-to-ground condition will turn the load
+%permanently on. With a high-side driver, it will short the driver output to
+%ground, so the driver will need protection circuitry.
+
+Para la condición opuesta (cortocircuito a la alimentación) los comportamientos
+se invierten.
+
+%The opposite condition will apply for a short-to-supply fault: the low-side
+%driver will be shorted to the supply and need protection, while the high-side
+%load will be permanently on.
+
+Esta diferencia es la que determina el uso de uno u otro interruptor, un ejemplo
+de esto es ante un accidente, si la bomba de combustible es conectada mediante
+un interruptor a masa, es probable que haya un cortocircuito a masa y se
+encienda, lo que potencialmente causaría consecuencias catastróficas.
+
+%This differing response is what determines the use of one driver over the
+%other; in a fuel pump with a low-side driver, for example, a short-to-ground as
+%a result of a crash may turn on the fuel pump with potentially catastrophic
+%consequences.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.30\textwidth]{low_high_driver_sch.png}
+		\caption{Esquema interruptor a masa e interruptor a positivo.}
+		\label{low_high_driver_sch}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+Para la implementación del sistema se optó implementar un \emph{high-side
+driver} con un transistor IRF9310PbF de Infineon Technologies, el cual posee una
+tensión de bloqueo de $30V$ y una corriente máxima de drain de $20A$, pero la
+característica fundamental es que a pesar de ser un MOSFET canal P posee un
+valor de $R_{on}=4.6 m\ohm$ minimizando perdidas en conducción. El circuito de
+la figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la
+salida del microcontrolador al gate del interruptor y un circuito de apagado
+rápido para incrementar la corriente de gate y minimizar el tiempo de apagado.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{kcd_bat_load_switch.pdf}
+		\caption{Circuito Interruptor carga-batería}
+		\label{load_sw_sch}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+El IRF9310PbF adquiere el menor valor de $R_{DS(on)}$ cuando $V_{gs} = 10V$
+según la hoja de datos\cite{IRF9310}, mientras que la tensión que soporta
+$V_{gs-max}=20V$ por lo que en conducción se calculan $R_{64}$ y $R_{65}$ para
+$V_{gs}=15V$.
+Además, se busca minimizar el consumo del circuito ya que la autonomía del
+vehículo puede verse afectada si no se tiene en cuenta.
+
+$R_1$ simplemente debe cumplir la relación $I_b = I_{R1} \beta >> I_d = I_{R65}
+= I_{R64}$, Para asegurar la saturación de $Q_{11}$. 
+
+Para el apagado del transistor surge la necesidad de agregar el transistor
+$Q_{12}$ ya que al abrirse $Q_{11}$ la capacidad $V_{gs}$ busca descargarse a
+través de $R_{64}$ la cual es de un valor alto para minimizar las perdidas en
+conducción para mantener $V_{gs}=-15V$. La función de este transistor, $Q_{12}$
+en conjunto con $D_{20}$ es la de cortocircuitar $V_{gs}$ de manera de reducir
+la resistencia vista y minimizar el tiempo de apagado sin impactar en el consumo
+pasivo del dispositivo.
+
+Por último se agregó $D_{21}$ como diodo de \emph{freewheel}.
+
+\subsection{Circuito Cargador de Batería}
+
+\subsubsection{Tecnología Seleccionada - TI bq24610}
+
+Para lograr un completo control del perfil de carga descripto en la seccion
+\ref{sec:tecnica_carga}  es que seleccionamos e implementamos el circuito
+integrado \emph{bq24610} de la firma \emph{Texas Instrument}.
+
+El \emph{bq24610} es un circuito altamente integrado que implementa un cargador
+de \acrfull{Ion-Li} o \acrfull{Li-Po} capaz de operar de forma independiente o
+stand-alone.
+
+Implementa un convertirdor de energía DC-DC del tipo buck sin aislamiento que
+nos permite obtener un perfil de tensión y corriente controlado como el
+descripto en la sección \ref{sec:tecnica_carga} a partir de una fuente de
+alimentación de tensión continua externa.
+
+Emplea un controlador de corriente y de tensión sincrónico
+switching PWM de frecuencia constante y de alta resolución cuya
+topología simplificada puede observarse en la figura \ref{fig:simp_sch_char}. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{bat_char/simp_sch_char.png}
+    \caption{Esquema simplificado Cargador de Batería}
+    \label{fig:simp_sch_char}
+\end{figure}
+\FloatBarrier
+
+Admite la conexión de hasta 6 celdas en serie con una tensión y
+corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salída
+de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
+la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
+El empaquetado del mismo es del tipo VQFN.
+
+%\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se
+%encuentran conectadas en serie, el voltaje de una celda no siempre coincide con
+%la tensión equivalente del pack de baterías dividido por el número de celdas. 
+%
+%\noindent La ecualización de celdas es una técnica en la cual se trata de
+%mantener los niveles de voltaje entre las celdas que conforman la cadena
+%conectada en serie de un pack de baterías de forma homogénea, es decir, que los
+%niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de
+%maximizar la eficiencia del pack de baterías.
+%
+%\noindent El desbalance más típico generalmente se manifiesta en una variación
+%en el voltaje entre éstas, que puede ser corregido instantáneamente o
+%gradualmente conectando cargas externas en paralelo, a través de sus
+%correspondientes transistores, provocando una corriente de descarga adicional
+%que pueden ir desde miliamperes hasta varios Amperes, dependiendo del
+%dimensionamiento energético del pack de baterías. Sin embargo, este desbalance
+%en tensión es, por lo general, dado por desbalances químicos o distintas
+%dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no
+%esté claramente definido provocando más perjuicios que beneficios al sistema
+%completo.  De hecho, la mayoría de las metodologías basadas en el desbalance de
+%voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
+
+\subsubsection{Diseño e Implementación}
+
+La seccón describe la implementación y desarrollo de un circuito cargador de
+baterías de Ion-Litio a partir del \acrfull{CI} bq24610 de la firma Texas
+Instruments implementado en nuestro \acrshort{BMS}.
+
+Se describen sus partes fundamentales y se presentan los cálculos realizados y
+los criterios tenidos en cuenta para la selección de los componentes. 
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[width=1.1\textwidth]{hardware/bat_charger/bc_ic.png}
+        \caption{Implementación bq24610 Texas Instrument}
+        \label{fig:bc_ic_ti}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.35\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{hardware/bat_charger/bc_ic_power_supply.png}
+        \caption{Alimentación bq24610}
+        \label{fig:bc_ic_power_supply}
+    \end{subfigure}
+    \caption{Implementación Cargador de Batería de Ion-Li bq24610 de TI}
+    \label{fig:bc_ic}
+\end{figure}
+\FloatBarrier
+
+Las condiciones de operación que sirvieron como parámetros de diseño son las
+siguientes:
+
+\begin{tabular}{ll}
+    $V_{In}=28V$ &Tensión de alimentación \\
+    $V_{Out (max)}=25.2V$ &Tensión de salida máxima\\
+    $V_{Out (min)}=18.6V$ &Tensión de salida mínima\\
+    $I_{Out (max)}=5A$ &Corriente de salida máxima\\
+    $V_{DS (on)}=37.55mV$ &Caida de voltaje en elemento switching Q9\\
+    $f_{s}=600 KHz$ &Frecuencia switching\\
+\end{tabular}
+
+\subsubsubsection{Alimentación}
+
+El circuito de alimentación del cargador de batería consta de una red de descarga
+RC, de dos Mosfets canal-P colocados en configuración back to back con el objeto de
+aislar la fuente de alimentación externa del circiuto del cargador propiamente
+dicho y de una resistencia shunt de sensado de la corriente de entrada. 
+
+\begin{figure}[h!]
+    \begin{center}
+	\includegraphics[width=0.6\textwidth]{hardware/bat_charger/bc_input.png}
+	\caption{Entrada de alimentación externa}
+	\label{fig:cb_input}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+Los mosfets Q7 y Q8 colocados entre la fuente de alimentación y el \acrshort{CI}
+previene que fluya una corriente inversa de descarga desde el pack de baterías
+en caso de que se encuentren apagados y minimizan la disipación de energía a
+partir de la baja resistencia $R_{DS(on)}$ que presentan operando en directa, en
+comparación a un diodo Schottky. Q8 a su vez provee al circuito la capacidad de
+variar la corriente de alimentación de forma controlada $di/dt$ al conectar la
+fuente de alimentación al circuito mediante el control del tiempo de encendido.
+    
+Durante una conexión o desconexión en caliente de la fuente externa de
+alimentación, la presencia de picos de sobre voltaje en la entrada pueden
+afectar al \acrshort{CI}. Esto se debe al sistema de segundo orden formado por
+las inductacias y capacidades parácitas que pueden presentarse en el cable de la
+fuente de alimentación. R38 y C24 en serie fornan un circuito de descarga que
+elimina los picos de sobre tensión producidos por estos transitorios.
+
+Se seleccionó un valor de resistencia snubber $R_{S}$ que, por lo menos, permita
+la circulación de una magnitud de corriente equivalente a la de alimentación en
+caso de una desconexión en caliente de la fuente de alimentación externa o de un
+corte en los mosfet de entrada por parte del \acrshort{CI} siguiendo los
+lineamientos en \cite{CD_RC_Snubber_AN}.  
+
+\begin{align}
+    R_{S} &\leq \frac{V_{In (max)+2V}}{I_{In (max)}}\\
+    &=\frac{30V}{5A}\\
+    &=6\ohm
+\end{align}
+
+La disipasión de energía en $R_{S}$ es independiente de su valor y de la
+corriente circulante ya que disipa la energía almacenada en el capacitor snubber
+$C_{S}$ en serie con la misma. Acorde a la potencia \emph{P} máxima admitida
+por la resistencia R38 seleccionada, $1/4W$, calculamos una capacidad $C_{S}$. 
+
+\begin{align}
+    P&=\frac{C_{s}V_{In (max)}^{2}}{2}2f_{S'}\\
+    &=C_{s}V_{In (max)}^{2}f_{s'}\\
+    C_{s}&=\frac{P}{V_{In (max)}^{2}f_{S'}}\\
+    &=2.6710nF
+\end{align}
+   
+\subsubsubsection{Control de Perfil de Carga}
+
+El perfil de carga \acrshort{CC} - \acrshort{CV} descripto en la sección
+\ref{sec:tecnica_carga} y sus correspondientes parámetros de control se setean
+en el bq24610 a partir de los divisores resistivos que se observan en la figura
+\ref{fig:cb_set_point}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.75\textwidth]{hardware/bat_charger/bc_set_points_I.png}
+        \caption{Circuito de fijación de Set-Point de corriente I}
+        \label{fig:cb_set_point_I}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering 
+        \includegraphics[width=0.5\textwidth]{hardware/bat_charger/bc_set_points_v.png}
+        \caption{Circuito de fijación de Set-Point de tensión V}
+        \label{fig:cb_set_point_V}
+    \end{subfigure}
+        \caption{Fijación Set-Points del perfil de carga rápida}
+        \label{fig:cb_set_point}
+\end{figure}
+\FloatBarrier
+
+El set point de corriente del perfil de carga a corriente constante descripto en
+la seccion \ref{sec:tecnica_carga} es definido en el cargador de batería a
+partir de fijar una tensión en ISET1, pin 11 del bq24610. El voltaje de
+referencia se logra a partir de un divisor resistivo formado con R48 y R49 entre
+$V_{ref} \equiv 3.3V$ y masa como se puede observar en la figura
+\ref{fig:cb_set_point_I}. 
+
+El voltaje aplicado en ISET1 define la corriente máxima de carga rápida, la cual
+es sensada por la resistencia shunt de salida R52 ($R_{SR}$) conectada en
+paralelo a SRP y SRN, pines 14 y 13 respectivamente del \acrshort{CI}.
+
+La ecuación de corriente máxima de carga $I_{FastCharge}$ será entonces:
+
+\begin{equation}
+    I_{FastCharge}=\frac{V_{ISET1}}{20*R_{SR}}
+    \label{eq:IFastCharge}
+\end{equation}
+
+Definiendo la corriente de salida máxima que puede entregar el cargador
+$I_{Out (max)}=5A$ se selecciona el valor de la resistencia shunt sensora de la
+corriente de salida $R_{SR}$. La diferencia de potencial máximo admitida entre
+los pines SRP y SRN $\Delta V_{SR (Max)} \leq 100mV$.
+
+\begin{align}
+    R_{SR}&=\frac{I_{Out (max)}}{\Delta V_{SR (max)}}\\
+    &=\frac{5A}{100mV}\\
+    &=20m\ohm
+\end{align}
+
+El valor de $R_{SR}$ fue calculado con el objeto de que el circuito de sensado
+de corriente de carga opere a fondo de escala a fin de maximizar la resolución
+de la corriente de carga. 
+
+Según la hoja de datos de la celda de litio NCR18650PF la corriente de
+carga máxima de la misma debe ser 0.5 veces la capacidad nominal de la misma.
+Debido a la configuración 6S3P de nuestro pack de batería con 3 celdas en
+paralelo la corriente de carga rápida del mismo deberá ser fijada en $
+I_{FastCharge}=0.5*C*3=4125mA$.
+
+Despejando $V_{ISET1}$ de la ecuación \ref{eq:IFastCharge} se conoce el
+valor de tensión que debemos aplicar en el terminal ISET1 del \acrshort{CI}.
+
+\begin{align}
+    V_{ISET1}&=I_{Fast_Charge}*20*R_{SE}\\
+    &=4125mA*20*20m\ohm\\
+    &=1.65v
+\end{align}
+
+A partir la tensión a aplicar en ISET1 se despejó el divisor resistivo para
+conocer $R_{48}$ y $R_{49}$
+
+\begin{align}
+    V_{ISET1}&=V_{ref}*\frac{R_{49}}{R_{48}+R_{49}} \\
+    V_{ref}*R_{49}&=V_{ISET1}*(R_{49}+R_{48}) \\
+    \frac{(V_{ref}-V_{ISET1})*R_{49}}{V_{ISET1}}&=R_{48} \\
+    R_{49}&=R_{48}
+\end{align}
+
+A los fines pŕacticos y evitando sobre cargar la salida de $V_{ref}$ del
+\acrshort{CI} se adoptó $R_{48}$ y $R_{49}$ de $10K\ohm$ de 0.5\%
+
+Si el pack de batería se encontrase profundamente descargado, el bq24610
+aplicará una corriente de pre-carga. Este valor de corriente coincide con el de
+corriente de fin de carga durante la fase de tensión constante del ciclo de
+carga.
+
+El set point de corriente de la pre-carga y de fin de carga se define en el
+cargador de batería a partir de fijar una tensión en ISET2, pin 15 del bq24610.
+El voltaje de referencia se logra a partir de un divisor resistivo formado
+por $R_{50}$ y $R_{51}$ entre $V_{ref} \equiv 3.3V$ y masa. 
+
+La ecuación de corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cutt
+off}$ será entonces:
+
+\begin{equation}
+    I_{cutt off}=I_{pre charge}=\frac{V_{ISET2}}{100*R_{SR}}
+    \label{eq:ICutOff}
+\end{equation}
+
+Según la hoja de datos de la celda de litio NCR18650PF la corriente de cut-off o
+fín de carga es 100mA a 25°C.  Por lo tanto, debido a la configuración 6S3P del
+pack de batería con 3 celdas en paralelo la corriente de fin de carga sensada
+por el cargador deberá ser 300mA.
+
+Despejando $V_{ISET2}$ de la ecuación \ref{eq:ICutOff} se conoce  el valor de
+tensión que deberá ser aplicado en ISET2.
+
+\begin{align}
+    V_{ISET2}&=I_{cutt off}*100*R_{SR}\\
+    &=300mA*100*20m\ohm\\
+    &=600mV
+\end{align}
+
+A partir de la tensión en ISET2 se despeja el divisor resistivo para conocer
+$R_{50}$ y $R_{51}$
+
+\begin{align}
+    V_{ISET2}&=V_{ref}*\frac{R_{51}}{R_{50}+R_{51}}\\
+    V_{ISET2}*(R_{50}+R_{51})&=V_{ref}*R_{51}\\
+    \frac{(V_{ref}-V_{ISET2})*R_{51}}{V_{ISET2}}&=R_{50} \\
+    \frac{9}{2}R_{51}&=R_{50}
+\end{align}
+
+Se adopta $R_{51} = 8K2\ohm$ y se calcula $R_{51} = 37K\ohm$, ambas resistencias
+de 0.5\%
+
+El set point de voltaje de carga propio del perfil de carga a voltaje contante
+descripto en la seccion \ref{sec:tecnica_carga} se define fijando una tensión en
+VFB, pin 12 del bq24610. El voltaje de referencia es obtenido a partir de un
+divisor resistivo formado por R55, R56 y R57, entre el voltaje del pack de
+batería $V_{BAT}$ y masa como se observa en la figura \ref{fig:cb_set_point_V}. 
+
+El voltaje aplicado en VFB es comparado al interior del \acrshort{CI} contra una
+referencia de 2.05V la cual define si el voltaje de salida se haya por debajo o
+por encima del valor deseado. 
+
+La ecuación que define el voltaje de carga $V_{Charge} \equiv V_{VFB}$ será entonces:
+
+\begin{equation}
+    V_{Charge}=2.1V(1+\frac{R_{55}+R_{56}}{R_{57}})
+\end{equation}
+
+Según la hoja de datos de la celda de litio NCR18650PF el voltaje de carga de
+una única celda es 4,2V a 25°C. Por lo tanto, debido a la configuración 6S3P del
+pack de batería con 6 celdas en serie el voltaje de carga deberá ser fijado en
+$V_{Charge} = 4.2V*6 = 25.2V$
+
+A partir de conocer la tensión de carga $V_{Charge}$ se despejo el divisor
+resistivo para conocer $R_{55}$, $R_{56}$ y $R_{57}$
+
+\begin{equation}
+	\frac{(V_{Charge}- 2.1)R_{57}}{2.1}=(R_{55}+R_{56})
+\end{equation}
+
+Se adoptó $R_{57}= 51K\ohm$ y se calculó $R_{55}+R_{56}=561K\ohm$, todas
+resistencias de 0.1\% dado el orden de magnitud .
+
+El divisor resistivo formado por R55, R56 y R57 se ubica en paralelo con la
+batería. Es por esto que nos cercioramos que el drenado de corriente por el
+mismo no descargue el pack de batería de forma incipiente. La corriente drenada
+por el divisor es de $42\mu A=\frac{2900mAh}{42\mu A}*3=207142 hs \equiv 8630
+dias$, tiempo que tardaría en descargar completamente el pack de batería.
+
+El voltaje aplicado en ACSET, pin 16 del \acrshort{CI}, define el límite
+dinámico de potencia de carga o \acrfull{DPM} por sus siglas en inglés. Si bien
+es una funcionalidad que se decidio no utilizar, el cargador de batería bq24610
+está preparado para alimentar una carga y cargar el pack de batería de forma
+simultanea haciendo que la corriente consumida a la fuente externa sea función
+de ambos parámetros. Al fijar un voltaje en ACSET se logra que el cargador
+limite la corriente de carga cuando esta alcance un límite priorizando la
+alimentación de la carga y protegiendo la fuente externa de alimentación de un
+posible sobre consumo. En el caso particular de esta implementación, y dada la
+naturaleza del proyecto no es compatible alimentar la carga simultaneamente con
+el proceso de carga del pack de batería.
+
+ACSET fue fijado en su valor de rango máximo $\equiv 2V$ como puede observarse
+en la imagen \ref{fig:cb_set_point_I} a partir de un divisor resistivo formado
+por R53y R54. La corriente de entrada es sensada en la resistencia shunt R39,
+conectada en paralelo a ACP y ACN, pines 1 y 2 respectivamente.
+
+\subsubsubsection{Salida - Etapa de potencia}
+
+La figura \ref{fig:cb_output} corresponde a la etapa de potencia del cargador de
+batería tipo buck implementado. La integran dos Mosfet canal-N, Q9 y Q10, una
+inductancia y 2 capacitores, L1, C34 y C35 respectivamente, que funcionan como
+filtros de ripple a la salida.
+
+También forman parte fundamental de la etapa el diodo Schottky D18 colocado en
+paralelo entre REGN y BTST, pines 18 y 22 respectivamente, y el capacitor C31
+que funciona como bootstrap del voltaje necesario para excitar el gate del mosfet
+de la parte alta. Ambos componentes pueden observarse en la imagen \ref{fig:bc_ic}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{hardware/bat_charger/bc_output.png}
+    \caption{Etapa de potencia - Cargador de Bateria}
+    \label{fig:cb_output}
+\end{figure}
+\FloatBarrier
+
+La selección de los componente que integran la etapa de salida fue realizada
+siguiendo los lineamientos y recomendaciones de la hoja de datos del
+\acrshort{CI}. 
+
+Calculamos el valor de la inductancia sustituyendo los valores de las
+condiciones de operación en la ecuación \ref{eq:cb_L} segun lo enunciado en las
+notas de aplicación \cite{ROHM_Switching_AN}.
+
+\begin{align}
+    L&=\frac{(V_{In (max)}-V_{Out (max)})*V_{Out (max)}}{V_{In (max)}*f_{s}*R*I_{Out
+    (max)}}
+    \label{eq:cb_L}\\
+    &=\frac{(28V-25.2V)*25.2V}{28V*600kHz*0.3\ohm*5A}\\
+    &=2.8\mu H
+\end{align}
+
+El fabricante recomienda que, para una corriente de salida del cargador de
+4A, la inductancia seleccionada sea de $6.8\mu H$. Se adopta este valor, mayor al
+calculado, para disminuir la relación entre la corriente de ripple y la corriente
+de salida.
+
+A su vez se tuvo en cuenta que la corriente de saturación $I_{Sat}$ soportada
+por la inductancia seleccionada supere a la corriente máxima de carga en por lo
+menos una magnitud mayor a la mitad de la corriente de ripple presente.
+
+La corriente de ripple del inductor depende del voltaje máximo de entrada
+aplicado al cargador $V_{In (max)}$, del ciclo útil de operación \emph{D}, de la
+frecuencia de switcheo $f_{s}$ y del valor de la inductacia propiamente dicho. 
+
+\begin{equation}
+    D=\frac{V_{Out (max)}}{V_{In (max)}}=\frac{18.6}{30}=0.620
+\end{equation}
+
+La corriente máxima de ripple del inductor se alcanza cuando el ciclo útil de
+operación $D= 0.620$.
+
+\begin{align}
+    I_{ripple}&=\frac{V_{In (max)}*D*(1-D)}{f_{s}*L}\\
+    &=\frac{30*0.620*(1-0.620)}{600kHz*6.80\mu H}\\
+    &=1,73A
+\end{align}
+
+La corriente de saturación de la inductancia seleccionada admite una
+circulación de corriente suficiente a los fines de la implmententación.
+
+\begin{equation}
+    I_{Sat}=6.5A \geq I_{chg} + \frac{1}{2}I_{ripple}=5.865
+\end{equation}
+
+La selección de la inductancia fue el resultado de los calculos aquí
+presentados. Se seleccionó una inductancia de $6.8\mu H$ con una corriente de
+saturación máxima de 6.5A
+
+Para el cálculo de la capacidad de salida C, se tuvo en cuenta que el bq24610
+presenta un lazo de compensación interna. Con este esquema, la estabilidad
+óptima del lazo de salida ocurre cuando la frecuencia de resonancia $f_{o}$ del
+circuito LC de salida se haya en el rango entre 12 a 17 kHz
+
+\begin{align}
+    f_{o}&=\frac{1}{2\pi \sqrt{LC}}\\
+    &=\frac{1}{2\pi \sqrt{6.8\mu H 20\mu F}}\\
+    &=13.6472 kHz
+\end{align}
+
+La capacidad de salida seleccionada fue de $20\mu F$, acorde a la recomendación
+del fabricante, para la inductancia seleccionada de $6.8\mu H$. 
+
+Otras magnitudes tenidas en cuentra para la seleccipon de capacitor de salida
+fueron la corriente de ripple máxima que debeŕa soportar el integrado.
+
+\begin{equation}
+    I_{C out}=\frac{I_{ripple}}{2*\sqrt{3}}\approx 500.7mA
+\end{equation}
+
+Y el ripple del voltaje de salida que deberá tolerar el capacitor de salida: 
+
+\begin{equation} 
+    \Delta V_{O}=\frac{1}{8*L*C*f_{s}^{2}}(V_{Out max}-\frac{V_{Out
+    max}^{2}}{V_{In max}})=6.43mV
+\end{equation}
+
+El puente de salida lo conforman dos Mosfets canal-N, Q9 y Q10, del tipo
+FDD86580-F085 de la empresa ON Semiconductor / Fairchild de $V_{GS}=60V$ de
+voltage máximo entre Drain y Source, una corriente máxima de 50A y una $R_{DS
+(on)} \approx 7.8 m\ohm$ a $V_{GS} = 10V$. 
+
+El driver de excitación del gate se presenta integrado en el \acrshort{CI} del
+cargador por lo cual no requirió de ninguna implementación externa salvo la del
+diodo D18 y del capacitor C31.
+
+Para la selección de los integrados de potencia adecuados, y fundamentalmente
+para la comparación de las diferentes opciones disponibles, se utilizó el
+criterio de la Figura de Merito (\acrfull{FOM}, por sus siglas en inglés). La
+\acrshort{FOM} representa la situación de compromiso entre las perdidas por
+conducción y las perdidas por switcheo. Cuanto menor sea la \acrshort{FOM},
+menores las perdidas totales. 
+
+En el caso del Mosfet del lado alto del puente de salida, la \acrshort{FOM} se
+define como el producto entre la resistencia de encendido del mosfet y la carga
+entre gate y drain $Q_{GD}$. El FOM del Mosfet del lado bajo del puente de
+salida se define como el producto entre la resistencia de On del mosfet y la
+carga total del gate $Q_{G}$
+
+No son presentado en el informe los cálculos de los diferentes Mosfets que se
+tuvieron en cuenta durante la etapa de diseño y que fueron desestimados. Se
+presentan solo los correspondientes a la opción seleccionada para que pueda ser
+comparada con otras opciones en caso de así desearlo. 
+
+\begin{equation}
+    \begin{split}
+        &FOM_{top}=R_{DS (on)}*Q_{GD}=10m\ohm*4nC=40 \\
+        &FOM_{bottom}=R_{DS (on)}*Q_{G}=10m\ohm*3nC=30
+    \end{split}
+\end{equation}
+
+Las pérdidas en el Mosfet de la parte alta del puente fueron calculadas como
+función de ciclo de trabajo D, la corriente máxima de salida $I_{out (max)}$, la
+resistencia de encendido del mosfet $R_{DS(on)}$, el voltaje de alimentación
+$V_{in}$, la frecuencia de switcheo y el tiempo de encendido y de apagado del
+transistor.
+
+\begin{equation}
+    P_{top}=D*I_{out (max)}^{2}*R_{DS(on)}+\frac{1}{2}V_{In (max)}*I_{out (max)}*(t_{on}+t_{off})*f_{s}
+        = 2.913W
+\end{equation}
+
+La condición de pérdida del Mosfet del lado bajo del puente de salida es
+calculada siguiendo:
+
+\begin{equation}
+    P_{bottom}=(1-D)*I_{out (max)}^{2}*R_{DS(on)}=0.025W
+\end{equation}
+
+La potencia máxima soportada por el Mosfet seleccionado es de 75W. En ambos
+casos los integrados se hayan sobre estimados para tolerar el uso dado. 
+
+\subsubsubsection{Interfaz de estado de carga}
+
+El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales se
+puede conocer el estado en el que está operando el cargador. Tres señales de
+salida $\overline{PG}$, STAT1 y STAT2 y una señal de entrada CE. Las mismas han
+sido cableadas a la unidad de procesamiento para que esta pueda contar con la
+información necesaria del estado del proceso de carga y operarlo.
+
+\begin{itemize}
+    \item []{\textbf{$\overline{PG}$}} Power Good Status: Indica si el voltaje
+	de alimentación VCC es válido o no. 
+    \item []{\textbf{CE}} (Charge Enable): La entrada digital CE permite
+	habilitar y deshabilitar el proceso de carga. Una transición de alto a
+	bajo a su vez resetea el ciclo de carga, los timers internos del
+	circuito y las condiciones de falla si las hubiese.
+    \item []{\textbf{STAT1 \& STAT2}}: Indican el estado de carga.
+\end{itemize}
+\begin{table}[h!]
+    \begin{tabular}{lcc}
+	\multicolumn{1}{c}{\textbf{Estado de Carga}}                     & \textbf{STAT1} & \textbf{STAT2} \\
+	Carga en progreso                                                & ON             & OFF            \\
+	Carga completa                                                   & OFF            & ON             \\
+	Carga suspendida, Falla Timer, Cargador Dormido, Bateria Ausente & OFF            & OFF           
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+El diseño del cargador implementado permite que el mismo sea operado de forma
+autónoma e independiente de la unidad de procesamiento. Esto se logra a partir
+del switch SW2, select CE, que independiza el cargador de la unidad de
+procesamiento como se indica en le imagen \ref{fig:cb_interface_ce}. Una vez que
+el cargador se haye operando en modo autónomo el usuario cuenta con la
+posibilidad de resetear el ciclo de carga a partir del swtich SW1. Esta
+funcionalidad se diseñó en vistas de facilitar la puesta en marcha del circuito
+cargador independientemente de las demás secciones de hardware.
+
+Es importante aclarar que el proceso de carga autónomo no garantiza que el pack
+de batería alcance su máximo nivel de carga al no poder segurar el correcto
+balanceo de las celdas del pack de batería. Desaconsejamos fuertemente el uso de
+esta funcionalidad y recomenddamos que la carga del pack de batería sea
+realizada de forma segura a instancias del BMS.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{hardware/bat_charger/bc_interface.png}
+	\caption{LED's y Señales de estado del cargador}
+	\label{fig:cb_interface_status}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=0.6\textwidth]{hardware/bat_charger/bc_interface_ce.png}
+	\caption{Selector de fuente de señal de CE y Reset}
+	\label{fig:cb_interface_ce}
+    \end{subfigure}
+    \caption{Interfaz de estado de carga}
+    \label{fig:cb_interface}
+\end{figure}
+\FloatBarrier
 
 \clearpage
 
