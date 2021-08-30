@@ -4087,6 +4087,8 @@ circuito de Randles de segundo orden \ref{ss_randles_complete},
     \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{ss_randles_complete}
 \end{align}
 
+\newpage
+
 \subsubsubsection{Criterio de observabilidad}
 
 Linealizado el sistema y obtenido el sistema de ecuaciones del modelo
@@ -4130,20 +4132,54 @@ aplicando el determinante de una matriz sobre la Ecuaci\'on
                                    \label{det_obs_matrix_randles}
 \end{align}
 
-Por lo tanto, la matriz O es observable, si y solo si se cumple que los
+Por lo tanto la matriz O es observable, si y solo si, se cumple que los
 par\'ametros de los circuitos RC del modelo de Randles no sean iguales, ya que
-en este caso la determinante ser\'ia diferente a cero. Por otro lado, se observa
-claramente que la matriz O es de dimensiones 2x2, por lo tanto es una matriz de
-orden 2, concluyendo finalmente que el sistema de Randles de segundo \'orden es
-observable, por ende, se puede implementar el Filtro de Kalman para determinar
-el \acrshort{SOC} de la celda.
+en caso contrario la determinante ser\'ia igual a cero. Por otro lado, se observa
+claramente que la matriz O es de dimensi\'on 3x3, por lo tanto es una matriz de
+orden 3, concluyendo finalmente que el sistema de Randles es observable, por 
+ende, se puede implementar el Filtro de Kalman para determinar el \acrshort{SOC} 
+de la celda.
 
+Finalmente, considerando un sistema de ecuaciones de la siguiente forma \emph{(Ecs.
+\ref{ss_with_noise})},
+
+\begin{align}
+    \dot{x} = Ax + Bu + \eta_x\nonumber\\
+    y = Cx + Du + \eta_y\label{ss_with_noise}
+\end{align}
+
+donde $\eta_x$ y $\eta_y$ es ruido Gaussiano que afecta el estado y la salida
+del sistema, si se cumplen que:
+
+\begin{itemize}
+    \item El sistema de Ecuaciones \ref{ss_with_noise} es estoc\'astico.
+    \item $\eta_x$ y $\eta_y$ son variables representadas por ruido gaussiano
+        con media cero y varianzas $Var\left(\eta_x(t)\right) = Q$,
+        $Var\left(\eta_y(t)\right) = R$ y la covarianza entre ambas variables
+        est\'a dada por $Cov\left(\eta_x(t), \eta_y(y)(t)\right) = N$.
+    \item el estado inicial es un vector gaussiano con covarianza
+        $Cov\left(x(0)\right) = P_0$ y media $\E\left(x(0)\right) = x_0$
+\end{itemize}
+
+es posible considerar el siguiente observador \emph{(Eq. \ref{ss_kalman_gain})}:
+
+\begin{align}
+    \dot{\hat{x}} &= A\hat{x} + Bu + K(t)(y - \hat{y})\nonumber\\
+    \hat{y} &= C\hat{x} + Du \label{ss_kalman_gain}
+\end{align}
+
+donde $K(t)$ es la ganancia de Kalman, cuyo objetivo, como se menciona en la
+secci\'on \ref{KalmanFilterMethod}, es minimizar la covarianza del error de
+estimaci\'on. 
 
 \newpage
 
-También se necesita proporcionar valores de Varianza del modelo, ruido al que
-están sometidas las variables medibles, el estado inicial estimado y la varianza
-de esta estimación estas son denominadas Q, R, $x_0$ y $P_0$ respectivamente.
+Para poder implementar el sistemas de ecuaciones en \ref{ss_kalman_gain} sobre
+el modelo de Randles es necesario proveer las matrices que proporcionan valores 
+de varianza sobre las incertezas del modelo (Q) como tambi\'ien los valores de
+varianza sobre el ruido al que est\'an sometidas las variables de medici\'on
+(R), por el otro lado, tambi\'en es necesario proveer el estado inicial del
+sistema ($x_0$) como tambi\'en su covarianza inicial ($P_0$)
 
 Partiendo de la base que nuestro sistema debe ser robusto ante la mala
 estimación inicial del estado de carga se propone un vector de estimación
@@ -4159,7 +4195,7 @@ de estado inicial con un SoC con un error de 80\%.
     \end{array} \nonumber
 \end{equation}
 
-\noindent El ciclo de la bateria esseleccionado comienza con la batería cargada
+\noindent El ciclo de la bateria es seleccionado comienza con la batería cargada
 al 100\%, por lo que un error del 80\% se corresponde con 0.2 en el estado de
 carga relativo.
 
