@@ -2,8 +2,9 @@
 \usepackage[backend=bibtex,style=numeric]{biblatex}
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
-\usepackage[spanish]{babel}
-\usepackage{hyphsubst} \usepackage[toc, page]{appendix}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{hyphsubst}
+\usepackage[toc, page]{appendix}
 \usepackage[utf8]{inputenc}
 \usepackage[version=4]{mhchem}
 \usepackage{alltt}
@@ -73,7 +74,7 @@
 \newacronym{DB}{DB}{Diagrama de Bloques}
 \newacronym{DOD}{DOD}{Depth of Discharge}
 \newacronym{EC}{EC}{Eficiencia Culombica}
-\newacronym{EIS}{EIS}{Electrochemical Impedance}
+\newacronym{EIS}{EIS}{Electrochemical Impedance Spectroscopy}
 \newacronym{EMI}{EMI}{Electromagnetic Interference}
 \newacronym{EMS}{EMS}{Equalization Management System}
 \newacronym{FIR}{FIR}{Finite Impulse Response}
@@ -411,7 +412,7 @@ productos ya que no cumple con estandards espec\'ificos y requieren determinados
 certificados para ser vendidos en el mercado. Solamente cumple con el 
 prop\'osito de ser una plataforma de ensayo y desarollo que provee todas las 
 funcionalidades del manejo de la complejidad y tamaño de los sistemas de 
-almacenamiento mas avanzados al d\'ia de la fecha.
+almacenamiento más avanzados al d\'ia de la fecha.
 
 \noindent Si bien el mismo tiene extensa documentacion, originalmente fue
 desarrollado para manejar packs de 12 a 18 celdas en serie, lo cual excede el
@@ -1041,28 +1042,28 @@ siguientes ecuaciones diferenciales:
 \noindent En las ecuaciones \ref{Chrg_cons_hom_sol} - 
 \ref{Butler_Volmer_kinetics}, se utilizan las siguientes variables:
 
-\begin{itemize}
-    \item $\mathrm{\sigma}$: Conductividad de la fase s\'olida del
+\begin{description}
+    \item [$\mathrm{\sigma}$]: Conductividad de la fase s\'olida del
         electrodo.
-    \item $\mathrm{\upvarphi_s}$: Potencial el\'ectrico de la fase
+    \item [$\mathrm{\upvarphi_s}$]: Potencial el\'ectrico de la fase
         s\'olida.
-    \item $\mathrm{\upvarphi_e}$: Potencial el\'ectrico del
+    \item [$\mathrm{\upvarphi_e}$]: Potencial el\'ectrico del
         electrolito.
-    \item $\mathrm{j^{Li}}$: Densidad de corriente producida por el
+    \item [$\mathrm{j^{Li}}$]: Densidad de corriente producida por el
         consumo de iones de litio.
-    \item t: Tiempo transcurrido.
-    \item c: Concentraci\'on de iones de litio.
-    \item D: Coeficiente de difusi\'on del material.
-    \item F: Constante de Faraday.
-    \item $\mathrm{\varepsilon}$: Fracci\'on por volumen.
-    \item $\mathrm{t_+^0}$: N\'umero de transferencia.
-    \item $\mathrm{\upkappa}$: Conductividad del electrolito.
-    \item $\mathrm{\upkappa_D}$: Conductividad de la difusi\'on.
-    \item $\mathrm{i_0}$: Corriente de intercambio.
-    \item $\mathrm{\eta}$: Sobretensi\'on.
-    \item a: \'Area espec\'ifica de la secci\'on.
-    \item $\mathrm{C_{dl}}$: C\'apacidad de la doble capa.
-\end{itemize}
+    \item [t]: Tiempo transcurrido.
+    \item [c]: Concentraci\'on de iones de litio.
+    \item [D]: Coeficiente de difusi\'on del material.
+    \item [F]: Constante de Faraday.
+    \item [$\mathrm{\varepsilon}$]: Fracci\'on por volumen.
+    \item [$\mathrm{t_+^0}$]: N\'umero de transferencia.
+    \item [$\mathrm{\upkappa}$]: Conductividad del electrolito.
+    \item [$\mathrm{\upkappa_D}$]: Conductividad de la difusi\'on.
+    \item [$\mathrm{i_0}$]: Corriente de intercambio.
+    \item [$\mathrm{\eta}$]: Sobretensi\'on.
+    \item [a]: \'Area espec\'ifica de la secci\'on.
+    \item [$\mathrm{C_{dl}}$]: C\'apacidad de la doble capa.
+\end{description}
 
 A pesar de su alta exactitud, este tipo de modelo resulta complejo de
 implementar en sistemas de tiempo real debido a la gran cantidad de ecuaciones
@@ -1071,14 +1072,15 @@ el mismo, imposibilitando su uso en veh\'iculos el\'ectricos.
 
 \subsubsection{Modelos emp\'iricos}\label{empModels}
 
-\noindent Los modelos emp\'iricos, o tambi\'en conocidos como 
-\emph{cajas negras}, debido a que proveen pobres conocimientos sobre el 
-funcionamiento interno del sistema, se basan en par\'ametros que no tienen 
-significado f\'isico en algunos casos. Las aproximaciones matem\'aticas que se 
-utilizan para definir la funci\'on transferencia entre las entradas y las 
-salidas de estos modelos permiten que los mismos sean f\'aciles de configurar 
-como tambi\'en generar predicciones y respuestas r\'apidas. Sin embargo, la 
-exactitud es limitada, especialmente si el modelo es muy simple, aunque puede 
+\noindent Los modelos emp\'iricos, tambi\'en conocidos como \emph{cajas negras},
+son aquellos que describen a la batería en puntos de trabajo definidos y que
+proveen pobres o incluso nulos conocimientos sobre el funcionamiento interno del
+sistema, desconociéndose incluso el significado f\'isico de mucho de sus
+par\'ametros internos del modelo. Las aproximaciones matem\'aticas que se
+utilizan para definir la funci\'on transferencia entre las entradas y las
+salidas de estos modelos permiten que los mismos sean f\'aciles de configurar
+como tambi\'en generar predicciones y respuestas r\'apidas. Sin embargo, la
+exactitud es limitada, especialmente si el modelo es muy simple, aunque puede
 ser mejorado si se combina con un modelo de bajo nivel.
 
 \subsubsection{Modelos abstractos}\label{absModels}
@@ -1098,7 +1100,7 @@ comparaci\'on a modelos de bajo nivel, sin embargo \'estos requiren de
 \emph{Look-up Tables} para coincidir con los datos experimentales. 
 La complejidad de los mismos es m\'as flexible dependiendo de la unidad de 
 c\'omputo como tambi\'en de la memoria disponible. Los mismo se pueden 
-acomplejizar utilizando efectos de segundo \'orden, tales como la temperatura, 
+complejizar utilizando efectos de segundo \'orden, tales como la temperatura, 
 degradaci\'on de la capacidad como tambi\'en el envejecimiento de las celdas.
 
 \noindent A continuaci\'on se describen los modelos m\'as utilizados dentro de 
@@ -1106,7 +1108,7 @@ la literatura actual.
 
 \subsubsubsection{Circuito simple}
 
-\noindent El circuito el\'ectrico mas simple que representa una bater\'ia de 
+\noindent El circuito el\'ectrico más simple que representa una bater\'ia de 
 litio-ion es un circuito con constante de tiempo cero que se puede observar en 
 la Figura \ref{zero_time_constant_sch}. Si el usuario no necesita representar la 
 din\'amica de la bater\'ia, este modelo es capaz de representar el 
@@ -1131,7 +1133,7 @@ comportamiento est\'atico del sistema.
 
 
 \noindent El \acrshort{OCV} se relaciona directamente con el \acrshort{SOC},
-definido en la Ecuacion \ref{ocv_soc_ztc}
+definido en la Ecuación \ref{ocv_soc_ztc}
 
 \begin{equation}
     SoC = \frac{C_{current}}{C_{full}}\dot 100\% \label{ocv_soc_ztc}
@@ -1152,7 +1154,7 @@ par\'ametros que afectan el proceso de descarga son la corriente de descarga,
 la temperatura y la historia de carga/descarga.
 
 \noindent El efecto de la temperatura en el proceso de descarga es visto a
-temperaturas mucho mas bajas que a temperatura ambiente, donde la actividad
+temperaturas mucho más bajas que a temperatura ambiente, donde la actividad
 qu\'imica disminuye y la resitencia de la bater\'ia aumenta. A temperaturas
 m\'as altas que la ambiente, la resistencia interna disminuye, mejorando la
 velocidad de la actividad qu\'imica, por lo tanto, y desafortunadamente,
@@ -1160,7 +1162,7 @@ induciendo un efecto de auto descarga.
 
 \noindent La desventaja principal del modelo de constante de tiempo cero es que 
 no contempla la din\'amica de las celdas. Sin embargo, esto puede ser mitigado 
-de forma f\'acil agregando un tanque RC en serie a la resistencia (\emph{fig.
+de forma f\'acil agregando un tanque RC en serie a la resistencia (\emph{Fig.
 \ref{one_time_constant_sch}}), que describe la respuesta din\'amica de la 
 bater\'ia durante el proceso de carga/descarga.
 
@@ -1187,14 +1189,26 @@ complejidad del mismo.
 
 \subsubsubsection{Modelos basados en el espectro de impedancia}
 
-\noindent Para describir la din\'amica de una celda a niveles de medianas y 
-altas frecuencias, se utiliza el m\'etodo de impedancia electroqu\'imica por 
-espectroscop\'ia (\acrshort{EIS}, del ingl\'es \acrlong{EIS}). Sin embargo, para
-aplicar este m\'etodo, es necesario un sistema lineal invariante en el tiempo,
-por lo tanto, dado que las bater\'ias son sistemas altamente no lineales durante
-el proceso de carga y descarga, el \acrshort{EIS} es aplicado a niveles de
-\acrshort{SOC} cuando la bater\'ia tiene un determinado tiempo de descanso, para
-garantizar determinada linealidad necesaria.
+La espectroscopía de impedancia electroquímica (\acrshort{EIS}, del ingl\'es
+\acrlong{EIS}), es una técnica utilizada para describir las propiedades
+eléctricas y dieléctricas de las celdas de ion-litio. También se la conoce como
+Espectroscopía de Impedancia AC, debido a la que su implementación está
+fundamentalmente basada en excitaciones de señales alternas.
+
+La implementación de la EIS puede realizarse en modos distintos, excitando la
+celda tanto con una señal de voltaje como con una señal de corriente.
+Generalmente las señales de excitación son pequeñas señales sinusoidales, con lo
+cual al excitar la celda por corriente podemos asegura la conservación del
+estado de carga, ya que la integración en el largo plazo de la pequeña señal de
+corriente es cero. Cuestion que no puede ser asegurada al ensayar la celda
+exitada por tensión. La impedancia es calculada para señales de excitación con
+diferentes frecuencias, que sean de interés en el espectro de análisis.
+
+Para aplicar este m\'etodo, es necesario un sistema lineal invariante en el
+tiempo. Por lo tanto, dado que las bater\'ias son sistemas altamente no lineales
+durante el proceso de carga y descarga, el \acrshort{EIS} es aplicado a niveles
+de \acrshort{SOC} donde la bater\'ia haya alcanzado un determinado estado de
+relajación y reposo, para garantizar determinada linealidad necesaria.
 
 \noindent La impedancia (Z) es una variable compleja representada en en el 
 diagrama de Nyquist por una componente real y otra imaginaria. 
@@ -1212,13 +1226,22 @@ el \acrshort{SOC} y la corriente de carga/descarga.
 	\label{EIS_Nyquist}
     \end{center}
 \end{figure}
-
-\newpage
+\FloatBarrier
 
 \noindent La curva puede ser subdividida seg\'un los rangos de frecuencia en
 distintas secciones, como se puede observar en la Figura
-\ref{EIS_nyquist_sections}. Estas secciones est\'an asociadas con fen\'omenos 
+\ref{EIS_nyquist_sections}. Estas secciones est\'an asociadas con fen\'omenos
 f\'isicos y electroqu\'imicos bien definidos que ocurren dentro de la celda.
+
+\noindent La secci\'on con $\mathrm{Z" < 0}$ consiste de tres \'areas bien
+reconocibles. El arco a frecuencias muy bajas (cercanas a la corriente continua)
+se asocia con el comportamiento de difusi\'on introducido en la Seccion
+\ref{battery_fun} y es representado por la impedancia de \emph{estado s\'olido
+de Warburg}. El segundo arco a frecuencias un poco m\'as altas (arco [ii] en
+Fig.  \ref{EIS_nyquist_sections}) corresponde a la kin\'etica de la
+transferencia de carga. El tercer y arco m\'as pequeño cerca del eje real (arco
+[iii] en Fig.  \ref{EIS_nyquist_sections}) representa los efectos entre capas de
+la interfaz s\'olida del electrolito.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1227,16 +1250,7 @@ f\'isicos y electroqu\'imicos bien definidos que ocurren dentro de la celda.
 	\label{EIS_nyquist_sections}
     \end{center}
 \end{figure}
-
-\noindent La secci\'on con $\mathrm{Z" < 0}$ consiste de tres \'areas bien 
-reconocibles. El arco a frecuencias muy bajas (cercanas a la corriente continua) 
-se asocia con el comportamiento de difusi\'on introducido en la Seccion 
-\ref{battery_fun} y es representado por la impedancia de \emph{estado s\'olido 
-de Warburg}. El segundo arco a frecuencias un poco m\'as altas (arco [ii] en Fig. 
-\ref{EIS_nyquist_sections}) corresponde a la kin\'etica de la transferencia de 
-carga. El tercer y arco m\'as pequeño cerca del eje real (arco [iii] en Fig. 
-\ref{EIS_nyquist_sections}) representa los efectos entre capas de la interfaz 
-s\'olida del electrolito.
+\FloatBarrier
 
 \noindent El punto (iv) de la Figura \ref{EIS_nyquist_sections} representa la 
 resistencia \'ohmica total del sistema, incluyendo la resistencia del 
@@ -1269,6 +1283,7 @@ introducido en \cite{Moss} y se puede observar en la Figura
         \label{sch_modelo_EIS}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 \noindent Donde los componentes representan las siguientes partes f\'isica de 
 la celda:
@@ -1303,20 +1318,19 @@ parametrizar.
 \subsubsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
 en veh\'iculos el\'ectricos}\label{compModels}
 
-\noindent La Tabla \ref{table_comp_models} presenta un vistazo general sobre la
-comparaci\'on de los modelos seg\'un el criterio previamente explicado. Los
-modelos simples pueden ser menos costosos desde un punto de vista computacional
-como tambi\'en en desarrollo, a su vez, \'estos son mas susceptibles a
-incertezas en los par\'ametros del mismo. Por el otro lado, modelos complejos
-necesitan mayor tiempo para resolver los algoritmos inherentes a ellos.
-Dependiendo de la aplicaci\'on, la extracci\'on del m\'etodo del modelo y
-usabilidad deben ser evaluados antes de comenzar su desarrollo. 
-Dentro de un ambiente de laboratorio, se puede invertir m\'as tiempo para 
-extraer un modelo m\'as preciso. Sin embargo, en el campo se necesitan 
-resultados de forma r\'apida para evaluar si las celdas son aptas para ser 
-aplicadas en un veh\'iculo, por ejemplo, en estos casos los modelos son 
-utilizados para el desarrollo de un \acrshort{BMS} como es lo que se busca en el 
-presente trabajo. 
+\noindent La Tabla \ref{table_comp_models} presenta una comparaci\'on de los
+modelos seg\'un el criterio previamente explicado. Los modelos simples pueden
+ser menos costosos desde un punto de vista computacional como tambi\'en en
+desarrollo, a su vez, \'estos son más susceptibles a incertezas en los
+par\'ametros del mismo. Por el otro lado, modelos complejos necesitan mayor
+tiempo para resolver los algoritmos inherentes a ellos.  Dependiendo de la
+aplicaci\'on, la extracci\'on del m\'etodo del modelo y usabilidad deben ser
+evaluados antes de comenzar su desarrollo.  Dentro de un ambiente de
+laboratorio, se puede invertir m\'as tiempo para extraer un modelo m\'as
+preciso. Sin embargo, en el campo se necesitan resultados de forma r\'apida para
+evaluar si las celdas son aptas para ser aplicadas en un veh\'iculo, por
+ejemplo, en estos casos los modelos son utilizados para el desarrollo de un
+\acrshort{BMS} como es lo que se busca en el presente trabajo. 
 
 \noindent Tener una extensa comprensi\'on de la bater\'ia en estos casos no es
 necesario, aunque puede resultar beneficioso. Dado que el mismo es embebido
@@ -3293,7 +3307,7 @@ seguimiento preciso del estado de carga.
 
 \noindent Existen en el mercado una gran variedad de tecnologías y 
 soluciones para la medición de corriente en las diferentes aplicaciones. 
-Algunas de las tecnologías mas relevantes, disponibles en el mercado son:
+Algunas de las tecnologías más relevantes, disponibles en el mercado son:
 \begin{itemize}
     \item Resistencia Shunt
     \item Transformadores de intensidad (TI)
@@ -3739,7 +3753,7 @@ Donde $S_{C,a}$ es la Capacidad Nominal en Ah de la batería.
 Para hacer un ajuste de parámetros de las baterías se utilizó un dataset
 provisto por la universidad de Winsconsin-Madison por el Dr. Phillip Kollmeyer
 \cite{Kollmeyer2018}. si bien todos los parámetros son dependientes del estado
-de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones mas
+de carga, seleccionamos los correspondientes al 90\%, ya que las variaciones más
 fuertes de los mismos se dan al entre el 0-10\% y en valores cercanos al 100\%
 
 \begin{figure}[h!]
@@ -4094,7 +4108,7 @@ un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
 
 Teniendo en cuenta el punto anterior y que la carga es un motor y no se puede
 ignorar su caracter inductivo surge el siguiente análisis sobre el circuito de
-la fig. \ref{comando_mosfet}:
+la Figura \ref{comando_mosfet}:
 
 \begin{figure}[h!]
 	\begin{center}
