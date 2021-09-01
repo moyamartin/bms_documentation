@@ -101,11 +101,13 @@
 \newacronym{OCV}{OCV}{Open Circuit Voltage}
 \newacronym{PBBC}{PBBC}{Power Converter based Balancing Controllers}
 \newacronym{PBC}{PBC}{Passive Balancing Controllers}
+\newacronym{PCB}{PCB}{Printed Circuit Board}
 \newacronym{PWM}{PWM}{Pulse-width Modulation}
 \newacronym{RNN}{RNN}{Recurrent Neural Network}
 \newacronym{SOA}{SOA}{Secure Operation Area}
 \newacronym{SOC}{SoC}{State Of Charge}
 \newacronym{SOH}{SoH}{State Of Health}
+\newacronym{SMT}{SMT}{Surface-Mount Technology}
 \newacronym{SPDT}{SPDT}{Single-Pole Double Throw}
 \newacronym{SPST}{SPST}{Single-Pole Single Throw}
 \newacronym{SVM}{SVM}{Support Vector Machine}
@@ -3624,7 +3626,7 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
 
 \newpage
 
-\subsubsection{Caracter\'isticas del pack}
+\subsubsection{Caracter\'isticas del pack}\label{caract_pack}
 
 Como resultado obtenemos un pack de bater\'ias con las siguientes
 caracter\'isticas:
@@ -3826,6 +3828,8 @@ escal\'on validando la elecci\'on del modelo de Randles.
     \end{center}
 \end{figure}
 
+\newpage
+
 \subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
 
 El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} 
@@ -3848,8 +3852,6 @@ usando la Ecuaci\'on \ref{calculo_soc_ah}.
 implementando la Ecuaci\'on \ref{calculo_soc_ah} en Matlab sobre la curva Ah del
 ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 \ref{soc_hppc_data}.
-
-\newpage
 
 \begin{figure}[h!]
     \begin{center}
@@ -3930,7 +3932,72 @@ Esta curva se puede observar en la Figura \ref{ocv_vs_soc}.
 
 \subsubsection{Algoritmo recursivo de optimizaci\'on}
 
-\newpage
+\subsubsection{Tiempo de muestreo}
+Al trabajar con estrategias de control basadas en microcontroladores y sensores
+digitales nos encontramos con la necesidad de discretizar los procesos y tener
+en cuenta los tiempos de muestreo.
+
+El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la
+frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo
+cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de
+muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá
+reconstruir la señal sin perder información \cite{Nyquist1928},
+\cite{Shannon1949}.  Por el contrario, si la señal y la frecuencia de muestreo
+no son las adecuadas se produciría \emph{aliasing}.
+
+\begin{equation}
+	f_s > 2 F_{MAX}
+	\label{nyquist_condition}
+\end{equation}
+
+Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de
+nuestro sistema en espacio de estados, podemos calcular los valores de los polos
+sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.
+
+Además, la matriz de evolución de nuestro sistema es diagonal por lo que los
+autovalores y subsecuentemente los polos se corresponden con los elementos
+$A_{nn}$ con $n=\{1;2;3\}$.
+
+Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las
+todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación
+\ref{eq_polo_rapido}, el valor del polo más rapido:
+
+     \begin{equation}
+     	MAX  \left \|A_{nn}(Soc)\right \| = \omega = 6.6379 rad/s
+     	\label{eq_polo_rapido}
+     \end{equation}
+
+Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula
+según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en
+\ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo
+$f_{smin}$ de la ecuación \ref{nyquist_condition_2}.
+
+\begin{equation}
+	F = \frac{\omega}{2 \pi} = 1.056 Hz
+	\label{ang_vs_frec}
+\end{equation}
+
+\begin{equation}
+	f_{s min} > 2 F = 2.113 Hz
+	\label{nyquist_condition_2}
+\end{equation}
+
+En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
+ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente
+con los calculos previos.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{bode_amplitud_w_grid.eps}
+		\caption{Diagrama de Bode del sistema.}
+		\label{system_bode}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
+sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
+sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
 
 \subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}
 
@@ -3981,8 +4048,6 @@ salida del mismo es descripto por la Ecuaci\'on \ref{v_out_randles},
     v(t) = v_{OCV}(SOC) - \left[i(t) \times R_0\left(SOC\right)  + v_{C_1}\left(t,
     SOC\right) + v_{C_2}\left(t, SOC\right)\right] \label{v_out_randles}
 \end{equation}
-
-\newpage
 
 \noindent La fuente de tensión controlada $V_{OCV}(SOC)$ es linealizada para 
 cumplir con la exigencia del filtro en utilizar un modelo linealizado sobre un
@@ -4335,14 +4400,17 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 \end{figure}
 \FloatBarrier
 
+\subsection{Sensor de corriente}
+
 \subsubsection{Tecnología Seleccionada - INA226}
 
-Frente a los requerimientos y la naturaleza de un \acrshort{BMS} hemos
+Frente a los requerimientos y la naturaleza de un \acrshort{BMS} se ha
 seleccionado la tecnología de sensado de corriente por resistencia Shunt.
 Actualmente existen en el mercado un sin número de soluciones de amplificadores
 y moduladores aislados que permiten alcanzar precisas mediciones de corrientes
-con este método logrando minimizar las injerencias del entorno siempre y cuando
-se seleccione una resistencia Shunt adecuada.
+con este método, logrando as\'i minimizar las injerencias del entorno siempre 
+y cuando se seleccione una resistencia Shunt adecuada y el diseño del circuito
+impreso (\acrshort{PCB}, del ingl\'es \emph{\acrlong{PCB}}).
 
 \noindent Las ventajas de la medición a partir del método de resistencia 
 shunt son:
@@ -4367,16 +4435,17 @@ shunt son:
 \end{itemize}
 
 \noindent El integrado propuesto para el sensado de corriente es el INA226 de
-Texas Instruments. El INA226 es un conversor analógico digital de 16 bits (ADC)
-que implementa una interfaz compatible I2C para la comunicación con el módulo
-del control. El dispositivo monitorea simultaneamente la tensión que cae en una
-resistencia shunt y la del bus de alimentación. Permite múltiples calibraciones
-y seteos, entre ellos variar los tiempos de conversión y definir conversiones
-múltiples que al implementar internamente un multiplicador y divisor permite
-obtener lecturas directas de tensión y potencia en amperes y en Vatios.
+Texas Instruments. Seg\'un su hoja de datos \cite{ina226} el INA226 es un 
+conversor analógico digital de 16 bits (ADC) que implementa una interfaz 
+compatible I2C para la comunicación con el módulo del control. El dispositivo 
+monitorea simultaneamente la tensión que cae en una resistencia shunt y la del 
+bus de alimentación. Permite múltiples calibraciones y seteos, entre ellos 
+variar los tiempos de conversión y definir conversiones múltiples que al 
+implementar internamente un multiplicador y divisor permite obtener lecturas 
+directas de tensión y potencia en amperes y en Vatios.
 
-Observamos en la figura \ref{fig:ina226-commonimplementation} su implementación
-modelo. 
+En la Figura \ref{fig:ina226-commonimplementation} se puede observar su 
+implementación modelo. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -4386,75 +4455,71 @@ modelo.
     \end{center}	
 \end{figure}
 
+\newpage
 
+\subsubsection{C\'aculo de la resistencia shunt}
 
-(insertar somewhere):
-\subsection{Tiempo de Muestreo}
-Al trabajar con estrategias de control basadas en microcontroladores y sensores
-digitales nos encontramos con la necesidad de discretizar los procesos y tener
-en cuenta los tiempos de muestreo.
+Para realizar el c\'aculo de la resistencia shunt utilizada para el sensor de
+corriente, se debe tener en cuenta el rango de voltaje de entrada que
+especifica la hoja de datos del dispositivo INA226 y las caracter\'isticas del
+pack de bater\'ias descripto en la Secci\'on \ref{caract_pack}. 
 
-El teorema de Nyquist-Shannon nos permite calcular un límite inferior a la
-frecuencia de muestreo, ya que este establece que si la frecuencia de muestreo
-cumple con la condición \ref{nyquist_condition} siendo $f_s$ la frecuencia de
-muestreo y $F_{MAX}$ la máxima frecuencia presente en la señal, se podrá
-reconstruir la señal sin perder información \cite{Nyquist1928},
-\cite{Shannon1949}.  Por el contrario, si la señal y la frecuencia de muestreo
-no son las adecuadas se produciría \emph{aliasing}.
-
-\begin{equation}
-	f_s > 2 F_{MAX}
-	\label{nyquist_condition}
-\end{equation}
-
-Dado el sistema de ecuaciones \ref{SS_model_eq} el cual es una representación de
-nuestro sistema en espacio de estados, podemos calcular los valores de los polos
-sabiendo los Eigenvalores o Autovalores de la matriz de evolución A.
-
-Además, la matriz de evolución de nuestro sistema es diagonal por lo que los
-autovalores y subsecuentemente los polos se corresponden con los elementos
-$A_{nn}$ con $n=\{1;2;3\}$.
-
-Tomando el valor del máximo valor absoluto entre los elementos $A_{nn}$ de las
-todas matrices A obtenidas para cada valor de $SoC$ obtuvimos de la ecuación
-\ref{eq_polo_rapido}, el valor del polo más rapido:
-
-     \begin{equation}
-     	MAX  \left \|A_{nn}(Soc)\right \| = \omega = 6.6379 rad/s
-     	\label{eq_polo_rapido}
-     \end{equation}
-
-Dado que la frecuencia de corte $f_c$ asociada al polo más rapido se calcula
-según la ecuación \ref{ang_vs_frec} obtenemos $F$ y reemplazamos en
-\ref{nyquist_condition} obteniendo nuestra frecuencia mínima de muestreo
-$f_{smin}$ de la ecuación \ref{nyquist_condition_2}.
+En este caso, se busca medir una corriente m\'axima de 20A con el objetivo de
+tener un margen de medici\'on de corriente mayor al m\'aximo permitido para la
+circulaci\'on del pack. Entonces, teniendo en cuenta el rango del voltaje de
+la resistencia shunt en el INA226 \emph{(Ec. \ref{v_range_shunt})} y la ley de
+Ohm \emph{(Ec. \ref{ohm_law})}:
 
 \begin{equation}
-	F = \frac{\omega}{2 \pi} = 1.056 Hz
-	\label{ang_vs_frec}
+    -81.9175mV \le V_{shunt} \le 81.92mV  \label{v_range_shunt}
 \end{equation}
 
 \begin{equation}
-	f_{s min} > 2 F = 2.113 Hz
-	\label{nyquist_condition_2}
+    V=I \times R \label{ohm_law}
 \end{equation}
 
-En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
-ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente
-con los calculos previos.
+el valor m\'aximo de la resistencia Shunt es de \textbf{4,096m$\Omega$}. Por el
+otro lado, tambi\'en se debe tener en cuenta la potencia m\'axima disipada por
+la resistencia, cuyo c\'alculo es realizado por la Ecuaci\'on 
+\ref{calc_pot_res},
+
+\begin{equation}
+    P_{disipada} = V \times I = I^2 \times R = \frac{V^2}{R} \label{calc_pot_res}
+\end{equation}
+
+dada la corriente m\'axima a medir y la tensi\'on m\'axima de lectura, la
+potencia m\'axima disipada por la resistencia shunt es de 1,64W. Por lo tanto,
+la resitencia shunt est\'a dada por las siguientes caracter\'isticas:
+
+\begin{itemize}
+    \item Resistencia m\'axima de $4.096m\Omega$.
+    \item Potencia m\'axima disipada de 1.64W.
+\end{itemize}
+
+Teniendo en cuenta la disponibilidad del mercado local, se elije una resistencia 
+de $2.5m\Omega$ apta para disipar una potencia m\'axima de 1W de montaje
+superficial (\acrshort{SMT}, del ingl\'es \acrlong{SMT}) tipo 2512 
+(25 pulgadas de largo, 12 pulgadas de ancho), esto permite realizar una
+medici\'on m\'axima de 20A pero desaprovechando el rango m\'aximo del INA226 en
+la medici\'on de voltaje sobre la resistencia shunt, ya que la tensi\'on
+m\'axima que se refleja sobre al resistencia es de $\mathrm{\pm}$50mV.
+
+\subsubsection{Esquem\'atico del circuito}
+
+El esquem\'atico del circuito se puede observar en la Figura \ref{ina226_sch}.
 
 \begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=1\textwidth]{bode_amplitud_w_grid.eps}
-		\caption{Diagrama de Bode del sistema.}
-		\label{system_bode}
-	\end{center}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{ina226_sch.png}
+        \caption{Esquem\'atico del sensor de corriente implementado en el diseño
+                 final}
+        \label{ina226_sch}
+    \end{center}
 \end{figure}
-\FloatBarrier
 
-Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
-sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
-sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
+En el mismo, R1 se corresponde con la resistencia shunt, mientras que R2, R3 y
+R4 son resistencias de pull necesarias por el protocolo de comunicaci\'on I2C.
+Por el otro lado, el capacitor C1 act\'ua como capacitor de desacople.
 
 \subsection{Interruptor de desconexión entre batería y el Vehículo}
 
