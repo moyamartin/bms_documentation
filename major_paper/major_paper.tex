@@ -1976,16 +1976,17 @@ como \acrshort{VVEE} o \acrshort{UPS}.
 
 \subsubsection{M\'etodos basados en el aprendizaje autom\'atico}
 
-\noindent El aprendizaje autom\'atico o, en ingl\'es, \acrlong{ML} 
-(\acrshort{ML}) surge como una metodolog\'ia alternativa a la ingenier\'ia 
-actual para el diseño de una soluci\'on basado en un algoritmo. Como se ilustra 
-en la Figura \ref{curr_eng_approach}, el diagrama de flujo para el m\'etodo
-de ingenier\'ia \emph{convencional} comienza con la 
-\emph{adquisici\'on del conocimiento sobre el tema}: El problema bajo estudio se
-analiza en detalle, produciendo un \emph{modelo matem\'atico} que captura la
-\emph{f\'isica} del sistema. Con este modelo, se desarrolla un \emph{algoritmo
-optimizado} que ofrece determinado rendimiento asumiendo que el modelo f\'isico
-tiene un cierto grado de exactitud en la representaci\'on de la realidad.
+\noindent El aprendizaje autom\'atico o, en ingl\'es, \acrfull{ML} surge como
+una metodolog\'ia alternativa a la ingenier\'ia actual para el diseño de una
+soluci\'on basado en un algoritmo. Como se ilustra en la Figura
+\ref{curr_eng_approach}, el diagrama de flujo para el m\'etodo de ingenier\'ia
+\emph{convencional} comienza con la \emph{adquisici\'on del conocimiento sobre
+el tema}: El problema bajo estudio se analiza en detalle, produciendo un
+\emph{modelo matem\'atico} que captura la \emph{f\'isica} del sistema,
+identifica patrones de datos masivos y elaborar predicciones. Con este modelo,
+se desarrolla un \emph{algoritmo optimizado} para el cálculo del \acrshort{SOC}
+que ofrece determinado rendimiento asumiendo que el modelo f\'isico tiene un
+cierto grado de exactitud en la representaci\'on de la realidad.
 
 \begin{figure}[h!]
     \begin{center}
@@ -2008,15 +2009,16 @@ tiene un cierto grado de exactitud en la representaci\'on de la realidad.
 aprendizaje autom\'atico substituye el paso de la adquisici\'on del conocimiento
 previo con la tarea de recoleccionar un gran conjunto de datos (o, en ingl\'es,
 \emph{dataset}) con un comportamiento espec\'ifico del sistema a modelar. Este
-conjunto de datos se lo denomina \emph{set de entrenamiento}. Como se puede 
-observar en la Figura \ref{ml_approach}, este set de datos es la entrada a
-un algoritmo de aprendizaje que, como resultado, produce una \emph{m\'aquina}
-entrenada que conlleva la tarea deseada. El aprendizaje es realizado a trav\'es
-de un conjunto de algoritmos, tambi\'en conocidos como \emph{hip\'otesis}, donde
-el algoritmo de aprendizaje toma la decisi\'on durante el entrenamiento. Los
-algoritmos de aprendizaje est\'an generalmente basados en la optimizaci\'on de
-un criterio que mide cuan bien se desempeña el algoritmo de aprendizaje 
-seleccionado para la tarea a la que fue diseñado.
+conjunto de datos se lo denomina \emph{set de entrenamiento}. Como se puede
+observar en la Figura \ref{ml_approach}, el set de datos sirve como información
+de entrada del algoritmo de aprendizaje que, como resultado, producirá una
+\emph{m\'aquina} entrenada para llevar adelante la tarea deseada. En nuestro
+caso el cálculo del \acrshort{SOC} del pack de batería. El aprendizaje es
+realizado a trav\'es de un conjunto de algoritmos, tambi\'en conocidos como
+\emph{hip\'otesis}, a partir de la toma la decisi\'ones ante estímulos obtenídos
+del dataset. Los algoritmos de aprendizaje est\'an generalmente basados en la
+optimizaci\'on de un criterio que mide cuan bien se desempeña el algoritmo de
+aprendizaje seleccionado para la tarea a la que fue diseñado.
 
 \begin{figure}[h!]
     \begin{center}
@@ -2049,8 +2051,6 @@ se muestra en la Figura \ref{ml_ext_approach}, el conocimiento previo al
 problema puede dictar la elecci\'on de hip\'otesis espec\'ificas para el uso
 durante el proceso de entrenamiento. 
 
-\newpage
-
 \begin{figure}[h!]
     \begin{center}
         \begin{tikzpicture}
@@ -2072,6 +2072,7 @@ durante el proceso de entrenamiento.
     utilizando aprendizaje autom\'atico y conocimientos del problema}
     \label{ml_ext_approach}
 \end{figure}
+\FloatBarrier
 
 \noindent Dentro de la literatura que utiliza algoritmos de aprendizaje
 autom\'atico para la estimaci\'on del \acrshort{SOC}, se propone el uso de
