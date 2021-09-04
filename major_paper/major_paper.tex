@@ -2407,21 +2407,21 @@ bater\'ias.
 
 El proceso de producci\'on de las celdas de litio-ion consiste en mezclar
 materiales acuosos, cubrir, cortar, devanar, ensamblar e inyectar electrolito,
-donde cada paso puede provocar variaciones y afectar la inconsistencia en
-la producci\'on de distintos baches. Por ejemplo, la mezcla no uniforme de las
+donde cada paso puede provocar variaciones y afectar la inconsistencia en la
+producci\'on de los distintos lote. Por ejemplo, la mezcla no uniforme de las
 sustancias puede provocar defectos sutiles en la microestructura de la celda,
 que afecta de forma directa al rendimiento de las mismas. Debido a las
-diferencias en el material, precisi\'on en los equipos y la
-incerteza del proceso de producci\'on, las diferencias entre
-baches de producci\'on son inevitables. La otra influencia de heterogeneidad
-inicial incluye a la capacidad inicial y a la resistencia interna,
-concentraci\'on de litio-ion, grosos del separador entre otros.
+diferencias en el material, precisi\'on en los equipos y la incerteza del
+proceso de producci\'on, las diferencias entre baches de producci\'on son
+inevitables. La otra influencia de heterogeneidad inicial incluye a la capacidad
+inicial y a la resistencia interna, concentraci\'on de litio-ion, grosor del
+separador entre otros.
 
 Las inconsistencias causadas por el proceso de producci\'on no pueden ser
 eliminadas por completo. Sin embargo, se pueden utilizar m\'etodos de
 apareamiento a la hora de ensamblar el pack de bater\'ias para combinar aquellas
-que sean consistentes entre s\'i, mejorando la fiabilidad, seguridad y tiempo
-de vida de un pack de bater\'ias. \'Estos m\'etodos se basan en criterios tales
+que sean consistentes entre s\'i, mejorando la fiabilidad, seguridad y tiempo de
+vida de un pack de bater\'ias. \'Estos m\'etodos se basan en criterios tales
 como la capacidad, la resistencia interna y la corriente de auto-descarga.
 
 \subsubsubsection{Inconsistencias causadas por el ensamblaje del pack}
@@ -2444,7 +2444,7 @@ disiparse instant\'aneamente incrementando as\'i la temperatura de la bater\'ia.
 Adicionalmente, el intercambio de calor con el ambiente de la bater\'ia
 tambi\'en es diferente, por ejemplo, las bater\'ias externas tiene una gran
 superficie de intercambio de calor, mientras que las bater\'ias encapsuladas
-internamente pueden intercambiar calor solamente con las bater\'ias adjacentes.
+internamente pueden intercambiar calor solamente con las bater\'ias adyacentes.
 Por lo tanto, el diseño del ensamblaje puede llevar a diferentes distribuciones
 de temperatura, logrando una inconsistencia entre celdas.
 
@@ -2505,7 +2505,7 @@ entre el \acrshort{DOD}.
 \subsubsubsection{Administraci\'on de la inconsistencia}
 
 La inconsistencia en el pack no puede ser completamente eliminada pero puede ser
-reducida a un rango de operaci\'on razonable. Para solventar esto existe un gran
+restringida a un rango de operaci\'on razonable. Para resolver esto existe un gran
 espectro de m\'etodos a aplicar.
 
 Las inconsistencias generadas por los procesos de manufactura y ensamble pueden
@@ -2571,8 +2571,8 @@ durante el proceso de balanceo.
 
 \subsubsection{Control de balanceo pasivo}
 
-Los controladores de balanceo pasivos (\acrshort{PBC}, del ingl\'es
-\emph{\acrlong{PBC}}) generalmente emplean resistencias \emph{shunt} en paralelo
+Los controladores de balanceo pasivos (del ingl\'es
+\emph{\acrfull{PBC}}) generalmente emplean resistencias \emph{shunt} en paralelo
 con las bater\'ias para disipar la energ\'ia excesiva de las celdas con alto
 voltaje o alto \acrshort{SOC}.
 
@@ -2582,7 +2582,7 @@ $\mathrm{K_n}$), t\'ipicamente semiconductores como MOSFETs, que disipan
 energ\'ia de las celdas correspondientes. Por ejemplo, asumiendo que la celda 1
 tiene mayor energ\'ia que el resto, entonces el interruptor $\mathrm{K_1}$ se 
 cierra para descargar esta celda. El camino de la energ\'ia es indicado por la 
-linea a trazos de color azul. Dependiendo de la estrategia de ecualizaci\'on, 
+línea a trazos de color azul. Dependiendo de la estrategia de ecualizaci\'on, 
 los interruptores pueden funcionar continuamente o de forma intermitente, y la
 energ\'ia disipada por la resistencia \emph{shunt} puede ser estimada por la
 ley de Joule (\emph{Eq. \ref{joule_law}}).
@@ -2614,8 +2614,7 @@ desarrollo de una topolog\'ia de balanceo especial, en donde la resistencia
 shunt es reemplazada por un MOSFET, como se puede observar en la Figura
 \ref{passive_eq_top}B. Por ejemplo, asumiendo que la celda 2 tiene mayor
 energ\'ia que el resto, entonces el MOSFET $\mathrm{S_2}$ funciona como una
-resistencia \emph{shunt} mientras que el resto permanece apagado. El circuito de
-control es controlable hasta 1.2A.
+resistencia \emph{shunt} mientras que el resto permanece apagado. 
 
 En \cite{amin_et_al_bal} se propone una topolog\'ia de balanceo pasiva que 
 combina una resistencia shunt con MOSFETs. El \acrshort{PBC} fue implementado 
@@ -2644,7 +2643,7 @@ sin embargo hay una limitaci\'on de costos, volumen y complejidad muy alta.
 \subsubsection{Controlador de Balanceo Activo}
 
 Los controladores de balanceo activo (\acrshort{ABC}, del ingl\'es \acrlong{ABC})
-tienen topolog\'ias que, en vez de disipar energ\'ia la transfieren entre
+tienen topolog\'ias que, en vez de disipar energ\'ia, la transfieren entre
 distintas celdas y m\'odulos/packs usando varios dispositivos que act\'uan como
 \emph{buffers} de energ\'ia, incluyendo capacitores, transformadores, inductores
 y convertidores de potencia.
@@ -2675,8 +2674,8 @@ un mismo m\'odulo/pack, que es el modo fundamental de los \acrshort{ABC}s. En
 basa en la topolog\'ia tradicional de balanceo contiguo, que es m\'as compacto y 
 f\'acil de implementar. Para n celdas conectadas en series, la arquitectura 
 \acrshort{C2C} generalmente necesita n-1 componentes de transferencia de 
-energ\'ia. Por lo tanto, a medida que el n\'umero de celdas conectadsa en serie 
-incrementa, el circuito se hace m\'as complicado de implementar.
+energ\'ia. Por lo tanto, a medida que aumenta el n\'umero de celdas conectads en
+serie, el circuito se hace m\'as complicado de implementar.
 
 Como se muestra en la Figura \ref{energy_transfer}B, la ecualizaci\'on
 \acrshort{C2M} puede transferir energ\'ia entre el m\'odulo  y la celda interna
@@ -2750,10 +2749,10 @@ inicialmente, los \acrshort{SPST} $\mathrm{K_1}$ y $\mathrm{K_2}$ son conectados
 con el lado de bajo voltaje y los \acrshort{SPDT} $\mathrm{S_1}$ y 
 $\mathrm{S_2}$ son conectados al lado de alto voltaje, provocando la
 transferencia de la energ\'ia desde la celda 1 al capacitor C como se muestra en
-la linea azul. Una vez cargado el capacitor, $\mathrm{K_1}$ es desconectado,
+la línea azul. Una vez cargado el capacitor, $\mathrm{K_1}$ es desconectado,
 mientras que $\mathrm{K_2}$ y $\mathrm{K_3}$ se cierran, por el otro lado
 $\mathrm{S_1}$ y $\mathrm{S_2}$ son conectados al lado bajo y la energ\'ia
-ser\'a transferida desde el buffer hasta la celda 2 como se muestra en la linea
+ser\'a transferida desde el buffer hasta la celda 2 como se muestra en la línea
 verde.
 
 Una topolog\'ia t\'ipica de un capacitor alternado se muestra en la Figura
@@ -2763,17 +2762,17 @@ interruptores. Los \acrshort{CBBC}s con esta toplog\'ia tienen ventajas
 similares a la estructura de un solo capacitor, como por ejemplo, una estructura 
 simple y de bajo costo, pero requiere de una estrategia de control finamente 
 ajustada, especialmente cuando hay una pequeña diferencia de voltaje entre las 
-celdas adjacentes. Las lineas azul y verde muestra como es el camino de 
+celdas adyacentes. Las líneas azul y verde muestran como es el camino de 
 transferencia de la energ\'ia.
 
 La Figura \ref{cbbc_top}C muestra una topolog\'ia de capacitores de dos capas
-que transfiere energ\'ia entre celdas adjacentes a trav\'es de la primer capa y
+que transfiere energ\'ia entre celdas adyacentes a trav\'es de la primer capa y
 transfiere energ\'ia entre las bater\'ias que no est\'an conectadas de forma
 directa a trav\'es de la segunda capa, reduciendo significativamente el tiempo
-de ecualizaci\'on. La linea azul muestra la transferencia de energ\'ia entre la
+de ecualizaci\'on. La línea azul muestra la transferencia de energ\'ia entre la
 celda 1 y la celda 2 a un capacitor de la segunda capa ($\mathrm{C_{21}}$), y la
 energ\'ia puede ser transferida desde $\mathrm{C_{21}}$ a la celda 2 y 3 para
-lograr la transmisi\'on de la celda 1 a la 3 como se muestra en la linea verde. 
+lograr la transmisi\'on de la celda 1 a la 3 como se muestra en la línea verde. 
 
 Una topolog\'ia t\'ipica multicapa se puede observar en la Figura
 \ref{cbbc_top}D. Adem\'as de la transferencia entre celdas del mismo m\'odulo,
@@ -2807,7 +2806,7 @@ Su estructura se puede observar en la Figura \ref{cbbc_mesh_top}
     \end{center}
 \end{figure}
 
-\newpage
+%\newpage
 
 \subsubsubsection{Controlador de balanceo basado en inductores}
 
@@ -2818,7 +2817,7 @@ trav\'es de inductores externos. Comparado con los \acrshort{CBBC}s, los
 m\'as r\'apidas debido a una corriente de ecualizaci\'on m\'as alta, sin embargo
 \acrshort{IBBC}s son generalmente m\'as costosos y menos eficientes.
 
-\acrshort{IBBC}s pueden ser clasificado entre distintas topolog\'ias, como por
+Los \acrshort{IBBC}s pueden ser clasificado entre distintas topolog\'ias, como por
 ejemplo, una topolog\'ia de un inductor simple o inductores alternativos, como
 se observa en la Figura \ref{ibbc_top}.
 
@@ -2840,7 +2839,7 @@ señales \acrshort{PWM} (del ingl\'es \emph{\acrlong{PWM}}). Por ejemplo,
 asumiendo que la celda 1 y 2 son las celdas con mayor y menor voltaje 
 respectivamente. Los MOSFETs S1 y S2 son inicialmente encendidos, permitiendo 
 que la energ\'ia se transfiera de la celda 1 a la inductancia L, como muestra la 
-linea azul. La energ\'ia transferida se puede calcular con la Ecuaci\'on 
+línea azul. La energ\'ia transferida se puede calcular con la Ecuaci\'on 
 \ref{energy_trans_ind}:
 
 \begin{equation}
@@ -2850,31 +2849,34 @@ linea azul. La energ\'ia transferida se puede calcular con la Ecuaci\'on
 donde L es el valor de la inductancia, U e I son la tensi\'on de los terminales
 de la bater\'ia y la corriente que circula por el inductor respectivamente.
 Entonces cuando el interruptor S1 se apaga y se enciende S5, la energ\'ia se
-transfiere desde la inductancia a la celda 2 como muestra la linea verde.
+transfiere desde la inductancia a la celda 2 como muestra la línea verde.
 Las señales \acrshort{PWM} son utilizadas como señales de control que comandan 
 los MOSFETs para transferir energ\'ia entre las celdas.
 
 Una configuraci\'on t\'ipica de m\'ultiples inductores se puede observar en la
 Figura \ref{ibbc_top}B, que consiste de varios inductores y MOSFETs. La
 energ\'ia transferida entre celdas es, nuevamente, controlada por los MOSFETs. 
-Las lineas azules y verdes muestran los caminos de las transferencia de 
+Las líneas azules y verdes muestran los caminos de transferencia de 
 energ\'ia para la descarga de la celda 1 y la carga de la celda 2. La velocidad 
 de ecualizaci\'on para tales topolog\'ias se encuentra afectada por la escala 
 del pack, y la velocidad es generalmente baja porque la transferencia de 
-energ\'ia solo se puede realizar entre celdas adjacentes.
+energ\'ia solo se puede realizar entre celdas adyacentes.
 
 En la Figura \ref{ibbc_top}C se muestra un circuito de inductor resonante. Este
 circuito es utilizado como reemplazo del inductor simple, debido a que puede
 reducir la interferencia electromagn\'etica (\acrshort{EMI}, del ingl\'es
 \emph{\acrlong{EMI}}) e incrementar las p\'erdidas provocadas por la
-conmutaci\'on durante el proceso de ecualizaci\'on. Las lineas azul y verde
+conmutaci\'on durante el proceso de ecualizaci\'on. Las líneas azul y verde
 muestran el intercambio de energ\'ia para la descarga de la celda 1 y la carga
 de la celda 2 respectivamente.
 
-Una caracter\'istica particular de los circuitos \acrshort{IBBC}s es que la
-transferencia de energ\'ia se puede hacer desde una celda con menor voltaje a
-una celda de mayor voltaje. Por lo tanto, la estrateg\'ia de balanceo debe ser
-considerada cuidadosamente para evitar un error de balanceo.
+%Note: (FDC) No logro ver como podríamos pasar energía con una inductancia desde
+%una delda de menor voltaje a una de mayor
+
+%Una caracter\'istica particular de los circuitos \acrshort{IBBC}s es que la
+%transferencia de energ\'ia se puede hacer desde una celda con menor voltaje a
+%una celda de mayor voltaje. Por lo tanto, la estrategia de balanceo debe ser
+%considerada cuidadosamente para evitar un error de balanceo.
 
 \subsubsubsection{Controlador de balanceo basado en transformadores}
 
@@ -2901,22 +2903,22 @@ basada en un transformador de devanado simple, que puede transferir energ\'ia de
 forma \acrshort{M2C} controlando los interruptores del circuito. Por ejemplo,
 asumiendo que la celda 1 es la celda con la mejor energ\'ia. Inicialmente, el
 MOSFET S se cierra y comienza a circular corriente desde el m\'odulo hacia el
-transformador. La linea azul muestra el camino de esta transferencia de
+transformador. La línea azul muestra el camino de esta transferencia de
 energ\'ia. Una vez que el MOSFET S se apaga, los interruptores S1 y S2 son
 conectados a la parte alta y baja de la celda 1 respectivamente, y la energ\'ia
-almacenada en el transformador es transferida a la misma. La linea verde muestra
-como se transfiere la energ\'ia desde el transformador a la celda 1. La primer
-desventaja que se puede observar para este tipo de topolog\'ia es que se
-necesitan transformadores de alto voltaje y una gran cantidad de interruptores
-para packs de bater\'ias con muchas celdas conectadas en serie, lo que implica
-un costo alto y un gran tamaño para ser implementado.
+almacenada en el transformador es transferida a la misma. La línea verde muestra
+como se transfiere la energ\'ia desde el transformador a la celda 1. Una primer
+desventaja para este tipo de topolog\'ia, que se puede observar a simple vista,
+es que se necesitan transformadores de alto voltaje lo que implica un costo alto
+y un gran tamaño para ser implementado, sin contar el peso, característica
+fundamental a tener en cuenta en los vehículos eléctricos.
 
-Una topolog\'ia de m\'ultiplos devanados para una transferencia de energ\'ia
+Una topolog\'ia de m\'ultiples devanados para una transferencia de energ\'ia
 \acrshort{C2M} se puede observar en la Figura \ref{tbbc_top}B. Por ejemplo,
 asumiendo que la celda 2 es la celda con mayor energ\'ia, el MOSFET S2 se
 enciende y la corriente comienza a circular hacia el transformador en el sentido
 directo. Una vez que el MOSFET S2 se apaga, la energ\'ia almacenada en el
-transformador ser\'a transferida al m\'odulo. Las lineas azul y verde muestran
+transformador ser\'a transferida al m\'odulo. Las líneas azul y verde muestran
 los caminos de esta transferencia de energ\'ia.
 
 Por el otro lado, en la Figura \ref{tbbc_top}C se muestra una topolog\'ia basada
@@ -2936,7 +2938,7 @@ para aplicaciones de alta potencia son costosos.
 
 \subsubsubsection{Balanceadores basados en convertidores de potencia}
 
-Los convertidores DC/DC, o convertidores de potencia, puede convertir una fuente
+Los convertidores DC/DC, o convertidores de potencia, pueden convertir una fuente
 DC de un voltaje a otro distinto. Los controladores de balanceo basados en
 convertidores de potencia (\acrshort{PBBC}, del ing\'es \acrlong{PBBC}) tienen
 la ventaja de ser altamente eficientes y precisos para la transformaci\'on de
@@ -2952,7 +2954,7 @@ el proceso de ecualizaci\'on pero con la contraparte de ser costosos y complejos
 de implementar.
 
 El convertidor de potencia reductor disminuye el voltaje de entrada con al menos
-dos semiconductores y un inductor. Una topolog\'ia de ecualizaci\'on basado en
+dos semiconductores y un inductor. Una topolog\'ia de ecualizaci\'on basada en
 un convertidor reductor se puede observar en la Figura \ref{pbbc_top}A. Durante
 el proceso de carga, cada circuito reductor puede servir como un circuito de
 carga y controlar la corriente de este proceso para cada celda de forma 
@@ -2981,8 +2983,8 @@ dependiendo del voltaje del m\'odulo y el ciclo de trabajo de la señal de
 Los convertidores reductores-elevadores pueden implementar funciones de ambas
 topolog\'ias, y el voltaje de salida puede ser mayor o menor al de entrada. Una
 topolog\'ia t\'ipica que implementa estos convertidores se puede observar en
-\ref{pbbc_top}C, que permite transferir energ\'ia entre bater\'ias adjacentes a
-trav\'es del control de los interruptores.. For ejemplo, asumiendo que la
+\ref{pbbc_top}C, que permite transferir energ\'ia entre bater\'ias adyacentes a
+trav\'es del control de los interruptores. Por ejemplo, asumiendo que la
 energ\'ia debe ser transferied desde la celda 2 a la celda 1. Inicialmente, el
 MOSFET S3 se enciende y la corriente comienza a circular hacia la inductancia
 L1. Una vez que el MOSFET S3 se apaga, la energ\'ia es transferida a la celda 1
@@ -2994,7 +2996,7 @@ de implementar, por lo que solo rinden para bater\'ias a gran escala y con
 grandes capacidades. Por ejemplo, \cite{shang_et_al_bal_rect} introdujo la 
 investigaci\'on de convertidores reductores-elevadores junto a sus resultados 
 experimentales.
-\newpage
+%\newpage
 Los convertidores Cuk aumentan o disminuyen y, a la vez, invierten la tensi\'on
 de entrada. Un convertidor de tipo Cuk implementado en un balanceador se puede
 observar en la Figura \ref{pbbc_top}D, que contiene dos inductores y dos
@@ -3021,13 +3023,14 @@ LiFeP$\mathrm{O_4}$ adoptando una modalidad de transferencia entre m\'odulos
                  (A) Topolog\'ia de ecualizaci\'on basadas en convertidores
                  reductores. (B) Topolog\'ia de ecualizaci\'on basadas en
                  convertidores elevadores. (C) Topolog\'ia de ecualizaci\'on
-                 basadas en un tpolog\'ia reductor-elevador (\acrshort{C2C}).
+                 basada en una topolog\'ia reductor-elevador (\acrshort{C2C}).
                  (D) Topolog\'ia Cuk (\acrshort{C2C}).}
          \label{pbbc_top}
     \end{center}
 \end{figure}
+\FloatBarrier
 
-\newpage
+%\newpage
 
 \subsubsection{Topolog\'ias h\'ibridas}
 
@@ -3076,7 +3079,7 @@ y bajas p\'erdidas de potencia. Comparado con la ecualizaci\'on pasiva, la
 topolog\'ia activa puede efectivamente reducir la inconsistencia entre las
 capacidades entre celdas y resistencias internas mejorando el tiempo de vida del
 pack de bater\'ias y su energ\'ia disponible.
-\newpage
+%\newpage
 Dentro de los sistemas de balanceo activo, los \acrshort{CBBC}s tienen el
 m\'erito de implementar una estrategia muy simple y de bajo costo, con la
 contraparte de que los tiempos de ecualizaci\'on son muy bajos. Los
@@ -3128,7 +3131,7 @@ y 5 el mejor.}
         \label{comp_bal_results}
     \end{center}
 \end{figure}
-\newpage
+%\newpage
 \subsubsection{Estrategias de ecualizaci\'on}
 
 Las estrategias de ecualizaci\'on son utilizadas para controlar la operaci\'on
@@ -3149,25 +3152,28 @@ y el desglose de las mismas se puede observar en la Figura
     \end{center}
 \end{figure}
 
-\subsubsection{Variables de Ecualizaci\'on}
+\subsubsubsection{Variables de Ecualizaci\'on}
 
 Las variables de ecualizaci\'on son la base para las estrategias de
-ecualizaci\'on. El error de la muestra, el costo computacional, el car\'acter de
-hist\'eresis deben ser consideradas a la hora de elegir que variable ecualizar.
+ecualizaci\'on. El error de la muestra, el costo computacional y el car\'acter de
+hist\'eresis deben ser consideradas a la hora de elegir qué variable ecualizar.
 Para la ecualizaci\'on se encuentran tres variables disponibles, el voltaje de 
 las celdas, \acrshort{SOC}, capacidad y resistencia interna.
 
 \subsubsubsection{Estrategias de Ecualizaci\'on basadas en voltaje
 (\acrshort{VBES})}
 
-Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltaje de la
-terminal medido por el \acrshort{BMS} como la base para seleccionar que
-bater\'ias deben ser seleccionadas. El voltaje de la terminal en cada celda
-conectada en serie puede ser realizado de forma directa con una exactitud
-aceptable, por lo tanto, los \acrshort{VBES}s son uno de los m\'etodos viables
-m\'as b\'asicos a implementar. Sin embargo, los efectos no lineales de las
-celdas de litio, como se menciona en secciones anteriores no refleja el valor
-real \acrshort{OCV} causando problemas de ecualizaci\'on de las celdas.
+Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltaje de las celdas
+medidos en sus terminales por el \acrshort{BMS} como la base para seleccionar
+qué bater\'ias deben ser ecualizada. La medición del voltaje en bornes de las
+celdas conectadas en serie puede ser realizado de forma directa con una
+exactitud aceptable, por lo tanto, los \acrshort{VBES}s son uno de los m\'etodos
+viables m\'as b\'asicos a implementar. Sin embargo, las características no
+lineales de las celdas de litio, cuestión que se desprende de la Sección
+\ref{litioModel} y las particularidades que se presentan a la hora de modelar
+una celda, nos permite inferir que el voltaje en bornes no refleja el valor real
+\acrshort{OCV} causando dificultades a la hora de utilizar esta variable para
+decidir sobre el proceso de ecualizaci\'on de las celdas.
 
 Para subsanar este problema, se propone una estrategia de ecualizaci\'on basada
 en el \acrshort{OCV}. Sin embargo, la medici\'on en tiempo real de esta variable
@@ -3286,7 +3292,7 @@ y ajustar el control acorde a estos cambios, logrando en todo punto de
 operaci\'on un \'optimo rendimiento en el balanceo. Comparado con los
 algoritmos de optimizaci\'on, el control predictivo tiene menor costo
 computacional y ha sido usado ampliamente en sistemas de control no lineales.
-\'Este m\'etodo puede subsanar la no linealidad de las celdas de litio, ya que
+Este m\'etodo puede subsanar la no linealidad de las celdas de litio, ya que
 pueden predecir el estado de la bater\'ia y el offset de polarizaci\'on.
 Comparado con un control promedio de \acrshort{SOC}, el mismo puede converger a
 \acrshort{SOC}s y voltajes m\'as uniformes evitando de esta forma cualquier tipo
@@ -4753,7 +4759,7 @@ Y el ripple del voltaje de salida que deberá tolerar el capacitor de salida:
 
 El puente de salida lo conforman dos Mosfets canal-N, Q9 y Q10, del tipo
 FDD86580-F085 de la empresa ON Semiconductor / Fairchild de $V_{GS}=60V$ de
-voltage máximo entre Drain y Source, una corriente máxima de 50A y una $R_{DS
+voltaje máximo entre Drain y Source, una corriente máxima de 50A y una $R_{DS
 (on)} \approx 7.8 m\ohm$ a $V_{GS} = 10V$. 
 
 El driver de excitación del gate se presenta integrado en el \acrshort{CI} del
