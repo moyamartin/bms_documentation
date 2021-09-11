@@ -3846,7 +3846,7 @@ en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria
 %\newpage
 
 La Figura \ref{hppc_kollmeyer_zoom} muestra una vista detallada y ampliada de
-uno de los pulsos de descarga que conforman el ensayo \acrshort{HPPC}.  Cada uno
+uno de los pulsos de descarga que conforman el ensayo \acrshort{HPPC}. Cada uno
 de estos pulsos nos brindan no solo información respecto de la tensión de
 circuito abierto (\acrshort{OCV}), sino tambien de la evolución de la celda
 frente a una excitación por corriente a estados de carga (\acrshort{SOC})
@@ -3861,7 +3861,6 @@ determinado.
     \end{center}
 \end{figure}
 \FloatBarrier
-
 
 \subsubsection{Validación número de ramas R-C del modelo}
 
@@ -3898,17 +3897,24 @@ la precisión del modelo, la complejidad matemática y la necesidad de mantener 
 costo computacional bajo a los fines de embeber el modelo en el
 microcontrolador. 
 
-\subsubsection{Simulaci\'on del circuito de Randles}
+\subsubsection{Implementación del circuito de Randles}
 
-Para poder realizar el proceso de optimizaci\'on de par\'ametros, en primer 
-instancia se necesita implementar el circuito de Randles en un ambiente de 
+Para poder realizar el proceso de optimizaci\'on de par\'ametros, en primer
+instancia se necesita implementar el circuito de Randles en un ambiente de
 simulaci\'on. En este caso, el modelo fue desarrollado en \emph{Simulink}
-utilizando la librer\'ia \emph{Power Systems} de \emph{Simscape}. El modelo
-est\'a compuesto por una fuente de tensi\'on controlada, que representa el
-\acrshort{OCV} de la bater\'ia, y 5 \acrshort{LUT}s, que representan los 
-componentes pasivos del circuito, los 6 componentes depende exclusivamente del
-nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on se puede observar en la 
-Figura \ref{battery_model_simulink}.
+utilizando la librer\'ia \emph{Power Systems} de \emph{Simscape} para crear a
+medida y representar los elementos pasivos que lo componen y las señales de
+entrada y salida.
+
+El modelo est\'a compuesto por una fuente de tensi\'on controlada, que
+representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que
+representan los componentes pasivos del circuito. Los 6 componentes depende
+exclusivamente del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on
+se puede observar en la Figura \ref{battery_model_simulink}. 
+
+El modelo implementado, a su vez, incluye una fuente de corriente a la salida
+que hace las veces de carga de la celda y logra capturar la señal de corriente
+proveniente del set de datos.
 
 \begin{figure}[h!]
     \begin{center}
@@ -3917,22 +3923,34 @@ Figura \ref{battery_model_simulink}.
         \label{battery_model_simulink}
     \end{center}
 \end{figure}
+\FloatBarrier
 
-Por otro lado, el modelo tambi\'en logra capturar la señal de corriente 
-proveniente del set de datos, como tambi\'en medir la tensi\'on de salida que 
-simula el mismo. Finalmente, tanto el \acrshort{OCV} y los componentes pasivos 
-del circuito, dependen directamente del \acrshort{SOC} de la bater\'ia, cabe
-destacar que el modelo no contempla variaciones de temperatura de la celda.
+Las variables de entrada del modelo serán entonces: 
+\begin{itemize}
+    \item $SOC(t)$
+    \item $V_{OCV}(SOC)$
+    \item $I_{load}(t)$
+\end{itemize}
 
-Como resultado a priori, para determinar si \'este modelo puede llegar a
-representar el set de datos, se compara la salida ante un escal\'on de corriente 
-del modelo sin optimizar, tomando todos los par\'ametros con valores
-predeterminados (1F para los capacitores, 1m$\mathrm{\Omega}$ para ls
-resistencias de los tanques y 40m$\mathrm{\Omega}$ para $\mathrm{R_0}$). 
-Esto se puede observar en la Figura \ref{comp_simulink_no_opt}, donde, a pesar
-de no estar optimizada para disminuir el error en la tensi\'on de salida, el
-modelo logra representar, de forma alejada, la din\'amica de la respuesta al 
-escal\'on validando la elecci\'on del modelo de Randles.
+El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
+ante las variaciones de sus variables de entrada a partir de la medición de la
+tensi\'on de salida que simula el mismo.
+
+El modelado de los componentes a partir de \acrshort{LUT} no contempla
+variaciones de temperatura del electrolito de la celda ni de la corriente
+circulante por los elementos. Como condición de diseño se supone que el valor de
+los elementos posivos no se ve modificado ante la variación de la corriente de
+excitación de los mismo. Diferentes condiciones de operación, tanto en
+temperatura como en corriente de excitación, requeriran simplemente repetir el
+proceso de simulación para cada particularidad poblándose las nuevas dimensiones
+obtenidas de la \acrshort{LUT} de forma manual.
+
+Se valida el funcionamiento de la implementación del
+modelo propuesto para representar el set de datos disponible observando la
+respuesta del mismo ante la excitacipon con un escal\'on de corriente. Para el
+ensayo se utilizan par\'ametros con valores predeterminados (1F para los
+capacitores, 1m$\mathrm{\Omega}$ para ls resistencias de los tanques y
+40m$\mathrm{\Omega}$ para $\mathrm{R_0}$).
 
 \begin{figure}[h!]
     \begin{center}
@@ -3943,8 +3961,14 @@ escal\'on validando la elecci\'on del modelo de Randles.
          \label{comp_simulink_no_opt}
     \end{center}
 \end{figure}
+%\FloatBarrier
 
-\newpage
+Se puede observar en la Figura \ref{comp_simulink_no_opt} que a pesar de no
+estar optimizados los parámetros para disminuir el error en la tensi\'on de
+salida, el modelo logra representar, de forma lejana, la din\'amica de la
+respuesta al escal\'on validando la implementación realizada.
+
+%\newpage
 
 \subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
 
