@@ -3899,9 +3899,9 @@ microcontrolador.
 
 \subsubsection{Implementación del circuito de Randles}
 
-Para poder realizar el proceso de optimizaci\'on de par\'ametros, en primer
-instancia se necesita implementar el circuito de Randles en un ambiente de
-simulaci\'on. En este caso, el modelo fue desarrollado en \emph{Simulink}
+Para llevar a cabo el proceso de estimación y optimizaci\'on de par\'ametros, en
+primer instancia se necesita implementar el circuito de Randles en un ambiente
+de simulaci\'on. En este caso, el modelo fue desarrollado en \emph{Simulink}
 utilizando la librer\'ia \emph{Power Systems} de \emph{Simscape} para crear a
 medida y representar los elementos pasivos que lo componen y las señales de
 entrada y salida.
@@ -3945,12 +3945,17 @@ temperatura como en corriente de excitación, requeriran simplemente repetir el
 proceso de simulación para cada particularidad poblándose las nuevas dimensiones
 obtenidas de la \acrshort{LUT} de forma manual.
 
-Se valida el funcionamiento de la implementación del
-modelo propuesto para representar el set de datos disponible observando la
-respuesta del mismo ante la excitacipon con un escal\'on de corriente. Para el
-ensayo se utilizan par\'ametros con valores predeterminados (1F para los
-capacitores, 1m$\mathrm{\Omega}$ para ls resistencias de los tanques y
-40m$\mathrm{\Omega}$ para $\mathrm{R_0}$).
+Se valida el funcionamiento de la implementación del modelo propuesto para
+representar el set de datos disponible observando la respuesta del mismo ante la
+excitacipon con un escal\'on de corriente.
+
+Para el ensayo se utilizan par\'ametros con valores predeterminados: 
+
+\begin{itemize}
+    \item $C_{1} = C_{2} = 1F$
+    \item $ R_{1} = R_{2} = 1m\mathrm{\Omega}$
+    \item $\mathrm{R_0}=40m\mathrm{\Omega}$
+\end{itemize}
 
 \begin{figure}[h!]
     \begin{center}
@@ -3972,11 +3977,11 @@ respuesta al escal\'on validando la implementación realizada.
 
 \subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
 
-El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} 
-debe ser preprocesado para obtener ciertas variables de inter\'es, como por
-ejemplo, obtener una señal del \acrshort{SOC} de la curva es relevante para
-comparar los resultados de nuestro modelo, como tambi\'en la segmentaci\'on o
-modificaci\'on de los datos es \'util para el desarrollo del modelo.
+El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} debe ser
+preprocesado para obtener ciertas variables de inter\'es, como por ejemplo, la
+señal del \acrshort{SOC} de la curva relevante para comparar los resultados de
+nuestro modelo, como tambi\'en la segmentaci\'on o modificaci\'on de los datos
+es \'util para el desarrollo del modelo.
 
 \subsubsubsection{Curva de \acrshort{SOC}}
 
@@ -3995,7 +4000,7 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=1\textwidth]{soc_hppc_data.eps}
+        \includegraphics[width=0.8\textwidth]{soc_hppc_data.eps}
         \caption{Curva del \acrshort{SOC} para el ensayo HPPC de
         \cite{Kollmeyer2018}. En el mismo se pueden observar los escalones de
         \acrshort{SOC} generados por los pulsos de corriente aplicados en la
@@ -4003,32 +4008,7 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
         \label{soc_hppc_data}
     \end{center}
 \end{figure}
-
-\subsubsubsection{Segmentaci\'on de flancos}\label{flank_seg}
-
-Para poder evaluar la optimizaci\'on del modelo en toda la curva 
-\acrshort{HPPC}, es necesario segmentar los pulsos para comparar la salida del
-modelo a cada \acrshort{SOC} de la curva. Para ello se implementa un algoritmo
-en Matlab llamado \texttt{flanks}, que dado un arreglo de valores y un
-porcentaje espec\'ifico compara las muestras entre dos instantes contiguos [n,
-n+1]. Si la diferencia entre ambas muestras es mayor al porcentaje especificado 
-de un flanco ascendente marca ese instante con un 1, si es mayor al porcentaje
-anterior de un flanco descendiente marca ese instante con -1, caso contrario, 
-marca ese instance con un 0. Esto permite poder identificar los instantes de 
-tiempo en los que se genera un pulso de corriente/tensi\'on de la bater\'ia para 
-poder segmentar el conjunto de datos y post-procesarlo para optimizar el 
-modelo. El resultado del algoritmo se puede observar en uno de los pulsos de la 
-curva \acrshort{HPPC} en la Figura \ref{flank_seg_hppc}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=.8\textwidth]{flank_seg_hppc.eps}
-        \caption{Segmentaci\'on de un pulso de corriente de la curva
-        \acrshort{HPPC}, se puede observar los picos 1 y -1 indicando los
-        instantes en los que comienza y finaliza un pulso de corriente}
-        \label{flank_seg_hppc}
-    \end{center}
-\end{figure}
+\FloatBarrier
 
 \subsubsubsection{Obtenci\'on del \acrshort{OCV}}
 
@@ -4055,20 +4035,106 @@ Figura \ref{ocv_detection}.
         \label{ocv_detection}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 Relacionando estos resultados con los datos obtenidos en la Figura 
 \ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
 controlada por \acrshort{OCV} del esquem\'atico en la Figura \ref{randles_2rc}.
-Esta curva se puede observar en la Figura \ref{ocv_vs_soc}.
+Esta curva se puede observar en la Figura \ref{fig:ocv_vs_soc}.
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=.7\textwidth]{ocv_vs_soc.eps}
         \caption{Curva \acrshort{OCV} en relaci\'on al \acrshort{SOC}, que
-        representa el funcionamiento de la fuente de voltaje controlada por
+            representa el funcionamiento de la fuente de voltaje controlada por
         \acrshort{SOC} en el esquem\'atico de Randles.}
     \end{center}
+    \label{fig:ocv_vs_soc}
 \end{figure}
+\FloatBarrier
+
+\subsubsubsection{Segmentaci\'on de Datos}\label{flank_seg}
+
+El número de tanques R-C que conforman el modelo y consecuentemente el de
+parametros a estimar, unos 67 juegos de 5 parámetros cada uno, junto con el
+tamaño del dataset del ensayo \acrshort{HPPC} que se observa en la Figura
+\ref{hppc_kollmeyer} plantean el desafío computacional que significa la
+estimación y optimización de los mismos. 
+
+Son parámetros a tener en cuenta la velocidad de cómputo y el consumo de
+memoria, la selección de las condiciones iniciales, seteos y condiciones de
+borde de los parámetros a calcular que implican una etapa de
+prueva y error hasta obtener un proceso funcional acorde a los resultados
+deseados y el tiempo de programación que ello implica.
+
+Como resultado de las complejidades planteadas y en vista de evaluar el resultado
+del proceso de optimizaci\'on del modelo en toda la extensión de la curva
+\acrshort{HPPC}, es necesario segmentar los datos disponibles en porciones que
+sean faciles de abordar. Idealmente los datos del ensayo fueron separados según
+los pulsos de corriente para cada nivel del \acrshort{SOC}. 
+
+Para ello se implementa en Matlab un algoritmo llamado \texttt{flanks.m}, el cual
+dado un arreglo de valores y un porcentaje espec\'ifico compara las muestras
+entre dos instantes contiguos [n, n+1]. Si la diferencia entre ambas muestras es
+mayor al porcentaje especificado de un flanco ascendente marca ese instante con
+un 1, si es mayor al porcentaje anterior de un flanco descendiente marca ese
+instante con -1, caso contrario, marca ese instance con un 0. Esto permite
+identificar los instantes de tiempo en los que se genera un pulso de
+corriente/tensi\'on de la bater\'ia para poder segmentar el conjunto de datos y
+post-procesarlo para optimizar el modelo. Las \acrshort{LUT}s tendrán los saltos
+en los mismos intervalos.
+
+El resultado del algoritmo se puede observar a partir de uno de los pulsos de
+corriente de la curva \acrshort{HPPC} a modo de ejemplo de su funcionamiento en
+la Figura \ref{flank_seg_hppc}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{flank_seg_hppc.eps}
+        \caption{Identificación segmentos curva
+        \acrshort{HPPC}, se puede observar los picos 1 y -1 indicando los
+        instantes en los que comienza y finaliza un pulso de corriente}
+        \label{flank_seg_hppc}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+Una vez identificados todos los flancos segmentamos el set de datos en porciones
+abarcables por el algoritmo de optimización. En la Imagen
+\ref{fig:data_seg_hppc} se puede apreciar, a modo de ejemplo, la porción de
+datos seleccionada y el criterio de corte utilizado. Para cada uno de los ciclos
+de optimización se seleccionó el intervalo de datos comprendidos entre dos
+flancos consecutivos descendentes. Puede notarse el solapamiento entre los
+intervalos de datos seleccionados teniendo en cuenta los puntos donde se tomó el
+\acrshort{SOC} para definir los cortes de la \acrshort{LUT}s. Esto permite que
+el algoritmo cuente con la información suficiente para ejercitar todos y cada
+uno de los parámetros del modelo.
+
+\begin{figure}[h!]
+    \centering
+        \includegraphics[width=1\textwidth]{data_seg_hppc.png}
+        \caption{Segmento n - Dataset ensayo \acrshort{HPPC}}
+        \label{fig:data_seg_hppc}
+\end{figure}
+\FloatBarrier
+
+La posibilidad de extender o acortar los puntos de inicio y fin de la trama de
+datos otorga un grado más de libertad. Dependiendo de cada ciclo de
+optimización, puede ser de utilidad retener el principio del pulso siguiente
+debido a que los valores de los parámetros del pulso anterior son tambien
+ejercitados al principio del intervalo siguiente. 
+
+Cada pulso de corriente y su respectiva contraparte en tensión se pueden dividir
+en 2 zonas, una de excitación, aquella donde la corriente forzada está
+circulando por le modelo y una zona de relajación a partir de que el pulso de
+corriente es eliminado. La zona de excitación puede ser considerada como una
+zona de transición entre \acrshort{SOC}s y entradas de las \acrshort{LUT}s.
+Es la zona de relajación la que cuenta con la mayor información sobre de la
+dinámica del sistema para ejercitar cada parámetro del modelo incluido el cambio
+instantaneo de voltaje que representa $R_{0}$. La zona de excitación no 
+brinda información sobre la dinámica completa del sistema, solo nos
+brinda información parcial, fundamentalmente sobre la parte rápida de la
+dinámica. 
 
 \subsubsection{Algoritmo recursivo de optimizaci\'on}
 
