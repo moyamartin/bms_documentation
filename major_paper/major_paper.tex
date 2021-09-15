@@ -3466,18 +3466,20 @@ En la especificación original de \acrshort{CAN}, la capa física no fue definid
 La especificación \acrfull{CiA}, complementó las definiciones respecto al medio físico y conectores. Los nodos conectados al bus interpretan dos niveles lógicos denominados:
 
 \begin{itemize}
-	\item Dominante: La tensión diferencial (CAN_H - CAN-L) es del orden de 2.0V con CAN-H = 3.5V y CAN-L = 1.5V (nominales).
-	\item Recesivo: La tensión diferencial (CAN_H - CAN-L) es del orden de 0V con CAN-H = 2.5V y CAN-L = 2.5V (nominales)
+	
+	\item Dominante: La tensión diferencial (CAN-H - CAN-L) es del orden de 2.0V con CAN-H = 3.5V y CAN-L = 1.5V (nominales).\\
+	\item Recesivo: La tensión diferencial (CAN-H - CAN-L) es del orden de 0V con CAN-H = 2.5V y CAN-L = 2.5V (nominales).\\
+	
 \end{itemize}
 
-La topología es bus con derivaciones de corta longitud. con perdida de prestaciones en cuanto a velocidad o longitud máxima se pueden adoptar topologias en estrella. El bus se cierra en los extremos con impedancias de carga.
+La topología es bus con derivaciones de corta longitud.Si se presenta el caso de perdida de prestaciones en cuanto a velocidad o longitud máxima se pueden adoptar topologias en estrella. El bus se cierra en los extremos con impedancias de carga.
 
 El número máximo de nodos no está limitado por la especificación básica y depende de las características de los transreceptores, las especificaciones de buses de campo lo limitan a 32 o 64 en una red sin repetidores.
 
 
 \subsubsubsection{Capa de Datos}
 Unas de las características que distingue a CAN con respecto a otras normas, es su técnica de acceso al medio denominada como 
-CSMA/CD+CR o "Carrier Sense, Multiple Access/Colission Detection + Collision Resolution" (Acceso múltiple con detección de 
+CSMA/CD+CR o ``Carrier Sense, Multiple Access/Colission Detection + Collision Resolution" (Acceso múltiple con detección de 
 portadora, detección de colisión más resolución de colisión). 
 
 El  acceso  al  medio  por  medio  de  técnicas de acceso múltiple y detección de colisión evolucionaron desde el método ALOHA 
@@ -3492,7 +3494,121 @@ con la prioridad del nivel definido como bit de tipo dominante.  Definiendo el b
 bit   recesivo  al   nivel  lógico  '1'  se  trata  de  una  función  AND  de  todos  los  bits  transmitidos  simultáneamente.    Cada  transmisor  
 escucha  continuamente  el  valor  presente  en  el  bus,  y  se  retira  cuando  ese  valor  no  coincide  con  el  que  dicho  transmisor  ha  
 forzado.    Mientras  hay  coincidencia  la  transmisión  continua,  finalmente  el  mensaje  con  identificador  de  máxima  prioridad  
-sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible
+sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible\\
+
+\subsubsubsection{Mensajes y Tipos de Tramas}
+CAN utiliza mensajes de estructura predefinida, tramas, para la gestión de la comunicación.
+Se distinguen entre dos variantes de CAN, el definido en CAN 2.A o ``CAN Standard" y el definido en CAN 2.B o ``CAN
+Extendido", los formatos de trama son análogos diferenciándose básicamente en el número de bits que se utiliza para el
+identificador de mensaje: 11 bits (2032 identificadores) diferentes en CAN Standard y 29 bits (536.870.912 identificadores) en
+CAN Extendido.
+Las tramas CAN son de longitud reducida, la trama más larga es de 130 bits en CAN Estándar y 154 bits en CAN Extendido.
+Los tipos de trama, y estados de bus, utilizados son:
+\begin{itemize}
+	\item Trama de datos: la que un nodo utiliza normalmente para poner información en el bus (siempre es un ``broadcast" a todos los demás nodos). Puede incluir entre 0 y 8 Bytes de información útil.\\
+	\item Trama de interrogación remota (en lo que sigue se denominará como trama remota (``remote frame"): puede ser utilizada por
+	un nodo para solicitar la transmisión de una trama de datos con la información asociada a un identificador dado. El nodo que
+	disponga de la información definida por el identificador la transmitirá en una trama de datos.\\
+	\item Tramas de error: usadas para señalar al resto de nodos la detección de un error, invalidando el mensaje erróneo normalmente (un caso especial es un nodo en estado de ``error pasivo").\\
+	\item Tramas de error: usadas para señalar al resto de nodos la detección de un error, invalidando el mensaje erróneo normalmente (un caso especial es un nodo en estado de ``error pasivo").\\
+	\item Trama de sobrecarga: permite que un nodo fuerce a los demás a alargar el tiempo entre transmisión de tramas sucesivas
+	Espaciado inter-tramas: Las tramas de datos (y de interrogación remota) se separan entre sí por una secuencia predefinida que
+	se denomina espaciado inter-trama.\\
+	\item Bus en reposo: En los intervalos de inactividad se mantiene constantemente el nivel recesivo del bus.\\
+	\end{itemize}
+
+En un bus CAN los nodos transmiten la información espontáneamente con tramas de datos, bien sea por un proceso cíclico o activado ante eventos en el nodo. La trama de interrogación remota sólo se suele utilizar para detección de presencia de nodos o para puesta al día de información en un nodo recién incorporado a la red. Los mensajes pueden entrar en colisión en el bus, el de identificador de mayor prioridad sobrevivirá y los demás son retransmitidos lo antes posible.
+
+
+\subsubsubsection{Formatos de Trama}
+
+	\textbf{Trama de Datos}\\
+	Una trama de datos es generada por un nodo CAN cuando transmite información. Los campos incluidos en una trama de datos
+	son para CAN Estándar.
+	
+	\begin{itemize}
+	\item \textbf{Inicio de trama (SOF):} El inicio de trama es un campo de un solo bit siempre dominante que indica el inicio de la transmisión. Los nodos receptores se sincronizan con el flanco de bajada de este bit.\\
+	\item \textbf{Arbitraje:} El campo de identificación está formado por el identificador de mensaje (11 bits) más el bit RTR. En una trama de datos el bit RTR es dominante. En una trama remota es recesivo. Los bits de identificador se transmiten en orden de más significativo a menos significativo.\\
+	\item \textbf{Control:} El campo de control está formado por dos bits reservados para uso futuro y cuatro bits adicionales que indican el número de bytes de datos. En realidad el primero de estos bits (IDE) se utiliza para indicar si la trama es de CAN Estándar (IDE dominante) o Extendido (IDE recesivo). El segundo bit (RB0) es siempre recesivo. Los cuatro bits de código de longitud (DLC) indican en binario el número de bytes de datos en el mensaje (0 a 8).\\
+	\item \textbf{Datos:} Es un campo formado por 0 a 8 bytes de datos, es decir 0 a 64 bits en saltos de 8. Cada byte se transmite con bit más significativo primero.\\
+	\item \textbf{CRC:} Código de redundancia cíclica que genera el transmisor por la división módulo 2 de todos los bits precedentes del mensaje, incluyendo los de relleno si existen, por el polinomio generador: X15+ X14+ X8+ X7+ X4+ X3+ X1+1, el resto de esta división es el código CRC transmitido. Los receptores comprueban este código. Tras el código CRC se incluye un bit recesivo (delimitador de CRC).\\
+	\item \textbf{Campo de reconocimiento (ACK):} es un campo de dos bits que el transmisor pone como recesivos. El primero de estos bits se
+	sobreescribe por un bit dominante de reconocimiento transmitido por los nodos que han recibido el mensaje correctamente. El bit
+	de ACK queda así insertado entre dos bits dominantes de delimitación.
+	\item \textbf{Fin de trama (EOF)}: Cierra la trama, consiste en 7 bits recesivos sucesivos.\\
+	\item \textbf{Espaciado entre tramas (IFS)}. Consta de un mínimo de 3 bits recesivos.\\
+\end{itemize}
+
+La trama de datos de CAN Extendido se diferencia de la de CAN Estándar en que un bit dominante fijo (SRR) aparece en la posición del bit RTR de CAN Estándar, se fija el bit IDE como recesivo, siguen luego los 18 bits adicionales del identificador, el campo de control con RTR, dos bits reservados y la longitud de datos y el resto de la trama es análogo.\\
+
+En un bus CAN pueden convivir nodos CAN Estándar y CAN Extendido, para ello los nodos CAN Estándar han de ser del tipo CAN 2.OB Pasivo, estos nodos reaccionan ignorando tramas CAN Extendido en lugar de señalarlas como erróneas. Los nodos que cumplen CAN 2.0B pueden funcionar en modo Estándar o Extendido indistintamente.
+Durante este trabajo se hará referencia sobre todo a CAN Estándar, en todo caso las diferencias con CAN Extendido son mínimas,
+excepto la posibilidad de contar con un número mucho mayor de identificadores disponibles.\\
+
+\textbf{Trama remota}\\
+
+El formato es análogo a la trama de datos pero con el bit RTR recesivo . Por otra parte una trama remota no incluye nunca datos.
+El identificador es el del mensaje que se solicita, el campo longitud corresponde a la longitud de ese mensaje.\\
+
+\textbf{Trama de error}\\
+
+Las tramas de error son generadas por cualquier nodo que detecta un error. Consiste en dos campos: Indicador de error (``Error
+Flag") y Delimitador de error. El delimitador de error consta de 8 bits recesivos consecutivos y permite a los nodos reiniciar la
+comunicación limpiamente tras el error. El Indicador de error es distinto según el estado de error (los estados de error de nodo se
+describirán en páginas sucesivas) del nodo que detecta el error:
+Si un nodo en estado de error ``Activo" detecta un error en el bus interrumpe la comunicación del mensaje en proceso generando
+un "Indicador de error activo" que consiste en una secuencia de 6 bits dominantes sucesivos. Esta secuencia rompe la regla de
+relleno de bits y provocará la generación de tramas de error en otros nodos. Por tanto el Indicador de error puede extenderse entre
+6 y 12 bits dominantes sucesivos. Finalmente se espera el campo de delimitación de error formado por los 8 bits recesivos.
+Entonces la comunicación se reinicia y el nodo que había sido interrumpido reintenta la transmisión del mensaje.
+Si un nodo en estado de error ``Pasivo" detecta un error, el nodo transmite un ``Indicador de error pasivo" seguido, de nuevo, por el
+campo delimitador de error. El indicador de error de tipo pasivo consiste en 6 bits recesivos seguidos y, por tanto, la trama de
+error para un nodo pasivo es una secuencia de 14 bits recesivos. De aquí se deduce que la transmisión de una trama de error de ti
+o pasivo no afectará a ningún nodo en la red, excepto cuando el error es detectado por el propio nodo que está transmitiendo. En
+ese caso los demás nodos detectarán una violación de las reglas de relleno y transmitirán a su vez tramas de error.
+Tras señalar un error por medio de la trama de error apropiada cada nodo transmite bits recesivos hasta que recibe un bit también
+recesivo, luego transmite 7 bits recesivos consecutivos antes de finalizar el tratamiento de error.\\
+
+\textbf{Espacio entre tramas}\\
+
+El espacio entre tramas separa una trama (de cualquier tipo) de la siguiente trama de datos o interrogación remota. El espacio
+entre tramas ha de constar de, al menos, 3 bits recesivos. Esta secuencia de bits se denomina ``íntermission". Una vez transcurrida
+esta secuencia un nodo en estado de error activo puede iniciar una nueva transmisión o el bus permanecerá en reposo. Para un
+nodo en estado error pasivo la situación es diferente, deberá espera una secuencia adicional de 8 bits recesivos antes de poder
+iniciar una transmisión. De esta forma se asegura una ventaja en inicio de transmisión a los nodos en estado activo frente a los
+nodos en estado pasivo.\\
+
+\textbf{Trama de sobrecarga}\\
+
+Una trama de sobrecarga tiene el mismo formato que una trama de error activo. Sin embargo, la trama de sobrecarga sólo puede
+generarse durante el espacio entre tramas. De esta forma se diferencia de una trama de error, que sólo puede ser transmitida
+durante la transmisión de un mensaje. La trama de sobrecarga consta de dos campos, el Indicador de Sobrecarga, y el delimitador.
+El indicador de sobrecarga consta de 6 bits dominantes que pueden ser seguidos por los generados por otros nodos, dando lugar a
+un máximo de 12 bits dominantes. El delimitador es de 8 bits recesivos.
+Una trama de sobrecarga puede ser generada por cualquier nodo que debido a sus condiciones internas no está en condiciones de
+iniciar la recepción de un nuevo mensaje. De esta forma retrasa el inicio de transmisión de un nuevo mensaje. Un nodo puede
+generar como máximo 2 tramas de sobrecarga consecutivas para retrasar un mensaje. Otra razón para iniciar la transmisión de
+una trama de sobrecarga es la detección por cualquier nodo de un bit dominante en los 3 bits de "intermission". Por todo ello una
+trama de sobrecarga de generada por un nodo dará normalmente lugar a la generación de tramas de sobrecarga por los demás
+nodos dando lugar, como se ha indicado, a un máximo de 12 bits dominantes de indicador de sobrecarga.\\
+
+\textbf{Arbitraje}\\
+
+Un nodo transmisor monitoriza constantemente el estado del bus. Durante la transmisión del campo Arbitraje la detección de un
+bit dominante, cuando el bit transmitido ha sido recesivo, hace que el nodo detenga la transmisión y pase a recepción de la trama.
+De esta forma no hay pérdida de información y no se destruye por colisión ninguna trama de datos o remota. La especificación
+Bosch admite para CAN Standard los identificadores en el rango 0x000 a 0x7EF. En dicha especificación se indica que los 7 bits
+más significativos no han de ser todos recesivos. Sin embargo muchos controladores admiten el rango 0x000 a 0x7FF, Un
+mensaje de máxima prioridad utilizará, por tanto, el identificador 0x000.
+En un bus único un identificador de mensaje ha de ser asignado a un solo nodo concreto, es decir, se ha de evitar que dos nodos
+puedan iniciar la transmisión simultánea de mensajes con el mismo identificador y datos diferentes. La filosofía CAN es de que
+un mensaje es único en el sistema. Las tramas remotas con identificador concreto que puedan ser generadas por cualquier nodo
+han de coincidir en cuanto al campo longitud, Resumiendo, definiendo un mensaje como el conjunto identificador + longitud de
+campo de datos + semántica de estos datos, el mensaje ha de ser único en el sistema y estar asignado a un nodo concreto. Así, por
+ejemplo, si en un automóvil existe la variable "presión de aceite" esta variable ha de ser transmitida por un nodo concreto, con un
+identificador concreto, con longitud fija y consistente con la codificación de la información en el campo de datos.
+
+
 
 
 \section{Desarrollo}\label{desarrollo}
@@ -3622,7 +3738,7 @@ de capacidad y voltaje que se descrien a continuaci\'on:
         IMR, LMO o Li-manganesio.
     \item \textbf{LiNiMnCoO2}: Litio manganesio n\'iquel o tambi\'en conocidas como
         INR o NMC
-    \item \textbf{LiNiCoAl)2}: Oxido de Litio n'iquel cobalto aluminio o
+    \item \textbf{LiNiCoAl2}: Oxido de Litio n\'iquel cobalto aluminio o
         tambi\'en conocidas como NCA o Li-aluminio.
     \item \textbf{LiNiCoO2}: \'Oxido de litio n\'iquel cobalto o tambi\'en
         conocidas como NCO.
@@ -5832,6 +5948,39 @@ realizada de forma segura a instancias del BMS.
     \label{fig:cb_interface}
 \end{figure}
 \FloatBarrier
+
+\clearpage
+
+\subsection{Implementación Modulo CAN}
+Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente dispositivos denominados transreceptores, los mismos son los encargados de traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
+
+Para la implementación del modulo CAN se optó por una solución de TI con el integrado \emph{SN65HVD233} el mismo es un transreceptor con posibilidad de manejar velocidades hasta un Mbps 1, compatible con ISO-11898-2.
+Además, cuenta con protección térmica y la posibilidad de trabaja en modo de Ultra-bajo consumo siendo optimo para aplicaciónes portables como un vehículo eléctrico.
+
+Otro punto muy importante a tener en cuenta es tener una aislación adecuada, el BUS de comunicación es susceptible a fallas y suele estar expuesto a ambientes con presencia de ruido eléctrico, a desbalances en la puesta a tierra de los dispositivos conectados al mismo, asi como también descargas electrostáticas. Todos estos factores pueden generar tensiones y corrientes transitorias que pueden dañar severamente los equipos, por lo cual es muy importante la correcta aislación entre la electrónica interna del dispositivo y el BUS.
+
+Para aislar al microcontrolador de los posibles desperfectos del BUS CAN que pueden acarrear consigo problemas en el microcontrolador se utilizó el IC AduM1201AR el cual provee 2 canales de comnunicación aislados entre el transreceptor y el microcontrolador.
+Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.   
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{SN65HVD233_circuit.png}
+		\caption{Circuito Transreceptor}
+		\label{can_transreceiver}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{isolation_CAN.png}
+		\caption{Circuito de aislación de BUS}
+		\label{Isolation_CAN}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
 
 \clearpage
 
