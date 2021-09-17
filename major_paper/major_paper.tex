@@ -4138,6 +4138,58 @@ dinámica.
 
 \subsubsection{Algoritmo recursivo de optimizaci\'on}
 
+El proceso de estimación y ajuste de los parámetros del modelo se realizo a
+partir de la implemenacion en Matlab de un algoritmo recursivo que ejecuta la
+tarea de cálcuco y optimización de cada uno de los segmentos de datos del ensayo
+\acrshort{HPPC} de forma secuencial y automatizada.
+
+La implementación \texttt{Semi-Automatic Li Ion battery RC model parameters
+estimator.m} ejecuta un algoritmo automatizado de optimización numérica
+utilizando la herramienta de Estimación de Parametros, parte del toolbox
+\emph{Design Optimization™} de \emph{Simulink®} que provee de funciones,
+herramientas activas y bloques para el tratamiento de modelos. El toolboox
+provee de la capadiad de interacción entre la librer\'ia \emph{Power Systems} de
+\emph{Simscape}, del modelo de una celda desarrollado, la información
+experimental del ensayo \acrshot{HPPC} proveniente del dataset y el algoritmo de
+optimización planteado.
+
+El método matematico de optimización es el \emph{lsqnonlin} o solucionador de
+mínimos cuadrados no lineales. 
+Resuelve problemas de ajuste de curva de mínimos cuadrados no lineales de la
+forma
+
+Minimizes the squares of the residuals, recommended method for parameter
+estimation.
+
+This method requires a vector of error residuals, computed using a fixed time
+base. Do not use this approach if you have a scalar cost function or if the
+number of error residuals can change from one iteration to another.
+
+This method uses the Optimization Toolbox™ function, lsqnonlin.
+
+After each estimation task,
+our code plotted the before and after simulation results, as well
+as the before and after parameter values. The plots were used
+to help understand and debug any issues with the estimation
+tasks where simulated results were not converging closely to
+the measured data.
+We inspected the results after each of the initial few tasks, so
+we could monitor the progress. This way, if the results did not
+converge we could stop the process and make adjustments to
+the code, the model, or the optimization settings. This
+problem was sensitive and complex to set up, and required
+careful set up of the model, table breakpoints, experimental
+data, and optimization settings. It took a significant amount of
+programming effort to automate the layered estimation
+correctly.
+
+
+\emph{Simulink}
+
+
+
+\subsubsection{Validación de los parámetros}
+
 \subsubsection{Tiempo de muestreo}
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
 digitales nos encontramos con la necesidad de discretizar los procesos y tener
