@@ -3975,7 +3975,7 @@ respuesta al escal\'on validando la implementación realizada.
 
 %\newpage
 
-\subsubsection{Preprocesamiento del conjunto de datos}\label{data_preprocessing}
+\subsubsection{Pre-procesamiento datos}\label{data_preprocessing}
 
 El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} debe ser
 preprocesado para obtener ciertas variables de inter\'es, como por ejemplo, la
@@ -4073,7 +4073,7 @@ del proceso de optimizaci\'on del modelo en toda la extensión de la curva
 sean faciles de abordar. Idealmente los datos del ensayo fueron separados según
 los pulsos de corriente para cada nivel del \acrshort{SOC}. 
 
-Para ello se implementa en Matlab un algoritmo llamado \texttt{flanks.m}, el cual
+Para ello se implementa en MATLAB un algoritmo llamado \texttt{flanks.m}, el cual
 dado un arreglo de valores y un porcentaje espec\'ifico compara las muestras
 entre dos instantes contiguos [n, n+1]. Si la diferencia entre ambas muestras es
 mayor al porcentaje especificado de un flanco ascendente marca ese instante con
@@ -4138,41 +4138,111 @@ dinámica.
 
 \subsubsection{Algoritmo recursivo de optimizaci\'on}
 
-El proceso de estimación y ajuste de los parámetros del modelo se realizo a
-partir de la implemenacion en Matlab de un algoritmo recursivo que ejecuta la
-tarea de cálcuco y optimización de cada uno de los segmentos de datos del ensayo
-\acrshort{HPPC} de forma secuencial y automatizada.
+El proceso de estimación y ajuste de los parámetros del modelo se realizó a
+partir de la implemenación en MATLAB de un algoritmo recursivo de optimización
+que ejecuta la tarea de cálcuco y ajuste de cada uno de los juegos de parámetros
+correspondientes a los segmentos de datos del ensayo \acrshort{HPPC} seccionados
+en el pre-procesamiento de forma secuencial y automatizada.
 
-La implementación \texttt{Semi-Automatic Li Ion battery RC model parameters
-estimator.m} ejecuta un algoritmo automatizado de optimización numérica
-utilizando la herramienta de Estimación de Parametros, parte del toolbox
-\emph{Design Optimization™} de \emph{Simulink®} que provee de funciones,
-herramientas activas y bloques para el tratamiento de modelos. El toolboox
-provee de la capadiad de interacción entre la librer\'ia \emph{Power Systems} de
-\emph{Simscape}, del modelo de una celda desarrollado, la información
-experimental del ensayo \acrshot{HPPC} proveniente del dataset y el algoritmo de
-optimización planteado.
+El algoritmo desarrollado e implementado en \texttt{Semi-Automatic Li Ion
+battery RC model parameters estimator.m} se repite automaticamente para cada
+sección de datos seleccionada del ensayo \acrshort{HPPC} procesando cada una de
+las tareas de estimación y optimización secuencialmente. El código selecciona
+una porción de datos, setea los parámetros a ser estimados aplicando las
+condiciones iniciales y de limites de los mismos. El codigo a su vez prepara el
+modelo para ser ejecutado en cada tarea de estimación y ajuste seleccionando los
+intervalos correctos de las señales de entrada del modelo y sus condiciones
+iniciales.
 
-El método matematico de optimización es el \emph{lsqnonlin} o solucionador de
-mínimos cuadrados no lineales. 
-Resuelve problemas de ajuste de curva de mínimos cuadrados no lineales de la
-forma
+Los límites de los parámetros a estimar se setean de forma experimental tomando
+en cuentas los resultados de cálculos matematicos realizados previamente y de
+algunos ciclos de optimización ejecutados a los fines de la puesta a punto del
+sistema. Los valores obtenidos se definen a continuación. 
 
-Minimizes the squares of the residuals, recommended method for parameter
-estimation.
+\begin{itemize}
+    \item [] $ 0 < \mathbf{R_0} < 1$
+    \item [] $ 0 < \mathbf{R_1} < 1$ $ 0 < \mathbf{C_1} < 200$
+    \item [] $ 0 < \mathbf{R_2} < 1$ $ 0 < \mathbf{C_2} < 3000$
+\end{itemize}
+\FloatBarrier
 
-This method requires a vector of error residuals, computed using a fixed time
-base. Do not use this approach if you have a scalar cost function or if the
-number of error residuals can change from one iteration to another.
+Una vez que se encuentra corriendo la tarea de optimización, la implementación
+ejecuta un algoritmo automatizado de optimización numérica a partir de la
+herramienta de Estimación de Parametros, parte del toolbox \emph{Design
+Optimization} de \emph{Simulink} que provee de funciones, herramientas activas
+y bloques para el tratamiento de modelos. El toolboox provee de la capaciad de
+interacción entre el modelo de la celda desarrollados con la librer\'ia
+\emph{Power Systems} de \emph{Simscape}, la información experimental del ensayo
+\acrshot{HPPC} proveniente del dataset y el algoritmo de optimización planteado.
 
-This method uses the Optimization Toolbox™ function, lsqnonlin.
+El método matematico de optimización seleccionado es el de mínimos cuadrados no
+lineales implementado a partir de la función \emph{lsqnonlin} del toolbox de
+optimización. 
+El método minimiza los cuadrados de los residuos, por lo que requiere ser
+provisto de un vector de errores residuales, particular de nuestra solución, el
+cual se computa sobre una base de tiempo fija.
+El solucionador de mínimos cuadrados no lineales resuelve problemas de ajuste de
+curva de mínimos cuadrados no lineales de la forma
 
-After each estimation task,
-our code plotted the before and after simulation results, as well
-as the before and after parameter values. The plots were used
-to help understand and debug any issues with the estimation
-tasks where simulated results were not converging closely to
-the measured data.
+\begin{equation}
+    \min_{x}\|f(x)\| = \min_{x} (f_1(x)^2 + f_2(x)^2+\dots+f_n(x)^2)
+\end{equation}
+
+El vector de errores residuales se implementa en
+\emph{sdoVtermEstimation\_Objective.m}. La función es provista al optimizador y
+utilizada para simular y comparar la salida obtenida del modelo respecto de los
+datos experimentales provistos. Los argumentos devueltos por la función
+contienen imformación respecto de como se ajustan los resultados de la
+simulación $y_{s}(t)$ a los datos experimentales$y_{r}(t)$ el todos los puntos
+simulados de la forma observada en la ecuación \ref{eq:residual}.
+
+\begin{equation}
+    e(t) &= y_{s}(t)–y_{r}(t) 
+    \label{eq:residual}
+\end{equation}
+
+La función devuelve un vector de valores y no la suma de los cuadrados de los
+valores. El algoritmo de optimización calcula implícitamente la suma de los
+cuadrados de las componentes de $F(x)$ del vector de errores devuelto de la
+forma vista en la Ecuación \ref{eq:residual_vect}.
+
+\begin{equation}
+    F(x) &= \begin{bmatrix}
+        e(0)\\
+        \vdots\\
+        e(N)\\
+    \end{bmatrix}
+    \label{eq:residual_vect}
+\end{equation}
+
+La selección del método de optimización fue realizada a instancias de
+\cite{Jackey2013BatteryMP} y debido a que el método \emph{lsqnonlin} es
+computacionalmente varias veces más rápido en comparación a otros metodos para
+la solución del problema en cuatión.
+
+Una vez finalizada cada tarea de optimización se presentan las gráficas, como
+las de la Figura \ref{fig:sim_vs_mea_resp}, con la comparación gráfica de los
+datos obtenidos de la slimulación respecto de los datos experimentales antes y
+despues de ejecutado el proceso de optimización. Estas gráficas sirven para
+validar el proceso de optimización llevado a cabo y como mecanismo de control y
+corrección de los inconvenientes que se presenten durante el proceso de cálculo
+y optimización cuando los resultados simulados no converjan con los datos
+experimentales.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{sim_vs_measured_response.png}
+		\caption{Respuesta simulada Vs Respuesta Medida}
+		\label{fig:sim_vs_mea_resp}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+Optimización se completa una vez que el tamaño del gradiente del vector residual
+es menor que el valor de tolerancia de optimización seleccionado.
+
+\subsubsection{Validación de los parámetros}
+
 We inspected the results after each of the initial few tasks, so
 we could monitor the progress. This way, if the results did not
 converge we could stop the process and make adjustments to
@@ -4182,13 +4252,9 @@ careful set up of the model, table breakpoints, experimental
 data, and optimization settings. It took a significant amount of
 programming effort to automate the layered estimation
 correctly.
-
-
-\emph{Simulink}
-
-
-
-\subsubsection{Validación de los parámetros}
+%TODO:
+Remember Puses multiple of 5 and the error that needed to be corrected because of
+lack of data
 
 \subsubsection{Tiempo de muestreo}
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
