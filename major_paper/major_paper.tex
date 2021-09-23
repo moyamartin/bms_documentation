@@ -3817,7 +3817,7 @@ ejecutaron los siguientes ciclos:
         anteriormente.
 \end{enumerate}
 
-\subsubsubsection{Ensayos HPPC}
+\subsubsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
 El ensayo \acrshort{HPPC} es una metodología utilizada para poder caratcerizar
 la dinámica de una celda. El perfil de ensayo \acrshort{HPPC} del dataset
@@ -4232,7 +4232,8 @@ experimentales.
 \begin{figure}[h!]
 	\begin{center}
 		\includegraphics[width=1\textwidth]{sim_vs_measured_response.png}
-		\caption{Respuesta simulada Vs Respuesta Medida}
+		\caption{Respuesta simulada Vs Respuesta Medida antes - Resultado
+        proceso de optimización}
 		\label{fig:sim_vs_mea_resp}
 	\end{center}
 \end{figure}
@@ -4243,20 +4244,74 @@ es menor que el valor de tolerancia de optimización seleccionado.
 
 \subsubsection{Validación de los parámetros}
 
-We inspected the results after each of the initial few tasks, so
-we could monitor the progress. This way, if the results did not
-converge we could stop the process and make adjustments to
-the code, the model, or the optimization settings. This
-problem was sensitive and complex to set up, and required
-careful set up of the model, table breakpoints, experimental
-data, and optimization settings. It took a significant amount of
-programming effort to automate the layered estimation
-correctly.
-%TODO:
-Remember Puses multiple of 5 and the error that needed to be corrected because of
-lack of data
+Los resultados finales del proceso de modelado de una celda de Ion-Litio, del
+cálculo y la optimización de los parámetros son presentados en la Figura
+\ref{exp_vs_sim} donde se compara los datos completos del dataset con los
+valores simulados.
+Para evaluar los resultados del algoritmo de optimización concluyentemente fue
+necesario observar particularmente cada uno de los escalones del ensayo
+focalizándonos en los periodos de relajación donde la simulación no logra
+converger con los datos experimentales.
 
-\subsubsection{Tiempo de muestreo}
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{Vterm_exp_vs_sim.png}
+		\caption{Respuesta Simulada Vs Respuesta Medida}
+		\label{fig:exp_vs_sim}
+	\end{center}
+\end{figure}
+
+Para cada nivel de \acrshort{SOC} el ensayo aplica 5 pulsos de corriente de
+descarga consecutivos, como se describe en la Sección \ref{ensayo_HPPC}. Para
+cada nivel de \acrshort{SOC} la simulacióni del 5to escalón de corriente no
+logra ajustarse a los datos experimentales como se observa, a modod de ejemplo,
+en la Figura \ref{exp_vs_sim_5_error}.
+
+Este finómeno se debe a que el dataset no incluye la información de los periodos de
+descarga largos que llevan la celda al siguiente \acrshort{SOC}. Por lo cual,
+estos pulsos carecen de la información sufuciente para poder ser calculados,
+ajustados y optimizados.
+
+\begin{figure}[h!]
+	\begin{center}
+        \includegraphics[width=0.8\textwidth]{Vterm_exp_vs_sim_pulse_5_error.png}
+		\caption{Simulación pulso no convergente}
+		\label{fig:exp_vs_sim_5_error}
+	\end{center}
+\end{figure}
+
+La solución aplicada para corregir las \acrshort{LUT}s fue la de eliminar los
+juegos de parametros correspondientes a los pulsos defectuosos. Es así que
+concluimos el proceso de cálculo y optimizción con 55 juegos de parametros
+correspondientes a 55 \acrshort{SOC} de la celda que modelan la dinámica
+completa de la misma. La Figura \ref{fig:lut_RC} pesenta los valores finales de
+la \acrshort{LUT}s ya optimizadas para el cirucuito equivalente.
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{subfigure}{.6\textwidth}
+            \includegraphics[width=1\textwidth]{R0_lutable_corrected.png}
+            \caption{\acrshort{LUT} R0}
+            \label{fig:lut_R0}
+    %\end{center}
+%\end{figure}
+        \end{subfigure}
+
+%\begin{figure}[h!]
+    %\begin{center}
+        \begin{subfigure}{1\textwidth}
+            \includegraphics[width=1\textwidth]{RC_lutables_corrected.png}
+            \caption{\acrshort{LUT}s R1, C1, R2, C2}
+            \label{fig:lut_RCn}
+        \end{subfigure}
+    \end{center}
+    \caption{Valores finales \acrlong{LUT}s}
+    \label{fig:lut_RC}
+\end{figure}
+\FloatBarrier
+
+\subsection{Tiempo de muestreo}
+
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
 digitales nos encontramos con la necesidad de discretizar los procesos y tener
 en cuenta los tiempos de muestreo.
