@@ -4218,16 +4218,11 @@ forma vista en la Ecuación \ref{eq:residual_vect}.
 La selección del método de optimización fue realizada a instancias de
 \cite{Jackey2013BatteryMP} y debido a que el método \emph{lsqnonlin} es
 computacionalmente varias veces más rápido en comparación a otros metodos para
-la solución del problema en cuatión.
+la solución del problema en cuestión.
 
-Una vez finalizada cada tarea de optimización se presentan las gráficas, como
-las de la Figura \ref{fig:sim_vs_mea_resp}, con la comparación gráfica de los
-datos obtenidos de la slimulación respecto de los datos experimentales antes y
-despues de ejecutado el proceso de optimización. Estas gráficas sirven para
-validar el proceso de optimización llevado a cabo y como mecanismo de control y
-corrección de los inconvenientes que se presenten durante el proceso de cálculo
-y optimización cuando los resultados simulados no converjan con los datos
-experimentales.
+El proceso de optimización se completa una vez que el tamaño del gradiente del
+vector residual es menor que el valor de tolerancia de optimización
+seleccionado.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -4237,20 +4232,26 @@ experimentales.
 		\label{fig:sim_vs_mea_resp}
 	\end{center}
 \end{figure}
-\FloatBarrier
+%\FloatBarrier
 
-Optimización se completa una vez que el tamaño del gradiente del vector residual
-es menor que el valor de tolerancia de optimización seleccionado.
+Una vez finalizada cada tarea de optimización el algoritmo presenta la comparación gráfica de los
+datos obtenidos de la slimulación respecto de los datos experimentales antes y
+despues de ejecutado el proceso de optimizaciónlas, como
+las de la Figura \ref{fig:sim_vs_mea_resp}. Estas gráficas sirven para
+validar el proceso de optimización llevado a cabo y como mecanismo de control y
+corrección de los inconvenientes que se presenten durante el proceso de cálculo
+y optimización cuando los resultados simulados no converjan con los datos
+experimentales.
 
 \subsubsection{Validación de los parámetros}
 
-Los resultados finales del proceso de modelado de una celda de Ion-Litio, del
-cálculo y la optimización de los parámetros son presentados en la Figura
-\ref{exp_vs_sim} donde se compara los datos completos del dataset con los
-valores simulados.
-Para evaluar los resultados del algoritmo de optimización concluyentemente fue
-necesario observar particularmente cada uno de los escalones del ensayo
-focalizándonos en los periodos de relajación donde la simulación no logra
+Los resultados finales se presentan en la Figura \ref{fig:exp_vs_sim} donde se
+comparan los datos experimentales completos del ensayo \acrshort{HPPC} con los
+obtenidos al simular el modelo.
+Para evaluar los resultados del algoritmo de optimización y la calidad de la
+simulación obtenida con cada uno de los 66 juegos de parámetros calculados fue
+necesario observar puntualmente cada escalon de corriente del ensayo,
+focalizándonos en aquellos donde la tensión en bornes de la simulación no logra
 converger con los datos experimentales.
 
 \begin{figure}[h!]
@@ -4265,33 +4266,42 @@ Para cada nivel de \acrshort{SOC} el ensayo aplica 5 pulsos de corriente de
 descarga consecutivos, como se describe en la Sección \ref{ensayo_HPPC}. Para
 cada nivel de \acrshort{SOC} la simulacióni del 5to escalón de corriente no
 logra ajustarse a los datos experimentales como se observa, a modod de ejemplo,
-en la Figura \ref{exp_vs_sim_5_error}.
+en la Figura \ref{fig:exp_vs_sim_5_error}.
 
-Este finómeno se debe a que el dataset no incluye la información de los periodos de
-descarga largos que llevan la celda al siguiente \acrshort{SOC}. Por lo cual,
-estos pulsos carecen de la información sufuciente para poder ser calculados,
-ajustados y optimizados.
+Este fenómeno se explica debido a que el dataset no incluye la información de
+los periodos de descarga largos que llevan la celda al siguiente esclon de
+\acrshort{SOC} de ensayo. Por lo cual, estos pulsos carecen de la información
+sufuciente respecto del estado de relajación final de la celda una vez
+finalizado el pulso de corriente. Por otra parte no es casualidad que el
+fenómeno se precente en los pulsos de descarga de mayor intensidad, siendo los
+que tienen mayor posibilidad de modificar el \acrshort{SOC} de la celda pese a
+no ser la intención del ensayo.
 
 \begin{figure}[h!]
 	\begin{center}
         \includegraphics[width=0.8\textwidth]{Vterm_exp_vs_sim_pulse_5_error.png}
-		\caption{Simulación pulso no convergente}
+		\caption{Pulso no convergente}
 		\label{fig:exp_vs_sim_5_error}
 	\end{center}
 \end{figure}
 
-La solución aplicada para corregir las \acrshort{LUT}s fue la de eliminar los
-juegos de parametros correspondientes a los pulsos defectuosos. Es así que
-concluimos el proceso de cálculo y optimizción con 55 juegos de parametros
-correspondientes a 55 \acrshort{SOC} de la celda que modelan la dinámica
-completa de la misma. La Figura \ref{fig:lut_RC} pesenta los valores finales de
-la \acrshort{LUT}s ya optimizadas para el cirucuito equivalente.
+Viendo que el patrón se repetía sistemáticamente en los pulsos 5tos de cada uno
+de los escalones de \acrshort{SOC}. Y considerando que el dataset no cuenta con
+la información suficiente para ajustar los parámetros en los pulsos de ensayo en
+cuestion. La solución aplicada para corregir las \acrshort{LUT}s fue la de
+eliminar los juegos de parametros correspondientes a los pulsos defectuosos. Es
+así que concluimos el proceso de cálculo y optimizción con 55 juegos de
+parametros correspondientes a 55 \acrshort{SOC} de la celda que modelan la
+dinámica completa de la misma a la temperatura del electrolito de $25\deg C$.
+
+La Figura \ref{fig:lut_RC} pesenta los valores finales de la \acrshort{LUT}s ya
+optimizadas para el cirucuito equivalente.
 
 \begin{figure}[h!]
     \begin{center}
         \begin{subfigure}{.6\textwidth}
             \includegraphics[width=1\textwidth]{R0_lutable_corrected.png}
-            \caption{\acrshort{LUT} R0}
+            \caption{\acrshort{LUT} R_0}
             \label{fig:lut_R0}
     %\end{center}
 %\end{figure}
@@ -4301,11 +4311,11 @@ la \acrshort{LUT}s ya optimizadas para el cirucuito equivalente.
     %\begin{center}
         \begin{subfigure}{1\textwidth}
             \includegraphics[width=1\textwidth]{RC_lutables_corrected.png}
-            \caption{\acrshort{LUT}s R1, C1, R2, C2}
+            \caption{\acrshort{LUT}s R_1, C_1, R_2, C_2}
             \label{fig:lut_RCn}
         \end{subfigure}
     \end{center}
-    \caption{Valores finales \acrlong{LUT}s}
+    \caption{Valores finales R y C \acrlong{LUT}s}
     \label{fig:lut_RC}
 \end{figure}
 \FloatBarrier
