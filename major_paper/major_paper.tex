@@ -13,6 +13,7 @@
 \usepackage{circuitikz}
 \usepackage{csquotes}
 \usepackage{epstopdf}
+\usepackage{comment}
 \usepackage{lastpage}
 \usepackage{fancyhdr}
 \usepackage{gensymb}
@@ -3431,9 +3432,9 @@ Dentro del vehículo hallamos sistemas de naturaleza muy variada, por ejemplo, e
 De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, debido a la arquitectura multiplexada con un único bus serie que reduce costos combinada con algoritmos de detección de errores que brindan confiabilidad a la red. Otra de las ventajas de CAN es que si un dispositivo sale de servicio la red continua funcionando perfectamente, además de contar con control de acceso al medio con prioridad. Todo esto hace de CAN un protocolo que desde sus orígenes es óptimo para el rubro automotríz.
 
 \subsubsection{Protocolo CAN}
-Este es un protocolo que en su especificación ISO 11898 describe como la información será transmitida entre los diferentes dispositivos de red.
+Este es un protocolo desarrollado inicialmente por la empresa alemana Robert Bosch GmbH en 1983 la cual fue aceptada ampliamente y que posterior mente fue definida como estándar que en su especificación ISO 11898 describe como la información será transmitida entre los diferentes dispositivos de red.
 
-Las principales características de este protocolo son:
+Las principales características de este protocolo son \cite{RBG1991}:
 \begin{itemize}
 	\item Priorización de mensajes
 	\item Sistema Multi-Maestro
@@ -3494,7 +3495,7 @@ con la prioridad del nivel definido como bit de tipo dominante.  Definiendo el b
 bit   recesivo  al   nivel  lógico  '1'  se  trata  de  una  función  AND  de  todos  los  bits  transmitidos  simultáneamente.    Cada  transmisor  
 escucha  continuamente  el  valor  presente  en  el  bus,  y  se  retira  cuando  ese  valor  no  coincide  con  el  que  dicho  transmisor  ha  
 forzado.    Mientras  hay  coincidencia  la  transmisión  continua,  finalmente  el  mensaje  con  identificador  de  máxima  prioridad  
-sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible\\
+sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible.\\
 
 \subsubsubsection{Mensajes y Tipos de Tramas}
 CAN utiliza mensajes de estructura predefinida, tramas, para la gestión de la comunicación.
@@ -3503,13 +3504,12 @@ Extendido", los formatos de trama son análogos diferenciándose básicamente en
 identificador de mensaje: 11 bits (2032 identificadores) diferentes en CAN Standard y 29 bits (536.870.912 identificadores) en
 CAN Extendido.
 Las tramas CAN son de longitud reducida, la trama más larga es de 130 bits en CAN Estándar y 154 bits en CAN Extendido.
-Los tipos de trama, y estados de bus, utilizados son:
+Los tipos de trama, y estados de bus, utilizados segun \cite{KaschelHector2004} son:
 \begin{itemize}
 	\item Trama de datos: la que un nodo utiliza normalmente para poner información en el bus (siempre es un ``broadcast" a todos los demás nodos). Puede incluir entre 0 y 8 Bytes de información útil.\\
 	\item Trama de interrogación remota (en lo que sigue se denominará como trama remota (``remote frame"): puede ser utilizada por
 	un nodo para solicitar la transmisión de una trama de datos con la información asociada a un identificador dado. El nodo que
 	disponga de la información definida por el identificador la transmitirá en una trama de datos.\\
-	\item Tramas de error: usadas para señalar al resto de nodos la detección de un error, invalidando el mensaje erróneo normalmente (un caso especial es un nodo en estado de ``error pasivo").\\
 	\item Tramas de error: usadas para señalar al resto de nodos la detección de un error, invalidando el mensaje erróneo normalmente (un caso especial es un nodo en estado de ``error pasivo").\\
 	\item Trama de sobrecarga: permite que un nodo fuerce a los demás a alargar el tiempo entre transmisión de tramas sucesivas
 	Espaciado inter-tramas: Las tramas de datos (y de interrogación remota) se separan entre sí por una secuencia predefinida que
@@ -3517,7 +3517,11 @@ Los tipos de trama, y estados de bus, utilizados son:
 	\item Bus en reposo: En los intervalos de inactividad se mantiene constantemente el nivel recesivo del bus.\\
 	\end{itemize}
 
+
+\begin{comment}
+
 En un bus CAN los nodos transmiten la información espontáneamente con tramas de datos, bien sea por un proceso cíclico o activado ante eventos en el nodo. La trama de interrogación remota sólo se suele utilizar para detección de presencia de nodos o para puesta al día de información en un nodo recién incorporado a la red. Los mensajes pueden entrar en colisión en el bus, el de identificador de mayor prioridad sobrevivirá y los demás son retransmitidos lo antes posible.
+
 
 
 \subsubsubsection{Formatos de Trama}
@@ -3594,19 +3598,9 @@ nodos dando lugar, como se ha indicado, a un máximo de 12 bits dominantes de in
 
 \textbf{Arbitraje}\\
 
-Un nodo transmisor monitoriza constantemente el estado del bus. Durante la transmisión del campo Arbitraje la detección de un
-bit dominante, cuando el bit transmitido ha sido recesivo, hace que el nodo detenga la transmisión y pase a recepción de la trama.
-De esta forma no hay pérdida de información y no se destruye por colisión ninguna trama de datos o remota. La especificación
-Bosch admite para CAN Standard los identificadores en el rango 0x000 a 0x7EF. En dicha especificación se indica que los 7 bits
-más significativos no han de ser todos recesivos. Sin embargo muchos controladores admiten el rango 0x000 a 0x7FF, Un
-mensaje de máxima prioridad utilizará, por tanto, el identificador 0x000.
-En un bus único un identificador de mensaje ha de ser asignado a un solo nodo concreto, es decir, se ha de evitar que dos nodos
-puedan iniciar la transmisión simultánea de mensajes con el mismo identificador y datos diferentes. La filosofía CAN es de que
-un mensaje es único en el sistema. Las tramas remotas con identificador concreto que puedan ser generadas por cualquier nodo
-han de coincidir en cuanto al campo longitud, Resumiendo, definiendo un mensaje como el conjunto identificador + longitud de
-campo de datos + semántica de estos datos, el mensaje ha de ser único en el sistema y estar asignado a un nodo concreto. Así, por
-ejemplo, si en un automóvil existe la variable "presión de aceite" esta variable ha de ser transmitida por un nodo concreto, con un
-identificador concreto, con longitud fija y consistente con la codificación de la información en el campo de datos.
+Cada nodo que transmite, a su vez está monitoreando el dato que se refleja en el bus y se contrasta con el dato enviado por el mismo, en caso de no coincidir esto quiere decir que el transmisor de mayor prioridad es él mismo y continua la transmisión, de lo contrario detectará que hay un mensaje de mayor prioridad en el bus y lo leerá.
+
+\end{comment}
 
 
 
@@ -5951,7 +5945,8 @@ realizada de forma segura a instancias del BMS.
 
 \clearpage
 
-\subsection{Implementación Modulo CAN}
+\subsection{Implementación Puertos de Comunicación}
+\subsubsection{Modulo CAN}
 Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente dispositivos denominados transreceptores, los mismos son los encargados de traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
 
 Para la implementación del modulo CAN se optó por una solución de TI con el integrado \emph{SN65HVD233} el mismo es un transreceptor con posibilidad de manejar velocidades hasta un Mbps 1, compatible con ISO-11898-2.
@@ -5960,7 +5955,9 @@ Además, cuenta con protección térmica y la posibilidad de trabaja en modo de 
 Otro punto muy importante a tener en cuenta es tener una aislación adecuada, el BUS de comunicación es susceptible a fallas y suele estar expuesto a ambientes con presencia de ruido eléctrico, a desbalances en la puesta a tierra de los dispositivos conectados al mismo, asi como también descargas electrostáticas. Todos estos factores pueden generar tensiones y corrientes transitorias que pueden dañar severamente los equipos, por lo cual es muy importante la correcta aislación entre la electrónica interna del dispositivo y el BUS.
 
 Para aislar al microcontrolador de los posibles desperfectos del BUS CAN que pueden acarrear consigo problemas en el microcontrolador se utilizó el IC AduM1201AR el cual provee 2 canales de comnunicación aislados entre el transreceptor y el microcontrolador.
-Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.   
+Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.
+
+Y por último se utilizó un conector DB9 por su amplia utilización en dispositivos de conexión por puerto serie, principalmente en el ambito industrial. El mismo y la interconexión de los pines forman parte de las recomendaciones de \acrshort{CiA} \cite{CIA2017}.    
 
 
 \begin{figure}[h!]
@@ -5980,6 +5977,19 @@ Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.
 	\end{center}
 \end{figure}
 \FloatBarrier
+
+\subsubsection{Puerto UART}
+Para poder registrar datos del microcontrolador en una PC durante la fase de desarrollo se dispuso de un conector de 4 pines mapeado directamente MCU y programado como Puerto UART, Figura \ref{UART_Connector}, la misma no esta preparada para utilización de usuario ya que no posee circuitos de protección ni aislación, la incorrecta utilización del mismo puede provocar serios daños en el microcontrolador.
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{connector_UART.png}
+		\caption{Render del connector UART para diagnostico en fase de desarrollo}
+		\label{UART_Connector}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
 
 
 \clearpage
