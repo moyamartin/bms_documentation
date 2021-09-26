@@ -449,21 +449,22 @@ se basan en la complejidad en el manejo de grandes packs de
 bater\'ias basadas en celdas de litio-ion y la falta de proyectos abiertos
 disponibles relacionados al tema.
 
-\noindent Finalmente, el informe se encuentra dividido en 6 secciones, en
-la Sección \ref{descripcion} se realiza una descripci\'on en alto nivel del
-proyecto, detallando los objetivos generales, las especificaciones y
-requerimientos del trabajo, a continuaci\'on, se encuentra el fundamento 
-te\'orico (Secci\'on \ref{teoria}), donde se detalla el funcionamiento de una 
-celda de litio-ion, los fundamentos b\'asicos de modelados de celdas y 
-algoritmos de estimaci\'on de carga, como tambi\'en aquellos relacionados a la 
-equalizaci\'on de celdas, adem\'as, se presenta el desarrollo matem\'atico de 
-mucho de los m\'etodos como tambi\'en una comparativa, por ultimo se presentan 
-las Secciones \ref{desarrollo} y \ref{ensayos} donde se describe el desarrollo 
-de la bater\'ia en si, en conjunto con su modelo y algoritmos como tambi\'en su 
-final implementaci\'on en un sistema embebido con los ensayos realizados para 
-validar el funcionamiento del sistema. Finalmente, en la Secci\'on 
-\ref{conclusiones} se describen las conclusiones y futuros proyectos a continuar 
-sobre el eje de estudio.
+\subsection{Estructura del informe}
+
+El informe se encuentra dividido en 6 secciones, en la Sección \ref{descripcion}
+se realiza una descripci\'on en alto nivel del proyecto, detallando los
+objetivos generales, las especificaciones y requerimientos del trabajo, a
+continuaci\'on, se encuentra el fundamento te\'orico (Secci\'on \ref{teoria}),
+donde se detalla el funcionamiento de una celda de litio-ion, los fundamentos
+b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, como
+tambi\'en aquellos relacionados a la equalizaci\'on de celdas, adem\'as, se
+presenta el desarrollo matem\'atico de mucho de los m\'etodos como tambi\'en una
+comparativa, por ultimo se presentan las Secciones \ref{desarrollo} y
+\ref{ensayos} donde se describe el desarrollo de la bater\'ia en si, en conjunto
+con su modelo y algoritmos como tambi\'en su final implementaci\'on en un
+sistema embebido con los ensayos realizados para validar el funcionamiento del
+sistema. Finalmente, en la Secci\'on \ref{conclusiones} se describen las
+conclusiones y futuros proyectos a continuar sobre el eje de estudio.
 
 \section{Descripci\'on}\label{descripcion}
 
@@ -3614,6 +3615,24 @@ matem\'atico de la celda de litio-ion junto a sus algortimos de estimaci\'on de
 simulaciones y, finalmente, el desarrollo del hardware y firmware necesario para
 implementar los distintos componentes del sistema en un sistema f\'isico real.
 
+\subsection{Espíritu del proyecto}
+
+El desarrollo del proyecto se funda sobre bases de espíritu colarborativas, bajo
+la filosofía de codigo abierto y de software libre. Fuera del paragua de alguna
+licencia en particular. Tanto los archivos fuentes del proyecto, de software y
+hardware, como la extensa y profunda documentación del mismo se encuentran
+disponibles para quienes deseen estudiarlos, modificarlos, ejecutarlos y
+redistribuirlos citando la fuente debidamente. 
+
+El proyecto no persigue fines comerciales ni onerosos de ningún tipo y pretende
+ser una nueva pieza en el reducido ecosistema de los \acrshort{BMS}s de
+codigo/hardware abierto.
+
+El hardware y el software desarrollado se orientan a servir como plataforma de
+ensayo y desarrollo de futuros proyectos que partan de este \acrshort{BMS}. Con
+el objetivo de que la disposición de la documentación funcione como la
+herramienta que lo permita.
+
 \subsection{Pack de bater\'ias}
 
 Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
@@ -4356,6 +4375,8 @@ sistema. Los valores obtenidos se definen a continuación.
     \item [] $ 0 < \mathbf{R_2} < 1$ $ 0 < \mathbf{C_2} < 3000$
 \end{itemize}
 \FloatBarrier
+
+\newpage
 
 Una vez que se encuentra corriendo la tarea de optimización, la implementación
 ejecuta un algoritmo automatizado de optimización numérica a partir de la
