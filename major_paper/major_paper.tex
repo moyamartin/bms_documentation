@@ -5993,6 +5993,7 @@ Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.
 
 Y por último se utilizó un conector DB9 por su amplia utilización en dispositivos de conexión por puerto serie, principalmente en el ambito industrial. El mismo y la interconexión de los pines forman parte de las recomendaciones de \acrshort{CiA} \cite{CIA2017}.    
 
+Las resistencias R6 y R7 en conjunto a C61 conforman una terminanción de bus con el valor característico de impedancia de line de $120 \ohm$ y mejorando el rechazo del ruido a modo común. Mientras C62 y C63 filtran transitorios de alta frecuencia. Los valores de las capacidades son los recomendados por el fabricante. 
 
 \begin{figure}[h!]
 	\begin{center}
@@ -6005,7 +6006,7 @@ Y por último se utilizó un conector DB9 por su amplia utilización en disposit
 
 \begin{figure}[h!]
 	\begin{center}
-		\includegraphics[width=0.75\textwidth]{isolation_CAN.png}
+		\includegraphics[width=0.70\textwidth]{isolation_CAN.png}
 		\caption{Circuito de aislación de BUS}
 		\label{Isolation_CAN}
 	\end{center}
@@ -6014,6 +6015,16 @@ Y por último se utilizó un conector DB9 por su amplia utilización en disposit
 
 \subsubsection{Puerto UART}
 Para poder registrar datos del microcontrolador en una PC durante la fase de desarrollo se dispuso de un conector de 4 pines mapeado directamente MCU y programado como Puerto UART, Figura \ref{UART_Connector}, la misma no esta preparada para utilización de usuario ya que no posee circuitos de protección ni aislación, la incorrecta utilización del mismo puede provocar serios daños en el microcontrolador.
+
+El puerto esta configurado según las siguientes especificaciones:
+\begin{itemize}
+	\item Baudrate 115,200 Bd
+	\item 8 bits de datos
+	\item Sin bit de paridad
+	\item 1 bit de stop.
+\end{itemize}
+
+Esta configuración es comunmente denominada: $115,200 Bd$ 8n1.
 
 \begin{figure}[h!]
 	\begin{center}
