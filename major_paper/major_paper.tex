@@ -27,6 +27,7 @@
 \usepackage{titlesec}
 \usepackage{upgreek}
 \usepackage{xfrac}
+\usepackage{wrapfig}
 
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
@@ -54,78 +55,7 @@
 \usepackage[acronym, nomain]{glossaries}
 \makenoidxglossaries
 
-\newacronym{ABC}{ABC}{Active Balancing Controllers}
-\newacronym{ACA}{ACA}{Advanced Control Algorithms}
-\newacronym{ANFIS}{ANFIS}{Adaptative Neuro-fuzzy Inference System}
-\newacronym{ANN}{ANN}{Artificial Neural Network}
-\newacronym{ARLB}{ARLB}{Aqueous Rechargeable Lithium Batteries}
-\newacronym{AVAE}{AVAE}{Average Value Equalization Algorithm}
-\newacronym{BMS}{BMS}{Battery Management System}
-\newacronym{C2C}{C2C}{cell-to-cell}
-\newacronym{C2M}{C2M}{cell-to-module}
-\newacronym{M2C}{M2C}{module-to-cell}
-\newacronym{M2M}{M2M}{Module-to-Module}
-\newacronym{CiA}{CiA}{CAN in AUTOMATION}
-\newacronym{CAN}{CAN}{Controller Area Network}
-\newacronym{CBBC}{CBBC}{Capacitor Based Balancing Controllers}
-\newacronym{CBES}{CBES}{Capacity-based Equalization Strategy}
-\newacronym{CCA}{CCA}{Classic Control Algorithms}
-\newacronym{CC}{CC}{Constant Current}
-\newacronym{CI}{CI}{Circuito Integrado}
-\newacronym{CNN}{CNN}{Convolutional Neural Networks}
-\newacronym{CV}{CV}{Constant Voltage}
-\newacronym{DB}{DB}{Diagrama de Bloques}
-\newacronym{DOD}{DOD}{Depth of Discharge}
-\newacronym{DPM}{DPM}{}
-\newacronym{EC}{EC}{Eficiencia Culombica}
-\newacronym{EIS}{EIS}{Electrochemical Impedance Spectroscopy}
-\newacronym{EKF}{EKF}{Extended Kalman Filter}
-\newacronym{EMI}{EMI}{Electromagnetic Interference}
-\newacronym{EMS}{EMS}{Equalization Management System}
-\newacronym{EVEA}{EVEA}{Extreme Value Equalization Algorithm}
-\newacronym{FIR}{FIR}{Finite Impulse Response}
-\newacronym{FL}{FL}{Fuzzy Logic}
-\newacronym{FOM}{FOM}{Figure-of-merit}
-\newacronym{FPGA}{FPGA}{Field Programmable Gate Arrays}
-\newacronym{HPPC}{HPPC}{Hybrid Pulse Power Characterization}
-\newacronym{HRI}{HRI}{Human-robot Interactions}
-\newacronym{IBBC}{IBBC}{Inductor Based Balancing Controllers}
-\newacronym{IISB}{IISB}{Institute for Integrated Systems and Device Technology}
-\newacronym{Ion-Li}{Ion-Li}{Batería de Ion Litio}
-\newacronym{KF}{KF}{Kalman Filter}
-\newacronym{LIN}{LIN}{Local Interconnect Network}
-\newacronym{LSTM}{LSTM}{Long Short-Term Memory}
-\newacronym{LUT}{LUT}{Look-up Table}
-\newacronym{Li-Po}{Li-Po}{Batería de Polímero de Litio}
-\newacronym{MCU}{MCU}{Microcontroller Unit}
-\newacronym{MLE}{MLE}{Maximum Likelihood Estimation}
-\newacronym{ML}{ML}{Machine Learning}
-\newacronym{MOST}{MOST}{Media Oriented Systems Transport}
-\newacronym{MSE}{MSE}{Mean Squared Error}
-\newacronym{OCV}{OCV}{Open Circuit Voltage}
-\newacronym{OSI}{OSI}{Open Systems Interconnection}
-\newacronym{PBBC}{PBBC}{Power Converter based Balancing Controllers}
-\newacronym{PBC}{PBC}{Passive Balancing Controllers}
-\newacronym{PCB}{PCB}{Printed Circuit Board}
-\newacronym{PWM}{PWM}{Pulse-width Modulation}
-\newacronym{RNN}{RNN}{Recurrent Neural Network}
-\newacronym{SOA}{SOA}{Secure Operation Area}
-\newacronym{SOC}{SoC}{State Of Charge}
-\newacronym{SOH}{SoH}{State Of Health}
-\newacronym{SMT}{SMT}{Surface-Mount Technology}
-\newacronym{SPDT}{SPDT}{Single-Pole Double Throw}
-\newacronym{SPST}{SPST}{Single-Pole Single Throw}
-\newacronym{SVM}{SVM}{Support Vector Machine}
-\newacronym{SVN}{SVN}{Support Vector Machines}
-\newacronym{TBBC}{TBBC}{Transformer Based Balancing Controllers}
-\newacronym{TCR}{TCR}{Temperature Coefficient of Resistance}
-\newacronym{UPS}{UPS}{Uninterruptible Power Supply}
-\newacronym{VBES}{VBES}{Voltage-based equalization strategy}
-\newacronym{VE}{VE}{vehículo Eléctrico}
-\newacronym{VVEE}{VVEE}{vehículos Eléctricos}
-\newacronym{hri}{HRI}{Human-robot Interactions}
-\newacronym{lstm}{LSTM}{Long Short-Term Memory}
-\newacronym{rnn}{RNN}{Recurrent Neural Network}
+\input{acronym_list}
 
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
 	1 with {\arrow[semithick]{open triangle 60}}},
@@ -199,6 +129,9 @@ Escuela de Ingeniería Electrónica}
 \oddsidemargin = 0cm
 \textheight = 24cm
 \textwidth = 17cm
+
+% renew itemize symbol level II
+\renewcommand{\labelitemii}{$>$}
 
 \begin{document}
 
@@ -5020,6 +4953,104 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 \end{figure}
 \FloatBarrier
 
+
+\subsection{Unidad de procesamiento}
+
+\subsubsection{Tecnología seleccionada - STM32F407VG}
+
+Actualmente existen en el mercado diferentes opciones de microcontroladores de
+distintos proveedores que implementan diferentes arquitecturas. La naturaleza
+de los desafios matemáticos que plantea el desarrollo del \acrshort{BMS} y el
+rendimiento computacional requerido para el procesamiento en tiempo real fueron
+dos de los pilares fundamentales para la selección e implementación del
+Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}. 
+
+El \textbf{STM32F407VG} es un microcontrolador de la familia STM32F407xx de la
+firma \emph{STMicroelectronics} que implementan un nucleo de alto rendimiento de
+32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} y que puede operar a
+una frecuencia de hasta 168 MHz.  El nucleo Cortex-M4 implementa dos módulos
+fundamentáles para la optimización del proceso de cálculo matemático del
+\acrshort{BMS} y el procesamiento en tiempo real. Una unidad de punto flotante
+(por sus siglas en ingles \acrfull{FPU}) de precision simple que soporta todas
+las instrucciones y tipos de datos Single-Precision data-Processing del nucleo
+y un set completo de instrucciones de \acrshort{DSP}. La familia STM32F407xx a
+su vez incorpora una memoria FLASH embebida de alta velocidad de hasta 1 Mbyte y
+192+4 Kbytes de RAM (\acrfull{SRAM}).
+
+\begin{wrapfigure}{R}{5.5cm}
+    \includegraphics[width=5.5cm]{STM32F407VG.png}
+    \caption{STM32f407VG}
+    \label{fig:stm32f407vg}                                                            
+\end{wrapfigure}                                                                 
+
+Otras características tenidas en cuanta y de las que disponie el Circuito
+Integrado son sus tres módulos ADCs de 12-bits, dos DACs, un \acrshort{RTC} de
+bajo consumo, 4 timers de propósitos generales y una serie de módulos de
+interface de comunicaciones entre los que destacan el módulo \acrshort{CAN} y la
+interfaz de puerto Serie utilizadas en el proyecto \acrshort{BMS}.
+
+El empaquetado del \acrshort{CI} seleccionado es \acrfull{LQFP} de 100 pines.
+
+\begin{itemize}                                                                  
+    \item Nucleo: 
+
+        \begin{itemize}                                                                  
+            \item  32-bits Arm Cortex-M4 @ 168 MHz     
+            \item  210 \acrshort{DMIPS} - $1.25$\acrshort{DMIPS}/MHz
+            \item \acrfull{NVIC}
+            \item Debug: \acrfull{SWD} + JTAG interfaces
+            \item [+] Unidad de Punto Flotante \acrshort{FPU} 
+            \item [+] Acelerador Adaptativo de Tiempo Real \acrshort{ART} 
+            \item Modos de funcionamiento Run, Idle and Sleep                          
+        \end{itemize}
+
+    \item Clock:
+
+        \begin{itemize}
+            \item Cristal externo 4-to-26 MHz 
+            \item Oscilador interno 16 MHz (res: 1\%)
+            \item Oscilador interno RTC 32 KHz 
+        \end{itemize}
+
+    \item Memoria                                       
+
+        \begin{itemize}                                                                  
+            \item Flash 1 Mbyte 
+            \item \acrshort{SRAM} $192+4$ Kbytes  
+            \item \acrshort{OTP} 512 bytes 
+        \end{itemize}
+
+    \item Conectividad
+
+        \begin{itemize}                                                                  
+            \item 2x SPI, 3x $I^2C$, 2x $I^2S$
+            \item Ethernet MAC 10/100 (IEEE 1588)
+            \item 6x UART 
+            \item 2x CAN 2.0B 
+            \item SDIO 
+            \item USB 2.0 
+        \end{itemize}
+
+    \item IOs
+    \item PWM 2x 16-bits
+    \item ADC 3x 12-bit, 24 canales, hasta 500k muestras por segundo              
+    \item DAC 2x 12-bit 
+    \item DMA 16-streams
+    \item Timer 12x 16-bis + 2x 32-bits 
+    \item LCD paralelo, 8080/6080 
+    \item CRC
+    \item RTC
+\end{itemize}                                                                    
+                                                                                 
+Se adjunta en \autoref{seq:appendix} el esquemático correspondiente del circuito 
+desarrollado bajo el nombre $TODO.pdf$.                   
+                                                                                 
+\subsubsection{Alimentación}
+%TODO:
+
+\subsubsection{Placa de desarrollo - Discovery}
+%TODO: discovery! 
+
 \subsection{Sensor de corriente}
 
 \subsubsection{Tecnología Seleccionada - INA226}
@@ -6043,7 +6074,7 @@ la composición química de las celdas.
 
 \newpage
 
-\appendix
+\appendix 
 
 \section{Desarrollo matem\'atico del Filtro de Kalman}\label{matKalman}
 
@@ -6438,7 +6469,8 @@ Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right
 \end{table}
 
 
-
+\section{Esquemático Implementación Unidad de Procesamiento BMS}\label{seq:appendix}
+%TODO: Include .pdf
 
 \newpage
 % Print table of acronyms
