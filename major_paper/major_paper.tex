@@ -5145,10 +5145,10 @@ celdas presenten voltajes por debajo de su valor de operación segura.
 La figura \ref{fig:3v3_output_filter} corresponde a la etapa de potencia de la
 fuente de alimentación tipo buck implementada. La integran un Mosfet canal-N y
 un diodo de bootstrap integrado al miso \acrshort{CI}, una inductancia y 1
-capacitor, L2, C42 respectivamente, que funcionan como filtros de ripple a la
-salida. También forman parte fundamental de la etapa el capacitor C39 que funciona como
-bootstrap del voltaje necesario para excitar el gate del mosfet de la parte
-alta. Puede observarse en la imagen \ref{fig:3v3_IC}.
+capacitor, L2 y C42 respectivamente, que funcionan como filtros de ripple a la
+salida. También forman parte fundamental de la etapa el capacitor C39 que
+funciona como bootstrap del voltaje necesario para excitar el gate del mosfet de
+la parte alta. Puede observarse en la imagen \ref{fig:3v3_IC}.
 
 \begin{figure}[h!]
     \centering
@@ -5192,7 +5192,18 @@ La capacidad de salida seleccionada finalmente fue de $20\mu F$, acorde a los
 ensayos experimentales realizados durante el proceso de montaje de la placa. 
 
 \subsubsection{Placa de desarrollo - Discovery}
-%TODO: discovery! 
+
+Para poder realizar en paralelo el desarrollo e implementación del hardware y
+del software del \acrshort{BMS}, gran parte del proceso de desarrollo del
+software se llevó a cabo sobre el kit de desarrollo Discovery STM32F4DISCOVERY
+que implementa el microcontrolador seleccionado STM32F407.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\linewidth]{STM32F407VG-discovery.png}
+    \caption{Placa de desarrollo Discovery - STM32F4DISCOVERY}
+    \label{fig:stm32f4discovery}
+\end{figure}
 
 \subsection{Sensor de corriente}
 
