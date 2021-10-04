@@ -4958,9 +4958,9 @@ satisfactoriamente con la corrección del SOC inicial ya que estaba seteado en 2
 
 \subsubsection{Tecnología seleccionada - STM32F407VG}
 
-Actualmente existen en el mercado diferentes opciones de microcontroladores de
-distintos proveedores que implementan diferentes arquitecturas. La naturaleza
-de los desafios matemáticos que plantea el desarrollo del \acrshort{BMS} y el
+Actualmente existen en el mercado un sin número de microcontroladores de
+distintos proveedores que implementan diferentes arquitecturas. La naturaleza de
+los desafios matemáticos que plantea el desarrollo del \acrshort{BMS} y el
 rendimiento computacional requerido para el procesamiento en tiempo real fueron
 dos de los pilares fundamentales para la selección e implementación del
 Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}. 
@@ -5046,7 +5046,150 @@ Se adjunta en \autoref{seq:appendix} el esquemático correspondiente del circuit
 desarrollado bajo el nombre $TODO.pdf$.                   
                                                                                  
 \subsubsection{Alimentación}
-%TODO:
+
+Para alimentar la unidad de procesamiento del \acrshort{BMS} se desarrolla e
+implementa un convertidor de tensión DC-DC basado en el circuito integrado
+TPS54331 de tecnología switching tipo Step Down de la firma \emph{Texas
+Instruments}. En la Figura \ref{fig:TPS54332D_common_implementation} se puede
+observar su implementación modelo. 
+
+\begin{figure}[h!]
+    \begin{center}
+	\includegraphics[width=0.4\linewidth]{assets/TPS54332D_common_implementation.png}
+	\caption{Implementación Tipo - TPS54332D}
+	\label{fig:TPS54332D_common_implementation}
+    \end{center}	
+\end{figure}
+
+El criterio de selección se basó en la necesidad de optimizar el consumo de
+energía del pack de batería, priorizando el máximo ahorro. Por lo que la
+tecnología switchin se preseta como una solución superadora frente a otras
+opciones, como ser los reguladores transistorizados, de menor eficiencia
+energética.
+
+El TPS54331 implementa un convertidor de energía tipo buck de hasta 28 V y 3 A
+que integra en la propia pastilla de silicio un MOSFET de bajo RDS(on) a la
+salida simplificando el circuito y abaratando costos.
+Para incrementar su performance durante los transitorios de linea y carga y para
+disminuir la disipación de energía el dispositivo implementa un control por
+corriente a frencuencia constante el cual permite reducir la capacidad de salida
+y simplificar el diseño del filtro de salida y su compensación. El \acrshort{CI}
+opera a una freciencia pre fijada de $f_{sw}=570 KHz$.
+El empaquetado del \acrshort{CI} implementado es del tipo SOIC de 8-pines. El
+mismo no requiere disipación energética externa adicional y la misma se realiza
+a través del plano de masa del \acrshort{PCB}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{hardware/3v3/3v3_IC.png}
+        \caption{Implementación TPS54331 Texas Instruments}
+        \label{fig:3v3_IC}
+\end{figure}
+\FloatBarrier
+
+El set-point del voltaje de salida se configura externamente seteando un voltaje
+en el pin SENSE del \acrshort{CI} a partir del divisor resistivo presentado en
+la figura \ref{fig:3v3_set_point}. La relación del voltaje de salida y la
+tensión sensada se presenta en la Ecuación \ref{eq:3v3_vout}.
+
+El voltaje aplicado en SENSE es comparado al interior del \acrshort{CI} contra
+una referencia $V_{ref} &= 0.8 V \pm2\%$ la cual define si el voltaje de
+salida se haya por debajo o por encima del valor deseado. 
+
+La Ecuación \ref{eq:3v3_vout} que define el voltaje de salida $V_{out}$ a partir
+de hacer $ V_{SENSE} \equiv V_{ref}$ será entonces:
+
+\begin{equation}
+    V_{out} = V_{ref}*(\frac{R_{5}}{R_{6}}-1) = 3.3 V
+    \label{eq:3v3_vout}
+\end{equation}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.35\linewidth]{hardware/3v3/3v3_set_point.png}
+        \caption{Circuito de fijación de Set-Point de tensión de salida
+        $V_{out}$}
+        \label{fig:3v3_set_point}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering 
+        \includegraphics[width=0.75\textwidth]{hardware/3v3/3v3_input_under_voltage.png}
+        \caption{Circuito de fijación de Set-Point de tensión de entrada de
+        bloqueo }
+        \label{fig:3v3_input_under_voltage}
+    \end{subfigure}
+        \caption{Fijación Set-Points fuente de alimentación 3v3 }
+        \label{fig:cb_set_point}
+\end{figure}
+\FloatBarrier
+
+El \acrshort{CI} requiere de una alimentación mayor a $3.5 V$ para operar
+correctamente. El pin de Habilitación EN implementa una fuente de corriente
+interna que permite ajustar un voltaje mínimo de bloquéo por falta de
+alimentación externa a partir de un arreglo de resistencias como se observa en
+la Figura \ref{fig:3v3_input_under_voltage}.
+Se fijan los voltajes de apagado por falta de alimentación y de encendido
+teniendo en cuenta evitar que se consuma energía del pack de batería cuando las
+celdas presenten voltajes por debajo de su valor de operación segura.
+
+\begin{align}
+    V_{start} &= 16.29V \\
+    V_{stop} &= 15.3V \\
+    R_{1} &= \frac{V_{star} - V_{end}}{I_{hist}} = 330K\ohm \\
+    R_{2} &= \frac{V_{en}}{I_{hist} + 1\um A} = 27K\ohm \\
+\end{align}
+
+La figura \ref{fig:3v3_output_filter} corresponde a la etapa de potencia de la
+fuente de alimentación tipo buck implementada. La integran un Mosfet canal-N y
+un diodo de bootstrap integrado al miso \acrshort{CI}, una inductancia y 1
+capacitor, L2, C42 respectivamente, que funcionan como filtros de ripple a la
+salida. También forman parte fundamental de la etapa el capacitor C39 que funciona como
+bootstrap del voltaje necesario para excitar el gate del mosfet de la parte
+alta. Puede observarse en la imagen \ref{fig:3v3_IC}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\linewidth]{hardware/3v3/3v3_output_filter.png}
+    \caption{Filtro de salida}
+    \label{fig:3v3_output_filter}
+\end{figure}
+
+La selección de los componente que integran la etapa de salida fue realizada
+siguiendo los lineamientos y recomendaciones de la hoja de datos del
+\acrshort{CI}. 
+
+Calculamos el valor mínimo de la inductancia sustituyendo los valores de las
+condiciones de operación en la ecuación \ref{eq:3v3_L}. Donde $K_{IND}$ es el
+coeficiente que representa la cantidad de ripple de corriente en relación a la
+corriente de salida.
+
+\begin{equation}
+    L_{min} = \frac{V_{out} * (V_{in (max)} - V_{out})}{V_{in (max)}*K_{IND}*I_{out}*f_{sw}} = 6.8\mu H
+    \label{eq:3v3_L} 
+\end{equation}
+
+Para el cálculo de la capacidad de salida C, se tuvo en cuenta los facores de
+diseño como la corriente de ripple, la resistencia serie equivalente
+(\acrshort{ESR}) y el voltaje DC que deberá soportar el integrado. El valor de
+\acrshort{ESR} es fundamental ya que junto con la capacidad determinan el ripple
+del voltaje de salida. El valor seleccionado $ESR_{max} = 47.87 m\ohm$
+
+Calculamos el valor mínimo de la capacidad de salida $C_{0 (min)}$ sustituyendo
+los valores de las condiciones de operación en la ecuación \ref{eq:3v3_C}. Donde
+$R_{O} = \frac{V_{out}}{I_{out}}$ equivale la impedancia de salida y $F_{CO
+(max)}$ a la frecuencia de corte seleccionada, que como regla general se toma
+$\frac{f_{sw}}{5} = 25 kHz$ 
+
+\begin{equation}
+    C_{o (min)} = \frac{1}{2\pi * R_{0} * F_{CO (max)}} = 6.875\mu F\\
+    \label{eq:3v3_C}
+\end{equation}
+
+La capacidad de salida seleccionada finalmente fue de $20\mu F$, acorde a los
+ensayos experimentales realizados durante el proceso de montaje de la placa. 
 
 \subsubsection{Placa de desarrollo - Discovery}
 %TODO: discovery! 
@@ -5105,8 +5248,7 @@ implementación modelo.
 	\label{fig:ina226-commonimplementation}
     \end{center}	
 \end{figure}
-
-\newpage
+\FloatBarrier
 
 \subsubsection{C\'aculo de la resistencia shunt}
 
