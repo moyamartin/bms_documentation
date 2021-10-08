@@ -30,7 +30,7 @@ If you find this project interesting or useful for your work, please let us know
 ## TODO
 
 * ~~Add project spirit~~ (FEDE)
-* Add missing kalma simulation graphics (MOYA)
+* ~Add missing kalma simulation graphics~ (MOYA)
 * Machine Learning part (MOYA)
 * Matlab and software implemenation
 * Equalization control estrategy (MOYA)
