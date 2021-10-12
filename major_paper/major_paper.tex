@@ -606,7 +606,7 @@ ensayo y desarrollo de futuros proyectos que partan de este \acrshort{BMS}. Con
 el objetivo de que la disposición de la documentación funcione como la
 herramienta que lo permita.
 
-\subsection{Pack de bater\'ias}
+\subsection{Pack de bater\'ias}\label{battery_pack}
 
 Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
 controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
@@ -823,8 +823,6 @@ propiedades que benefician al ensamblado del pack, por ejemplo:
     \item Es soldable, por lo que se puede aplicar una soldadura de punto entre
         la tira de n'iquel y los electrodos de la celda.
 \end{itemize}
-
-\newpage
 
 \begin{figure}[h!]
     \begin{center}
@@ -1064,7 +1062,7 @@ el circuito equivalente.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=.9\textwidth]{rc_model_fit.png}
+        \includegraphics[width=.65\textwidth]{rc_model_fit.png}
         \caption{Ajuste curvas exponenciales orden Modelo R-C}
         \label{fig:model_fit}
     \end{center}
@@ -1099,7 +1097,7 @@ proveniente del set de datos.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=1\textwidth]{battery_model_simulink.png}
+        \includegraphics[width=.9\textwidth]{battery_model_simulink.png}
         \caption{Implementaci\'on del modelo de Randles en \emph{Simulink}.}
         \label{battery_model_simulink}
     \end{center}
@@ -1130,6 +1128,8 @@ obtenidas de la \acrshort{LUT} de forma manual.
 Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitacipon con un escal\'on de corriente.
+
+\newpage
 
 Para el ensayo se utilizan par\'ametros con valores predeterminados: 
 
@@ -1219,6 +1219,8 @@ negativo, obteniendo la curva de la Figura \ref{fig:ocv_detection}.
         \label{fig:ocv_detection}
 \end{figure}
 \FloatBarrier
+
+\newpage
 
 Relacionando estos resultados con los datos obtenidos en la Figura 
 \ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
@@ -1348,8 +1350,6 @@ sistema. Los valores obtenidos se definen a continuación.
     \item [] $ 0 < \mathbf{R_2} < 1$ $ 0 < \mathbf{C_2} < 3000$
 \end{itemize}
 \FloatBarrier
-
-\newpage
 
 Una vez que se encuentra corriendo la tarea de optimización, la implementación
 ejecuta un algoritmo automatizado de optimización numérica a partir de la
@@ -1488,12 +1488,7 @@ optimizadas para el cirucuito equivalente.
             \includegraphics[width=1\textwidth]{R0_lutable_corrected.png}
             \caption{\acrshort{LUT} $R_0$}
             \label{fig:lut_R0}
-    %\end{center}
-%\end{figure}
         \end{subfigure}
-
-%\begin{figure}[h!]
-    %\begin{center}
         \begin{subfigure}{1\textwidth}
             \includegraphics[width=1\textwidth]{RC_lutables_corrected.png}
             \caption{\acrshort{LUT}s $R_1$, $C_1$, $R_2$, $C_2$}
@@ -1761,7 +1756,7 @@ Por \'ultimo, reemplazando \ref{soc_mod_integration_der} y
 \ref{v_cap_reemplazada} en el sistema de ecuaciones de estado, en forma
 matricial, finalmente se obtiene el sistema de Ecuaciones 
 \ref{ss_randles_complete} correspondiente al circuito de Randles de segundo
-orden ,
+orden,
 
 \begin{align}
     \begin{bmatrix}
@@ -1942,7 +1937,7 @@ ajustaron los valores de la matriz Q a los que se observan en la Ecuaci\'on
 
 Finalmente, se desarroll\'o el algoritmo de Kalman en un script de \emph{Matlab}
 y se ensay\'o el algoritmo en conjunto con el modelo bajo el mismo set de datos
-utilizado en \label{ensayo_HPPC}. Como resultado se obtuvo las gr\'aficas que se
+utilizado en \ref{ensayo_HPPC}. Como resultado se obtuvo las gr\'aficas que se
 observan en la Figura \ref{kalman_result_matlab}, en la que se puede deducir que
 se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
@@ -2209,6 +2204,118 @@ que implementa el microcontrolador seleccionado STM32F407.
     \caption{Placa de desarrollo Discovery - STM32F4DISCOVERY}
     \label{fig:stm32f4discovery}
 \end{figure}
+
+\subsection{Sensor de tensi\'on - Balanceador}
+
+Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
+y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
+mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
+producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
+utilizando resistencias shunt en conjunto con una estrategia de control
+cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
+estableciendo un umbral m\'aximo de variaci\'on entre celdas. 
+
+\newpage
+
+\subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
+
+Para el desarrollo de esta funcionalidad se opt\'o por el integrado
+\emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
+este integrado con respecto a otras marcas se basa en la Tabla 
+\ref{tabla_comparativa_ics}. En la misma se puede observar que el integrado
+elegido posee beneficios tanto en funcionalidad, escalabilidad como tambi\'en un
+bajo costo con respecto a otros competidores, como por ejemplo, puede extenderse
+hasta un pack de 192 celdas conectadas en series, con un valor menor a 9
+d\'olares, cuando el resto de los integrados sobre pasan el costo y manejan una
+menor cantidad de celdas en serie.
+
+\begin{table}[h!]
+    \begin{center}
+        \begin{tabular}{llllll}
+        \hline
+        Modelo     & Fabricante        & Protocolo de CX    & Cant. de celdas & Escalable?          & Costo (u\$s) \\ \hline
+        LTC6804    & Analog Devices    & SPI                & 12              & Hasta 100 celdas    & 21.28        \\
+        BQ76PL536A & Texas Instruments & SPI                & 6               & Hasta 192 celdas    & 8.83         \\
+        MC33772B   & NXP               & SPI                & 3               & No especifica       & 20.74        \\
+        MAX14920/1 & Maxim             & SPI                & 16              & No                  & 9.84         \\
+        L9963      & STM Electronics   & SPI                & 14              & No                  & 18.36        \\        
+        \hline
+        \end{tabular}
+    \end{center}
+    \caption{Comparaci\'on de \acrshort{IC}s dedicados al balanceo pasivo de
+    celdas de litio-ion.}
+\end{table}
+
+\begin{minipage}{0.5\textwidth}
+El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
+celdas conectadas en serie, que pueden acoplarse entre si para extenderse a 192
+celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del ingl\'es
+\acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital (\acrshort{ADC},
+del ingl\'es \acrlong{ADC}), utilizado para medir de forma precisa el voltaje de
+cada celda. Por el otro lado, tambi\'en posee dos \acrshort{ADC}s para leer la
+temperatura del pack de bater\'ias.\\
+\\
+Adem\'as de la temperatura, tambi\'en  se monitorea el sobrevoltaje y el bajo
+voltaje por canal, es decir, por cada celda para tomar las medidas de
+protecci\'on necesarias, estas tres variables de protecci\'on pueden ser
+configuradas por el usuario a trav\'es del puerto SPI que provee el dispositivo
+para escribir los registros internos.\\
+\\
+Finalmente, el mismo puede soportar bater\'ias de hasta 192 celdas acoplando
+varios integrados entre si, a trav\'es de un bus SPI en cadena. Un esquem\'atico
+simplificado de \'este tipo de topolog\'ia del dispositivo se puede observar en
+la Figura \ref{bq76_simplified_schematic}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{bq76_simplified_schematic.png}
+        \caption{Esquem\'atico simplificado de un balanceador de m\'as de 6
+        celdas utilizando varios BQ76PL536A acoplados entre s\'i.}
+        \label{bq76_simplified_schematic}
+    \end{center}
+\end{minipage}
+
+\subsubsection{Diseño del esquem\'atico}
+
+En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
+celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
+integrado similar para extender su capacidad, esto se puede observar en la
+Figura \ref{bq76_implementation}, en la que se muestra la implementaci\'on del
+dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
+pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
+($\mathrm{GND}$), anulando ambos perif\'ericos.
+
+En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
+especificados por el fabricante \cite{BQ76PL536A}:
+
+\begin{itemize}
+    \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
+        desacople conectados entre ellos lo m\'as cerca posible a esos pines.
+    \item La fuente anal\'ogica interna tiene que ser bypasseada a trav\'es del
+        pin LDOA con un capacitor cer\'amico de 2.2uF.
+    \item La salida del regulador de 5V que provee el integrado (REG50) tiene 
+        que ser filtrado con un capacitor de 2.2uF, independientemente de si 
+        esta fuente es utilizada o no externamente.
+\end{itemize}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{bq76_implementation.png}
+        \caption{Esquem\'atico diseñado del BQ76PL536A}
+        \label{bq76_implementaton}
+    \end{center}
+\end{figure}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[]{bq76_desacople.png}
+        \caption{Capacitores de desacople requeridos para el correcto
+        funcionamiento del \acrshort{CI}}
+        \label{bq76_desacople}
+    \end{center}
+\end{figure}
+
+\newpage
 
 \subsection{Sensor de corriente}
 
