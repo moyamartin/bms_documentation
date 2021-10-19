@@ -577,7 +577,7 @@ variables del sistema a una computadora central.
 
 \section{Aspectos Te\'oricos}\label{teoria}
 
-input(state_of_art)
+input(state\_of\_art)
 
 \section{Desarrollo}\label{desarrollo}
 
@@ -2244,6 +2244,7 @@ menor cantidad de celdas en serie.
     \end{center}
     \caption{Comparaci\'on de \acrshort{IC}s dedicados al balanceo pasivo de
     celdas de litio-ion.}
+    \label{tabla_comparativa_ics}
 \end{table}
 
 \begin{minipage}{0.5\textwidth}
@@ -2275,17 +2276,17 @@ la Figura \ref{bq76_simplified_schematic}
     \end{center}
 \end{minipage}
 
-\subsubsection{Diseño del esquem\'atico}
+\subsubsection{Diseño e Implementación}
 
 En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
 celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
 integrado similar para extender su capacidad, esto se puede observar en la
-Figura \ref{bq76_implementation}, en la que se muestra la implementaci\'on del
+Figura \ref{fig:bq76_implementation_sch}, en la que se muestra la implementaci\'on del
 dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
 pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
 ($\mathrm{GND}$), anulando ambos perif\'ericos.
 
-En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
+En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los capacitores de desacople
 especificados por el fabricante \cite{BQ76PL536A}:
 
 \begin{itemize}
@@ -2298,23 +2299,61 @@ especificados por el fabricante \cite{BQ76PL536A}:
         esta fuente es utilizada o no externamente.
 \end{itemize}
 
-\begin{figure}[h!]
+\begin{figure}[!h]
+    \begin{subfigure}[b]{\textwidth}
+        \begin{center}
+            \includegraphics[width=0.95\textwidth]{bq76_implementation.png}
+            \caption{Esquem\'atico diseñado del BQ76PL536A}
+            \label{fig:bq76_implementation_sch}
+        \end{center}
+    \end{subfigure}
+
+    \hfill{3mm}
+
+    \begin{subfigure}[b]{\textwidth}
+        \begin{center}
+            \includegraphics[width=0.35\textwidth]{bq76_desacople.png}
+            \caption{Capacitores de desacople requeridos para el correcto
+            funcionamiento del \acrshort{CI}}
+            \label{fig:bq76_implementation_uncouple}
+        \end{center}
+    \end{subfigure}
+            \caption{Diseño implementación BQ76PL536A}
+            \label{fig:bq76_implementation}
+\end{figure}
+
+El \acrshort{CI} bq76PL536 posee 6 salidas dedicadas, del pin CB1 a CB6, los
+cuales funcionan como driver de control de los transistores N-FETs utilizados
+como llaves para balancear las celdas correspondiente a cada una de las series
+del pack de batería.
+Por cada grupo de celdas en serie del pack de baterías se implemente un circuito
+equivalente al de la Figura \ref{fig:bq76_balance_power}, encargado de manejar
+la potencia de descarga del balanceo de las celdas.
+El circuito de balanceo consta de un transistor N-FET \textbf{2N7002} de la
+firma \emph{ON Semiconductors} en su empaquetado SOT−23 junto con las
+resistencias R15, R18 y el diodo D1 que forman parte del curcuito de encendido
+del Mosfet. 
+%TODO: Por que seleccionamos el 2N7002
+Y una resistencia, R21 en el caso del ejemplo presentado en la
+Figura \ref{fig:bq76_balance_power}, que hace las veces de carga según se
+describio en la sección \ref{} respecto del método de balanceo seleccionado. 
+
+La implmentación del algoritmo de balanceo apropiado es implementado y procesado
+en la unidad de procesamiento del \acrshort{BMS}.  
+
+%TODO: corriente de descarga por celda
+
+\begin{figure}[!h]
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{bq76_implementation.png}
-        \caption{Esquem\'atico diseñado del BQ76PL536A}
-        \label{bq76_implementaton}
+        \includegraphics[width=0.7\textwidth]{hardware/bat_monitor/bat_mon_balance.png}
+        \caption{Módulo balance BQ76PL536A}
+        \label{fig:bq76_balance_power}
     \end{center}
 \end{figure}
 
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[]{bq76_desacople.png}
-        \caption{Capacitores de desacople requeridos para el correcto
-        funcionamiento del \acrshort{CI}}
-        \label{bq76_desacople}
-    \end{center}
-\end{figure}
+%Todo: anti-aliasing filter
 
+%TODO: Avoid- hot-plug- transientes voltages
 \newpage
 
 \subsection{Sensor de corriente}
