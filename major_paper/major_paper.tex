@@ -2207,27 +2207,31 @@ que implementa el microcontrolador seleccionado STM32F407.
 
 \subsection{Sensor de tensi\'on - Balanceador}
 
-Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
-y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
-mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
-producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
-utilizando resistencias shunt en conjunto con una estrategia de control
-cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
-estableciendo un umbral m\'aximo de variaci\'on entre celdas. 
-
-\newpage
+Dada las caracter\'isticas del pack del baterías descriptas en la Secci\'on
+\ref{battery_pack} y la diversidad de t\'ecnicas disponibles para el balanceo. Y
+con el objetivo de simplificar el diseño y la implementación de la funcionalidad
+de ecualizaci\'on del \acrshort{BMS} se opt\'o por un circuito de balanceo de
+carga basado en una topolog\'ia pasiva utilizando resistencias shunt en conjunto
+con una estrategia de control cl\'asica que depende del promedio del
+\acrshort{SOC} entre las 6 celdas en serie, estableciendo un umbral m\'aximo de
+variaci\'on entre celdas. 
 
 \subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
 
-Para el desarrollo de esta funcionalidad se opt\'o por el integrado
-\emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
-este integrado con respecto a otras marcas se basa en la Tabla 
-\ref{tabla_comparativa_ics}. En la misma se puede observar que el integrado
-elegido posee beneficios tanto en funcionalidad, escalabilidad como tambi\'en un
-bajo costo con respecto a otros competidores, como por ejemplo, puede extenderse
-hasta un pack de 192 celdas conectadas en series, con un valor menor a 9
-d\'olares, cuando el resto de los integrados sobre pasan el costo y manejan una
-menor cantidad de celdas en serie.
+A los fines del desarrollo de la funcionalidad de blanceo del pack de batería se
+opt\'o por la implementación del \acrlong{CI} \emph{BQ76PL536} de la firma
+\emph{Texas Instruments}.
+
+El \acrshort{CI} elegido presenta beneficios tanto en funcionalidad y
+escalabilidad, puediendo extenderse la capacidad del \acrshor{BMS} conectanndo
+integrados hasta lograr abarcar un total de 192 celdas conectadas en series,
+como tambi\'en un bajo costo con respecto a las demás opciones del mercado con
+un valor que no supera los 9 d\'olares por integrado cuando el resto de las
+opciones sobre pasan ese valor y a costa de  manejar una menor cantidad de
+celdas en serie.  La comparación respecto de las opciones disponibles en el
+mecado por las demás marcas fabricantes de semiconductores y las características
+de las diferentes opciones se pueden observar en la Tabla
+\ref{tabla_comparativa_ics}. 
 
 \begin{table}[h!]
     \begin{center}
@@ -2242,30 +2246,31 @@ menor cantidad de celdas en serie.
         \hline
         \end{tabular}
     \end{center}
-    \caption{Comparaci\'on de \acrshort{IC}s dedicados al balanceo pasivo de
-    celdas de litio-ion.}
+    \caption{Comparaci\'on de \acrshort{CI}s dedicados al balanceo pasivo de
+    celdas de Litio-Ion.}
     \label{tabla_comparativa_ics}
 \end{table}
 
 \begin{minipage}{0.5\textwidth}
-El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
-celdas conectadas en serie, que pueden acoplarse entre si para extenderse a 192
-celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del ingl\'es
-\acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital (\acrshort{ADC},
-del ingl\'es \acrlong{ADC}), utilizado para medir de forma precisa el voltaje de
-cada celda. Por el otro lado, tambi\'en posee dos \acrshort{ADC}s para leer la
-temperatura del pack de bater\'ias.\\
-\\
-Adem\'as de la temperatura, tambi\'en  se monitorea el sobrevoltaje y el bajo
+El \emph{BQ76PL536} es un monitor y protector de packs de bater\'ias de tres a
+seis celdas conectadas en serie, que pueden acoplarse entre si para extenderse a
+192 celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del
+ingl\'es \acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital
+(\acrshort{ADC}, del ingl\'es \acrlong{ADC}), utilizado para medir de forma
+precisa el voltaje de cada celda. A su vez posee dos \acrshort{ADC}s dedicados
+al sensado de la temperatura del pack de bater\'ias.\\
+
+Adem\'as de la temperatura tambi\'en se monitorea el sobrevoltaje y el bajo
 voltaje por canal, es decir, por cada celda para tomar las medidas de
-protecci\'on necesarias, estas tres variables de protecci\'on pueden ser
+protecci\'on necesarias. Estas tres variables de protecci\'on pueden ser
 configuradas por el usuario a trav\'es del puerto SPI que provee el dispositivo
 para escribir los registros internos.\\
-\\
+
 Finalmente, el mismo puede soportar bater\'ias de hasta 192 celdas acoplando
 varios integrados entre si, a trav\'es de un bus SPI en cadena. Un esquem\'atico
 simplificado de \'este tipo de topolog\'ia del dispositivo se puede observar en
 la Figura \ref{bq76_simplified_schematic}
+
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
     \begin{center}
@@ -2278,16 +2283,16 @@ la Figura \ref{bq76_simplified_schematic}
 
 \subsubsection{Diseño e Implementación}
 
-En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
-celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
-integrado similar para extender su capacidad, esto se puede observar en la
-Figura \ref{fig:bq76_implementation_sch}, en la que se muestra la implementaci\'on del
-dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
-pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
-($\mathrm{GND}$), anulando ambos perif\'ericos.
-
-En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los capacitores de desacople
-especificados por el fabricante \cite{BQ76PL536A}:
+Dado que el alcance de nuestro \acrshort{BMS} implica controlar un pack de
+bater\'ias de 6 celdas en serie se utiliz\'o un solo \acrshort{CI} sin necesidad
+de acoplar otro para extender su capacidad. En la Figura
+\ref{fig:bq76_implementation_sch} se puede apreciar la implementaci\'on del
+dispositivo, donde se observa el puerto SPI norte conectado a la tensi\'on total
+del pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
+($\mathrm{GND}$), anulando ambos perif\'ericos. Por otra parte, en la Figura
+\ref{fig:bq76_implementation_uncouple} se detallan los capacitores de
+desacople especificados por el fabricante \cite{BQ76PL536A} necesarios para el
+correcto funcionamiento.
 
 \begin{itemize}
     \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
@@ -2322,26 +2327,41 @@ especificados por el fabricante \cite{BQ76PL536A}:
             \label{fig:bq76_implementation}
 \end{figure}
 
-El \acrshort{CI} bq76PL536 posee 6 salidas dedicadas, del pin CB1 a CB6, los
+El \acrshort{CI} bq76PL536 posee 6 salidas dedicadas, del pin CB1 a CB6, las
 cuales funcionan como driver de control de los transistores N-FETs utilizados
 como llaves para balancear las celdas correspondiente a cada una de las series
 del pack de batería.
 Por cada grupo de celdas en serie del pack de baterías se implemente un circuito
-equivalente al de la Figura \ref{fig:bq76_balance_power}, encargado de manejar
-la potencia de descarga del balanceo de las celdas.
-El circuito de balanceo consta de un transistor N-FET \textbf{2N7002} de la
-firma \emph{ON Semiconductors} en su empaquetado SOT−23 junto con las
-resistencias R15, R18 y el diodo D1 que forman parte del curcuito de encendido
-del Mosfet. 
+equivalente al de la Figura \ref{fig:bq76_balance_power} encargado de manejar
+la potencia de descarga del balanceo de una celda.
+
+El circuito de potenci del balanceo consta de un transistor N-FET
+\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado SOT−23
+junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
+de encendido del Mosfet. 
 %TODO: Por que seleccionamos el 2N7002
 Y una resistencia, R21 en el caso del ejemplo presentado en la
 Figura \ref{fig:bq76_balance_power}, que hace las veces de carga según se
 describio en la sección \ref{} respecto del método de balanceo seleccionado. 
 
-La implmentación del algoritmo de balanceo apropiado es implementado y procesado
+El algoritmo de balanceo apropiado es implementado y procesado
 en la unidad de procesamiento del \acrshort{BMS}.  
 
-%TODO: corriente de descarga por celda
+La corriente de balanceo $I_{bal}$ es fija y está definida por la resistencia de
+carga $R_{Load} \equiv R21$, dependiendo de la tensión en bornes de la celda a
+balancear. 
+
+\begin{align}
+    I_{bal (max)} &= \frac{V_{OCV(max)}}{R_{load}+R_{DS (on)}}\\
+    &= \frac{4.2}{(47 + 1.7)\ohm}\\
+    &\approx 86mA
+\end{align}
+
+\begin{align}
+    I_{bal (min)} &= \frac{V_{OCV(min)}}{R_{load}+R_{DS (on)}}\\
+    &= \frac{2.5}{(47 + 1.7)\ohm}\\
+    &\approx 51mA
+\end{align}
 
 \begin{figure}[!h]
     \begin{center}
@@ -2351,9 +2371,17 @@ en la unidad de procesamiento del \acrshort{BMS}.
     \end{center}
 \end{figure}
 
-%Todo: anti-aliasing filter
+Cada una de las entradas de ADC de medición de tensión de las celdas requieren la
+preciencia de un filtro anti-aliasing. El propósito del filtro antialiasing es
+eliminar toda presencia, antes de hacer el muestreo, de las frecuencias
+superiores a frecuencia muestreo e indeseados. Consiste en una resistencia de $1
+K\ohm$ en serie con un capacitor de $100 nF$ en los pines VC6 - VC2 y de $1 \mu
+F$ en VC1 y VC0.
 
-%TODO: Avoid- hot-plug- transientes voltages
+La sección de potencia del balanceador cuenta con otro circuito de proteccion de
+sus integrados. Circuito dumper para evitar transitorios de sobre voltaje por la
+conexión del pack de batería en caliente. 
+
 \newpage
 
 \subsection{Sensor de corriente}
