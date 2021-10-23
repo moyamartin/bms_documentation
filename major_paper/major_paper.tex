@@ -2228,10 +2228,9 @@ integrados hasta lograr abarcar un total de 192 celdas conectadas en series,
 como tambi\'en un bajo costo con respecto a las demás opciones del mercado con
 un valor que no supera los 9 d\'olares por integrado cuando el resto de las
 opciones sobre pasan ese valor y a costa de  manejar una menor cantidad de
-celdas en serie.  La comparación respecto de las opciones disponibles en el
+celdas en serie. La comparación respecto de las opciones disponibles en el
 mecado por las demás marcas fabricantes de semiconductores y las características
-de las diferentes opciones se pueden observar en la Tabla
-\ref{tabla_comparativa_ics}. 
+de las mismas se pueden apreciar en la Tabla \ref{tabla_comparativa_ics}. 
 
 \begin{table}[h!]
     \begin{center}
@@ -2253,23 +2252,24 @@ de las diferentes opciones se pueden observar en la Tabla
 
 \begin{minipage}{0.5\textwidth}
 El \emph{BQ76PL536} es un monitor y protector de packs de bater\'ias de tres a
-seis celdas conectadas en serie, que pueden acoplarse entre si para extenderse a
-192 celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del
+seis celdas conectadas en serie que pueden acoplarse entre si para extenderse a
+192 celdas. Integra un frontend anal\'ogico (\acrshort{AFE}, del
 ingl\'es \acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital
-(\acrshort{ADC}, del ingl\'es \acrlong{ADC}), utilizado para medir de forma
+(\acrshort{ADC}, del ingl\'es \acrlong{ADC}) utilizado para medir de forma
 precisa el voltaje de cada celda. A su vez posee dos \acrshort{ADC}s dedicados
 al sensado de la temperatura del pack de bater\'ias.\\
 
-Adem\'as de la temperatura tambi\'en se monitorea el sobrevoltaje y el bajo
-voltaje por canal, es decir, por cada celda para tomar las medidas de
-protecci\'on necesarias. Estas tres variables de protecci\'on pueden ser
-configuradas por el usuario a trav\'es del puerto SPI que provee el dispositivo
-para escribir los registros internos.\\
+Adem\'as de la temperatura el \acrshort{CI} monitorea el sobrevoltaje y el bajo
+voltaje por canal, es decir, por cada una de las celdas para tomar las medidas de
+protecci\'on necesarias. Estas tres variables de protecci\'on son configuradas
+por la unidad de procesamiento, a trav\'es del puerto SPI que provee el
+dispositivo para escribir los registros internos, permitiendo adecuar los
+umbrales de protección a las celdas seleccionadas.\\
 
-Finalmente, el mismo puede soportar bater\'ias de hasta 192 celdas acoplando
-varios integrados entre si, a trav\'es de un bus SPI en cadena. Un esquem\'atico
-simplificado de \'este tipo de topolog\'ia del dispositivo se puede observar en
-la Figura \ref{bq76_simplified_schematic}
+Finalmente, el mismo puede soportar packs de bater\'ias de hasta 192 celdas
+acoplando varios integrados entre si, a trav\'es de un bus SPI en cadena. El
+esquem\'atico simplificado de \'este tipo de topolog\'ia del dispositivo se
+puede observar en la Figura \ref{bq76_simplified_schematic}
 
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
@@ -2284,15 +2284,15 @@ la Figura \ref{bq76_simplified_schematic}
 \subsubsection{Diseño e Implementación}
 
 Dado que el alcance de nuestro \acrshort{BMS} implica controlar un pack de
-bater\'ias de 6 celdas en serie se utiliz\'o un solo \acrshort{CI} sin necesidad
-de acoplar otro para extender su capacidad. En la Figura
-\ref{fig:bq76_implementation_sch} se puede apreciar la implementaci\'on del
-dispositivo, donde se observa el puerto SPI norte conectado a la tensi\'on total
-del pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
+bater\'ias de topoligía 6S3P de 6 celdas en serie se implementó un solo
+\acrshort{CI} sin necesidad de acoplar otro para extender su capacidad. En la
+Figura \ref{fig:bq76_implementation_sch} se puede apreciar la implementaci\'on
+del dispositivo, donde se observa el puerto SPI norte conectado a la tensi\'on
+total del pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
 ($\mathrm{GND}$), anulando ambos perif\'ericos. Por otra parte, en la Figura
-\ref{fig:bq76_implementation_uncouple} se detallan los capacitores de
-desacople especificados por el fabricante \cite{BQ76PL536A} necesarios para el
-correcto funcionamiento.
+\ref{fig:bq76_implementation_uncouple} se detallan los capacitores de desacople
+especificados por el fabricante \cite{BQ76PL536A} necesarios para el correcto
+funcionamiento.
 
 \begin{itemize}
     \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
@@ -2335,34 +2335,6 @@ Por cada grupo de celdas en serie del pack de baterías se implemente un circuit
 equivalente al de la Figura \ref{fig:bq76_balance_power} encargado de manejar
 la potencia de descarga del balanceo de una celda.
 
-El circuito de potenci del balanceo consta de un transistor N-FET
-\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado SOT−23
-junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
-de encendido del Mosfet. 
-%TODO: Por que seleccionamos el 2N7002
-Y una resistencia, R21 en el caso del ejemplo presentado en la
-Figura \ref{fig:bq76_balance_power}, que hace las veces de carga según se
-describio en la sección \ref{} respecto del método de balanceo seleccionado. 
-
-El algoritmo de balanceo apropiado es implementado y procesado
-en la unidad de procesamiento del \acrshort{BMS}.  
-
-La corriente de balanceo $I_{bal}$ es fija y está definida por la resistencia de
-carga $R_{Load} \equiv R21$, dependiendo de la tensión en bornes de la celda a
-balancear. 
-
-\begin{align}
-    I_{bal (max)} &= \frac{V_{OCV(max)}}{R_{load}+R_{DS (on)}}\\
-    &= \frac{4.2}{(47 + 1.7)\ohm}\\
-    &\approx 86mA
-\end{align}
-
-\begin{align}
-    I_{bal (min)} &= \frac{V_{OCV(min)}}{R_{load}+R_{DS (on)}}\\
-    &= \frac{2.5}{(47 + 1.7)\ohm}\\
-    &\approx 51mA
-\end{align}
-
 \begin{figure}[!h]
     \begin{center}
         \includegraphics[width=0.7\textwidth]{hardware/bat_monitor/bat_mon_balance.png}
@@ -2371,15 +2343,55 @@ balancear.
     \end{center}
 \end{figure}
 
-Cada una de las entradas de ADC de medición de tensión de las celdas requieren la
-preciencia de un filtro anti-aliasing. El propósito del filtro antialiasing es
-eliminar toda presencia, antes de hacer el muestreo, de las frecuencias
-superiores a frecuencia muestreo e indeseados. Consiste en una resistencia de $1
-K\ohm$ en serie con un capacitor de $100 nF$ en los pines VC6 - VC2 y de $1 \mu
-F$ en VC1 y VC0.
+El circuito de control de balanceo pasivo consta de un transistor N-FET
+\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado SOT−23
+junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
+de encendido del Mosfet. Y de una resistencia, R21 en el caso del ejemplo
+presentado en la Figura \ref{fig:bq76_balance_power}, que hace las veces de
+resistencia \emph{shunt}, según se describio en la Sección
+\ref{seq:balanceo_pasivo}, encargada de disipar la energía excesiva acumulada en
+la celda desbalanceada valiendose del voltaje de la misma. 
+
+La estrategia de ecualización es implmenentada y procesada en la unidad de
+procesamiento del \acrshort{BMS}
+
+La corriente de ecualización $I_{ecu}$ queda definida por la resistencia shunt
+$R_{shunt(ecu)} \equiv R21$ que el circuito de ecualización pone en paralelo de
+la celda a balancear y de la tensión en bornes de la celda a balancear. 
+
+\begin{align}
+    I_{ecu (max)} &= \frac{V_{OCV(max)}}{R_{shunt(ecu)}+R_{DS (on)}}\\
+    &= \frac{4.2}{(47 + 1.7)\ohm}\\
+    &\approx 86mA
+\end{align}
+
+\begin{align}
+    I_{ecu (min)} &= \frac{V_{OCV(min)}}{R_{shunt(ecu)}+R_{DS (on)}}\\
+    &= \frac{2.5}{(47 + 1.7)\ohm}\\
+    &\approx 51mA
+\end{align}
+
+El criterio de selección de la magnitud de la corriente de balanceo $I_{ecu}$ se
+funda en lo enunciado en \cite{CAMPESTRINI2016142} donde se estudia el método de
+balanceo pasivo tradicional de celdas de litio-ion. Sus resultados muestran que
+los m\'odulos ensayados presentan una variaci\'on en capacidad menor al 1\% de
+despu\'es de 1200 ciclos de carga y descarga. La celda utilizada en este estudio
+tiene una capacidad nominal de 2800mAh similar a los 2900mAh de las celdas
+Panasonic seleccionadas en el proyecto.
+
+Se selecciona un valor de resistencia shunt $R_{shunt}$ para fijar una corriente
+de ecualización equivalente al $1\%$ de la capacidad nominal de la celda $29mA$. 
+Dada la topología del pack de batería con 3 celdas en paralelo, la corriente de
+ecualizacipon $I_{ecu} \equiv 29mA * 3 = 87 mA$
+
+Cada una de las entradas de ADC de medición de tensión de las celdas requieren
+la preciencia de un filtro anti-aliasing. El propósito del filtro es eliminar
+toda presencia de señales indeseadas con frecuencias superiores a frecuencia
+muestreo. Consiste en una resistencia de $1 K\ohm$ en serie con un capacitor de
+$100 nF$ en los pines VC6 - VC2 y de $1 \mu F$ en VC1 y VC0.
 
 La sección de potencia del balanceador cuenta con otro circuito de proteccion de
-sus integrados. Circuito dumper para evitar transitorios de sobre voltaje por la
+sus integrados. Un circuito dumper evitar transitorios de sobre voltaje por la
 conexión del pack de batería en caliente. 
 
 \newpage
