@@ -34,7 +34,8 @@ If you find this project interesting or useful for your work, please let us know
 * Machine Learning part (MOYA)
 * Matlab and software implemenation
 * Equalization control estrategy (MOYA)
-* Eq. Hardware (MOYA)
+* ~~Eq. Hardware~~ (MOYA) (FEDE)
 * ~~UART communication~~ (LUCIO)
 * ~~MCU/DC-DC Converter hardware~~ (FEDE)
-* Add tests
+* Eq testing (LUCIO)
+* SoC testing (if req)
