@@ -1954,6 +1954,94 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
 \newpage
 
+
+\subsection{Implementación Software}
+
+El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
+escrito y desarrollado en el lenguaje de programación C sujeto al estandar C99.
+La ejecución en la unidad de procesamiento responde a la metodología del tipo
+\emph{Bare Metal}, es decir que el programa ejecuta cada una de sus
+instruccionese directamente sobre el hardware dedicado, sin la intervención de
+un \acrfull{OS} o aplicaciones que administre los recursos de más bajo nivel.
+
+El montaje de la estructura inicial del proyecto, incluyendo las dependencias
+necesarias y la puesta en marcha e inicialización del microcontroladot con sus
+correspondientes periférimos, como también del encendido del módulo de clocking
+que alimenta el núcleo, se realizó valiendonos de la herramienta gráfica
+brindada por \emph{STMicroelectronics} llamada STM32CubeMX, parte del framework
+de desarrollo STM32Cube. 
+
+El Software STM32CubeMX presenta una erramienta de configuraciónes que permitió
+generar el código C de inicialización del proyecto utilizando una interfaz
+gráfica. 
+
+The HAL drivers include a complete set of
+ready-to-use APIs that simplify the user application implementation. 
+
+La esctructura del software y su organización lógica se orientó bajo la
+filosofía del desarrollo por capas. El desarrollo de la aplicación del
+\acrshort{BMS} se encuenta fundamentalmente basada sobre la capa STM32Cube HAL
+y sobre el estandar CMSIS (Cortex Microcontroller Software Interface Standard).
+La capa de aplicación interactua con el hardware valiendose de la capa de
+abstacción de hardware STM32Cube \acrshort{ HAL } (por sus siglas en ingles,
+\acrfull{HAL}). La capa driver \acrhowrt{HAL} provee una serie de
+\acrshort{API}s para que las capas superiores (aplicaciones, librerias y el
+stack) puedan interactuar con los recursos del hardware.
+
+\subsubsection{Estructura de archivos}
+
+La estructura de archivos del software se describe a continuación:
+
+\begin{description}
+    \item [Core] Contiene los archivos fuente del programa principal
+    \item [Test] Contiene el framework y los archivos fuentes correspondites a
+        las rutinas de testeo de unidades.
+    \item[Drivers] contiene los archivos fuentes de la capa STM32Cube HAL, los
+        paquetes de CMSIS y los drivers correspondientes a los periféricos que
+        implemente la placa \acrshort{BMS}
+\end{description}
+
+El software fue escrito con la intención de que realice exitosamente las
+siguientes operaciones: 
+
+\begin{itemize}
+    \item Estimar el \acrshort{SOC} de las celdas del pack de baterias a partir
+        de la implementación del Filtro de Kalman y el modelo eléctrico de las
+        celdas. 
+    \item Obtener la información rescpecto de: 
+        \begin{itemize}
+            \item Corriente carga y descarga del pack de batería
+            \item Volgaje de cada celda
+        \end{itemize}
+    \item Detectar desbalanceo de las celdas y ecualizar el pack de baterías
+
+* Estimate the state of charge of the battery using a Kalman Filter and an
+  electrical model of a 18650PF (Under test).
+* Device drivers for the peripherals of the BMS in order to get the following information:
+    * Discharge/charge current
+    * Cell voltage
+* Unbalanced cell detector
+* Finite-state machine for handling charge/discharge phases
+* Communicate the current status of the battery pack via CAN bus or
+  RS232 protocol
+* Handle failure interruptions and trigger the load switch for protection
+* Handle the battery charger indicators (WIP)
+
+
+
+
+### Software
+
+Before building and loading the firmware into the board, first you'll need to
+install the [GNU ARM embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) and OpenOCD (On-Chip Debugger) or you can install the [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) and import it as this proyect is compatible with that development environment.
+
+### Hardware
+
+You will need a [STLink/V2 in-circuit debugger/programmer](https://www.st.com/en/development-tools/st-link-v2.html) in order to loadand debug the firmware on the board.
+
+NOTE: if you have a [STM32F4discovery board](https://www.st.com/en/evaluation-tools/stm32f4discovery.html) or another known board that has a STLink programmer with accessible pins  you won't need to acquire an stand-alone programmer in order to load the firmware to the board, you only need to connect the SWDIO pins.
+|
+
 \subsection{Unidad de procesamiento}
 
 \subsubsection{Tecnología seleccionada - STM32F407VG}
@@ -1968,7 +2056,7 @@ Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}.
 El \textbf{STM32F407VG} es un microcontrolador de la familia STM32F407xx de la
 firma \emph{STMicroelectronics} que implementan un nucleo de alto rendimiento de
 32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} y que puede operar a
-una frecuencia de hasta 168 MHz.  El nucleo Cortex-M4 implementa dos módulos
+una frecuencia de hasta 168 MHz. El nucleo Cortex-M4 implementa dos módulos
 fundamentáles para la optimización del proceso de cálculo matemático del
 \acrshort{BMS} y el procesamiento en tiempo real. Una unidad de punto flotante
 (por sus siglas en ingles \acrfull{FPU}) de precision simple que soporta todas
@@ -2204,6 +2292,8 @@ que implementa el microcontrolador seleccionado STM32F407.
     \caption{Placa de desarrollo Discovery - STM32F4DISCOVERY}
     \label{fig:stm32f4discovery}
 \end{figure}
+
+
 
 \subsection{Sensor de tensi\'on - Balanceador}
 
