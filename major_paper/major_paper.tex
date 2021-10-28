@@ -2297,30 +2297,66 @@ que implementa el microcontrolador seleccionado STM32F407.
 
 \subsection{Sensor de tensi\'on - Balanceador}
 
-Dada las caracter\'isticas del pack del baterías descriptas en la Secci\'on
-\ref{battery_pack} y la diversidad de t\'ecnicas disponibles para el balanceo. Y
-con el objetivo de simplificar el diseño y la implementación de la funcionalidad
-de ecualizaci\'on del \acrshort{BMS} se opt\'o por un circuito de balanceo de
-carga basado en una topolog\'ia pasiva utilizando resistencias shunt en conjunto
-con una estrategia de control cl\'asica que depende del promedio del
-\acrshort{SOC} entre las 6 celdas en serie, estableciendo un umbral m\'aximo de
-variaci\'on entre celdas. 
+Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
+y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
+mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
+producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
+utilizando resistencias shunt en conjunto con una estrategia de control
+cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
+estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
+balanceo. 
+
+\newpage
+
+\subsubsection{Teor\'ia de operaci\'on}
+
+El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
+de carga de la bater\'ia, en el cual, todas las variables involucradas de esta
+operaci\'on deben ser parametrizados para cumplir con los tiempos de cargado del
+pack de bater\'ias como tambi\'en los objetivos planteados para el balanceo de
+las celdas. Por lo tanto, el balanceador debe cumplir con los siguientes
+requerimientos:
+
+\begin{itemize}
+    \item Se plantea un tiempo de carga de 4hs para la bater\'ia, donde el 80\%
+        del tiempo es a \acrshort{CC}, por ende, el balanceador tiene una
+       ventana de tiempo de 2880 segundos, o el equivalente a 0,8 horas.
+    \item El balanceador debe actuar de forma inmediata cuando una o m\'as
+        celdas alcanzan valores de tensi\'on cercanos a exceder el 
+        \acrshort{SOA} y el proceso de carga a\'un no ha finalizado.
+    \item El balanceador tambi\'en debe actuar cuando hay una diferencia de
+        \acrshort{SOA} entre celdas mayor a 1\%, este porcentaje se basa en las
+        experiencias detalladas en la Secci\'on \ref{cell_balancing_theory}.
+\end{itemize}
+
+Por lo tanto, considerando que la capacidad total de cada m\'odulo es de 8700mAh
+el 1\% equivale a una diferencia de 87mAh, por ende, el mecanismo de
+balanceo debe ser capaz de mitigar esta diferencia de capacidad entre un
+m\'odulo y otro, para evitar un desbalanceo irrecuperable entre una celda y
+otra. Para lograr esto, se plantea la Ecuaci\'on \ref{calc_r_shunt} para el 
+c\'alculo de la resistencia \emph{Shunt},
+
+\begin{equation}
+    Q_{diff} = \frac{V_{batt}}{R_{shunt}} \times t_{CV} \label{calc_r_shunt}
+\end{equation}
+
+parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
+admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
+a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
+38.62m$\mathrm{\Ohm}$, en base a estos resultados, se ha realizado el desarrollo
+del hardware del balanceador.
 
 \subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
 
-A los fines del desarrollo de la funcionalidad de blanceo del pack de batería se
-opt\'o por la implementación del \acrlong{CI} \emph{BQ76PL536} de la firma
-\emph{Texas Instruments}.
-
-El \acrshort{CI} elegido presenta beneficios tanto en funcionalidad y
-escalabilidad, puediendo extenderse la capacidad del \acrshor{BMS} conectanndo
-integrados hasta lograr abarcar un total de 192 celdas conectadas en series,
-como tambi\'en un bajo costo con respecto a las demás opciones del mercado con
-un valor que no supera los 9 d\'olares por integrado cuando el resto de las
-opciones sobre pasan ese valor y a costa de  manejar una menor cantidad de
-celdas en serie. La comparación respecto de las opciones disponibles en el
-mecado por las demás marcas fabricantes de semiconductores y las características
-de las mismas se pueden apreciar en la Tabla \ref{tabla_comparativa_ics}. 
+Para el desarrollo de esta funcionalidad se opt\'o por el integrado
+\emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
+este integrado con respecto a otras marcas se basa en la Tabla 
+\ref{tabla_comparativa_ics}. En la misma se puede observar que el integrado
+elegido posee beneficios tanto en funcionalidad, escalabilidad como tambi\'en un
+bajo costo con respecto a otros competidores, como por ejemplo, puede extenderse
+hasta un pack de 192 celdas conectadas en series, con un valor menor a 9
+d\'olares, cuando el resto de los integrados sobre pasan el costo y manejan una
+menor cantidad de celdas en serie.
 
 \begin{table}[h!]
     \begin{center}
@@ -2335,31 +2371,29 @@ de las mismas se pueden apreciar en la Tabla \ref{tabla_comparativa_ics}.
         \hline
         \end{tabular}
     \end{center}
-    \caption{Comparaci\'on de \acrshort{CI}s dedicados al balanceo pasivo de
-    celdas de Litio-Ion.}
-    \label{tabla_comparativa_ics}
+    \caption{Comparaci\'on de \acrshort{IC}s dedicados al balanceo pasivo de
+    celdas de litio-ion.}
 \end{table}
 
 \begin{minipage}{0.5\textwidth}
-El \emph{BQ76PL536} es un monitor y protector de packs de bater\'ias de tres a
-seis celdas conectadas en serie que pueden acoplarse entre si para extenderse a
-192 celdas. Integra un frontend anal\'ogico (\acrshort{AFE}, del
-ingl\'es \acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital
-(\acrshort{ADC}, del ingl\'es \acrlong{ADC}) utilizado para medir de forma
-precisa el voltaje de cada celda. A su vez posee dos \acrshort{ADC}s dedicados
-al sensado de la temperatura del pack de bater\'ias.\\
-
-Adem\'as de la temperatura el \acrshort{CI} monitorea el sobrevoltaje y el bajo
-voltaje por canal, es decir, por cada una de las celdas para tomar las medidas de
-protecci\'on necesarias. Estas tres variables de protecci\'on son configuradas
-por la unidad de procesamiento, a trav\'es del puerto SPI que provee el
-dispositivo para escribir los registros internos, permitiendo adecuar los
-umbrales de protección a las celdas seleccionadas.\\
-
-Finalmente, el mismo puede soportar packs de bater\'ias de hasta 192 celdas
-acoplando varios integrados entre si, a trav\'es de un bus SPI en cadena. El
-esquem\'atico simplificado de \'este tipo de topolog\'ia del dispositivo se
-puede observar en la Figura \ref{bq76_simplified_schematic}
+El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
+celdas conectadas en serie, que pueden acoplarse entre si para extenderse a 192
+celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del ingl\'es
+\acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital (\acrshort{ADC},
+del ingl\'es \acrlong{ADC}), utilizado para medir de forma precisa el voltaje de
+cada celda. Por el otro lado, tambi\'en posee dos \acrshort{ADC}s para leer la
+temperatura del pack de bater\'ias.\\
+\\
+Adem\'as de la temperatura, tambi\'en  se monitorea el sobrevoltaje y el bajo
+voltaje por canal, es decir, por cada celda para tomar las medidas de
+protecci\'on necesarias, estas tres variables de protecci\'on pueden ser
+configuradas por el usuario a trav\'es del puerto SPI que provee el dispositivo
+para escribir los registros internos.\\
+\\
+Finalmente, el mismo puede soportar bater\'ias de hasta 192 celdas acoplando
+varios integrados entre si, a trav\'es de un bus SPI en cadena. Un esquem\'atico
+simplificado de \'este tipo de topolog\'ia del dispositivo se puede observar en
+la Figura \ref{bq76_simplified_schematic}
 
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
@@ -2371,19 +2405,18 @@ puede observar en la Figura \ref{bq76_simplified_schematic}
     \end{center}
 \end{minipage}
 
-\subsubsection{Diseño e Implementación}
+\subsubsection{Diseño del esquem\'atico}
 
-Dado que el alcance de nuestro \acrshort{BMS} implica controlar un pack de
-bater\'ias de topoligía 6S3P de 6 celdas en serie se implementó un solo
-\acrshort{CI} sin necesidad de acoplar otro para extender su capacidad. En la
-Figura \ref{fig:bq76_implementation_sch} se puede apreciar la implementaci\'on
-del dispositivo, donde se observa el puerto SPI norte conectado a la tensi\'on
-total del pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
-($\mathrm{GND}$), anulando ambos perif\'ericos. Por otra parte, en la Figura
-\ref{fig:bq76_implementation_uncouple} se detallan los capacitores de desacople
-especificados por el fabricante \cite{BQ76PL536A} necesarios para el correcto
-funcionamiento.
+En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
+celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
+integrado similar para extender su capacidad, esto se puede observar en la
+Figura \ref{bq76_implementation}, en la que se muestra la implementaci\'on del
+dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
+pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
+($\mathrm{GND}$), anulando ambos perif\'ericos.
 
+En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
+especificados por el fabricante \cite{BQ76PL536A}:
 \begin{itemize}
     \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
         desacople conectados entre ellos lo m\'as cerca posible a esos pines.
@@ -2872,7 +2905,7 @@ Por último se agregó $D_{21}$ como diodo de \emph{freewheel}.
 
 \subsubsection{Tecnología Seleccionada - TI bq24610}
 
-Para lograr un completo control del perfil de carga descripto en la 'Sección'
+Para lograr un completo control del perfil de carga descripto en la Sección
 \ref{sec:tecnica_carga}  es que seleccionamos e implementamos el circuito
 integrado \emph{bq24610} de la firma \emph{Texas Instrument}.
 
@@ -2902,28 +2935,6 @@ corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salíd
 de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
 la topología de nuestro pack de baterías \emph{6S3P} descripta en \ref{batSel}.
 El empaquetado del mismo es del tipo VQFN.
-
-%\noindent Como se comentó en secciones anteriores, cuando múltiples celdas se
-%encuentran conectadas en serie, el voltaje de una celda no siempre coincide con
-%la tensión equivalente del pack de baterías dividido por el número de celdas. 
-%
-%\noindent La ecualización de celdas es una técnica en la cual se trata de
-%mantener los niveles de voltaje entre las celdas que conforman la cadena
-%conectada en serie de un pack de baterías de forma homogénea, es decir, que los
-%niveles de tensión entre celdas sea lo más uniforme posible, con el objetivo de
-%maximizar la eficiencia del pack de baterías.
-%
-%\noindent El desbalance más típico generalmente se manifiesta en una variación
-%en el voltaje entre éstas, que puede ser corregido instantáneamente o
-%gradualmente conectando cargas externas en paralelo, a través de sus
-%correspondientes transistores, provocando una corriente de descarga adicional
-%que pueden ir desde miliamperes hasta varios Amperes, dependiendo del
-%dimensionamiento energético del pack de baterías. Sin embargo, este desbalance
-%en tensión es, por lo general, dado por desbalances químicos o distintas
-%dinámicas de descarga entre celdas, provocando que el objetivo del balanceo no
-%esté claramente definido provocando más perjuicios que beneficios al sistema
-%completo.  De hecho, la mayoría de las metodologías basadas en el desbalance de
-%voltaje, llevan a un pack de baterías más desbalanceado que sin ellos.
 
 \subsubsection{Diseño e Implementación}
 
@@ -3490,6 +3501,30 @@ Esta configuración es comunmente denominada: $115,200 Bd$ 8n1.
 
 \section{Ensayos}\label{ensayos}
 
+Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo sin habilitar el filtro de Kalman para observar el comportamiento.
+Si bien el balanceo se hace en la etapa de carga de las celdas, por problemas en la implementación de hardware del cargador se optó por hacer un balanceo sin conectar el cargador.
+
+En la Figura \ref{Test_BQ76_1} se observa que por el ruido presente en las mediciones de tensión de las celdas más descargadas el balanceador no reconoce bien cual es la menor cargada y comienza un pequeño proceso de descarga el cual no debería ocurrir en la celda de menor carga.
+
+Por otro lado en la Figura \ref{Test_BQ76_2} se observa que el filtro mantiene estables las mediciones permitiendo así un balanceo acorde a una mejor estimación siendo más suave y obteniendo un perfecto balanceo sobre el final del proceso.		
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.85\textwidth]{SF_Balancing_19_03_2019_F.png}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas sin filtro de Kalman.}
+		\label{Test_BQ76_1}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.85\textwidth]{MRG_loading_26_3_F.png}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas con filtro de Kalman.}
+		\label{Test_BQ76_2}
+	\end{center}
+\end{figure}
+\FloatBarrier
 
 %TODO: Ensayos
 \newpage

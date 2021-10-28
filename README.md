@@ -29,13 +29,10 @@ If you find this project interesting or useful for your work, please let us know
 
 ## TODO
 
-* ~~Add project spirit~~ (FEDE)
-* ~Add missing kalma simulation graphics~ (MOYA)
-* Machine Learning part (MOYA)
-* Matlab and software implemenation
-* Equalization control estrategy (MOYA)
-* ~~Eq. Hardware~~ (MOYA) (FEDE)
-* ~~UART communication~~ (LUCIO)
-* ~~MCU/DC-DC Converter hardware~~ (FEDE)
-* Eq testing (LUCIO)
-* SoC testing (if req)
+* software implementaion
+    * kalman + models
+    * drivers
+    * FSM
+    * framework + language
+    * instructions on how to flash the board
+* conclusions
