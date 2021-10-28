@@ -3214,6 +3214,30 @@ Esta configuración es comunmente denominada: $115,200 Bd$ 8n1.
 
 \section{Ensayos}\label{ensayos}
 
+Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo sin habilitar el filtro de Kalman para observar el comportamiento.
+Si bien el balanceo se hace en la etapa de carga de las celdas, por problemas en la implementación de hardware del cargador se optó por hacer un balanceo sin conectar el cargador.
+
+En la Figura \ref{Test_BQ76_1} se observa que por el ruido presente en las mediciones de tensión de las celdas más descargadas el balanceador no reconoce bien cual es la menor cargada y comienza un pequeño proceso de descarga el cual no debería ocurrir en la celda de menor carga.
+
+Por otro lado en la Figura \ref{Test_BQ76_2} se observa que el filtro mantiene estables las mediciones permitiendo así un balanceo acorde a una mejor estimación siendo más suave y obteniendo un perfecto balanceo sobre el final del proceso.		
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.85\textwidth]{SF_Balancing_19_03_2019_F.png}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas sin filtro de Kalman.}
+		\label{Test_BQ76_1}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.85\textwidth]{MRG_loading_26_3_F.png}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas con filtro de Kalman.}
+		\label{Test_BQ76_2}
+	\end{center}
+\end{figure}
+\FloatBarrier
 
 %TODO: Ensayos
 \newpage
