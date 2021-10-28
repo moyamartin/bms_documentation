@@ -2213,9 +2213,48 @@ mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
 producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
 utilizando resistencias shunt en conjunto con una estrategia de control
 cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
-estableciendo un umbral m\'aximo de variaci\'on entre celdas. 
+estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
+balanceo. 
 
 \newpage
+
+\subsubsection{Teor\'ia de operaci\'on}
+
+El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
+de carga de la bater\'ia, en el cual, todas las variables involucradas de esta
+operaci\'on deben ser parametrizados para cumplir con los tiempos de cargado del
+pack de bater\'ias como tambi\'en los objetivos planteados para el balanceo de
+las celdas. Por lo tanto, el balanceador debe cumplir con los siguientes
+requerimientos:
+
+\begin{itemize}
+    \item Se plantea un tiempo de carga de 4hs para la bater\'ia, donde el 80\%
+        del tiempo es a \acrshort{CC}, por ende, el balanceador tiene una
+       ventana de tiempo de 2880 segundos, o el equivalente a 0,8 horas.
+    \item El balanceador debe actuar de forma inmediata cuando una o m\'as
+        celdas alcanzan valores de tensi\'on cercanos a exceder el 
+        \acrshort{SOA} y el proceso de carga a\'un no ha finalizado.
+    \item El balanceador tambi\'en debe actuar cuando hay una diferencia de
+        \acrshort{SOA} entre celdas mayor a 1\%, este porcentaje se basa en las
+        experiencias detalladas en la Secci\'on \ref{cell_balancing_theory}.
+\end{itemize}
+
+Por lo tanto, considerando que la capacidad total de cada m\'odulo es de 8700mAh
+el 1\% equivale a una diferencia de 87mAh, por ende, el mecanismo de
+balanceo debe ser capaz de mitigar esta diferencia de capacidad entre un
+m\'odulo y otro, para evitar un desbalanceo irrecuperable entre una celda y
+otra. Para lograr esto, se plantea la Ecuaci\'on \ref{calc_r_shunt} para el 
+c\'alculo de la resistencia \emph{Shunt},
+
+\begin{equation}
+    Q_{diff} = \frac{V_{batt}}{R_{shunt}} \times t_{CV} \label{calc_r_shunt}
+\end{equation}
+
+parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
+admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
+a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
+38.62m$\mathrm{\Ohm}$, en base a estos resultados, se ha realizado el desarrollo
+del hardware del balanceador.
 
 \subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
 
@@ -2776,7 +2815,7 @@ Por último se agregó $D_{21}$ como diodo de \emph{freewheel}.
 
 \subsubsection{Tecnología Seleccionada - TI bq24610}
 
-Para lograr un completo control del perfil de carga descripto en la 'Sección'
+Para lograr un completo control del perfil de carga descripto en la Sección
 \ref{sec:tecnica_carga}  es que seleccionamos e implementamos el circuito
 integrado \emph{bq24610} de la firma \emph{Texas Instrument}.
 
