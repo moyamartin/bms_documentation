@@ -1955,51 +1955,52 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 \newpage
 
 
-\subsection{Implementación Software}
+\subsection{Implementación Software}\label{software_implementation}
 
 El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
 escrito y desarrollado en el lenguaje de programación C sujeto al estandar C99.
 La ejecución en la unidad de procesamiento responde a la metodología del tipo
 \emph{Bare Metal}, es decir que el programa ejecuta cada una de sus
-instruccionese directamente sobre el hardware dedicado, sin la intervención de
-un \acrfull{OS} o aplicaciones que administre los recursos de más bajo nivel.
+instrucciones directamente sobre el hardware dedicado, sin la intervención de
+un sistema operativo (\acrshort{OS}, del ingl\'es \acrlong{OS}) o aplicaciones 
+que administre los recursos de más bajo nivel.
 
 El montaje de la estructura inicial del proyecto, incluyendo las dependencias
-necesarias y la puesta en marcha e inicialización del microcontroladot con sus
-correspondientes periférimos, como también del encendido del módulo de clocking
-que alimenta el núcleo, se realizó valiendonos de la herramienta gráfica
+necesarias y la puesta en marcha e inicialización del microcontrolador con sus
+correspondientes periféricos, como también del encendido del módulo de clocking
+que alimenta el núcleo, se realizó vali\'endonos de la herramienta gráfica
 brindada por \emph{STMicroelectronics} llamada STM32CubeMX, parte del framework
 de desarrollo STM32Cube. 
 
-El Software STM32CubeMX presenta una erramienta de configuraciónes que permitió
-generar el código C de inicialización del proyecto utilizando una interfaz
-gráfica. 
-
-The HAL drivers include a complete set of
-ready-to-use APIs that simplify the user application implementation. 
-
 La esctructura del software y su organización lógica se orientó bajo la
 filosofía del desarrollo por capas. El desarrollo de la aplicación del
-\acrshort{BMS} se encuenta fundamentalmente basada sobre la capa STM32Cube HAL
+\acrshort{BMS} se encuenta fundamentalmente basada sobre la capa STM32Cube  
 y sobre el estandar CMSIS (Cortex Microcontroller Software Interface Standard).
 La capa de aplicación interactua con el hardware valiendose de la capa de
-abstacción de hardware STM32Cube \acrshort{ HAL } (por sus siglas en ingles,
-\acrfull{HAL}). La capa driver \acrhowrt{HAL} provee una serie de
-\acrshort{API}s para que las capas superiores (aplicaciones, librerias y el
-stack) puedan interactuar con los recursos del hardware.
+abstacción de hardware STM32Cube \acrshort{HAL} (por sus siglas en ingles,
+\acrfull{HAL}), que provee una serie de \acrshort{API}s para que las capas 
+superiores (aplicaciones, librerias y el stack) puedan interactuar con los 
+recursos del hardware, en un lenguaje \emph{amigable} para el desarrollador.
 
 \subsubsection{Estructura de archivos}
 
 La estructura de archivos del software se describe a continuación:
 
 \begin{description}
-    \item [Core] Contiene los archivos fuente del programa principal
+    \item [Core] Contiene los archivos fuente del programa principal.
     \item [Test] Contiene el framework y los archivos fuentes correspondites a
         las rutinas de testeo de unidades.
     \item[Drivers] contiene los archivos fuentes de la capa STM32Cube HAL, los
         paquetes de CMSIS y los drivers correspondientes a los periféricos que
-        implemente la placa \acrshort{BMS}
+        implemente la placa \acrshort{BMS}.
 \end{description}
+
+\newpage
+
+Cada una de esta carpeta est\'a dividida en sus archivos fuentes (carpeta
+\emph{src}) y sus definiciones dentro librer\'ias (carpeta \emph{inc}) 
+(o en ingl\'e, \emph{headers}) para que cada m\'odulo pueda ser reutilizado sin 
+problemas.
 
 El software fue escrito con la intención de que realice exitosamente las
 siguientes operaciones: 
@@ -2008,39 +2009,114 @@ siguientes operaciones:
     \item Estimar el \acrshort{SOC} de las celdas del pack de baterias a partir
         de la implementación del Filtro de Kalman y el modelo eléctrico de las
         celdas. 
-    \item Obtener la información rescpecto de: 
+    \item Obtener la información respecto de: 
         \begin{itemize}
             \item Corriente carga y descarga del pack de batería
-            \item Volgaje de cada celda
+            \item Voltaje de cada celda
         \end{itemize}
     \item Detectar desbalanceo de las celdas y ecualizar el pack de baterías
+    \item M\'aquina de estados para la administraci\'on del proceso de carga y
+        descarga, en conjunto con los eventos intermediarios de cada proceso.
+    \item Administrar las interrupciones por falla y controlar el interruptor de
+        carga para la protecci\'on del pack de bater\'ias.
+    \item Leer los indicadores del cargador de bater\'ias para poder obtener
+        informaci\'on del proceso de carga.
+\end{itemize}
 
-* Estimate the state of charge of the battery using a Kalman Filter and an
-  electrical model of a 18650PF (Under test).
-* Device drivers for the peripherals of the BMS in order to get the following information:
-    * Discharge/charge current
-    * Cell voltage
-* Unbalanced cell detector
-* Finite-state machine for handling charge/discharge phases
-* Communicate the current status of the battery pack via CAN bus or
-  RS232 protocol
-* Handle failure interruptions and trigger the load switch for protection
-* Handle the battery charger indicators (WIP)
+\subsubsection{Implementaci\'on del el filtro de Kalman}
 
+Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
+depende de las librer\'ias CMSIS que, en s\'intesis, provee una capa de 
+abstracci\'on de hardware, como tambi\'en varias funcionalidades que facilitan 
+la implementaci\'on de operaciones complejas para el desarrollador. En este 
+caso, se utiliz\'o la librer\'ia \texttt{arm math} del m\'odulo \acrshort{DPS} 
+de la librer\'ia, que permite al usuario hacer las siguientes  operaciones 
+matem\'aticas aprovechando la unidad \acrshort{FPU} del \acrshort{MCU} 
+utilizado:
 
+\begin{itemize}
+    \item Operaciones matriciales de suma, resta, multiplicaci\'on y divisi\'on
+    \item Operaciones trigonom\'etricas, tales como el seno y el coseno.
+    \item Operaciones en n\'umeros complejos
+    \item Implementar distintos filtros \acrshort{FIR} (del ingl\'es,
+        \acrlong{FIR}).
+\end{itemize}
 
+En este caso, se utilizaron las operaciones matriciales para valores de punto
+flotante con una resoluci\'on de 32 bits, las variables del algoritmo fueron
+modeladas dentro de una estructura denominada \texttt{KalmanFilter} donde se
+declaran las distintas matrices utilizadas por el algoritmo, como tambi\'en las
+dimensiones necesarias para las variables de entrada y salida. La librer\'ia
+diseñada provee una \acrshort{API} de baja complejidad para ser implementada que
+posee dos funciones:
 
-### Software
+\begin{itemize}
+    \item \texttt{kalman\_filter\_init}: Esta funci\'on toma como par\'ametros un
+        puntero a una estructura \texttt{KalmanFilter} y los valores de las
+        matrices propias del algoritmo como tambi\'en las dimensiones de la
+        matriz de estados, entrada y salida, como resultado devuelve un estado
+        del sistema indicando si se pudo inicializar de forma correcta la
+        estructura del filtro de Kalman.
+    \item \texttt{kalman\_filter\_modify\_f\_data}: Actualiza los valores de la
+        matriz F, que se corresponde con las variables del sistema de ecuaciones
+        de estado. Toma como par\'ametro la estructura del filtro a modificar y
+        el nuevo set de datos a actualizar.
+    \item \texttt{kalman\_filter\_modify\_g\_data}: Actualiza los valores de la
+        matriz G relacionados al sistema de ecuaciones de estados del sistema,
+        en relaci\'on a las variables de entrada y no del sistema. Toma como
+        par\'ametro el filtro de Kalman a actualizar y el conjunto de valores a
+        actualizar.
+    \item \texttt{kalman\_filter\_modify\_h\_data}: Actualiza los valores de la
+        matriz H de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_q\_data}: Actualiza los valores de la
+        matriz Q de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \newpage
+    \item \texttt{kalman\_filter\_modify\_r\_data}: Actualiza los valores de la
+        matriz R de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_u\_data}: Actualiza los valores de la
+        matriz U (entrada) de un filtro de Kalman con los nuevos valores, toma 
+        como par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo 
+        set de valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_j\_data}: Actualiza los valores de la
+        matriz J de un filtro de Kalman con los nuevos valores, esta funci\'on
+        solo debe ser utilizada en caso de implementar un filtro de Kalman
+        extendido.
+    \item \texttt{kalman\_filter\_step}: Esta funci\'on es la encargada de
+        efectuar un paso del filtro de Kalman, toma como par\'ametro el puntero
+        al objeto de la estructura utilizada como filtro y la medici\'on del 
+        sistema que el algoritmo utiliza para comparar su estimaci\'on, 
+        nuevamente, esta funci\'on devuelve un estado denotando si el c\'alculo 
+        fue realizado de forma exitosa o no. A su vez, esta funci\'on modifica
+        las distintas matrices que componen al filtro, posteriormente el usuario
+        de esta librer\'a tiene que acceder a la variable de inter\'es para sus
+        objetivos.
+\end{itemize}
 
-Before building and loading the firmware into the board, first you'll need to
-install the [GNU ARM embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) and OpenOCD (On-Chip Debugger) or you can install the [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) and import it as this proyect is compatible with that development environment.
+En el Ap\'endice \ref{ejemplo_api_kalman} se muestra como es utilizado dentro
+del firmware principal del programa. Internamente, \'esta \acrshort{API},
+realiza cada operaci\'on que implementa el filtro, descritas en la Secci\'on
+\ref{KalmanFilterMethod}, en las siguientes funciones privadas de la
+\acrshort{API}:
 
-### Hardware
-
-You will need a [STLink/V2 in-circuit debugger/programmer](https://www.st.com/en/development-tools/st-link-v2.html) in order to loadand debug the firmware on the board.
-
-NOTE: if you have a [STM32F4discovery board](https://www.st.com/en/evaluation-tools/stm32f4discovery.html) or another known board that has a STLink programmer with accessible pins  you won't need to acquire an stand-alone programmer in order to load the firmware to the board, you only need to connect the SWDIO pins.
-|
+\begin{itemize}
+    \item \texttt{state\_extrapolation\_predict}: Predice el estado del sistema
+        tomando en cuenta el estado actual y la entrada al sistema.
+    \item \texttt{covariance\_extrapolation\_uncertainty}: Calcula la
+        extrapolaci\'on de la covarianza para un sistema din\'amico.
+    \item \texttt{state\_update}: Actualiza el estado actual del sistema tomando
+        en cuenta la medici\'on de la salida y la predicci\'on del sistema.
+    \item \texttt{covariance\_update}: Actualiza la covarianza del sistema
+        tomando los par\'ametros actuales del sistema.
+    \item \texttt{kalman\_gain\_update}: Actualiza la ganancia de Kalman
+        bas\'andose en el valor actual de la covarianza y la medici\'on actual
+        del sistema como tambi\'en la salida predecida del mismo.
+\end{itemize}
 
 \subsection{Unidad de procesamiento}
 
@@ -2210,7 +2286,7 @@ de hacer $ V_{SENSE} \equiv V_{ref}$ será entonces:
         \label{fig:3v3_input_under_voltage}
     \end{subfigure}
         \caption{Fijación Set-Points fuente de alimentación 3v3}
-        \label{fig:cb_set_point}
+        \label{fig:set_point_3v3}
 \end{figure}
 \FloatBarrier
 
