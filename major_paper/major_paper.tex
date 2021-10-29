@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 \usepackage[backend=bibtex,style=numeric]{biblatex}
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
@@ -32,14 +32,7 @@
 
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
-
 \addbibresource{major_paper.bib}
-
-% Print a DRAFT water mark on the document
-% Comment to remove for final version
-%\usepackage{draftwatermark}
-%\SetWatermarkText{ DRAFT }
-%\SetWatermarkScale{5}
 
 % if definition for section compilling control
 \newif\ifdebug
@@ -2023,7 +2016,7 @@ siguientes operaciones:
         informaci\'on del proceso de carga.
 \end{itemize}
 
-\subsubsection{Implementaci\'on del el filtro de Kalman}
+\subsubsection{Implementaci\'on del filtro de Kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
 depende de las librer\'ias CMSIS que, en s\'intesis, provee una capa de 
@@ -2117,6 +2110,37 @@ realiza cada operaci\'on que implementa el filtro, descritas en la Secci\'on
         bas\'andose en el valor actual de la covarianza y la medici\'on actual
         del sistema como tambi\'en la salida predecida del mismo.
 \end{itemize}
+
+\subsubsubsection{Ensayos unitarios}
+
+\begin{minipage}{0.5\textwidth}
+Para ensayar las capas de abstracci\'on del firmware, se utiliz\'o el
+framework \emph{CppUTest}, que se especializa en correr test unitarios,
+especialmente para sistemas embebidos. En este caso, se realiza el ensayo del
+algoritmo programado bajo el lenguaje C, utilizando un ejemplo de la
+estimaci\'on de un proyectil en el plano x-y, en primer instancia se desarrolla
+el ejemplo en un script escrito en el lenguaje \emph{python} y, con los
+datos de entrada y los resultados del mismo, se vuelve a implementar utilizando
+la \emph{API} del filtro de Kalman. Finalmente, se comparan ambos resultados con
+el objetivo de que los valores coincidan entre si, si el algoritmo falla en
+calcular un resultado, el framework notifica al desarrollador que el test
+fall\'o. El ejemplo utilizado se puede visualizar en la Figura
+\ref{tracking_proyectile_example}.
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+    \begin{center}
+        \includegraphics[width=1\textwidth]{tracking_proyectile_example.png}
+        \caption{Descripci\'on gr\'afica del ejemplo de la estimaci\'on de
+        trayectoria de un proyectil. En la curva azul se muestra la posici\'on
+        verdadera del mismo, en la trayectoria verde a trazos se muestra la
+        estimaci\'on del filtro de Kalman y en la curva naranja de puntos se 
+        observa el valor medido con ruido}
+        \label{tracking_proyectile_example}
+    \end{center}
+\end{minipage}
+
+\newpage
+
 
 \subsection{Unidad de procesamiento}
 
