@@ -2216,16 +2216,15 @@ cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
 estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
 balanceo. 
 
-\newpage
-
-\subsubsection{Teor\'ia de operaci\'on}
+\subsubsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
 
 El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
-de carga de la bater\'ia, en el cual, todas las variables involucradas de esta
-operaci\'on deben ser parametrizados para cumplir con los tiempos de cargado del
-pack de bater\'ias como tambi\'en los objetivos planteados para el balanceo de
-las celdas. Por lo tanto, el balanceador debe cumplir con los siguientes
-requerimientos:
+de carga de la bater\'ia, en el cual todas las variables involucradas de esta
+operaci\'on deben ser parametrizadas para cumplir con los tiempos de carga del
+pack de bater\'ias como tambi\'en con los objetivos planteados para el balanceo de
+las celdas.
+
+El balanceador debe cumplir con los siguientes requerimientos:
 
 \begin{itemize}
     \item Se plantea un tiempo de carga de 4hs para la bater\'ia, donde el 80\%
@@ -2239,22 +2238,27 @@ requerimientos:
         experiencias detalladas en la Secci\'on \ref{cell_balancing_theory}.
 \end{itemize}
 
-Por lo tanto, considerando que la capacidad total de cada m\'odulo es de 8700mAh
-el 1\% equivale a una diferencia de 87mAh, por ende, el mecanismo de
+El criterio de selección de la magnitud de la corriente de balanceo se
+funda en lo enunciado en \cite{CAMPESTRINI2016142} donde se estudia el método de
+balanceo pasivo tradicional de celdas de litio-ion. Sus resultados muestran que
+los m\'odulos ensayados presentan una variaci\'on en capacidad menor al 1\% de
+despu\'es de 1200 ciclos de carga y descarga. La celda utilizada en este estudio
+tiene una capacidad nominal de 2800mAh similar a los 2900mAh de las celdas
+Panasonic seleccionadas en el proyecto.
+
+Por lo tanto, teniendo en cuenta que el pack de batería de nuestro
+\acrshort{BMS} presenta una topología 6S3P con 6 módulos en serie de 3 celdas
+cada uno en paralelo, y considerando que la capacidad total de cada m\'odulo es
+de 8700mAh, el 1\% equivale a una diferencia de 87mAh. El mecanismo de
 balanceo debe ser capaz de mitigar esta diferencia de capacidad entre un
 m\'odulo y otro, para evitar un desbalanceo irrecuperable entre una celda y
-otra. Para lograr esto, se plantea la Ecuaci\'on \ref{calc_r_shunt} para el 
+otra. Para lograr esto, se plantea la Ecuaci\'on \ref{calc_r_shunt} para el
 c\'alculo de la resistencia \emph{Shunt},
 
 \begin{equation}
     Q_{diff} = \frac{V_{batt}}{R_{shunt}} \times t_{CV} \label{calc_r_shunt}
 \end{equation}
 
-parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
-admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
-a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
-38.62m$\mathrm{\Ohm}$, en base a estos resultados, se ha realizado el desarrollo
-del hardware del balanceador.
 
 \subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
 
@@ -2392,6 +2396,12 @@ La corriente de ecualización $I_{ecu}$ queda definida por la resistencia shunt
 $R_{shunt(ecu)} \equiv R21$ que el circuito de ecualización pone en paralelo de
 la celda a balancear y de la tensión en bornes de la celda a balancear. 
 
+Parametrizando la Ecuaci\'on \ref{calc_r_shunt} presentada en la Sección \ref{
+seq:bal_theory} con la tensi\'on m\'axima admitida, la m\'inima variac\'on entre
+porcentajes y el tiempo m\'aximo de carga a \acrshort{CV}, obtenemos que la
+resistencia shunt m\'inima requerida es de 38.62m$\mathrm{\Ohm}$, en base a
+estos resultados, se ha realizado el desarrollo del hardware del balanceador.
+
 \begin{align}
     I_{ecu (max)} &= \frac{V_{OCV(max)}}{R_{shunt(ecu)}+R_{DS (on)}}\\
     &= \frac{4.2}{(47 + 1.7)\ohm}\\
@@ -2403,14 +2413,6 @@ la celda a balancear y de la tensión en bornes de la celda a balancear.
     &= \frac{2.5}{(47 + 1.7)\ohm}\\
     &\approx 51mA
 \end{align}
-
-El criterio de selección de la magnitud de la corriente de balanceo $I_{ecu}$ se
-funda en lo enunciado en \cite{CAMPESTRINI2016142} donde se estudia el método de
-balanceo pasivo tradicional de celdas de litio-ion. Sus resultados muestran que
-los m\'odulos ensayados presentan una variaci\'on en capacidad menor al 1\% de
-despu\'es de 1200 ciclos de carga y descarga. La celda utilizada en este estudio
-tiene una capacidad nominal de 2800mAh similar a los 2900mAh de las celdas
-Panasonic seleccionadas en el proyecto.
 
 Se selecciona un valor de resistencia shunt $R_{shunt}$ para fijar una corriente
 de ecualización equivalente al $1\%$ de la capacidad nominal de la celda $29mA$. 
