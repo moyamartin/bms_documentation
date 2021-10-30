@@ -2139,7 +2139,27 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
     \end{center}
 \end{minipage}
 
-\newpage
+\subsubsection{Drivers propietarios}
+
+Siguiendo el modelo de capas descripto en la Sección
+\ref{software_implementation}, fue necesario desarrollar los drivers de los
+\acrshort{CI} periféricos que implementa el hardware del \acrshort{BMS}. Los
+driver implementados nos permite configurar e interactuar desde el
+\acrshort{MCU} con los recursos que implementa el hardware desarrollado, a saber
+el modulo de balanceo y protección \emph{bq76pl325a}, el sensor de corriente de
+carga y descarga del pack de batería \emph{INA226} y el módulo cargador de
+batería \emph{bq2618}.
+
+Los drivers de control de los diferentes \acrshort{CI} fueron desarrollados
+integramente en lenguaje de programación C y se valen de las librerías de
+la capa \acrshort{HAL} para poder interactuar con los periféricos de
+comunicación del \acrshort{MCU}.
+
+Se describen a continuación detallatadamente.
+
+\subsubsubsection{Driver TI - bq76pl356a}
+\subsubsubsection{Driver TI - INA226}
+\subsubsubsection{Driver TI - bq2461x}
 
 
 \subsection{Unidad de procesamiento}
@@ -2405,8 +2425,6 @@ utilizando resistencias shunt en conjunto con una estrategia de control
 cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
 estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
 balanceo. 
-
-\newpage
 
 \subsubsection{Teor\'ia de operaci\'on}
 
