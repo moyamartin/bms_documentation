@@ -1968,7 +1968,7 @@ de desarrollo STM32Cube.
 La esctructura del software y su organización lógica se orientó bajo la
 filosofía del desarrollo por capas. El desarrollo de la aplicación del
 \acrshort{BMS} se encuenta fundamentalmente basada sobre la capa STM32Cube  
-y sobre el estandar CMSIS (Cortex Microcontroller Software Interface Standard).
+y sobre el estandar \acrshort{CMSIS} (\acrlong{CMSIS}).
 La capa de aplicación interactua con el hardware valiendose de la capa de
 abstacción de hardware STM32Cube \acrshort{HAL} (por sus siglas en ingles,
 \acrfull{HAL}), que provee una serie de \acrshort{API}s para que las capas 
@@ -1984,7 +1984,7 @@ La estructura de archivos del software se describe a continuación:
     \item [Test] Contiene el framework y los archivos fuentes correspondites a
         las rutinas de testeo de unidades.
     \item[Drivers] contiene los archivos fuentes de la capa STM32Cube HAL, los
-        paquetes de CMSIS y los drivers correspondientes a los periféricos que
+        paquetes de \acrshort{CMSIS} y los drivers correspondientes a los periféricos que
         implemente la placa \acrshort{BMS}.
 \end{description}
 
@@ -2019,7 +2019,7 @@ siguientes operaciones:
 \subsubsection{Implementaci\'on del filtro de Kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
-depende de las librer\'ias CMSIS que, en s\'intesis, provee una capa de 
+depende de las librer\'ias \acrshort{CMSIS} que, en s\'intesis, provee una capa de 
 abstracci\'on de hardware, como tambi\'en varias funcionalidades que facilitan 
 la implementaci\'on de operaciones complejas para el desarrollador. En este 
 caso, se utiliz\'o la librer\'ia \texttt{arm math} del m\'odulo \acrshort{DSP} 
@@ -2157,7 +2157,81 @@ comunicación del \acrshort{MCU}.
 
 Se describen a continuación detallatadamente.
 
-\subsubsubsection{Driver TI - bq76pl356a}
+\subsubsubsection{driver bq76}
+
+El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{bq76pl536a} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
+valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
+\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_spi} para acceder, a través
+del periférico del microcontrolador, al canal de comunicación serie.
+
+El \acrshort{CI} implementa una interfaz serie de alta velocidad \emph{SPI} para
+la comunicación con la unidad de procesamiento.  Una descripción más acabada del
+mismo puede encontrarse en la sección \ref{seq:bq26_selection}. El driver se
+implementa bajo una filosofía de instanciado que permite atender y operar en
+múltiples instancias correspondientes a múltiples balanceadores presentes en el
+hardware bajo el único requisito de que estén comunicándose todos sobre el mismo
+canal de comunicación \imph{SPI}. La inicialización y puesta en marcha del
+periférico \emph{SPI} del \acrshort{MCU} es responsabilidad del usuario del
+driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
+        el \acrshort{CI()} con los parámetros de configuración seleccionados.
+    \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
+        dispositivos instanciados con una dirección válida de comunicación.
+    \item \texttt{bq76\_reset()}: Enviar comando reset a un dispositivo en
+        particular.
+    \item \texttt{bq76\_set\_address()}: Setear la dirección de un dispositivo.
+    \item \texttt{bq76\_set\_adc\_control()}: Setear registro de control del ADC
+        del  \acrshort{CI()}
+    \item \texttt{bq76\_set\_cb\_time()}: Setear tiempo maximo de balanceo de una
+        celda.
+    \item \texttt{bq76\_set\_funtion\_config()}: Seterar registro de configuración
+        de funcionamiento.
+    \item \texttt{bq76\_set\_io\_config()}: Setear registro de configuración i/o.
+    \item \texttt{bq76\_set\_conv\_config()}: Setear voltaje de sobre tensión.
+    \item \texttt{bq76\_set\_cuv\_config()}: Setear voltaje de tensión mínima.
+    \item \texttt{bq76\_set\_covt\_config()}: Setear delay de alarma de voltaje de
+        sobre tensión.
+    \item \texttt{bq76\_set\_cuvt\_config()}: Seterar delay de alarma de tensión
+        mínima.
+    \item \texttt{bq76\_set\_ot\_config()}: Setear valor se sobre temperatura.
+    \item \texttt{bq76\_set\_ott\_config()} Setear delay de alarma de sobre
+        temperatura.
+    \item \texttt{bq76\_read\_v\_cells()}: Lectura del voltaje de n celdas
+    \item \texttt{bq76\_read\_v\_cells\_dma()}: Lectura del voltaje de n celdas
+        mediante dma.
+    \item \texttt{bq76\_swrqst\_adc\_convert()}: Lanzar inicio converción ADC en
+        un dispositivo particular.
+    \item \texttt{bq76\_bdcst\_adc\_convert()}: Lanzar inicio de converción ACD
+        en todos los dispositivos instanciados con una dirección válida de comunicación.
+    \item \texttt{bq76\_read\_alert\_reg()}: Leer registro de alertas.
+    \item \texttt{bq76\_read\_fault\_reg()}: Leer registro de fallas.
+    \item \texttt{bq76\_clear\_fault\_reg()}: Limpiar registro de fallas.
+    \item \texttt{bq76\_clear\_alert\_reg()}: Limpiar registro de alertas.
+    \item \texttt{bq76\_read\_cov\_fault\_reg()}: Leer registro de falla de sobre
+        voltaje.
+    \item \texttt{bq76\_read\_cuv\_fault\_reg()}: Leer registro de falla de bajo
+        voltaje.
+    \item \texttt{bq76\_set\_balancing\_output()}: Balancear una salida n
+        particular.
+    \item \texttt{handle\_bq76\_dma\_callback()}: Handler interrupción DMA del
+        driver bq76.
+\end{itemize}
+
 \subsubsubsection{Driver TI - INA226}
 \subsubsubsection{Driver TI - bq2461x}
 
@@ -2464,7 +2538,8 @@ a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de
 38.62m$\mathrm{\Ohm}$, en base a estos resultados, se ha realizado el desarrollo
 del hardware del balanceador.
 
-\subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
+\subsubsection{Tecnolog\'ia Seleccionada - TI
+bq76pl536a}\label{seq:bq26_selection}
 
 Para el desarrollo de esta funcionalidad se opt\'o por el integrado
 \emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
