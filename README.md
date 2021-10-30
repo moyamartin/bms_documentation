@@ -30,9 +30,9 @@ If you find this project interesting or useful for your work, please let us know
 ## TODO
 
 * software implementaion
-    * kalman + models
-    * drivers
-    * FSM
-    * framework + language
+    * ~kalman~ + models (mm)
+    * drivers (fdc)
+    * FSM (ls)
+    * ~framework + language~
     * instructions on how to flash the board
 * conclusions
