@@ -1,9 +1,8 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 \usepackage[backend=bibtex,style=numeric]{biblatex}
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
 \usepackage[spanish,es-tabla]{babel}
-\usepackage{hyphsubst}
 \usepackage[toc, page]{appendix}
 \usepackage[utf8]{inputenc}
 \usepackage[version=4]{mhchem}
@@ -11,12 +10,13 @@
 \usepackage{amsmath}
 \usepackage{booktabs}
 \usepackage{circuitikz}
+\usepackage{comment}
 \usepackage{csquotes}
 \usepackage{epstopdf}
-\usepackage{comment}
-\usepackage{lastpage}
 \usepackage{fancyhdr}
 \usepackage{gensymb}
+\usepackage{hyphsubst}
+\usepackage{lastpage}
 \usepackage{multirow}
 \usepackage{parskip}
 \usepackage{pdfpages}
@@ -27,19 +27,12 @@
 \usepackage{tikz}
 \usepackage{titlesec}
 \usepackage{upgreek}
-\usepackage{xfrac}
 \usepackage{wrapfig}
+\usepackage{xfrac}
 
 
 \usetikzlibrary{arrows, decorations.markings, positioning}
-
 \addbibresource{major_paper.bib}
-
-% Print a DRAFT water mark on the document
-% Comment to remove for final version
-%\usepackage{draftwatermark}
-%\SetWatermarkText{ DRAFT }
-%\SetWatermarkScale{5}
 
 % if definition for section compilling control
 \newif\ifdebug
@@ -1581,7 +1574,7 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
 sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
 sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
 
-\subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}
+\subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}\label{dev_soc_est}
 
 Como se detalla en la Secci\'on \ref{algSoc}, el \acrshort{SOC} y su
 estimaci\'on son factores claves para el diseño y desarrollo de un
@@ -1954,6 +1947,648 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
 \newpage
 
+
+\subsection{Implementación Software}\label{software_implementation}
+
+El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
+escrito y desarrollado en el lenguaje de programación C sujeto al estandar C99.
+La ejecución en la unidad de procesamiento responde a la metodología del tipo
+\emph{Bare Metal}, es decir que el programa ejecuta cada una de sus
+instrucciones directamente sobre el hardware dedicado, sin la intervención de
+un sistema operativo (\acrshort{OS}, del ingl\'es \acrlong{OS}) o aplicaciones 
+que administre los recursos de más bajo nivel.
+
+El montaje de la estructura inicial del proyecto, incluyendo las dependencias
+necesarias y la puesta en marcha e inicialización del microcontrolador con sus
+correspondientes periféricos, como también del encendido del módulo de clocking
+que alimenta el núcleo, se realizó vali\'endonos de la herramienta gráfica
+brindada por \emph{STMicroelectronics} llamada STM32CubeMX, parte del framework
+de desarrollo STM32Cube. 
+
+La esctructura del software y su organización lógica se orientó bajo la
+filosofía del desarrollo por capas. El desarrollo de la aplicación del
+\acrshort{BMS} se encuenta fundamentalmente basada sobre la capa STM32Cube  
+y sobre el estandar \acrshort{CMSIS} (\acrlong{CMSIS}).
+La capa de aplicación interactua con el hardware valiendose de la capa de
+abstacción de hardware STM32Cube \acrshort{HAL} (por sus siglas en ingles,
+\acrfull{HAL}), que provee una serie de \acrshort{API}s para que las capas 
+superiores (aplicaciones, librerias y el stack) puedan interactuar con los 
+recursos del hardware, en un lenguaje \emph{amigable} para el desarrollador.
+
+\subsubsection{Estructura de archivos}
+
+La estructura de archivos del software se describe a continuación:
+
+\begin{description}
+    \item [Core] Contiene los archivos fuente del programa principal.
+    \item [Test] Contiene el framework y los archivos fuentes correspondites a
+        las rutinas de testeo de unidades.
+    \item[Drivers] contiene los archivos fuentes de la capa STM32Cube HAL, los
+        paquetes de \acrshort{CMSIS} y los drivers correspondientes a los periféricos que
+        implemente la placa \acrshort{BMS}.
+\end{description}
+
+\newpage
+
+Cada una de esta carpeta est\'a dividida en sus archivos fuentes (carpeta
+\emph{src}) y sus definiciones dentro librer\'ias (carpeta \emph{inc}) 
+(o en ingl\'e, \emph{headers}) para que cada m\'odulo pueda ser reutilizado sin 
+problemas.
+
+El software fue escrito con la intención de que realice exitosamente las
+siguientes operaciones: 
+
+\begin{itemize}
+    \item Estimar el \acrshort{SOC} de las celdas del pack de baterias a partir
+        de la implementación del Filtro de Kalman y el modelo eléctrico de las
+        celdas. 
+    \item Obtener la información respecto de: 
+        \begin{itemize}
+            \item Corriente carga y descarga del pack de batería
+            \item Voltaje de cada celda
+        \end{itemize}
+    \item Detectar desbalanceo de las celdas y ecualizar el pack de baterías
+    \item M\'aquina de estados para la administraci\'on del proceso de carga y
+        descarga, en conjunto con los eventos intermediarios de cada proceso.
+    \item Administrar las interrupciones por falla y controlar el interruptor de
+        carga para la protecci\'on del pack de bater\'ias.
+    \item Leer los indicadores del cargador de bater\'ias para poder obtener
+        informaci\'on del proceso de carga.
+\end{itemize}
+
+\subsubsubsection{Desarrollo de Módelo Máquina de Estado Finitos}
+Para llevar a cabo las tareas previamente mencionadas, se opto por un módelo de Máquina de estados debido a la capacidad de representar sistemas arbitrariamente complejos en un conjunto de estados y transiciones lo cual simplifica a posteriori la implementación, reduciendo la consigna a un grupo de tareas pequeñas y condiciones simples.
+
+Con bases en la implementación de una máquina de estados en C \cite{Lafreniere2019}, se realizó una adaptación más sencilla para no correr código preparado para trabajar con sistemas complejos innecesario en este proyecto.
+
+Las carácteristicas que fueron utilizadas de esta implementación son:
+
+\begin{itemize}
+	\item Compacto - Consume una cantidad de recursos mínima
+	\item Objetos - Soporta instanciar objetos de tipo máquina de estado
+	\item Tablas de Transision - Permite un control preciso de los estados y sus transiciones
+	\item Eventos - Cada evento es una función simple con argumentos de cualquier tipo.
+	\end{itemize}
+
+A grandes rasgos el código clasifica los eventos en 2 tipos: Eventos internos e externos.
+Los eventos internos se generan y modifican únicamente los estados internos de su correspondiente máquina de estados, por otro lado los eventos externos pueden ser generados por cualquier función externa o máquina de estados externa lo que nos permite relacionar los diferentes sistemas del BMS.
+
+El sistema se subdivide en 4 subsistemas:
+
+\begin{itemize}
+	\item Sistema General de Monitoreo de Baterias
+	\item Cargador de baterias
+	\item Estimación de Estado de Carga
+	\item Ecualización o balanceo del Estado de Carga
+\end{itemize}
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{BMS_FSM.pdf}
+		\caption{Máquina de estados Principal del BMS} 
+		\label{fig::BMS_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.65\textwidth]{SOC_FSM.pdf}
+		\caption{Máquina de estados de estimación de Estado de Carga} 
+		\label{fig::SOC_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.65\textwidth]{Charger_FSM.pdf}
+		\caption{Máquina de estados del cargador de batería} 
+		\label{fig::Charger_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{Equalizing_FSM.pdf}
+		\caption{Máquina de estados del balanceador} 
+		\label{fig::Equalizing_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
+\subsubsection{Drivers propietarios}
+
+Siguiendo el modelo de capas descripto en la Sección 
+\ref{software_implementation}, fue necesario desarrollar los drivers de los
+\acrshort{CI} periféricos que implementa el hardware del \acrshort{BMS}. Los
+driver implementados nos permite configurar e interactuar desde el
+\acrshort{MCU} con los recursos que implementa el hardware desarrollado, a saber
+el modulo de balanceo y protección \emph{bq76pl325a}, el sensor de corriente de
+carga y descarga del pack de batería \emph{INA226} y el módulo cargador de
+batería \emph{bq2618}.
+
+Los drivers de control de los diferentes \acrshort{CI} se valen de las librerías 
+de la capa \acrshort{HAL} para poder interactuar con los periféricos de
+comunicación del \acrshort{MCU}, y son considerados una capa de abstracci\'on
+propietaria del proyecto para la lectura de distintas variables externas
+necesarias, como por ejemplo, la tensi\'on de cada celda, la corriente y el
+estado del cargador.
+
+Se describen a continuación detallatadamente.
+
+\subsubsubsection{Driver \texttt{bq76}}
+
+El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{bq76pl536a} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de obtener una variable flotante de 32 bits compatible
+con el framework \acrshort{CMSIS} que tambi\'en es utilizado en la secci\'on del
+filtro de Kalman que se describe en la Secci\'on \ref{dev_fw_kalman} y la 
+librería \texttt{stm32f4xx\_hal\_spi} para poder controlar f\'acilmente el 
+periférico \acrshort{SPI} del microcontrolador, ya que el \acrshort{CI}
+implementa una interfaz serie de alta velocidad para poder comunicarse y ser
+controlado.
+
+Una descripción más acabada del mismo puede encontrarse en la sección 
+\ref{seq:bq26_selection}. El driver expone una estructura de datos y un conjunto
+de funciones que facilitan su operaci\'on para el desarrollador, el mismo est\'a
+diseñado de forma tal que puedan coexistir m\'ultiples instancias del
+dispositivo, ya que se pueden encadenar entre si m\'ultiples \acrshort{CI}s para
+su escalabilidad, controlados solamente por el balanceador principal, que es el
+que se encuentra conectado al \acrshort{MCU}.
+
+Se listan a continuación las funciones que implenta el driver para su
+implementaci\'on. Para una mejor comprensión del driver y su funcionamento 
+recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
+    \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
+        dispositivos instanciados con una dirección válida de comunicación.
+    \item \texttt{bq76\_reset()}: Reinicia un dispositivo con una direcci\'on
+        particular.
+    \item \texttt{bq76\_set\_address()}: Configura la direcci\'on \acrshort{SPI}
+        del dispositivo, esta direcci\'on es utilizada posteriormente para
+        refererise a un dispositivo espec\'ifico dentro de la cadena de
+        \acrshort{CI}s.
+    \item \texttt{bq76\_set\_adc\_control()}: Configura el registro de control
+        del \acrshort{ADC} interno del \acrshort{CI}. Dentro de este registro se
+        puede configurar que el dispositivo mantenga el \acrshort{ADC} prendido
+        todo el tiempo o solo cuando es utilizado, habilitar los terminales del
+        dispositivo dedicados para mediciones \acrshort{ADC} que no sean los
+        \acrshort{ADC}s de medici\'on de tensi\'on o temperatura, por \'ultimo,
+        tambi\'en permite cuantas celdas en serie va a medir el dispositivo
+        (solamente se pueden elegir entre 3 y 6 celdas conectadas en serie por
+        dispositivo).
+    \item \texttt{bq76\_set\_cb\_time()}: Configura el tiempo m\'aximo de 
+        balanceo de una celda, puede variar desde 0 segundos hasta 63 minutos,
+        cuando se configura en 0 se deshabilita la funcionalidad de balanceo.
+    \item \texttt{bq76\_set\_function\_config()}: Configura el registro de 
+        de funcionamiento del dispositivo. El mismo puede elegir la fuente de
+        referencia del \acrshort{ADC} que puede ser el registro
+        $\mathrm{V_{REG_{50}}}$ o la tensi\'on de referencia interna, el
+        n\'umero de celdas en serie utilizados e inclusive si los terminales de
+        medici\'on de tensi\'on generales miden la tensi\'on total del pack de
+        bater\'ias o si son utilizados de forma general.
+    \item \texttt{bq76\_set\_io\_config()}: Configura distintas funcionalidades
+        generales de entrada y salida del dispositivo, como por ejemplo, la
+        generaci\'on de paquetes \acrshort{CRC} (del ingl\'es, \acrlong{CRC}),
+        como tambi\'en si la terminal de falla se pone en alto en caso de
+        encontrar un paquete \acrshort{CRC} que no es v\'alido.
+    \item \texttt{bq76\_set\_cov\_config()}: Configura el voltaje de sobre
+        tensi\'on por el cual deber\'a presentar un mensaje de alerta/falla. El
+        valor m\'aximo de sobre tensi\'on es de 5V y el valor m\'inimo es de 2V
+        con una resoluci\'on de 50mV.
+    \item \texttt{bq76\_set\_cuv\_config()}: Establece el voltaje mínimo de una
+        celda, en el que puede variar entre 0.7V a 3.3V con una resolucio\'on de
+        100mV.
+    \item \texttt{bq76\_set\_covt\_config()}: Configura el retardo de la alarma 
+        de voltaje de sobre tensión, como m\'aximo puede tardar 3 segundos.
+    \item \texttt{bq76\_set\_cuvt\_config()}: Aplica lo mismo que para la
+        funci\'on \texttt{bq76\_set\_covt\_config()}.
+    \item \texttt{bq76\_set\_ot\_config()}: Establece el valor m\'aximo de
+        temperatura admitido, que depende exclusivamente de como fueron elegidas
+        las resistencias y el termistor del hardware, en este caso, los sensores
+        de temperatura no fueron utilizados pero la \acrshort{API} los
+        implementa igual para su futura escalabilidad.
+    \item \texttt{bq76\_set\_ott\_config()} Establece el tiempo de retardo en
+        que el dispositivo notifica que hay un problema de sobre temperatura,
+        toma como valor m\'aximo 2 segundos.
+    \item \texttt{bq76\_read\_v\_cells()}: Realiza la lectura de voltaje de las
+        celdas conectadas al dispositivo, que fueron configuradas por
+        \texttt{bq76_set_adc_config()}. Esta funci\'on bloquea la ejecuci\'on
+        de la aplicaci\'on, por lo que se debe tener especial cuidado en
+        sistemas de un solo n\'ucleo, donde no se ejecuta un sistema operativo y
+        su tiempo de ejecuci\'on sea cr\'itico.
+    \item \texttt{bq76\_read\_v\_cells\_dma()}: Realiza la misma funci\'on que
+        \texttt{bq76\_read\_v\_cells()}, pero sin bloquear al hilo principal de
+        la aplicaci\'on, esta funci\'on es dependiente del hardware ya que si el
+        \acrshort{MCU} no posee un \acrshort{DMA}, no puede ser implementado.
+    \item \texttt{bq76\_swrqst\_adc\_convert()}: Solicita una conversi\'on de
+        las terminales dedicadas a la lectura de tensi\'on por software.
+    \item \texttt{bq76\_bdcst\_adc\_convert()}: Solicita una lectura de los
+        terminales \acrshort{ADC} en todos los dispositivos instanciados con una 
+        dirección válida de comunicación.
+    \item \texttt{bq76\_read\_alert\_reg()}: Lee el registro de alertas de un
+        dispositivo espec\'ifico con una direcci\'on v\'alida.
+    \item \texttt{bq76\_read\_fault\_reg()}: Lee el regitstro de falla.
+    \item \texttt{bq76\_clear\_fault\_reg()}: Limpia el registro de fallas.
+    \item \texttt{bq76\_clear\_alert\_reg()}: Limpia el registro de alertas.
+    \item \texttt{bq76\_read\_cov\_fault\_reg()}: Leer registro de falla de sobre
+        voltaje.
+    \item \texttt{bq76\_read\_cuv\_fault\_reg()}: Leer registro de falla de bajo
+        voltaje.
+    \item \texttt{bq76\_set\_balancing\_output()}: Enciende uno o m\'as
+        transistores de balanceo, dependiendo de los bits que se pasan como
+        argumento.
+    \item \texttt{handle\_bq76\_dma\_callback()}: \emph{Callback} encargado de
+        manipular la respuesta recibida del \acrshort{DMA}.
+\end{itemize}
+
+A su vez, la librer\'ia implementa sus propias funciones est\'aticas que son las
+dedicadas a implementar su propia \acrshort{HAL} con respecto a la interfaz
+\acrshort{SPI} del dispositivo: 
+
+\begin{itemize}
+    \item \texttt{writespi}: Funci\'on de escritura en el bus \acrshort{SPI} que
+        debe ser definida por el usuario en caso de usar otro \acrshort{MCU},
+        esta funci\'on bloquea el hilo principal del programa al ser utilizada.
+    \item \texttt{readspi}: Funci\'on de lectura en el bus \acrshort{SPI} que
+        debe ser definida por el usuario en caso de usar otro \acrshort{MCU},
+        nuevamente la misma es bloqueante.
+\end{itemize}
+
+\'Estas \'ultimas dos funciones tienen su versi\'on alternativa que no bloquea
+el hilo principal, que dependen exclusivamente de que el \acrshort{MCU} a 
+utilizar presente un \acrshort{DMA} embebido, ambas se llaman respectivamente
+\texttt{writespi\_dma} y \texttt{writespi\_dma} y deben ser modificadas por el
+desarrollador.
+
+Finalmente, la librer\'ia depende tambi\'ien de una \acrshort{API} externa
+llamada \texttt{crc}, la misma se encarga de calcular el \acrshort{CRC} y 
+verificar que los paquetes que se env\'ian y reciben del dispositivo sean
+v\'alidos, el algoritmo que el dispositivo requiere es el propietario del bus
+\emph{SMBUS} (ATM-8) como se detalla en \cite{bq76_comm_basics}.
+
+Para probar el funcionamiento de la celda, se tomaron mediciones de cada celda 
+y se contrastaron con las mediciones de un mult\'imetro de la marca \emph{Fluke}
+modelo \emph{101B+}, obteniendo un error m\'aximo de 2mV entre un dispositivo y
+el otro, que es el equivalente a 0.06\%. Tambi\'en se probaron que las alertas y
+fallas generen interrupciones correctamente en el \acrshort{MCU} de forma
+correcta. Sin embargo, se propone como extensi\'on del proyecto realizar m\'as
+ensayos para asegurar la correcta medici\'on de voltaje, como tambi\'en el
+correcto balanceo.
+
+Por \'ultimo, se midi\'o la ventana de tiempo que requiere el dispositivo para
+realizar una conversi\'on, esto es importante para mantener la ventana de tiempo
+requerida para procesar la evoluci\'on del modelo. Esto fue realizado midiendo
+el tiempo que tarda midiendo el mismo a trav\'es de una terminal del
+\acrshort{MCU} con un osciloscopio, el tiempo total es de 968uS para medir las 6
+celdas, el mismo se puede observar en la Figura \ref{bq76_v_cell_time}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{bq76_v_cell_time.png}
+        \caption{Oscilograma del tiempo que tarda el dispositivo BQ76PL536A en
+        realizar una medici\'on de voltaje de las 6 celdas. El osciloscopio
+        utilizado es un Rigol DS1054Z, con una escala de 100uS en el eje X y una
+        escala de 1V en el eje Y}
+    \end{center}
+\end{figure}
+
+\subsubsubsection{ina226}
+
+El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{INA226} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation} el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
+valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
+\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_i2c} para acceder, a través
+del periférico del microcontrolador, al canal de comunicación serie.
+
+El \acrshort{CI} INA226 implementa una interfaz de comunicación $I^2C$ sobre la
+cual solo puede operar como dispositivo esclavo para la comunicación con la
+unidad de procesamiento. Una descripción más acabada del mismo puede
+encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa bajo
+una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples medidores de corriente presentes en el hardware
+bajo el único requisito de que estén comunicándose todos sobre el mismo canal de
+comunicación \emph{$I^2C$}. La inicialización y puesta en marcha del periférico
+\emph{$I^2C$} del \acrshort{MCU} es responsabilidad del usuario del driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{ina226\_init()}: Inicializar una instancia del driver ina226 y
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
+    \item \texttt{ina226\_reset()}: Enviar comando de reset. Equivalente al
+        power\textendash on reset.
+    \item \texttt{ina226\_get\_current()}: Leer el valor de corriente medido.
+    \item \texttt{ina226\_get\_current\_dma()}: Leer valor de corriente medido
+        utilizando la interfaz dma.
+    \item \texttt{ina226\_get\_vbus()}: Leer el valor de tensión del bus.
+    \item \texttt{ina226\_get\_vbus\_dma()}: Leer el valor de tensión del bus
+        utilizando la interfaz dma.
+    \item \texttt{ina226\_get\_vshunt()}: Leer el valor de tensión en la
+        resistencia shunt de medición.
+    \item \texttt{ina226\_get\_vshunt\_dma()}: Leer el valor de tensión en la
+        resistencia shunt de medición utilizando la interfaz dma.
+    \item \texttt{ina226\_get\_pwr()}: Leer registro de cálculo de potencia.
+    \item \texttt{ina226\_get\_pwr\_dma()}: Leer registro de cálculo de potencia
+        utilizando la interfaz dma.
+    \item \texttt{ina226\_set\_avg()}: Setear el numero de mediciones del
+        promedio de las mediciones.
+    \item \texttt{ina226\_set\_vbus\_ct()}: Setear tiempo de conversión de
+        la tensión de bus.
+    \item \texttt{ina226\_set\_vshunt\_ct()}: Setear tiempo de conversión de
+        tensión shunt.
+    \item \texttt{ina226\_set\_mode()}: Setear modo de operación de
+        \acrshort{CI}.
+    \item \texttt{ina226\_set\_calibration()}: Calibrar el sensor de corriente
+        INA226. Setear valor de resistencia shunt y de corriente máxima.
+    \item \texttt{ina226\_set\_mask\_enable()}: Setear configuraciones de
+        alertas y de operación del \acrshort{CI}.
+    \item \texttt{handle\_handle\_dma\_callback()}: Handler interrupción DMA del
+        driver ina226.
+\end{itemize}
+
+\subsubsubsection{Driver bq2461x}
+
+El driver \texttt{bq2461x} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{BQ24610} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation} el mismo
+depende de las librer\'ia STMCube \acrshort{HAL}.
+En este caso, se utilizaron la librer\'ia \texttt{stm32f4xx\_hal\_gpio} para
+acceder, a través del periférico del microcontrolador, a los pines de propósito
+general GPIO del micro.
+
+El \acrshort{CI} BQ24610 no dispone de ningun tipo de comunicación serie.
+Implementa una interfaz de comunicación a partir de señales digitales paralelas.
+Una descripción más acabada de su interfaz con el \acrshort{MCU} puede
+encontrarse en la sección \ref{seq:cb_interface_ce}. El driver se implementa
+bajo una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples cargadores de batería presentes en el
+hardware bajo el único requisito de el usuario provea las funciones de lectura y
+escritura de los pines correspondientes a cada instancia según se describe en la
+implementación ejemplo que presenta el dirver. La inicialización y puesta en
+marcha del periférico \emph{GPIO} del \acrshort{MCU} es responsabilidad del
+usuario del driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq24\_init()}: Inicializar una instancia del driver bq24 con
+        los handlers de los pines del GPIO seleccionados por le usuario.
+    \item \texttt{bq24\_read\_charger\_status()}: Leer estado de operación
+        actual del Cargador de Batería.
+    \item \texttt{bq24\_is\_power\_good()}: Leer pin de estado de alimentación
+        del Cargador de Batería.
+    \item \texttt{bq24\_is\_charger\_enabled()}: Leer pin de estado de
+        habilitación del cargador de batería.
+    \item \texttt{bq24\_enable\_charge()}: Habilitar carga.
+    \item \texttt{bq24\_disable\_charge()}: Deshabilitar carga.
+\end{itemize}
+
+\subsubsection{Implementaci\'on del filtro de Kalman}\ref{dev_fw_kalman}
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
+depende de las librer\'ias \acrshort{CMSIS} que, en s\'intesis, provee una capa de 
+abstracci\'on de hardware, como tambi\'en varias funcionalidades que facilitan 
+la implementaci\'on de operaciones complejas para el desarrollador. En este 
+caso, se utiliz\'o la librer\'ia \texttt{arm math} del m\'odulo \acrshort{DSP} 
+de la librer\'ia, que permite al usuario hacer las siguientes  operaciones 
+matem\'aticas aprovechando la unidad \acrshort{FPU} del \acrshort{MCU} 
+utilizado:
+
+\begin{itemize}
+    \item Operaciones matriciales de suma, resta, multiplicaci\'on y divisi\'on
+    \item Operaciones trigonom\'etricas, tales como el seno y el coseno.
+    \item Operaciones en n\'umeros complejos
+    \item Implementar distintos filtros \acrshort{FIR} (del ingl\'es,
+        \acrlong{FIR}).
+\end{itemize}
+
+En este caso, se utilizaron las operaciones matriciales para valores de punto
+flotante con una resoluci\'on de 32 bits, las variables del algoritmo fueron
+modeladas dentro de una estructura denominada \texttt{KalmanFilter} donde se
+declaran las distintas matrices utilizadas por el algoritmo, como tambi\'en las
+dimensiones necesarias para las variables de entrada y salida. La librer\'ia 
+diseñada provee una \acrshort{API} de baja complejidad para ser implementada que 
+posee dos funciones:
+
+\begin{itemize}
+    \item \texttt{kalman\_filter\_init}: Esta funci\'on toma como par\'ametros un
+        puntero a una estructura \texttt{KalmanFilter} y los valores de las
+        matrices propias del algoritmo como tambi\'en las dimensiones de la
+        matriz de estados, entrada y salida, como resultado devuelve un estado
+        del sistema indicando si se pudo inicializar de forma correcta la
+        estructura del filtro de Kalman.
+    \item \texttt{kalman\_filter\_modify\_f\_data}: Actualiza los valores de la
+        matriz F, que se corresponde con las variables del sistema de ecuaciones
+        de estado. Toma como par\'ametro la estructura del filtro a modificar y
+        el nuevo set de datos a actualizar.
+    \item \texttt{kalman\_filter\_modify\_g\_data}: Actualiza los valores de la
+        matriz G relacionados al sistema de ecuaciones de estados del sistema,
+        en relaci\'on a las variables de entrada y no del sistema. Toma como
+        par\'ametro el filtro de Kalman a actualizar y el conjunto de valores a
+        actualizar.
+    \item \texttt{kalman\_filter\_modify\_h\_data}: Actualiza los valores de la
+        matriz H de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_q\_data}: Actualiza los valores de la
+        matriz Q de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \newpage
+    \item \texttt{kalman\_filter\_modify\_r\_data}: Actualiza los valores de la
+        matriz R de un filtro de kalman con los nuevos valores, toma como
+        par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
+        valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_u\_data}: Actualiza los valores de la
+        matriz U (entrada) de un filtro de Kalman con los nuevos valores, toma 
+        como par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo 
+        set de valores a actualizar.
+    \item \texttt{kalman\_filter\_modify\_j\_data}: Actualiza los valores de la
+        matriz J de un filtro de Kalman con los nuevos valores, esta funci\'on
+        solo debe ser utilizada en caso de implementar un filtro de Kalman
+        extendido.
+    \item \texttt{kalman\_filter\_step}: Esta funci\'on es la encargada de
+        efectuar un paso del filtro de Kalman, toma como par\'ametro el puntero
+        al objeto de la estructura utilizada como filtro y la medici\'on del 
+        sistema que el algoritmo utiliza para comparar su estimaci\'on, 
+        nuevamente, esta funci\'on devuelve un estado denotando si el c\'alculo 
+        fue realizado de forma exitosa o no. A su vez, esta funci\'on modifica
+        las distintas matrices que componen al filtro, posteriormente el usuario
+        de esta librer\'a tiene que acceder a la variable de inter\'es para sus
+        objetivos.
+\end{itemize}
+
+En el Ap\'endice \ref{ejemplo_api_kalman} se muestra como es utilizado dentro
+del firmware principal del programa. Internamente, \'esta \acrshort{API},
+realiza cada operaci\'on que implementa el filtro, descritas en la Secci\'on
+\ref{KalmanFilterMethod}, en las siguientes funciones privadas de la
+\acrshort{API}:
+
+\begin{itemize}
+    \item \texttt{state\_extrapolation\_predict}: Predice el estado del sistema
+        tomando en cuenta el estado actual y la entrada al sistema.
+    \item \texttt{covariance\_extrapolation\_uncertainty}: Calcula la
+        extrapolaci\'on de la covarianza para un sistema din\'amico.
+    \item \texttt{state\_update}: Actualiza el estado actual del sistema tomando
+        en cuenta la medici\'on de la salida y la predicci\'on del sistema.
+    \item \texttt{covariance\_update}: Actualiza la covarianza del sistema
+        tomando los par\'ametros actuales del sistema.
+    \item \texttt{kalman\_gain\_update}: Actualiza la ganancia de Kalman
+        bas\'andose en el valor actual de la covarianza y la medici\'on actual
+        del sistema como tambi\'en la salida predecida del mismo.
+\end{itemize}
+
+\subsubsubsection{Ensayos unitarios del filtro}
+
+\begin{minipage}{0.5\textwidth}
+Para ensayar las capas de abstracci\'on del firmware, se utiliz\'o el
+framework \emph{CppUTest}, que se especializa en correr test unitarios,
+especialmente para sistemas embebidos. En este caso, se realiza el ensayo del
+algoritmo programado bajo el lenguaje C, utilizando un ejemplo de la
+estimaci\'on de un proyectil en el plano x-y, en primer instancia se desarrolla
+el ejemplo en un script escrito en el lenguaje \emph{python} y, con los
+datos de entrada y los resultados del mismo, se vuelve a implementar utilizando
+la \emph{API} del filtro de Kalman. Finalmente, se comparan ambos resultados con
+el objetivo de que los valores coincidan entre si, si el algoritmo falla en
+calcular un resultado, el framework notifica al desarrollador que el test
+fall\'o. El ejemplo utilizado se puede visualizar en la Figura
+\ref{tracking_proyectile_example}.
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+    \begin{center}
+        \includegraphics[width=1\textwidth]{tracking_proyectile_example.png}
+        \captionof{figure}{Descripci\'on gr\'afica del ejemplo de la estimaci\'on de
+        trayectoria de un proyectil. En la curva azul se muestra la posici\'on
+        verdadera del mismo, en la trayectoria verde a trazos se muestra la
+        estimaci\'on del filtro de Kalman y en la curva naranja de puntos se 
+        observa el valor medido con ruido}
+        \label{tracking_proyectile_example}
+    \end{center}
+\end{minipage}
+
+\subsubsection{\acrshort{API} del modelo de una celda}
+
+En esta \acrshort{API} se combina el modelo generado en la Secci\'on
+\ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
+la Secci\'on \ref{dev_soc_est}, como resultado se desarroll\'o una \acrshort{API}
+llamada \texttt{battery\_model} que logra reproducir el modelo final de la celda
+utilizada sobre el microcontrolador. Esta \acrshort{API} tiene varias 
+dependencias, como por ejemplo, funciones de b\'usqueda de valores dentro de un 
+arreglo (\acrshort{API} llamada \texttt{find} desarrollada en este trabajo), 
+como tambi\'en de los par\'ametros de la celda definidos en el archivo 
+\texttt{battey\_luts.h}, que contiene las \acrshort{LUT}s de cada componente del
+circuito de Randles. La \acrshort{API} expone una estructura de datos denominada
+\texttt{Cell}, compuesta por una instancia de una estructura tipo
+\texttt{KalmanFilter} y un entero de 32 bits que contiene el \'indice actual del
+\acrshort{SOC} que despu\'es es utilizado para extraer el valor de una
+\acrshort{LUT}, provista por la librer\'ia \texttt{battery\_luts.h}, a su vez,
+provee las siguientes funciones p\'ublicas para el desarrollador: 
+
+\begin{itemize}
+    \item \texttt{calculate\_cell\_soc}: Dada la medici\'on actual del voltaje de
+        la celda y la corriente que circula por ella, calcula el \acrshort{SOC}
+        de la misma bas\'andoles en el algoritmo del filtro de Kalman. Esta
+        funci\'on debe ejecutase peri\'odicamente, donde el per\'iodo entre
+        paso y paso est\'a dado por como la frecuencia de muestreo del modelo
+        discretizado.
+    \item \texttt{init\_cell\_model}: Esta funci\'on inicializa la estructura de
+        datos \texttt{Cell}, asumiendo que la misma se encuentra en un punto de
+        trabajo est\'atico. Toma como par\'ametro la actual medici\'on de
+        voltaje de la celda, y mide el \acrshort{SOC} en base a este valor.
+    \item \texttt{cell\_model\_set\_q\_data}: Funci\'on p\'ublica que permite
+        ajustar la matriz de incerteza del modelo en base a una perturbaci\'on
+        externa modelada. Permite ajustar el algoritmo de Kalman en 
+        \emph{run-time}, logrando extender la exactitud de estimaci\'on.
+    \item \texttt{battery\_model\_set\_r\_data}: Actualiza la matriz de
+        incertaza de medici\'on del filtro de Kalman. Esta funci\'on debe ser
+        utilizada cuando el sensor de voltage/corriente est\'a funcionando con
+        mayor incerteza/ruido del modelado.
+    \item \texttt{cell\_model\_get\_soc}: Devuelve el valor actual del
+        \acrshort{SOC} de la celda.
+\end{itemize}
+
+\subsubsubsection{Extensi\'on al pack de bater\'ias}
+
+El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
+\ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
+utilizada es dividida por 3, para reflejar el hecho de que el pack de bater\'ias 
+tiene, por m\'odulo, 3 celdas conectadas en paralelo, esto es posible de 
+realizar, ya que se considera que el modelo se encuentra linealizado en 
+distintos puntos de operaci\'on. Finalmente, este diseño fue sintetizado en una
+\acrshort{API} llamada \texttt{battery\_pack.h}, donde se puede parametrizar
+f\'acilmente para extender la cantidad de m\'odulos conectados en serie, 
+modificando la definici\'on \texttt{SERIES\_CELLS}, como tambi\'en la cantidad de
+celdas conectadas en paralelo, modificando la variable \texttt{PARALLEL\_CELLS}. 
+A su vez la librer\'ia tiene dos funciones p\'ublicas:
+
+\begin{itemize}
+    \item \texttt{init\_battery\_pack}: Inicializa la cantidad de
+        \texttt{SERIES\_CELLS} (en este caso, 6) de estructuras tipo 
+        \texttt{Cell} tomando como referencia el voltage de cada celda.
+    \item \texttt{calc\_battery\_pack\_soc}: Dado el voltaje de cada celda y la
+        corriente que circula a trav\'es del pack, calcula el \acrshort{SOC} de
+        cada celda.
+\end{itemize}
+
+\subsubsection{Ensayos unitarios}
+
+Para ensayar esta librer\'ia se realizaron dos tests separados, uno para medir
+cuanto tiempo tarda en realizar un c\'alculo de las 6 celdas y otro para
+contrastar si los resultados se condicen con los que se obtuvieron en el
+desarrollo del modelo.
+
+En primer instancia, para evaluar la velocidad del algoritmo, se habilit\'o una
+terminal del microcontrolador para que est\'e en estado alto mientras se realiza
+el c\'alculo de las 6 celdas de forma secuencial, al mismo tiempo, se conecta
+una prueba de ensayo de un osciloscopio a esta terminal y se mide el tiempo
+desde que se pone en estado alto hasta que termina y la terminal se pone en
+estado bajo. El resultado se puede observar en la Figura \ref{kalman_time} se
+puede observar el pulso que expone la terminal del \acrshort{MCU}, que es de
+305uS, es decir 50,83uS por celda, un n\'umero aceptable en comparaci\'on a los
+resultados que se presentan en \cite{kalman_filter_embedded} que utilizan el
+mismo hardware pero con un modelo con menos variables (1.2mS por paso).
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{kalman_time.png}
+        \caption{Evaluaci\'on del tiempo que tarda el modelo del pack de
+        bater\'ias en ser procesado. El instrumento utilizado para hacer el
+        ensayo es un osciloscopio Rigol modelo DS1054Z, donde cada divisi\'on en
+        el eje x es de 50uS y cada divisi\'on en el eje y es de 1V.}
+        \label{kalman_filter_embedded}
+    \end{center}
+\end{figure}
+
+Por el otro lado, se implementaron tests unitarios de la misma forma que para la
+\acrshort{API} del filtro de Kalman, pero utilizando los datos de las
+simulaciones que se desarrollaron en la Secci\'on \ref{dev_batt_model}.
+
 \subsection{Unidad de procesamiento}
 
 \subsubsection{Tecnología seleccionada - STM32F407VG}
@@ -1968,7 +2603,7 @@ Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}.
 El \textbf{STM32F407VG} es un microcontrolador de la familia STM32F407xx de la
 firma \emph{STMicroelectronics} que implementan un nucleo de alto rendimiento de
 32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} y que puede operar a
-una frecuencia de hasta 168 MHz.  El nucleo Cortex-M4 implementa dos módulos
+una frecuencia de hasta 168 MHz. El nucleo Cortex-M4 implementa dos módulos
 fundamentáles para la optimización del proceso de cálculo matemático del
 \acrshort{BMS} y el procesamiento en tiempo real. Una unidad de punto flotante
 (por sus siglas en ingles \acrfull{FPU}) de precision simple que soporta todas
@@ -2122,7 +2757,7 @@ de hacer $ V_{SENSE} \equiv V_{ref}$ será entonces:
         \label{fig:3v3_input_under_voltage}
     \end{subfigure}
         \caption{Fijación Set-Points fuente de alimentación 3v3}
-        \label{fig:cb_set_point}
+        \label{fig:set_point_3v3}
 \end{figure}
 \FloatBarrier
 
@@ -2205,6 +2840,8 @@ que implementa el microcontrolador seleccionado STM32F407.
     \label{fig:stm32f4discovery}
 \end{figure}
 
+
+
 \subsection{Sensor de tensi\'on - Balanceador}
 
 Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
@@ -2216,7 +2853,9 @@ cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
 estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
 balanceo. 
 
+
 \subsubsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
+
 
 El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
 de carga de la bater\'ia, en el cual todas las variables involucradas de esta
@@ -2259,8 +2898,15 @@ c\'alculo de la resistencia \emph{Shunt},
     Q_{diff} = \frac{V_{batt}}{R_{shunt}} \times t_{CV} \label{calc_r_shunt}
 \end{equation}
 
+parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
+admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
+a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
+38.62m$\mathrm{\ohm}$, en base a estos resultados, se ha realizado el desarrollo
+del hardware del balanceador.
 
-\subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
+
+\subsubsection{Tecnolog\'ia Seleccionada - TI
+bq76pl536a}\label{seq:bq26_selection}
 
 Para el desarrollo de esta funcionalidad se opt\'o por el integrado
 \emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
@@ -2313,7 +2959,7 @@ la Figura \ref{bq76_simplified_schematic}
 \begin{minipage}{0.5\textwidth}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{bq76_simplified_schematic.png}
-        \caption{Esquem\'atico simplificado de un balanceador de m\'as de 6
+        \captionof{figure}{Esquem\'atico simplificado de un balanceador de m\'as de 6
         celdas utilizando varios BQ76PL536A acoplados entre s\'i.}
         \label{bq76_simplified_schematic}
     \end{center}
@@ -2332,7 +2978,7 @@ pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
 En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
 especificados por el fabricante \cite{BQ76PL536A}:
 \begin{itemize}
-    \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
+    \item $\mathrm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
         desacople conectados entre ellos lo m\'as cerca posible a esos pines.
     \item La fuente anal\'ogica interna tiene que ser bypasseada a trav\'es del
         pin LDOA con un capacitor cer\'amico de 2.2uF.
@@ -2381,7 +3027,7 @@ la potencia de descarga del balanceo de una celda.
 \end{figure}
 
 El circuito de control de balanceo pasivo consta de un transistor N-FET
-\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado SOT−23
+\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado $SOT\textendash23$
 junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
 de encendido del Mosfet. Y de una resistencia, R21 en el caso del ejemplo
 presentado en la Figura \ref{fig:bq76_balance_power}, que hace las veces de
@@ -2433,7 +3079,7 @@ conexión del pack de batería en caliente.
 
 \subsection{Sensor de corriente}
 
-\subsubsection{Tecnología Seleccionada - INA226}
+\subsubsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
 Frente a los requerimientos y la naturaleza de un \acrshort{BMS} se ha
 seleccionado la tecnología de sensado de corriente por resistencia Shunt.
@@ -3287,7 +3933,7 @@ calculada siguiendo:
 La potencia máxima soportada por el Mosfet seleccionado es de 75W. En ambos
 casos los integrados se hayan sobre estimados para tolerar el uso dado. 
 
-\subsubsubsection{Interfaz de estado de carga}
+\subsubsubsection{Interfaz de estado de carga}\label{seq:cb_interface_ce}
 
 El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales se
 puede conocer el estado en el que está operando el cargador. Tres señales de
