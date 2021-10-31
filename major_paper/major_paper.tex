@@ -3571,7 +3571,7 @@ estado del cargador.
 
 Se describen a continuación detallatadamente.
 
-\subsubsubsection{Driver \texttt{bq76}}
+\subsubsubsection{Driver \texttt{bq76}}\label{bq76_driver}
 
 El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -3750,21 +3750,21 @@ datos.
 
 Como se menciona en la Secci\'on \ref{software_implementation} el mismo
 depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
-En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
-\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
-valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
-\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_i2c} para acceder, a través
-del periférico del microcontrolador, al canal de comunicación serie.
+Por los mismos motivos que fueron utilizados para driver del \emph{bq76pl536a} 
+en la Secci\'on \ref{bq76_driver}, con la diferencia de que en este caso se
+utiliza la librer\'ia \texttt{stm32f4xx\_hal\_spi} para poder controlar el
+dispositivo en cuesti\'on.
 
 El \acrshort{CI} INA226 implementa una interfaz de comunicación $I^2C$ sobre la
 cual solo puede operar como dispositivo esclavo para la comunicación con la
 unidad de procesamiento. Una descripción más acabada del mismo puede
-encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa bajo
-una filosofía de instanciado que permite atender y operar en múltiples
-instancias correspondientes a múltiples medidores de corriente presentes en el hardware
-bajo el único requisito de que estén comunicándose todos sobre el mismo canal de
-comunicación \emph{$I^2C$}. La inicialización y puesta en marcha del periférico
-\emph{$I^2C$} del \acrshort{MCU} es responsabilidad del usuario del driver.
+encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa 
+bajo una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples medidores de corriente presentes en el 
+hardware bajo el único requisito de que estén comunicándose todos sobre el mismo 
+canal de comunicación \emph{$I^2C$}. La inicialización y puesta en marcha del 
+periférico \emph{$I^2C$} del \acrshort{MCU} es responsabilidad del usuario del 
+driver.
 
 Se listan a continuación, con una breve descripción, las funciones que implenta
 el driver para la operación. Para una mejor comprensión del driver y su
@@ -3775,34 +3775,51 @@ funcionamento recomendamos consultar los archivos fuentes.
         el \acrshort{CI} con los parámetros de configuración seleccionados.
     \item \texttt{ina226\_reset()}: Enviar comando de reset. Equivalente al
         power\textendash on reset.
-    \item \texttt{ina226\_get\_current()}: Leer el valor de corriente medido.
+    \item \texttt{ina226\_get\_current()}: Leer el valor de corriente medido,
+        esta es una funci\'on que bloquea el hilo principal.
     \item \texttt{ina226\_get\_current\_dma()}: Leer valor de corriente medido
-        utilizando la interfaz dma.
+        utilizando la interfaz \acrshort{DMA}, esta funci\'on no bloquea el hilo
+        principal.
     \item \texttt{ina226\_get\_vbus()}: Leer el valor de tensión del bus.
     \item \texttt{ina226\_get\_vbus\_dma()}: Leer el valor de tensión del bus
-        utilizando la interfaz dma.
+        utilizando la interfaz \acrshort{DMA}.
     \item \texttt{ina226\_get\_vshunt()}: Leer el valor de tensión en la
         resistencia shunt de medición.
     \item \texttt{ina226\_get\_vshunt\_dma()}: Leer el valor de tensión en la
-        resistencia shunt de medición utilizando la interfaz dma.
+        resistencia shunt de medición utilizando la interfaz \acrshort{DMA}.
     \item \texttt{ina226\_get\_pwr()}: Leer registro de cálculo de potencia.
     \item \texttt{ina226\_get\_pwr\_dma()}: Leer registro de cálculo de potencia
-        utilizando la interfaz dma.
-    \item \texttt{ina226\_set\_avg()}: Setear el numero de mediciones del
+        utilizando la interfaz \acrshort{DMA}.
+    \item \texttt{ina226\_set\_avg()}: Configurar el numero de mediciones del
         promedio de las mediciones.
-    \item \texttt{ina226\_set\_vbus\_ct()}: Setear tiempo de conversión de
+    \item \texttt{ina226\_set\_vbus\_ct()}: Configurar el tiempo de conversión de
         la tensión de bus.
-    \item \texttt{ina226\_set\_vshunt\_ct()}: Setear tiempo de conversión de
+    \item \texttt{ina226\_set\_vshunt\_ct()}: Configurar tiempo de conversión de
         tensión shunt.
-    \item \texttt{ina226\_set\_mode()}: Setear modo de operación de
-        \acrshort{CI}.
+    \item \texttt{ina226\_set\_mode()}: Configurar modo de operación del
+        dispositivo.
     \item \texttt{ina226\_set\_calibration()}: Calibrar el sensor de corriente
-        INA226. Setear valor de resistencia shunt y de corriente máxima.
-    \item \texttt{ina226\_set\_mask\_enable()}: Setear configuraciones de
+        INA226. Configura valor de resistencia shunt y de corriente máxima.
+    \item \texttt{ina226\_set\_mask\_enable()}: Configura las configuraciones de
         alertas y de operación del \acrshort{CI}.
-    \item \texttt{handle\_handle\_dma\_callback()}: Handler interrupción DMA del
-        driver ina226.
+    \item \texttt{handle\_handle\_dma\_callback()}: Administra la interrupción 
+        del \acrshort{DMA} generada por el driver.
 \end{itemize}
+
+En este caso, solo se realiz\'o un ensayo temporal del driver con la misma
+metodolog\'ia utilizada en la Secci\'on \ref{bq76_driver}, el mismo tarda 475uS
+en realizar una medici\'on, el oscilograma del ensayo se puede observar en la
+Figura \ref{ina226_time}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{ina226_time.png}
+        \caption{Oscilograma temporal del tiempo de procesamiento del INA226,
+        medido por un osciloscopio Rigol DS1054Z, con una resoluci\'on de 1V en
+        el eje Y, y de 50uS en el eje X.}
+        \label{ina226_time}
+    \end{center}
+\end{figure}
 
 \subsubsubsection{Driver bq2461x}
 
@@ -3934,11 +3951,10 @@ posee dos funciones:
         objetivos.
 \end{itemize}
 
-En el Ap\'endice \ref{ejemplo_api_kalman} se muestra como es utilizado dentro
-del firmware principal del programa. Internamente, \'esta \acrshort{API},
-realiza cada operaci\'on que implementa el filtro, descritas en la Secci\'on
-\ref{KalmanFilterMethod}, en las siguientes funciones privadas de la
-\acrshort{API}:
+
+Internamente, \'esta \acrshort{API} realiza cada operaci\'on que implementa el 
+filtro, descritas en la Secci\'on \ref{KalmanFilterMethod}, en las siguientes 
+funciones privadas de la \acrshort{API}:
 
 \begin{itemize}
     \item \texttt{state\_extrapolation\_predict}: Predice el estado del sistema
