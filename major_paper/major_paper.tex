@@ -3485,10 +3485,8 @@ arbitrariamente complejos en un conjunto de estados y transiciones, lo cual
 simplifica a posteriori la implementación, reduciendo la consigna a un grupo de 
 tareas pequeñas y condiciones simples.
 
-\newpage
-
-Con bases en la implementación de una máquina de estados en C 
-\cite{Lafreniere2019}, se realizó una adaptación más sencilla para no correr 
+Con bases en la implementación de una máquina de estados en C
+\cite{Lafreniere2019}, se realizó una adaptación más sencilla para no correr
 código preparado para trabajar con sistemas complejos.
 
 Las carácteristicas que fueron utilizadas de esta implementación son:
@@ -3730,7 +3728,7 @@ en la Figura \ref{bq76_v_cell_time}.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{bq76_v_cell_time.png}
+        \includegraphics[width=0.7\textwidth]{bq76_v_cell_time.png}
         \caption{Oscilograma del tiempo que tarda el dispositivo BQ76PL536A en
         realizar una medici\'on de voltaje de las 6 celdas. El osciloscopio
         utilizado es un Rigol DS1054Z, con una escala de 100uS en el eje X y una
@@ -3766,9 +3764,9 @@ canal de comunicación \emph{$I^2C$}. La inicialización y puesta en marcha del
 periférico \emph{$I^2C$} del \acrshort{MCU} es responsabilidad del usuario del 
 driver.
 
-Se listan a continuación, con una breve descripción, las funciones que implenta
-el driver para la operación. Para una mejor comprensión del driver y su
-funcionamento recomendamos consultar los archivos fuentes.
+Se listan a continuación, con una breve descripción, las funciones que
+implementa el driver para la operación. Para una mejor comprensión del driver y
+su funcionamento recomendamos consultar los archivos fuentes.
 
 \begin{itemize}
     \item \texttt{ina226\_init()}: Inicializar una instancia del driver ina226 y
@@ -3813,13 +3811,14 @@ Figura \ref{ina226_time}.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{ina226_time.png}
+        \includegraphics[width=0.7\textwidth]{ina226_time.png}
         \caption{Oscilograma temporal del tiempo de procesamiento del INA226,
         medido por un osciloscopio Rigol DS1054Z, con una resoluci\'on de 1V en
         el eje Y, y de 50uS en el eje X.}
         \label{ina226_time}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 \subsubsubsection{Driver bq2461x}
 
@@ -3927,7 +3926,6 @@ posee dos funciones:
         matriz Q de un filtro de kalman con los nuevos valores, toma como
         par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
         valores a actualizar.
-    \newpage
     \item \texttt{kalman\_filter\_modify\_r\_data}: Actualiza los valores de la
         matriz R de un filtro de kalman con los nuevos valores, toma como
         par\'ametro una estructura tipo \texttt{KalmanFilter} y el nuevo set de
@@ -3950,7 +3948,6 @@ posee dos funciones:
         de esta librer\'a tiene que acceder a la variable de inter\'es para sus
         objetivos.
 \end{itemize}
-
 
 Internamente, \'esta \acrshort{API} realiza cada operaci\'on que implementa el 
 filtro, descritas en la Secci\'on \ref{KalmanFilterMethod}, en las siguientes 
@@ -4082,7 +4079,7 @@ mismo hardware pero con un modelo con menos variables (1.2mS por paso).
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{kalman_time.png}
+        \includegraphics[width=0.7\textwidth]{kalman_time.png}
         \caption{Evaluaci\'on del tiempo que tarda el modelo del pack de
         bater\'ias en ser procesado. El instrumento utilizado para hacer el
         ensayo es un osciloscopio Rigol modelo DS1054Z, donde cada divisi\'on en
@@ -4090,6 +4087,7 @@ mismo hardware pero con un modelo con menos variables (1.2mS por paso).
         \label{kalman_filter_embedded}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 Por el otro lado, se implementaron tests unitarios de la misma forma que para la
 \acrshort{API} del filtro de Kalman, pero utilizando los datos de las
