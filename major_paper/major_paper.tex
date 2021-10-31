@@ -2016,6 +2016,46 @@ siguientes operaciones:
         informaci\'on del proceso de carga.
 \end{itemize}
 
+\subsubsubsection{Desarrollo de Módelo Máquina de Estado Finitos}
+Para llevar a cabo las tareas previamente mencionadas, se opto por un módelo de Máquina de estados debido a la capacidad de representar sistemas arbitrariamente complejos en un conjunto de estados y transiciones lo cual simplifica a posteriori la implementación, reduciendo la consigna a un grupo de tareas pequeñas y condiciones simples.
+
+Con bases en la implementación de una máquina de estados en C \cite{Lafreniere2019}, se realizó una adaptación más sencilla para no correr código preparado para trabajar con sistemas complejos innecesario en este projecto.
+
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{BMS_FSM.pdf}
+		\caption{Máquina de estados Principal del BMS} 
+		\label{fig::BMS_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.65\textwidth]{SOC_FSM.pdf}
+		\caption{Máquina de estados de estimación de Estado de Carga} 
+		\label{fig::SOC_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.65\textwidth]{Charger_FSM.pdf}
+		\caption{Máquina de estados del cargador de batería} 
+		\label{fig::Charger_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{Equalizing_FSM.pdf}
+		\caption{Máquina de estados del balanceador} 
+		\label{fig::Equalizing_FSM}
+	\end{center}
+\end{figure}
+\FloatBarrier
+
 \subsubsection{Drivers propietarios}
 
 Siguiendo el modelo de capas descripto en la Sección 
@@ -2166,7 +2206,7 @@ funcionamento recomendamos consultar los archivos fuentes.
     \item \texttt{ina226\_set\_vshunt\_ct()}: Setear tiempo de conversión de
         tensión shunt.
     \item \texttt{ina226\_set\_mode()}: Setear modo de operación de
-        \acrahort{CI}.
+        \acrshort{CI}.
     \item \texttt{ina226\_set\_calibration()}: Calibrar el sensor de corriente
         INA226. Setear valor de resistencia shunt y de corriente máxima.
     \item \texttt{ina226\_set\_mask\_enable()}: Setear configuraciones de
@@ -2304,7 +2344,7 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
 
 En esta \acrshort{API} se combina el modelo generado en la Secci\'on
 \ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
-la Secci\'on \ref{dev_soc_est}, como resultado se desarroll\'o una \acshort{API}
+la Secci\'on \ref{dev_soc_est}, como resultado se desarroll\'o una \acrshort{API}
 llamada \texttt{battery\_model} que logra reproducir el modelo final de la celda
 utilizada sobre el microcontrolador. Esta \acrshort{API} tiene varias 
 dependencias, como por ejemplo, funciones de b\'usqueda de valores dentro de un 
