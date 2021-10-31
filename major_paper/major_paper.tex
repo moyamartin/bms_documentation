@@ -1412,10 +1412,10 @@ seleccionado.
 \end{figure}
 %\FloatBarrier
 
-Una vez finalizada cada tarea de optimización el algoritmo presenta la comparación gráfica de los
-datos obtenidos de la slimulación respecto de los datos experimentales antes y
-despues de ejecutado el proceso de optimizaciónlas, como
-las de la Figura \ref{fig:sim_vs_mea_resp}. Estas gráficas sirven para
+Una vez finalizada cada tarea de optimización el algoritmo presenta la 
+comparación gráfica de los datos obtenidos de la slimulación respecto de los 
+datos experimentales antes y despues de ejecutado el proceso de optimizaciónlas, 
+como las de la Figura \ref{fig:sim_vs_mea_resp}. Estas gráficas sirven para
 validar el proceso de optimización llevado a cabo y como mecanismo de control y
 corrección de los inconvenientes que se presenten durante el proceso de cálculo
 y optimización cuando los resultados simulados no converjan con los datos
@@ -1425,12 +1425,11 @@ experimentales.
 
 Los resultados finales se presentan en la Figura \ref{fig:exp_vs_sim} donde se
 comparan los datos experimentales completos del ensayo \acrshort{HPPC} con los
-obtenidos al simular el modelo.
-Para evaluar los resultados del algoritmo de optimización y la calidad de la
-simulación obtenida con cada uno de los 66 juegos de parámetros calculados fue
-necesario observar puntualmente cada escalon de corriente del ensayo,
-focalizándonos en aquellos donde la tensión en bornes de la simulación no logra
-converger con los datos experimentales.
+obtenidos al simular el modelo. Para evaluar los resultados del algoritmo de 
+optimización y la calidad de la simulación obtenida con cada uno de los 66 
+juegos de parámetros calculados fue necesario observar puntualmente cada escalon 
+de corriente del ensayo, focalizándonos en aquellos donde la tensión en bornes 
+de la simulación no logra converger con los datos experimentales.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -1882,9 +1881,6 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
 \newpage
 
-
-
-
 \subsection{Unidad de procesamiento}
 
 \subsubsection{Tecnología seleccionada - STM32F407VG}
@@ -2136,8 +2132,6 @@ que implementa el microcontrolador seleccionado STM32F407.
     \label{fig:stm32f4discovery}
 \end{figure}
 
-
-
 \subsection{Sensor de tensi\'on - Balanceador}
 
 Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
@@ -2201,8 +2195,8 @@ a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de
 del hardware del balanceador.
 
 
-\subsubsection{Tecnolog\'ia Seleccionada - TI
-bq76pl536a}\label{seq:bq26_selection}
+\subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
+\label{seq:bq26_selection}
 
 Para el desarrollo de esta funcionalidad se opt\'o por el integrado
 \emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
@@ -3294,19 +3288,42 @@ realizada de forma segura a instancias del BMS.
 
 \subsection{Implementación Puertos de Comunicación}
 \subsubsection{Modulo CAN}
-Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente dispositivos denominados transreceptores, los mismos son los encargados de traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
+Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente 
+dispositivos denominados transreceptores, los mismos son los encargados de 
+traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra 
+aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
 
-Para la implementación del modulo CAN se optó por una solución de TI con el integrado \emph{SN65HVD233} el mismo es un transreceptor con posibilidad de manejar velocidades hasta un Mbps 1, compatible con ISO-11898-2.
-Además, cuenta con protección térmica y la posibilidad de trabaja en modo de Ultra-bajo consumo siendo optimo para aplicaciónes portables como un vehículo eléctrico.
+Para la implementación del modulo CAN se optó por una solución de TI con el 
+integrado \emph{SN65HVD233} el mismo es un transreceptor con posibilidad de 
+manejar velocidades hasta un Mbps 1, compatible con ISO-11898-2.
+Además, cuenta con protección térmica y la posibilidad de trabaja en modo de 
+Ultra-bajo consumo siendo optimo para aplicaciónes portables como un vehículo 
+eléctrico.
 
-Otro punto muy importante a tener en cuenta es tener una aislación adecuada, el BUS de comunicación es susceptible a fallas y suele estar expuesto a ambientes con presencia de ruido eléctrico, a desbalances en la puesta a tierra de los dispositivos conectados al mismo, asi como también descargas electrostáticas. Todos estos factores pueden generar tensiones y corrientes transitorias que pueden dañar severamente los equipos, por lo cual es muy importante la correcta aislación entre la electrónica interna del dispositivo y el BUS.
+Otro punto muy importante a tener en cuenta es tener una aislación adecuada, el 
+BUS de comunicación es susceptible a fallas y suele estar expuesto a ambientes 
+con presencia de ruido eléctrico, a desbalances en la puesta a tierra de los 
+dispositivos conectados al mismo, asi como también descargas electrostáticas. 
+Todos estos factores pueden generar tensiones y corrientes transitorias que 
+pueden dañar severamente los equipos, por lo cual es muy importante la correcta 
+aislación entre la electrónica interna del dispositivo y el BUS.
 
-Para aislar al microcontrolador de los posibles desperfectos del BUS CAN que pueden acarrear consigo problemas en el microcontrolador se utilizó el IC AduM1201AR el cual provee 2 canales de comnunicación aislados entre el transreceptor y el microcontrolador.
-Junto con un convertidor de tensión aislado \emph{PDM1-S3-S3-S}.
+Para aislar al microcontrolador de los posibles desperfectos del BUS CAN que 
+pueden acarrear consigo problemas en el microcontrolador se utilizó el
+\acrshort{CI} AduM1201AR el cual provee 2 canales de comnunicación aislados 
+entre el transreceptor y el microcontrolador. Junto con un convertidor de 
+tensión aislado \emph{PDM1-S3-S3-S}.
 
-Y por último se utilizó un conector DB9 por su amplia utilización en dispositivos de conexión por puerto serie, principalmente en el ambito industrial. El mismo y la interconexión de los pines forman parte de las recomendaciones de \acrshort{CiA} \cite{CIA2017}.    
+Y por último se utilizó un conector DB9 por su amplia utilización en 
+dispositivos de conexión por puerto serie, principalmente en el ambito 
+industrial. El mismo y la interconexión de los pines forman parte de las 
+recomendaciones de \acrshort{CiA} \cite{CIA2017}.    
 
-Las resistencias R6 y R7 en conjunto a C61 conforman una terminanción de bus con el valor característico de impedancia de line de $120 \ohm$ y mejorando el rechazo del ruido a modo común. Mientras C62 y C63 filtran transitorios de alta frecuencia. Los valores de las capacidades son los recomendados por el fabricante. 
+Las resistencias R6 y R7 en conjunto a C61 conforman una terminanción de bus 
+con el valor característico de impedancia de line de $120 \ohm$ y mejorando el 
+rechazo del ruido a modo común. Mientras C62 y C63 filtran transitorios de alta 
+frecuencia. Los valores de las capacidades son los recomendados por el 
+fabricante. 
 
 \begin{figure}[h!]
 	\begin{center}
@@ -3327,17 +3344,20 @@ Las resistencias R6 y R7 en conjunto a C61 conforman una terminanción de bus co
 \FloatBarrier
 
 \subsubsection{Puerto UART}
-Para poder registrar datos del microcontrolador en una PC durante la fase de desarrollo se dispuso de un conector de 4 pines mapeado directamente MCU y programado como Puerto UART, Figura \ref{UART_Connector}, la misma no esta preparada para utilización de usuario ya que no posee circuitos de protección ni aislación, la incorrecta utilización del mismo puede provocar serios daños en el microcontrolador.
+Para poder registrar datos del microcontrolador en una PC durante la fase de 
+desarrollo se dispuso de un conector de 4 pines mapeado directamente al
+\acrshort{MCU} y programado como puerto UART, la misma se puede observar en la 
+Figura \ref{UART_Connector}, \'esta no se encuentra preparada para utilización 
+del usuario ya que no posee circuitos de protección ni aislación, la incorrecta 
+utilización del mismo puede provocar serios daños al \acrshort{BMS}.
 
-El puerto esta configurado según las siguientes especificaciones:
+El puerto se encuentra configurado según las siguientes especificaciones:
 \begin{itemize}
 	\item Baudrate 115,200 Bd
 	\item 8 bits de datos
 	\item Sin bit de paridad
 	\item 1 bit de stop.
 \end{itemize}
-
-Esta configuración es comunmente denominada: $115,200 Bd$ 8n1.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -3347,6 +3367,36 @@ Esta configuración es comunmente denominada: $115,200 Bd$ 8n1.
 	\end{center}
 \end{figure}
 \FloatBarrier
+
+\subsection{Circuito impreso final}
+
+Finalmente, se realiz\'o el diseño del circuito impreso, en la Figura
+\ref{render_pcb} se puede observar un renderizado 3D de la placa final y en la
+Figura \ref{placa_bms_foto} se puede observar una foto del circuito impreso
+ensamblado. 
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{render_pcb.png}
+        \caption{Renderizado 3D del circuito impreso final, solo se muestra la
+        cara superior de la placa.}
+        \label{render_pcb}
+    \end{center}
+\end{figure}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{placa_bms_foto.png}
+        \caption{Foto tomada despu\'es de finalizar el ensamblado y los ensayos
+        finales, se pueden notar conexiones soldadas para arreglar errores de
+        diseño.}
+    \end{center}
+\end{figure}
+
+El esquem\'atico final del circuito se puede observar en el Ap\'endice 
+\ref{seq:appendix_full_sch}.
+
+\newpage
 
 \subsection{Implementación Software}\label{software_implementation}
 
@@ -4105,17 +4155,29 @@ simulaciones que se desarrollaron en la Secci\'on \ref{dev_batt_model}.
 
 \section{Ensayos}\label{ensayos}
 
-Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo sin habilitar el filtro de Kalman para observar el comportamiento.
-Si bien el balanceo se hace en la etapa de carga de las celdas, por problemas en la implementación de hardware del cargador se optó por hacer un balanceo sin conectar el cargador.
+Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de 
+litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo 
+sin habilitar el filtro de Kalman para observar el comportamiento.
 
-En la Figura \ref{Test_BQ76_1} se observa que por el ruido presente en las mediciones de tensión de las celdas más descargadas el balanceador no reconoce bien cual es la menor cargada y comienza un pequeño proceso de descarga el cual no debería ocurrir en la celda de menor carga.
+Si bien el balanceo se hace en la etapa de carga de las celdas, por problemas en 
+la implementación de hardware del cargador se optó por hacer un balanceo sin 
+conectar el cargador.
 
-Por otro lado en la Figura \ref{Test_BQ76_2} se observa que el filtro mantiene estables las mediciones permitiendo así un balanceo acorde a una mejor estimación siendo más suave y obteniendo un perfecto balanceo sobre el final del proceso.		
+En la Figura \ref{Test_BQ76_1} se observa que por el ruido presente en las 
+mediciones de tensión de las celdas más descargadas el balanceador no reconoce 
+bien cual es la menor cargada y comienza un pequeño proceso de descarga el cual 
+no debería ocurrir en la celda de menor carga.
+
+Por otro lado en la Figura \ref{Test_BQ76_2} se observa que el filtro mantiene 
+estables las mediciones permitiendo así un balanceo acorde a una mejor 
+estimación siendo más suave y obteniendo un perfecto balanceo sobre el final del 
+proceso.		
 
 \begin{figure}[h!]
 	\begin{center}
 		\includegraphics[width=0.85\textwidth]{SF_Balancing_19_03_2019_F.png}
-		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas sin filtro de Kalman.}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas sin 
+        filtro de Kalman.}
 		\label{Test_BQ76_1}
 	\end{center}
 \end{figure}
@@ -4124,27 +4186,72 @@ Por otro lado en la Figura \ref{Test_BQ76_2} se observa que el filtro mantiene e
 \begin{figure}[h!]
 	\begin{center}
 		\includegraphics[width=0.85\textwidth]{MRG_loading_26_3_F.png}
-		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas con filtro de Kalman.}
+		\caption{Ensayo de equalización de celdas fuertemente desbalanceadas con 
+        filtro de Kalman.}
 		\label{Test_BQ76_2}
 	\end{center}
 \end{figure}
 \FloatBarrier
 
-%TODO: Ensayos
 \newpage
 
 \section{Conclusiones}\label{conclusiones}
 
-\subsection{Extensión a futuros proyectos}
+En primer instancia, se logr\'o, de forma exitosa, estudiar, diseñar e 
+implementar un \acrshort{BMS} alcanzando los objetivos del proyecto. El trabajo
+se constituye como un punto de partida de calidad a la comprensi\'on de las 
+celdas de litio-ion y del funcionamiento de un \acrshort{BMS}. 
 
-El desarrollo del hardware y los algoritmos, tanto de ecualización como de
-estado de carga sirven como una buena base para futuros proyectos vinculados a
-la temática de energías renovables y \acrshort{VE}s.
+Debido a la calidad de los datos disponibles en \cite{Kollmeyer2018}, se ha 
+logrado parametrizar y filtrar, mediante un algoritmo de Kalman, un modelo de 
+Randles con un error m\'aximo de 3\% superando las expectativas iniciales. Cabe
+destacar que la bibliograf\'ia sobre datos experimentales de celdas de
+litio-ion, como tambi\'en, el desarrollo de \acrshort{BMS} es relativamente
+escueta con respecto a otras tem\'aticas de mayor popularidad (como por ejemplo,
+desarrollo de veh\'iculos aut\'onomos), lo cual la etapa de investigaci\'on del
+proyecto se ha complejizado y extendido gracias a esta falta de informaci\'on
+p\'ublica disponible.
 
-Como posible extensión se plantea el desarrollo de algoritmos novedosos para la
-estimación del Estado de Salud, su posible aplicación a sistemas de alta
-potencia e inclusive realizar estudios sobre nuevas tecnologías relacionadas a
-la composición química de las celdas.
+El modelo presenta una serie de limitaciones que se fueron presentando durante 
+el desarrollo del trabajo, como por ejemplo, no tiene en cuenta la temperatura 
+de las celdas de litio como tampoco el \acrshort{SOH} de las celdas, por lo que 
+ante una variaci\'on de temperatura, fuera de los 25 \degree C (temperatura a 
+la que fueron realizados los ensayos de \cite{Kollmeyer2018}) o ante un 
+\acrshort{SOH} deteriorado, la exactitud del \acrshort{SOC} se ve afectada. Vale 
+aclarar que el nivel de seguridad que provee el dispositivo se mantiene intacto.
+
+La implementaci\'on del hardware fue mayoritariamente exitosa a pesar de algunas 
+limitaciones que se encontraron en la etapa final del proyecto. La 
+disponibilidad de dispositivos integrados para el desarrollo presenta un 
+desaf\'io a la hora del ensamblado y puesta en marcha del dispositivo final, ya 
+que los empaquetados son superciales y de tamaños reducidos, resultando en una 
+puesta en marcha no exitosa del cargador del \acrshort{BMS}, los integrados 
+disponibles se vieron dañados por fallas en la implementaci\'on agotando los 
+recursos disponibles, el resto del sistema fue implementado de forma exitosa 
+operando seg\'un los objetivos propuestos en el trabajo presente. Una de las 
+grandes limitaciones a la hora de resolver los problemas encontrados son los 
+grandes costos de la importaci\'on de los dispositivos, ya que los mismos no 
+est\'an disponibles en Argentina y los tiempos de env\'io y modificaci\'on del 
+circuito impreso.
+
+Finalmente, la implementaci\'on del firmware del \acrshort{BMS} fue
+satisfactoria, con la contraparte de que realizar ensayos del dispositivo
+encontr\'o sus limitaciones, ya que se requiere un instrumental de laboratorio
+que actualmente no se encuentra disponible, como por ejemplo, cargas activas
+din\'amicas, motores \acrshort{BLDC} con sus respectivos controladores, entre
+otros dispositivos.
+
+A pesar de sus limitaciones, el dispositivo sirve como plataforma de desarrollo
+para futuros proyectos, como por ejemplo, el desarrollo de algoritmos
+innovadores de estimaci\'on de \acrshort{SOC} o \acrshort{SOH}, desarrollo de
+placas de expansi\'on para extender a packs de bater\'ias con mayor cantidad de
+m\'odulos conectados en serie, como tambi\'en, nuevos m\'etodos de
+ecualizaci\'on de celdas.
+
+Finalmente, el proyecto se encuentra publicado en un repositorio p\'ublico donde
+diferentes estudiantes, investigadores y/o desarrolladores pueden referenciar
+este trabajo para futuras referencias, el mismo se encuentra en la siguiente URL 
+\href{https://github.com/moyamartin/bms_unr}{https://github.com/moyamartin/bms\_unr}
 
 \newpage
 
@@ -4547,7 +4654,7 @@ Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right
 \end{table}
 
 
-\section{Esquemático completo BMS}\label{seq:appendix}
+\section{Esquemático completo BMS}\label{seq:appendix_full_sch}
 
 \includepdf[pages=-]{bms_hardware.pdf}
 
