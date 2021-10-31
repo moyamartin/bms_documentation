@@ -28,14 +28,4 @@ If you find this project interesting or useful for your work, please let us know
 ```
 
 ## TODO
-
-* software implementaion
-    * ~kalman~ + ~models~ (mm)
-    * drivers (fdc)
-    ** ~bq76 (fdc)~
-    ** ~ina226~
-    ** bq24
-    * FSM (ls)
-    * ~framework + language~
-    * instructions on how to flash the board
 * conclusions
