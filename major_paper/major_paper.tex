@@ -2177,6 +2177,47 @@ funcionamento recomendamos consultar los archivos fuentes.
 
 \subsubsubsection{Driver bq2461x}
 
+El driver \texttt{bq2461x} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{BQ24610} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation} el mismo
+depende de las librer\'ia STMCube \acrshort{HAL}.
+En este caso, se utilizaron la librer\'ia \texttt{stm32f4xx\_hal\_gpio} para
+acceder, a través del periférico del microcontrolador, a los pines de propósito
+general GPIO del micro.
+
+El \acrshort{CI} BQ24610 no dispone de ningun tipo de comunicación serie.
+Implementa una interfaz de comunicación a partir de señales digitales paralelas.
+Una descripción más acabada de su interfaz con el \acrshort{MCU} puede
+encontrarse en la sección \ref{seq:cb_interface_ce}. El driver se implementa
+bajo una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples cargadores de batería presentes en el
+hardware bajo el único requisito de el usuario provea las funciones de lectura y
+escritura de los pines correspondientes a cada instancia según se describe en la
+implementación ejemplo que presenta el dirver. La inicialización y puesta en
+marcha del periférico \emph{GPIO} del \acrshort{MCU} es responsabilidad del
+usuario del driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq24\_init()}: Inicializar una instancia del driver bq24 con
+        los handlers de los pines del GPIO seleccionados por le usuario.
+    \item \texttt{bq24\_read\_charger\_status()}: Leer estado de operación
+        actual del Cargador de Batería.
+    \item \texttt{bq24\_is\_power\_good()}: Leer pin de estado de alimentación
+        del Cargador de Batería.
+    \item \texttt{bq24\_is\_charger\_enabled()}: Leer pin de estado de
+        habilitación del cargador de batería.
+    \item \texttt{bq24\_enable\_charge()}: Habilitar carga.
+    \item \texttt{bq24\_disable\_charge()}: Deshabilitar carga.
+\end{itemize}
+
 \subsubsection{Implementaci\'on del filtro de Kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
@@ -3729,7 +3770,7 @@ calculada siguiendo:
 La potencia máxima soportada por el Mosfet seleccionado es de 75W. En ambos
 casos los integrados se hayan sobre estimados para tolerar el uso dado. 
 
-\subsubsubsection{Interfaz de estado de carga}
+\subsubsubsection{Interfaz de estado de carga}\label{seq:cb_interface_ce}
 
 El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales se
 puede conocer el estado en el que está operando el cargador. Tres señales de
