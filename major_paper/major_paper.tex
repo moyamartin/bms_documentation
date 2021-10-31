@@ -2036,7 +2036,7 @@ estado del cargador.
 
 Se describen a continuación detallatadamente.
 
-\subsubsubsection{driver bq76}
+\subsubsubsection{Driver \texttt{bq76}}
 
 El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -2047,71 +2047,163 @@ datos.
 Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
 depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
 En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
-\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
-valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
-\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_spi} para acceder, a través
-del periférico del microcontrolador, al canal de comunicación serie.
+\acrshort{DSP} con el fín de obtener una variable flotante de 32 bits compatible
+con el framework \acrshort{CMSIS} que tambi\'en es utilizado en la secci\'on del
+filtro de Kalman que se describe en la Secci\'on \ref{dev_fw_kalman} y la 
+librería \texttt{stm32f4xx\_hal\_spi} para poder controlar f\'acilmente el 
+periférico \acrshort{SPI} del microcontrolador, ya que el \acrshort{CI}
+implementa una interfaz serie de alta velocidad para poder comunicarse y ser
+controlado.
 
-El \acrshort{CI} implementa una interfaz serie de alta velocidad \emph{SPI} para
-la comunicación con la unidad de procesamiento.  Una descripción más acabada del
-mismo puede encontrarse en la sección \ref{seq:bq26_selection}. El driver se
-implementa bajo una filosofía de instanciado que permite atender y operar en
-múltiples instancias correspondientes a múltiples balanceadores presentes en el
-hardware bajo el único requisito de que estén comunicándose todos sobre el mismo
-canal de comunicación \emph{SPI}. La inicialización y puesta en marcha del
-periférico \emph{SPI} del \acrshort{MCU} es responsabilidad del usuario del
-driver.
+Una descripción más acabada del mismo puede encontrarse en la sección 
+\ref{seq:bq26_selection}. El driver expone una estructura de datos y un conjunto
+de funciones que facilitan su operaci\'on para el desarrollador, el mismo est\'a
+diseñado de forma tal que puedan coexistir m\'ultiples instancias del
+dispositivo, ya que se pueden encadenar entre si m\'ultiples \acrshort{CI}s para
+su escalabilidad, controlados solamente por el balanceador principal, que es el
+que se encuentra conectado al \acrshort{MCU}.
 
-Se listan a continuación, con una breve descripción, las funciones que implenta
-el driver para la operación. Para una mejor comprensión del driver y su
-funcionamento recomendamos consultar los archivos fuentes.
+Se listan a continuación las funciones que implenta el driver para su
+implementaci\'on. Para una mejor comprensión del driver y su funcionamento 
+recomendamos consultar los archivos fuentes.
 
 \begin{itemize}
     \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
         el \acrshort{CI} con los parámetros de configuración seleccionados.
     \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
         dispositivos instanciados con una dirección válida de comunicación.
-    \item \texttt{bq76\_reset()}: Enviar comando reset a un dispositivo en
+    \item \texttt{bq76\_reset()}: Reinicia un dispositivo con una direcci\'on
         particular.
-    \item \texttt{bq76\_set\_address()}: Setear la dirección de un dispositivo.
-    \item \texttt{bq76\_set\_adc\_control()}: Setear registro de control del ADC
-        del  \acrshort{CI}
-    \item \texttt{bq76\_set\_cb\_time()}: Setear tiempo maximo de balanceo de una
-        celda.
-    \item \texttt{bq76\_set\_funtion\_config()}: Seterar registro de configuración
-        de funcionamiento.
-    \item \texttt{bq76\_set\_io\_config()}: Setear registro de configuración i/o.
-    \item \texttt{bq76\_set\_conv\_config()}: Setear voltaje de sobre tensión.
-    \item \texttt{bq76\_set\_cuv\_config()}: Setear voltaje de tensión mínima.
-    \item \texttt{bq76\_set\_covt\_config()}: Setear delay de alarma de voltaje de
-        sobre tensión.
-    \item \texttt{bq76\_set\_cuvt\_config()}: Seterar delay de alarma de tensión
-        mínima.
-    \item \texttt{bq76\_set\_ot\_config()}: Setear valor se sobre temperatura.
-    \item \texttt{bq76\_set\_ott\_config()} Setear delay de alarma de sobre
-        temperatura.
-    \item \texttt{bq76\_read\_v\_cells()}: Lectura del voltaje de n celdas
-    \item \texttt{bq76\_read\_v\_cells\_dma()}: Lectura del voltaje de n celdas
-        mediante dma.
-    \item \texttt{bq76\_swrqst\_adc\_convert()}: Lanzar inicio converción ADC en
-        un dispositivo particular.
-    \item \texttt{bq76\_bdcst\_adc\_convert()}: Lanzar inicio de converción ACD
-        en todos los dispositivos instanciados con una dirección válida de comunicación.
-    \item \texttt{bq76\_read\_alert\_reg()}: Leer registro de alertas.
-    \item \texttt{bq76\_read\_fault\_reg()}: Leer registro de fallas.
-    \item \texttt{bq76\_clear\_fault\_reg()}: Limpiar registro de fallas.
-    \item \texttt{bq76\_clear\_alert\_reg()}: Limpiar registro de alertas.
+    \item \texttt{bq76\_set\_address()}: Configura la direcci\'on \acrshort{SPI}
+        del dispositivo, esta direcci\'on es utilizada posteriormente para
+        refererise a un dispositivo espec\'ifico dentro de la cadena de
+        \acrshort{CI}s.
+    \item \texttt{bq76\_set\_adc\_control()}: Configura el registro de control
+        del \acrshort{ADC} interno del \acrshort{CI}. Dentro de este registro se
+        puede configurar que el dispositivo mantenga el \acrshort{ADC} prendido
+        todo el tiempo o solo cuando es utilizado, habilitar los terminales del
+        dispositivo dedicados para mediciones \acrshort{ADC} que no sean los
+        \acrshort{ADC}s de medici\'on de tensi\'on o temperatura, por \'ultimo,
+        tambi\'en permite cuantas celdas en serie va a medir el dispositivo
+        (solamente se pueden elegir entre 3 y 6 celdas conectadas en serie por
+        dispositivo).
+    \item \texttt{bq76\_set\_cb\_time()}: Configura el tiempo m\'aximo de 
+        balanceo de una celda, puede variar desde 0 segundos hasta 63 minutos,
+        cuando se configura en 0 se deshabilita la funcionalidad de balanceo.
+    \item \texttt{bq76\_set\_function\_config()}: Configura el registro de 
+        de funcionamiento del dispositivo. El mismo puede elegir la fuente de
+        referencia del \acrshort{ADC} que puede ser el registro
+        $\mathrm{V_{REG_{50}}}$ o la tensi\'on de referencia interna, el
+        n\'umero de celdas en serie utilizados e inclusive si los terminales de
+        medici\'on de tensi\'on generales miden la tensi\'on total del pack de
+        bater\'ias o si son utilizados de forma general.
+    \item \texttt{bq76\_set\_io\_config()}: Configura distintas funcionalidades
+        generales de entrada y salida del dispositivo, como por ejemplo, la
+        generaci\'on de paquetes \acrshort{CRC} (del ingl\'es, \acrlong{CRC}),
+        como tambi\'en si la terminal de falla se pone en alto en caso de
+        encontrar un paquete \acrshort{CRC} que no es v\'alido.
+    \item \texttt{bq76\_set\_cov\_config()}: Configura el voltaje de sobre
+        tensi\'on por el cual deber\'a presentar un mensaje de alerta/falla. El
+        valor m\'aximo de sobre tensi\'on es de 5V y el valor m\'inimo es de 2V
+        con una resoluci\'on de 50mV.
+    \item \texttt{bq76\_set\_cuv\_config()}: Establece el voltaje mínimo de una
+        celda, en el que puede variar entre 0.7V a 3.3V con una resolucio\'on de
+        100mV.
+    \item \texttt{bq76\_set\_covt\_config()}: Configura el retardo de la alarma 
+        de voltaje de sobre tensión, como m\'aximo puede tardar 3 segundos.
+    \item \texttt{bq76\_set\_cuvt\_config()}: Aplica lo mismo que para la
+        funci\'on \texttt{bq76\_set\_covt\_config()}.
+    \item \texttt{bq76\_set\_ot\_config()}: Establece el valor m\'aximo de
+        temperatura admitido, que depende exclusivamente de como fueron elegidas
+        las resistencias y el termistor del hardware, en este caso, los sensores
+        de temperatura no fueron utilizados pero la \acrshort{API} los
+        implementa igual para su futura escalabilidad.
+    \item \texttt{bq76\_set\_ott\_config()} Establece el tiempo de retardo en
+        que el dispositivo notifica que hay un problema de sobre temperatura,
+        toma como valor m\'aximo 2 segundos.
+    \item \texttt{bq76\_read\_v\_cells()}: Realiza la lectura de voltaje de las
+        celdas conectadas al dispositivo, que fueron configuradas por
+        \texttt{bq76_set_adc_config()}. Esta funci\'on bloquea la ejecuci\'on
+        de la aplicaci\'on, por lo que se debe tener especial cuidado en
+        sistemas de un solo n\'ucleo, donde no se ejecuta un sistema operativo y
+        su tiempo de ejecuci\'on sea cr\'itico.
+    \item \texttt{bq76\_read\_v\_cells\_dma()}: Realiza la misma funci\'on que
+        \texttt{bq76\_read\_v\_cells()}, pero sin bloquear al hilo principal de
+        la aplicaci\'on, esta funci\'on es dependiente del hardware ya que si el
+        \acrshort{MCU} no posee un \acrshort{DMA}, no puede ser implementado.
+    \item \texttt{bq76\_swrqst\_adc\_convert()}: Solicita una conversi\'on de
+        las terminales dedicadas a la lectura de tensi\'on por software.
+    \item \texttt{bq76\_bdcst\_adc\_convert()}: Solicita una lectura de los
+        terminales \acrshort{ADC} en todos los dispositivos instanciados con una 
+        dirección válida de comunicación.
+    \item \texttt{bq76\_read\_alert\_reg()}: Lee el registro de alertas de un
+        dispositivo espec\'ifico con una direcci\'on v\'alida.
+    \item \texttt{bq76\_read\_fault\_reg()}: Lee el regitstro de falla.
+    \item \texttt{bq76\_clear\_fault\_reg()}: Limpia el registro de fallas.
+    \item \texttt{bq76\_clear\_alert\_reg()}: Limpia el registro de alertas.
     \item \texttt{bq76\_read\_cov\_fault\_reg()}: Leer registro de falla de sobre
         voltaje.
     \item \texttt{bq76\_read\_cuv\_fault\_reg()}: Leer registro de falla de bajo
         voltaje.
-    \item \texttt{bq76\_set\_balancing\_output()}: Balancear una salida n
-        particular.
-    \item \texttt{handle\_bq76\_dma\_callback()}: Handler interrupción DMA del
-        driver bq76.
+    \item \texttt{bq76\_set\_balancing\_output()}: Enciende uno o m\'as
+        transistores de balanceo, dependiendo de los bits que se pasan como
+        argumento.
+    \item \texttt{handle\_bq76\_dma\_callback()}: \emph{Callback} encargado de
+        manipular la respuesta recibida del \acrshort{DMA}.
 \end{itemize}
 
-\subsubsubsection{Driver ina226}
+A su vez, la librer\'ia implementa sus propias funciones est\'aticas que son las
+dedicadas a implementar su propia \acrshort{HAL} con respecto a la interfaz
+\acrshort{SPI} del dispositivo: 
+
+\begin{itemize}
+    \item \texttt{writespi}: Funci\'on de escritura en el bus \acrshort{SPI} que
+        debe ser definida por el usuario en caso de usar otro \acrshort{MCU},
+        esta funci\'on bloquea el hilo principal del programa al ser utilizada.
+    \item \texttt{readspi}: Funci\'on de lectura en el bus \acrshort{SPI} que
+        debe ser definida por el usuario en caso de usar otro \acrshort{MCU},
+        nuevamente la misma es bloqueante.
+\end{itemize}
+
+\'Estas \'ultimas dos funciones tienen su versi\'on alternativa que no bloquea
+el hilo principal, que dependen exclusivamente de que el \acrshort{MCU} a 
+utilizar presente un \acrshort{DMA} embebido, ambas se llaman respectivamente
+\texttt{writespi\_dma} y \texttt{writespi\_dma} y deben ser modificadas por el
+desarrollador.
+
+Finalmente, la librer\'ia depende tambi\'ien de una \acrshort{API} externa
+llamada \texttt{crc}, la misma se encarga de calcular el \acrshort{CRC} y 
+verificar que los paquetes que se env\'ian y reciben del dispositivo sean
+v\'alidos, el algoritmo que el dispositivo requiere es el propietario del bus
+\emph{SMBUS} (ATM-8) como se detalla en \cite{bq76_comm_basics}.
+
+Para probar el funcionamiento de la celda, se tomaron mediciones de cada celda 
+y se contrastaron con las mediciones de un mult\'imetro de la marca \emph{Fluke}
+modelo \emph{101B+}, obteniendo un error m\'aximo de 2mV entre un dispositivo y
+el otro, que es el equivalente a 0.06\%. Tambi\'en se probaron que las alertas y
+fallas generen interrupciones correctamente en el \acrshort{MCU} de forma
+correcta. Sin embargo, se propone como extensi\'on del proyecto realizar m\'as
+ensayos para asegurar la correcta medici\'on de voltaje, como tambi\'en el
+correcto balanceo.
+
+Por \'ultimo, se midi\'o la ventana de tiempo que requiere el dispositivo para
+realizar una conversi\'on, esto es importante para mantener la ventana de tiempo
+requerida para procesar la evoluci\'on del modelo. Esto fue realizado midiendo
+el tiempo que tarda midiendo el mismo a trav\'es de una terminal del
+\acrshort{MCU} con un osciloscopio, el tiempo total es de 968uS para medir las 6
+celdas, el mismo se puede observar en la Figura \ref{bq76_v_cell_time}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{bq76_v_cell_time.png}
+        \caption{Oscilograma del tiempo que tarda el dispositivo BQ76PL536A en
+        realizar una medici\'on de voltaje de las 6 celdas. El osciloscopio
+        utilizado es un Rigol DS1054Z, con una escala de 100uS en el eje X y una
+        escala de 1V en el eje Y}
+    \end{center}
+\end{figure}
+
+\subsubsubsection{ina226}
 
 El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -2218,7 +2310,7 @@ funcionamento recomendamos consultar los archivos fuentes.
     \item \texttt{bq24\_disable\_charge()}: Deshabilitar carga.
 \end{itemize}
 
-\subsubsection{Implementaci\'on del filtro de Kalman}
+\subsubsection{Implementaci\'on del filtro de Kalman}\ref{dev_fw_kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
 depende de las librer\'ias \acrshort{CMSIS} que, en s\'intesis, provee una capa de 
