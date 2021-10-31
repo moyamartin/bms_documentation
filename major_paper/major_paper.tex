@@ -2016,6 +2016,137 @@ siguientes operaciones:
         informaci\'on del proceso de carga.
 \end{itemize}
 
+\subsubsection{Drivers propietarios}
+
+Siguiendo el modelo de capas descripto en la Sección 
+\ref{software_implementation}, fue necesario desarrollar los drivers de los
+\acrshort{CI} periféricos que implementa el hardware del \acrshort{BMS}. Los
+driver implementados nos permite configurar e interactuar desde el
+\acrshort{MCU} con los recursos que implementa el hardware desarrollado, a saber
+el modulo de balanceo y protección \emph{bq76pl325a}, el sensor de corriente de
+carga y descarga del pack de batería \emph{INA226} y el módulo cargador de
+batería \emph{bq2618}.
+
+Los drivers de control de los diferentes \acrshort{CI} se valen de las librerías 
+de la capa \acrshort{HAL} para poder interactuar con los periféricos de
+comunicación del \acrshort{MCU}, y son considerados una capa de abstracci\'on
+propietaria del proyecto para la lectura de distintas variables externas
+necesarias, como por ejemplo, la tensi\'on de cada celda, la corriente y el
+estado del cargador.
+
+Se describen a continuación detallatadamente.
+
+\subsubsubsection{driver bq76}
+
+El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{bq76pl536a} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
+valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
+\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_spi} para acceder, a través
+del periférico del microcontrolador, al canal de comunicación serie.
+
+El \acrshort{CI} implementa una interfaz serie de alta velocidad \emph{SPI} para
+la comunicación con la unidad de procesamiento.  Una descripción más acabada del
+mismo puede encontrarse en la sección \ref{seq:bq26_selection}. El driver se
+implementa bajo una filosofía de instanciado que permite atender y operar en
+múltiples instancias correspondientes a múltiples balanceadores presentes en el
+hardware bajo el único requisito de que estén comunicándose todos sobre el mismo
+canal de comunicación \emph{SPI}. La inicialización y puesta en marcha del
+periférico \emph{SPI} del \acrshort{MCU} es responsabilidad del usuario del
+driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
+    \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
+        dispositivos instanciados con una dirección válida de comunicación.
+    \item \texttt{bq76\_reset()}: Enviar comando reset a un dispositivo en
+        particular.
+    \item \texttt{bq76\_set\_address()}: Setear la dirección de un dispositivo.
+    \item \texttt{bq76\_set\_adc\_control()}: Setear registro de control del ADC
+        del  \acrshort{CI}
+    \item \texttt{bq76\_set\_cb\_time()}: Setear tiempo maximo de balanceo de una
+        celda.
+    \item \texttt{bq76\_set\_funtion\_config()}: Seterar registro de configuración
+        de funcionamiento.
+    \item \texttt{bq76\_set\_io\_config()}: Setear registro de configuración i/o.
+    \item \texttt{bq76\_set\_conv\_config()}: Setear voltaje de sobre tensión.
+    \item \texttt{bq76\_set\_cuv\_config()}: Setear voltaje de tensión mínima.
+    \item \texttt{bq76\_set\_covt\_config()}: Setear delay de alarma de voltaje de
+        sobre tensión.
+    \item \texttt{bq76\_set\_cuvt\_config()}: Seterar delay de alarma de tensión
+        mínima.
+    \item \texttt{bq76\_set\_ot\_config()}: Setear valor se sobre temperatura.
+    \item \texttt{bq76\_set\_ott\_config()} Setear delay de alarma de sobre
+        temperatura.
+    \item \texttt{bq76\_read\_v\_cells()}: Lectura del voltaje de n celdas
+    \item \texttt{bq76\_read\_v\_cells\_dma()}: Lectura del voltaje de n celdas
+        mediante dma.
+    \item \texttt{bq76\_swrqst\_adc\_convert()}: Lanzar inicio converción ADC en
+        un dispositivo particular.
+    \item \texttt{bq76\_bdcst\_adc\_convert()}: Lanzar inicio de converción ACD
+        en todos los dispositivos instanciados con una dirección válida de comunicación.
+    \item \texttt{bq76\_read\_alert\_reg()}: Leer registro de alertas.
+    \item \texttt{bq76\_read\_fault\_reg()}: Leer registro de fallas.
+    \item \texttt{bq76\_clear\_fault\_reg()}: Limpiar registro de fallas.
+    \item \texttt{bq76\_clear\_alert\_reg()}: Limpiar registro de alertas.
+    \item \texttt{bq76\_read\_cov\_fault\_reg()}: Leer registro de falla de sobre
+        voltaje.
+    \item \texttt{bq76\_read\_cuv\_fault\_reg()}: Leer registro de falla de bajo
+        voltaje.
+    \item \texttt{bq76\_set\_balancing\_output()}: Balancear una salida n
+        particular.
+    \item \texttt{handle\_bq76\_dma\_callback()}: Handler interrupción DMA del
+        driver bq76.
+\end{itemize}
+
+\subsubsubsection{ina226}
+
+El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{ina226} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
+valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
+\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_i2c} para acceder, a través
+del periférico del microcontrolador, al canal de comunicación serie.
+
+El \acrshort{CI} INA226 implementa una interfaz de comunicación $i^2C$ sobre la
+cual solo puede operar como dispositivo esclavo para la comunicación con la
+unidad de procesamiento. Una descripción más acabada del mismo puede
+encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa bajo
+una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples medidores de corriente presentes en el hardware
+bajo el único requisito de que estén comunicándose todos sobre el mismo canal de
+comunicación \emph{$i^2C$}. La inicialización y puesta en marcha del periférico
+\emph{$i^2C$} del \acrshort{MCU} es responsabilidad del usuario del driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
+\subsubsubsection{Driver TI - bq2461x}
+\end{itemize}
+
 \subsubsection{Implementaci\'on del filtro de Kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
@@ -2139,134 +2270,7 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
     \end{center}
 \end{minipage}
 
-\subsubsection{Drivers propietarios}
 
-Siguiendo el modelo de capas descripto en la Sección
-\ref{software_implementation}, fue necesario desarrollar los drivers de los
-\acrshort{CI} periféricos que implementa el hardware del \acrshort{BMS}. Los
-driver implementados nos permite configurar e interactuar desde el
-\acrshort{MCU} con los recursos que implementa el hardware desarrollado, a saber
-el modulo de balanceo y protección \emph{bq76pl325a}, el sensor de corriente de
-carga y descarga del pack de batería \emph{INA226} y el módulo cargador de
-batería \emph{bq2618}.
-
-Los drivers de control de los diferentes \acrshort{CI} fueron desarrollados
-integramente en lenguaje de programación C y se valen de las librerías de
-la capa \acrshort{HAL} para poder interactuar con los periféricos de
-comunicación del \acrshort{MCU}.
-
-Se describen a continuación detallatadamente.
-
-\subsubsubsection{driver bq76}
-
-El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
-implementa las estructuras de datos, definiciones y funciones necesarias para la
-operación del \acrshort{CI} \emph{bq76pl536a} de la firma \emph{Texas
-Instruments} según los lineamientos descriptos en su correspondiente hoja de
-datos. 
-
-Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
-depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
-En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
-\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
-valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
-\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_spi} para acceder, a través
-del periférico del microcontrolador, al canal de comunicación serie.
-
-El \acrshort{CI} implementa una interfaz serie de alta velocidad \emph{SPI} para
-la comunicación con la unidad de procesamiento.  Una descripción más acabada del
-mismo puede encontrarse en la sección \ref{seq:bq26_selection}. El driver se
-implementa bajo una filosofía de instanciado que permite atender y operar en
-múltiples instancias correspondientes a múltiples balanceadores presentes en el
-hardware bajo el único requisito de que estén comunicándose todos sobre el mismo
-canal de comunicación \emph{SPI}. La inicialización y puesta en marcha del
-periférico \emph{SPI} del \acrshort{MCU} es responsabilidad del usuario del
-driver.
-
-Se listan a continuación, con una breve descripción, las funciones que implenta
-el driver para la operación. Para una mejor comprensión del driver y su
-funcionamento recomendamos consultar los archivos fuentes.
-
-\begin{itemize}
-    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
-        el \acrshort{CI} con los parámetros de configuración seleccionados.
-    \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
-        dispositivos instanciados con una dirección válida de comunicación.
-    \item \texttt{bq76\_reset()}: Enviar comando reset a un dispositivo en
-        particular.
-    \item \texttt{bq76\_set\_address()}: Setear la dirección de un dispositivo.
-    \item \texttt{bq76\_set\_adc\_control()}: Setear registro de control del ADC
-        del  \acrshort{CI}
-    \item \texttt{bq76\_set\_cb\_time()}: Setear tiempo maximo de balanceo de una
-        celda.
-    \item \texttt{bq76\_set\_funtion\_config()}: Seterar registro de configuración
-        de funcionamiento.
-    \item \texttt{bq76\_set\_io\_config()}: Setear registro de configuración i/o.
-    \item \texttt{bq76\_set\_conv\_config()}: Setear voltaje de sobre tensión.
-    \item \texttt{bq76\_set\_cuv\_config()}: Setear voltaje de tensión mínima.
-    \item \texttt{bq76\_set\_covt\_config()}: Setear delay de alarma de voltaje de
-        sobre tensión.
-    \item \texttt{bq76\_set\_cuvt\_config()}: Seterar delay de alarma de tensión
-        mínima.
-    \item \texttt{bq76\_set\_ot\_config()}: Setear valor se sobre temperatura.
-    \item \texttt{bq76\_set\_ott\_config()} Setear delay de alarma de sobre
-        temperatura.
-    \item \texttt{bq76\_read\_v\_cells()}: Lectura del voltaje de n celdas
-    \item \texttt{bq76\_read\_v\_cells\_dma()}: Lectura del voltaje de n celdas
-        mediante dma.
-    \item \texttt{bq76\_swrqst\_adc\_convert()}: Lanzar inicio converción ADC en
-        un dispositivo particular.
-    \item \texttt{bq76\_bdcst\_adc\_convert()}: Lanzar inicio de converción ACD
-        en todos los dispositivos instanciados con una dirección válida de comunicación.
-    \item \texttt{bq76\_read\_alert\_reg()}: Leer registro de alertas.
-    \item \texttt{bq76\_read\_fault\_reg()}: Leer registro de fallas.
-    \item \texttt{bq76\_clear\_fault\_reg()}: Limpiar registro de fallas.
-    \item \texttt{bq76\_clear\_alert\_reg()}: Limpiar registro de alertas.
-    \item \texttt{bq76\_read\_cov\_fault\_reg()}: Leer registro de falla de sobre
-        voltaje.
-    \item \texttt{bq76\_read\_cuv\_fault\_reg()}: Leer registro de falla de bajo
-        voltaje.
-    \item \texttt{bq76\_set\_balancing\_output()}: Balancear una salida n
-        particular.
-    \item \texttt{handle\_bq76\_dma\_callback()}: Handler interrupción DMA del
-        driver bq76.
-\end{itemize}
-
-\subsubsubsection{ina226}
-
-El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
-implementa las estructuras de datos, definiciones y funciones necesarias para la
-operación del \acrshort{CI} \emph{ina226} de la firma \emph{Texas
-Instruments} según los lineamientos descriptos en su correspondiente hoja de
-datos. 
-
-Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
-depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
-En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
-\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
-valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
-\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_i2c} para acceder, a través
-del periférico del microcontrolador, al canal de comunicación serie.
-
-El \acrshort{CI} INA226 implementa una interfaz de comunicación $i^2C$ sobre la
-cual solo puede operar como dispositivo esclavo para la comunicación con la
-unidad de procesamiento. Una descripción más acabada del mismo puede
-encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa bajo
-una filosofía de instanciado que permite atender y operar en múltiples
-instancias correspondientes a múltiples medidores de corriente presentes en el hardware
-bajo el único requisito de que estén comunicándose todos sobre el mismo canal de
-comunicación \emph{$i^2C$}. La inicialización y puesta en marcha del periférico
-\emph{$i^2C$} del \acrshort{MCU} es responsabilidad del usuario del driver.
-
-Se listan a continuación, con una breve descripción, las funciones que implenta
-el driver para la operación. Para una mejor comprensión del driver y su
-funcionamento recomendamos consultar los archivos fuentes.
-
-\begin{itemize}
-    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
-        el \acrshort{CI} con los parámetros de configuración seleccionados.
-\subsubsubsection{Driver TI - bq2461x}
-\end{itemize}
 
 \subsubsection{\acrshort{API} del modelo de una celda}
 
