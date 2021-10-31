@@ -3932,6 +3932,70 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
 
 \subsubsection{\acrshort{API} del modelo de una celda}
 
+\subsubsubsection{Desarrollo de la \acrshort{API}}
+
+En esta \acrshort{API} se combina el modelo generado en la Secci\'on
+\ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
+la Secci\'on \ref{dev_soc_est}, como resultado se desarroll\'o una \acrshort{API}
+llamada \texttt{battery\_model} que logra reproducir el modelo final de la celda
+utilizada sobre el microcontrolador. Esta \acrshort{API} tiene varias 
+dependencias, como por ejemplo, funciones de b\'usqueda de valores dentro de un 
+arreglo (\acrshort{API} llamada \texttt{find} desarrollada en este trabajo), 
+como tambi\'en de los par\'ametros de la celda definidos en el archivo 
+\texttt{battey\_luts.h}, que contiene las \acrshort{LUT}s de cada componente del
+circuito de Randles. La \acrshort{API} expone una estructura de datos denominada
+\texttt{Cell}, compuesta por una instancia de una estructura tipo
+\texttt{KalmanFilter} y un entero de 32 bits que contiene el \'indice actual del
+\acrshort{SOC} que despu\'es es utilizado para extraer el valor de una
+\acrshort{LUT}, provista por la librer\'ia \texttt{battery\_luts.h}, a su vez,
+provee las siguientes funciones p\'ublicas para el desarrollador: 
+
+\begin{itemize}
+    \item \texttt{calculate\_cell\_soc}: Dada la medici\'on actual del voltaje de
+        la celda y la corriente que circula por ella, calcula el \acrshort{SOC}
+        de la misma bas\'andoles en el algoritmo del filtro de Kalman. Esta
+        funci\'on debe ejecutase peri\'odicamente, donde el per\'iodo entre
+        paso y paso est\'a dado por como la frecuencia de muestreo del modelo
+        discretizado.
+    \item \texttt{init\_cell\_model}: Esta funci\'on inicializa la estructura de
+        datos \texttt{Cell}, asumiendo que la misma se encuentra en un punto de
+        trabajo est\'atico. Toma como par\'ametro la actual medici\'on de
+        voltaje de la celda, y mide el \acrshort{SOC} en base a este valor.
+    \item \texttt{cell\_model\_set\_q\_data}: Funci\'on p\'ublica que permite
+        ajustar la matriz de incerteza del modelo en base a una perturbaci\'on
+        externa modelada. Permite ajustar el algoritmo de Kalman en 
+        \emph{run-time}, logrando extender la exactitud de estimaci\'on.
+    \item \texttt{battery\_model\_set\_r\_data}: Actualiza la matriz de
+        incertaza de medici\'on del filtro de Kalman. Esta funci\'on debe ser
+        utilizada cuando el sensor de voltage/corriente est\'a funcionando con
+        mayor incerteza/ruido del modelado.
+    \item \texttt{cell\_model\_get\_soc}: Devuelve el valor actual del
+        \acrshort{SOC} de la celda.
+\end{itemize}
+
+\subsubsubsection{Extensi\'on al pack de bater\'ias}
+
+El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
+\ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
+utilizada es dividida por 3, para reflejar el hecho de que el pack de bater\'ias 
+tiene, por m\'odulo, 3 celdas conectadas en paralelo, esto es posible de 
+realizar, ya que se considera que el modelo se encuentra linealizado en 
+distintos puntos de operaci\'on. Finalmente, este diseño fue sintetizado en una
+\acrshort{API} llamada \texttt{battery\_pack.h}, donde se puede parametrizar
+f\'acilmente para extender la cantidad de m\'odulos conectados en serie, 
+modificando la definici\'on \texttt{SERIES\_CELLS}, como tambi\'en la cantidad de
+celdas conectadas en paralelo, modificando la variable \texttt{PARALLEL\_CELLS}. 
+A su vez la librer\'ia tiene dos funciones p\'ublicas:
+
+\begin{itemize}
+    \item \texttt{init\_battery\_pack}: Inicializa la cantidad de
+        \texttt{SERIES\_CELLS} (en este caso, 6) de estructuras tipo 
+        \texttt{Cell} tomando como referencia el voltage de cada celda.
+    \item \texttt{calc\_battery\_pack\_soc}: Dado el voltaje de cada celda y la
+        corriente que circula a trav\'es del pack, calcula el \acrshort{SOC} de
+        cada celda.
+\end{itemize}
+
 \subsubsubsection{Tiempo de muestreo}
 
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
@@ -4000,70 +4064,6 @@ con los calculos previos.
 Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
 sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
 sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
-
-\subsubsubsection{Desarrollo de la \acrshort{API}}
-
-En esta \acrshort{API} se combina el modelo generado en la Secci\'on
-\ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
-la Secci\'on \ref{dev_soc_est}, como resultado se desarroll\'o una \acrshort{API}
-llamada \texttt{battery\_model} que logra reproducir el modelo final de la celda
-utilizada sobre el microcontrolador. Esta \acrshort{API} tiene varias 
-dependencias, como por ejemplo, funciones de b\'usqueda de valores dentro de un 
-arreglo (\acrshort{API} llamada \texttt{find} desarrollada en este trabajo), 
-como tambi\'en de los par\'ametros de la celda definidos en el archivo 
-\texttt{battey\_luts.h}, que contiene las \acrshort{LUT}s de cada componente del
-circuito de Randles. La \acrshort{API} expone una estructura de datos denominada
-\texttt{Cell}, compuesta por una instancia de una estructura tipo
-\texttt{KalmanFilter} y un entero de 32 bits que contiene el \'indice actual del
-\acrshort{SOC} que despu\'es es utilizado para extraer el valor de una
-\acrshort{LUT}, provista por la librer\'ia \texttt{battery\_luts.h}, a su vez,
-provee las siguientes funciones p\'ublicas para el desarrollador: 
-
-\begin{itemize}
-    \item \texttt{calculate\_cell\_soc}: Dada la medici\'on actual del voltaje de
-        la celda y la corriente que circula por ella, calcula el \acrshort{SOC}
-        de la misma bas\'andoles en el algoritmo del filtro de Kalman. Esta
-        funci\'on debe ejecutase peri\'odicamente, donde el per\'iodo entre
-        paso y paso est\'a dado por como la frecuencia de muestreo del modelo
-        discretizado.
-    \item \texttt{init\_cell\_model}: Esta funci\'on inicializa la estructura de
-        datos \texttt{Cell}, asumiendo que la misma se encuentra en un punto de
-        trabajo est\'atico. Toma como par\'ametro la actual medici\'on de
-        voltaje de la celda, y mide el \acrshort{SOC} en base a este valor.
-    \item \texttt{cell\_model\_set\_q\_data}: Funci\'on p\'ublica que permite
-        ajustar la matriz de incerteza del modelo en base a una perturbaci\'on
-        externa modelada. Permite ajustar el algoritmo de Kalman en 
-        \emph{run-time}, logrando extender la exactitud de estimaci\'on.
-    \item \texttt{battery\_model\_set\_r\_data}: Actualiza la matriz de
-        incertaza de medici\'on del filtro de Kalman. Esta funci\'on debe ser
-        utilizada cuando el sensor de voltage/corriente est\'a funcionando con
-        mayor incerteza/ruido del modelado.
-    \item \texttt{cell\_model\_get\_soc}: Devuelve el valor actual del
-        \acrshort{SOC} de la celda.
-\end{itemize}
-
-\subsubsubsection{Extensi\'on al pack de bater\'ias}
-
-El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
-\ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
-utilizada es dividida por 3, para reflejar el hecho de que el pack de bater\'ias 
-tiene, por m\'odulo, 3 celdas conectadas en paralelo, esto es posible de 
-realizar, ya que se considera que el modelo se encuentra linealizado en 
-distintos puntos de operaci\'on. Finalmente, este diseño fue sintetizado en una
-\acrshort{API} llamada \texttt{battery\_pack.h}, donde se puede parametrizar
-f\'acilmente para extender la cantidad de m\'odulos conectados en serie, 
-modificando la definici\'on \texttt{SERIES\_CELLS}, como tambi\'en la cantidad de
-celdas conectadas en paralelo, modificando la variable \texttt{PARALLEL\_CELLS}. 
-A su vez la librer\'ia tiene dos funciones p\'ublicas:
-
-\begin{itemize}
-    \item \texttt{init\_battery\_pack}: Inicializa la cantidad de
-        \texttt{SERIES\_CELLS} (en este caso, 6) de estructuras tipo 
-        \texttt{Cell} tomando como referencia el voltage de cada celda.
-    \item \texttt{calc\_battery\_pack\_soc}: Dado el voltaje de cada celda y la
-        corriente que circula a trav\'es del pack, calcula el \acrshort{SOC} de
-        cada celda.
-\end{itemize}
 
 \subsubsection{Ensayos unitarios}
 
