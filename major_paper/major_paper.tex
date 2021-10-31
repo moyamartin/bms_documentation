@@ -2369,6 +2369,18 @@ funcionamento recomendamos consultar los archivos fuentes.
     \item \texttt{bq24\_disable\_charge()}: Deshabilitar carga.
 \end{itemize}
 
+A su vez, la librer\'ia implementa sus propias funciones est\'aticas que son las
+dedicadas a implementar su propia \acrshort{HAL} con respecto a la interfaz
+\acrshort{GPIO} del dispositivo: 
+
+\begin{itemize}
+    \item \texttt{bq24\_read\_PG()}
+    \item \texttt{bq24\_read\_STAT1()}
+    \item \texttt{bq24\_read\_STAT2()}
+    \item \texttt{bq24\_read\_CE()}
+    \item \texttt{bq24\_write\_CE()}
+\end{itemize}
+
 \subsubsection{Implementaci\'on del filtro de Kalman}\ref{dev_fw_kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
