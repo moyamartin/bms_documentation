@@ -1860,6 +1860,7 @@ ajustaron los valores de la matriz Q a los que se observan en la Ecuaci\'on
 	    0 & 0 & 1\times10^{-10} \\
 	\end{bmatrix} 
     \end{array} \nonumber
+    \label{valor_q}
 \end{equation}
 
 Finalmente, se desarroll\'o el algoritmo de Kalman en un script de \emph{Matlab}
@@ -2206,7 +2207,7 @@ bq76pl536a}\label{seq:bq26_selection}
 Para el desarrollo de esta funcionalidad se opt\'o por el integrado
 \emph{BQ76PL536} de la marca \emph{Texas Instruments}. La decisi\'on de utilizar
 este integrado con respecto a otras marcas se basa en la Tabla 
-\ref{tabla_comparativa_ics}. En la misma se puede observar que el integrado
+\ref{tbl:bq76_comparativa_ics}. En la misma se puede observar que el integrado
 elegido posee beneficios tanto en funcionalidad, escalabilidad como tambi\'en un
 bajo costo con respecto a otros competidores, como por ejemplo, puede extenderse
 hasta un pack de 192 celdas conectadas en series, con un valor menor a 9
@@ -2228,6 +2229,7 @@ menor cantidad de celdas en serie.
     \end{center}
     \caption{Comparaci\'on de \acrshort{IC}s dedicados al balanceo pasivo de
     celdas de litio-ion.}
+    \label{tbl:bq76_comparativa_ics}
 \end{table}
 
 \begin{minipage}{0.5\textwidth}
@@ -2265,12 +2267,12 @@ la Figura \ref{bq76_simplified_schematic}
 En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
 celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
 integrado similar para extender su capacidad, esto se puede observar en la
-Figura \ref{bq76_implementation}, en la que se muestra la implementaci\'on del
+Figura \ref{fig:bq76_implementation_sch}, en la que se muestra la implementaci\'on del
 dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
 pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
 ($\mathrm{GND}$), anulando ambos perif\'ericos.
 
-En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
+En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los capacitores de desacople
 especificados por el fabricante \cite{BQ76PL536A}:
 \begin{itemize}
     \item $\mathrm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
@@ -4077,7 +4079,7 @@ terminal del microcontrolador para que est\'e en estado alto mientras se realiza
 el c\'alculo de las 6 celdas de forma secuencial, al mismo tiempo, se conecta
 una prueba de ensayo de un osciloscopio a esta terminal y se mide el tiempo
 desde que se pone en estado alto hasta que termina y la terminal se pone en
-estado bajo. El resultado se puede observar en la Figura \ref{kalman_time} se
+estado bajo. El resultado se puede observar en la Figura \ref{fig:kalman_time} se
 puede observar el pulso que expone la terminal del \acrshort{MCU}, que es de
 305uS, es decir 50,83uS por celda, un n\'umero aceptable en comparaci\'on a los
 resultados que se presentan en \cite{kalman_filter_embedded} que utilizan el
@@ -4090,7 +4092,7 @@ mismo hardware pero con un modelo con menos variables (1.2mS por paso).
         bater\'ias en ser procesado. El instrumento utilizado para hacer el
         ensayo es un osciloscopio Rigol modelo DS1054Z, donde cada divisi\'on en
         el eje x es de 50uS y cada divisi\'on en el eje y es de 1V.}
-        \label{kalman_filter_embedded}
+        \label{fig:kalman_time}
     \end{center}
 \end{figure}
 \FloatBarrier
