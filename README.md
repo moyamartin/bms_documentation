@@ -26,6 +26,3 @@ If you find this project interesting or useful for your work, please let us know
     National University of Rosario}
 }
 ```
-
-## TODO
-* conclusions
