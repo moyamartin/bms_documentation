@@ -2130,7 +2130,7 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
 \begin{minipage}{0.5\textwidth}
     \begin{center}
         \includegraphics[width=1\textwidth]{tracking_proyectile_example.png}
-        \caption{Descripci\'on gr\'afica del ejemplo de la estimaci\'on de
+        \captionof{figure}{Descripci\'on gr\'afica del ejemplo de la estimaci\'on de
         trayectoria de un proyectil. En la curva azul se muestra la posici\'on
         verdadera del mismo, en la trayectoria verde a trazos se muestra la
         estimaci\'on del filtro de Kalman y en la curva naranja de puntos se 
@@ -2179,7 +2179,7 @@ mismo puede encontrarse en la sección \ref{seq:bq26_selection}. El driver se
 implementa bajo una filosofía de instanciado que permite atender y operar en
 múltiples instancias correspondientes a múltiples balanceadores presentes en el
 hardware bajo el único requisito de que estén comunicándose todos sobre el mismo
-canal de comunicación \imph{SPI}. La inicialización y puesta en marcha del
+canal de comunicación \emph{SPI}. La inicialización y puesta en marcha del
 periférico \emph{SPI} del \acrshort{MCU} es responsabilidad del usuario del
 driver.
 
@@ -2189,14 +2189,14 @@ funcionamento recomendamos consultar los archivos fuentes.
 
 \begin{itemize}
     \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
-        el \acrshort{CI()} con los parámetros de configuración seleccionados.
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
     \item \texttt{bq76\_broadcast\_reset()}: Enviar comando reset a todos los
         dispositivos instanciados con una dirección válida de comunicación.
     \item \texttt{bq76\_reset()}: Enviar comando reset a un dispositivo en
         particular.
     \item \texttt{bq76\_set\_address()}: Setear la dirección de un dispositivo.
     \item \texttt{bq76\_set\_adc\_control()}: Setear registro de control del ADC
-        del  \acrshort{CI()}
+        del  \acrshort{CI}
     \item \texttt{bq76\_set\_cb\_time()}: Setear tiempo maximo de balanceo de una
         celda.
     \item \texttt{bq76\_set\_funtion\_config()}: Seterar registro de configuración
@@ -2232,8 +2232,41 @@ funcionamento recomendamos consultar los archivos fuentes.
         driver bq76.
 \end{itemize}
 
-\subsubsubsection{Driver TI - INA226}
+\subsubsubsection{ina226}
+
+El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
+implementa las estructuras de datos, definiciones y funciones necesarias para la
+operación del \acrshort{CI} \emph{ina226} de la firma \emph{Texas
+Instruments} según los lineamientos descriptos en su correspondiente hoja de
+datos. 
+
+Como se menciona en la Secci\'on \ref{software_implementation}, el mismo
+depende tanto de las librer\'ias \acrshort{CMSIS} como STMCube \acrshort{HAL}.
+En este caso, se utilizaron las librer\'ias \texttt{arm math} del m\'odulo
+\acrshort{DSP} con el fín de optimizar las operaciones matemáticas realizadas
+valiéndonos de los recursos brindados por la unidad \acrshort{FPU} del
+\acrshort{MCU} y la librería \texttt{stm32f4xx\_hal\_i2c} para acceder, a través
+del periférico del microcontrolador, al canal de comunicación serie.
+
+El \acrshort{CI} INA226 implementa una interfaz de comunicación $i^2C$ sobre la
+cual solo puede operar como dispositivo esclavo para la comunicación con la
+unidad de procesamiento. Una descripción más acabada del mismo puede
+encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa bajo
+una filosofía de instanciado que permite atender y operar en múltiples
+instancias correspondientes a múltiples medidores de corriente presentes en el hardware
+bajo el único requisito de que estén comunicándose todos sobre el mismo canal de
+comunicación \emph{$i^2C$}. La inicialización y puesta en marcha del periférico
+\emph{$i^2C$} del \acrshort{MCU} es responsabilidad del usuario del driver.
+
+Se listan a continuación, con una breve descripción, las funciones que implenta
+el driver para la operación. Para una mejor comprensión del driver y su
+funcionamento recomendamos consultar los archivos fuentes.
+
+\begin{itemize}
+    \item \texttt{bq76\_init()}: Inicializar una instancia del driver bq76 y
+        el \acrshort{CI} con los parámetros de configuración seleccionados.
 \subsubsubsection{Driver TI - bq2461x}
+\end{itemize}
 
 
 \subsection{Unidad de procesamiento}
@@ -2535,7 +2568,7 @@ c\'alculo de la resistencia \emph{Shunt},
 parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
 admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
 a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
-38.62m$\mathrm{\Ohm}$, en base a estos resultados, se ha realizado el desarrollo
+38.62m$\mathrm{\ohm}$, en base a estos resultados, se ha realizado el desarrollo
 del hardware del balanceador.
 
 \subsubsection{Tecnolog\'ia Seleccionada - TI
@@ -2592,7 +2625,7 @@ la Figura \ref{bq76_simplified_schematic}
 \begin{minipage}{0.5\textwidth}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{bq76_simplified_schematic.png}
-        \caption{Esquem\'atico simplificado de un balanceador de m\'as de 6
+        \captionof{figure}{Esquem\'atico simplificado de un balanceador de m\'as de 6
         celdas utilizando varios BQ76PL536A acoplados entre s\'i.}
         \label{bq76_simplified_schematic}
     \end{center}
@@ -2611,7 +2644,7 @@ pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa
 En la Figura \ref{bq76_desacople} se muestran todos los capacitores de desacople
 especificados por el fabricante \cite{BQ76PL536A}:
 \begin{itemize}
-    \item $\matrhm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
+    \item $\mathrm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
         desacople conectados entre ellos lo m\'as cerca posible a esos pines.
     \item La fuente anal\'ogica interna tiene que ser bypasseada a trav\'es del
         pin LDOA con un capacitor cer\'amico de 2.2uF.
@@ -2660,7 +2693,7 @@ la potencia de descarga del balanceo de una celda.
 \end{figure}
 
 El circuito de control de balanceo pasivo consta de un transistor N-FET
-\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado SOT−23
+\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado $SOT\textendash23$
 junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
 de encendido del Mosfet. Y de una resistencia, R21 en el caso del ejemplo
 presentado en la Figura \ref{fig:bq76_balance_power}, que hace las veces de
@@ -2714,7 +2747,7 @@ conexión del pack de batería en caliente.
 
 \subsection{Sensor de corriente}
 
-\subsubsection{Tecnología Seleccionada - INA226}
+\subsubsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
 Frente a los requerimientos y la naturaleza de un \acrshort{BMS} se ha
 seleccionado la tecnología de sensado de corriente por resistencia Shunt.
