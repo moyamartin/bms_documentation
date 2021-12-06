@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper]{article}
+\documentclass[10pt, a4paper]{report}
 \usepackage[backend=bibtex,style=numeric]{biblatex}
 \usepackage[justification=centering]{caption}
 \usepackage[pdfpagelabels,bookmarks,hyperindex,hyperfigures, hidelinks]{hyperref}
@@ -226,7 +226,9 @@ DebugOn
 
 \newpage
 
-\section{Introducción}
+
+\chapter{Introducción}
+\thispagestyle{fancy}
 
 \noindent A partir de la relevancia que ha comenzado a tomar el 
 calentamiento global en las últimas décadas y el inquietante impacto que 
@@ -262,7 +264,9 @@ comparación de otras tecnologías. Para poder ser utilizados en
 o packs de baterías en serie que permiten obtener mayores valores de tensión
 y, otras, en paralelo para aumentar la capacidad del pack.
 
-\subsection{Motivaci\'on del proyecto}
+\newpage
+
+\section{Motivaci\'on del proyecto}
 
 \noindent Una de las grandes problem\'aticas de las bater\'ias de Litio-ion 
 reside en que se debe tener en cuenta ciertas precauciones a la hora de
@@ -327,7 +331,7 @@ como computadoras centrales de veh\'iculos el\'ectricos hasta \acrshort{UPS}.
 Por otro lado, existen solamente dos proyectos de c\'odigo/hardware abiertos
 relacionados al desarrollo de \acrshort{BMS}, detallados a continuaci\'on.
 
-\subsubsection{foxBMS}
+\subsection{foxBMS}
 
 \emph{foxBMS} \cite{foxbms} es un proyecto desarrollado por el Instituto de Sistemas
 Integrados y Tecnolog\'ias de Dispositivos de la sociedad \emph{Fraunhofer} o
@@ -356,7 +360,7 @@ implementado de forma directa. Tambien el hardware del proyecto es
 extensivamente costoso y complejo, ya que implementa varios microcontroladores e
 integrados dedicados hasta \acrshort{FPGA}s (del ingles, \emph{\acrlong{FPGA}}).
 
-\subsubsection{openBMS}
+\subsection{openBMS}
 
 A diferencia de \emph{foxBMS}, este proyecto fue desarrollado por ingenieros
 independientes con el objetivo de diversificar los proyectos abiertos relativos
@@ -375,7 +379,7 @@ se basan en la complejidad en el manejo de grandes packs de
 bater\'ias basadas en celdas de litio-ion y la falta de proyectos abiertos
 disponibles relacionados al tema.
 
-\subsection{Estructura del informe}
+\section{Estructura del informe}
 
 El informe se encuentra dividido en 6 secciones, en la Sección \ref{descripcion}
 se realiza una descripci\'on en alto nivel del proyecto, detallando los
@@ -392,9 +396,11 @@ sistema embebido con los ensayos realizados para validar el funcionamiento del
 sistema. Finalmente, en la Secci\'on \ref{conclusiones} se describen las
 conclusiones y futuros proyectos a continuar sobre el eje de estudio.
 
-\section{Descripci\'on}\label{descripcion}
+\chapter{Descripci\'on}\label{descripcion}
 
-\subsection{Objetivos del proyecto}
+\thispagestyle{fancy}
+
+\section{Objetivos del proyecto}
 
 Como solución a los problemas planteados, se propone desarrollar un
 \acrshort{BMS} que cumpla con los siguientes requisitos:
@@ -418,7 +424,7 @@ planteado, a partir de un estudio teórico. Finalmente se validará la
 solución elegida a partir de la implementación y ensayo de la solución 
 desarrollada.
 
-\subsection{Especificaciones}\label{proy_specs}
+\section{Especificaciones}\label{proy_specs}
 
 \noindent El sistema a implementar debe ser capaz de poder administrar un 
 pack de bater\'ias de 6 m\'odulos conectados en serie, donde cada módulo est\'a 
@@ -568,11 +574,14 @@ variables del sistema a una computadora central.
     \label{bms}
 \end{figure}
 
-\section{Aspectos Te\'oricos}\label{teoria}
+\chapter{Aspectos Te\'oricos}\label{teoria}
+
+\thispagestyle{fancy}
 
 \input{state_of_art}
 
-\section{Desarrollo}\label{desarrollo}
+\chapter{Desarrollo}\label{desarrollo}
+\thispagestyle{fancy}
 
 En \'esta secci\'on se explaya el desarrollo matem\'atico y la implementaci\'on 
 f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias, el modelo 
@@ -581,7 +590,7 @@ matem\'atico de la celda de litio-ion junto a sus algortimos de estimaci\'on de
 simulaciones y, finalmente, el desarrollo del hardware y firmware necesario para
 implementar los distintos componentes del sistema en un sistema f\'isico real.
 
-\subsection{Espíritu del proyecto}
+\section{Espíritu del proyecto}
 
 El desarrollo del proyecto se funda sobre bases de espíritu colarborativas, bajo
 la filosofía de codigo abierto y de software libre. Fuera del paragua de alguna
@@ -599,7 +608,7 @@ ensayo y desarrollo de futuros proyectos que partan de este \acrshort{BMS}. Con
 el objetivo de que la disposición de la documentación funcione como la
 herramienta que lo permita.
 
-\subsection{Pack de bater\'ias}\label{battery_pack}
+\section{Pack de bater\'ias}\label{battery_pack}
 
 Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
 controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
@@ -699,7 +708,7 @@ im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \newpage
 
-\subsubsection{Celda NCR18650PF}
+\subsection{Celda NCR18650PF}
 
 La celda de litio-ion 18650 fue originalmente diseñada para ser utilizada en
 bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
@@ -796,7 +805,7 @@ simulaciones.
 
 \newpage
 
-\subsubsection{Ensamblado del pack}
+\subsection{Ensamblado del pack}
 
 El pack de bater\'ias es ensamblado utilizando soportes encastrables \emph{(Fig.
 \ref{soporte_18650})} impresos utilizando una impresora 3D, donde cada celda es
@@ -856,7 +865,7 @@ ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
 
 \newpage
 
-\subsubsection{Caracter\'isticas del pack}\label{caract_pack}
+\subsection{Caracter\'isticas del pack}\label{caract_pack}
 
 Como resultado obtenemos un pack de bater\'ias con las siguientes
 caracter\'isticas:
@@ -871,7 +880,7 @@ caracter\'isticas:
     \item Corriente de descarga m\'axima: 17.4A (2C)
 \end{itemize}
 
-\subsection{Modelo de la celda de litio-ion}\label{dev_batt_model}
+\section{Modelo de la celda de litio-ion}\label{dev_batt_model}
 
 Contar con un modelo matemático preciso que describa fehacientemente el
 comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
@@ -926,7 +935,7 @@ El modelo puede ser reescrito en el dominio de la transformada de Laplace como:
        \label{eq:L_Vout_randles_2rc}
 \end{align}
 
-\subsubsection{Parametrizaci\'on del modelo}\label{param_18650pf}
+\subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
 
 La estimaci\'on de par\'ametros es com\'unmente usado para ajustar la respuesta 
 de un modelo a los datos experimentales de un modelo f\'isico. En el caso de 
@@ -949,7 +958,7 @@ com\'unmente se emplean tablas de b\'usqueda (\acrshort{LUT}, del ingl\'es
 En este caso, los datos experimentales a analizar provienen de 
 \cite{Kollmeyer2018}, que son descriptos en la siguiente secci\'on.
 
-\subsubsection{Descripci\'on del set de datos}
+\subsection{Descripci\'on del set de datos}
 
 El set de datos de  es un conjunto de ensayos realizados en 
 la Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos 
@@ -989,7 +998,7 @@ ejecutaron los siguientes ciclos:
         anteriormente.
 \end{enumerate}
 
-\subsubsubsection{Ensayos HPPC}\label{ensayo_HPPC}
+\subsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
 El ensayo \acrshort{HPPC} es una metodología utilizada para poder caratcerizar
 la dinámica de una celda. El perfil de ensayo \acrshort{HPPC} del dataset
@@ -1034,7 +1043,7 @@ determinado.
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Validación número de ramas R-C del modelo}
+\subsection{Validación número de ramas R-C del modelo}
 
 Para validar que el modelo propuesto sea capaz de describir la dinámida completa
 de una celda de Ion-Litio ensayada se ajustaron 2 ecuasiones exponenciales, una
@@ -1069,7 +1078,7 @@ la precisión del modelo, la complejidad matemática y la necesidad de mantener 
 costo computacional bajo a los fines de embeber el modelo en el
 microcontrolador. 
 
-\subsubsection{Implementación del circuito de Randles}
+\subsection{Implementación del circuito de Randles}
 
 Para llevar a cabo el proceso de estimación y optimizaci\'on de par\'ametros, en
 primer instancia se necesita implementar el circuito de Randles en un ambiente
@@ -1122,8 +1131,6 @@ Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitacipon con un escal\'on de corriente.
 
-\newpage
-
 Para el ensayo se utilizan par\'ametros con valores predeterminados: 
 
 \begin{itemize}
@@ -1150,7 +1157,7 @@ respuesta al escal\'on validando la implementación realizada.
 
 %\newpage
 
-\subsubsection{Pre-procesamiento datos}\label{data_preprocessing}
+\subsection{Pre-procesamiento datos}\label{data_preprocessing}
 
 El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} debe ser
 preprocesado para obtener ciertas variables de inter\'es, como por ejemplo, la
@@ -1158,7 +1165,7 @@ señal del \acrshort{SOC} de la curva relevante para comparar los resultados de
 nuestro modelo, como tambi\'en la segmentaci\'on o modificaci\'on de los datos
 es \'util para el desarrollo del modelo.
 
-\subsubsubsection{Curva de \acrshort{SOC}}
+\subsubsection{Curva de \acrshort{SOC}}
 
 Dentro de los datos de la curva \acrshort{HPPC}, el ensayo de
 \cite{Kollmeyer2018} acumula la corriente que circula desde y hacia el pack en
@@ -1185,7 +1192,7 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 \end{figure}
 \FloatBarrier
 
-\subsubsubsection{Obtenci\'on del \acrshort{OCV}}
+\subsubsection{Obtenci\'on del \acrshort{OCV}}
 
 Dentro de la curva \acrshort{HPPC} de la Figura \ref{hppc_kollmeyer}, podemos
 observar per\'iodos de descanso lo suficientemente largos como para considerar
@@ -1231,7 +1238,7 @@ Esta curva se puede observar en la Figura \ref{fig:ocv_vs_soc}.
 \end{figure}
 \FloatBarrier
 
-\subsubsubsection{Segmentaci\'on de Datos}\label{flank_seg}
+\subsubsection{Segmentaci\'on de Datos}\label{flank_seg}
 
 El número de tanques R-C que conforman el modelo y consecuentemente el de
 parametros a estimar, unos 67 juegos de 5 parámetros cada uno, junto con el
@@ -1314,7 +1321,7 @@ brinda información sobre la dinámica completa del sistema, solo nos
 brinda información parcial, fundamentalmente sobre la parte rápida de la
 dinámica. 
 
-\subsubsection{Algoritmo recursivo de optimizaci\'on}
+\subsection{Algoritmo recursivo de optimizaci\'on}
 
 El proceso de estimación y ajuste de los parámetros del modelo se realizó a
 partir de la implemenación en MATLAB de un algoritmo recursivo de optimización
@@ -1421,7 +1428,7 @@ corrección de los inconvenientes que se presenten durante el proceso de cálcul
 y optimización cuando los resultados simulados no converjan con los datos
 experimentales.
 
-\subsubsection{Validación de los parámetros}\label{val_param_modelo}
+\subsection{Validación de los parámetros}\label{val_param_modelo}
 
 Los resultados finales se presentan en la Figura \ref{fig:exp_vs_sim} donde se
 comparan los datos experimentales completos del ensayo \acrshort{HPPC} con los
@@ -1507,7 +1514,7 @@ coincide con los datos experimentales.
 
 
 
-\subsection{Desarrollo de la estimaci\'on de \acrshort{SOC}}\label{dev_soc_est}
+\section{Desarrollo de la estimaci\'on de \acrshort{SOC}}\label{dev_soc_est}
 
 Como se detalla en la Secci\'on \ref{algSoc}, el \acrshort{SOC} y su
 estimaci\'on son factores claves para el diseño y desarrollo de un
@@ -1527,7 +1534,7 @@ presente trabajo se desarrollaron dos algoritmos, uno basado en un filtro
 observador, como lo es el Filtro de Kalman y otro algoritmo basado en redes
 neuronales, cuyo desarrollo se describe a continuaci\'on.
 
-\subsubsection{Algoritmo basado en el Filtro de Kalman}
+\subsection{Algoritmo basado en el Filtro de Kalman}
 
 El algoritmo de estimaci\'on del \acrshort{SOC} se basa en el uso 
 de un Filtro de Kalman Extendido en conjunto con el modelo desarrollado en la 
@@ -1537,7 +1544,7 @@ m\'etodo en el Anexo \ref{matKalman}, el proceso consiste en obtener un modelo
 en ecuaciones de estados del sistema en cuesti\'on e identificar la variable a 
 observar para poder implementar el algoritmo del filtro.
 
-\subsubsubsection{Modelo de la celda en ecuaciones de estados}
+\subsubsection{Modelo de la celda en ecuaciones de estados}
 
 Para la implementaci\'on de este algoritmo es necesario obtener un modelo en
 espacio de estados de la celda, como se muestra en el siguiente sistema de
@@ -1704,9 +1711,7 @@ orden,
     \begin{bmatrix} R_0(SoC) \end{bmatrix} i(t)\label{ss_randles_complete}
 \end{align}
 
-\newpage
-
-\subsubsubsection{Criterio de observabilidad}
+\subsubsection{Criterio de observabilidad}
 
 Linealizado el sistema y obtenido el sistema de ecuaciones del modelo,
 el\'ectrico de Randles, solo resta determinar si el sistema es observable. Un
@@ -1881,9 +1886,9 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
 \newpage
 
-\subsection{Unidad de procesamiento}
+\section{Unidad de procesamiento}
 
-\subsubsection{Tecnología seleccionada - STM32F407VG}
+\subsection{Tecnología seleccionada - STM32F407VG}
 
 Actualmente existen en el mercado un sin número de microcontroladores de
 distintos proveedores que implementan diferentes arquitecturas. La naturaleza de
@@ -1972,7 +1977,7 @@ El empaquetado del \acrshort{CI} seleccionado es \acrfull{LQFP} de 100 pines.
 Se adjunta en \autoref{seq:appendix} el esquemático correspondiente del circuito 
 desarrollado bajo el nombre $TODO.pdf$.                   
                                                                                  
-\subsubsection{Alimentación}
+\subsection{Alimentación}
 
 Para alimentar la unidad de procesamiento del \acrshort{BMS} se desarrolla e
 implementa un convertidor de tensión DC-DC basado en el circuito integrado
@@ -2118,7 +2123,7 @@ $\frac{f_{sw}}{5} = 25 kHz$
 La capacidad de salida seleccionada finalmente fue de $20\mu F$, acorde a los
 ensayos experimentales realizados durante el proceso de montaje de la placa. 
 
-\subsubsection{Placa de desarrollo - Discovery}
+\subsection{Placa de desarrollo - Discovery}
 
 Para poder realizar en paralelo el desarrollo e implementación del hardware y
 del software del \acrshort{BMS}, gran parte del proceso de desarrollo del
@@ -2132,7 +2137,7 @@ que implementa el microcontrolador seleccionado STM32F407.
     \label{fig:stm32f4discovery}
 \end{figure}
 
-\subsection{Sensor de tensi\'on - Balanceador}
+\section{Sensor de tensi\'on - Balanceador}
 
 Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
 y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
@@ -2144,7 +2149,7 @@ estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
 balanceo. 
 
 
-\subsubsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
+\subsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
 
 
 El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
@@ -2195,7 +2200,7 @@ a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de
 del hardware del balanceador.
 
 
-\subsubsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
+\subsection{Tecnolog\'ia Seleccionada - TI bq76pl536a}
 \label{seq:bq26_selection}
 
 Para el desarrollo de esta funcionalidad se opt\'o por el integrado
@@ -2256,7 +2261,7 @@ la Figura \ref{bq76_simplified_schematic}
     \end{center}
 \end{minipage}
 
-\subsubsection{Diseño del esquem\'atico}
+\subsection{Diseño del esquem\'atico}
 
 En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
 celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
@@ -2368,9 +2373,9 @@ conexión del pack de batería en caliente.
 
 \newpage
 
-\subsection{Sensor de corriente}
+\section{Sensor de corriente}
 
-\subsubsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
+\subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
 Frente a los requerimientos y la naturaleza de un \acrshort{BMS} se ha
 seleccionado la tecnología de sensado de corriente por resistencia Shunt.
@@ -2424,7 +2429,7 @@ implementación modelo.
 \end{figure}
 \FloatBarrier
 
-\subsubsection{C\'aculo de la resistencia shunt}
+\subsection{C\'aculo de la resistencia shunt}
 
 Para realizar el c\'aculo de la resistencia shunt utilizada para el sensor de
 corriente, se debe tener en cuenta el rango de voltaje de entrada que
@@ -2471,7 +2476,7 @@ medici\'on m\'axima de 20A pero desaprovechando el rango m\'aximo del INA226 en
 la medici\'on de voltaje sobre la resistencia shunt, ya que la tensi\'on
 m\'axima que se refleja sobre al resistencia es de $\mathrm{\pm}$50mV.
 
-\subsubsection{Esquem\'atico del circuito}
+\subsection{Esquem\'atico del circuito}
 
 El esquem\'atico del circuito se puede observar en la Figura \ref{ina226_sch}.
 
@@ -2488,7 +2493,7 @@ En el mismo, R1 se corresponde con la resistencia shunt, mientras que R2, R3 y
 R4 son resistencias de pull necesarias por el protocolo de comunicaci\'on I2C.
 Por el otro lado, el capacitor C1 act\'ua como capacitor de desacople.
 
-\subsection{Interruptor de desconexión entre batería y el Vehículo}
+\section{Interruptor de desconexión entre batería y el Vehículo}
 
 Uno de los objetivos principales del BMS es el de garantizar la seguridad del
 pack, del usuario y del vehículo eléctrico. Para tal propósito el sistema debe
@@ -2503,7 +2508,7 @@ sistema las cuales son:
 	\item Corriente Máxima = 15A
 \end{itemize}
 
-\subsubsection{Caracteristicas de un MOSFET en conmutación}
+\subsection{Caracteristicas de un MOSFET en conmutación}
 
 Si bien los dispositivos semiconductores de potencia generalmente son modelados
 como interruptores ideales, los mismos poseen características que los dista de
@@ -2591,7 +2596,7 @@ un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Análisis del tiempo de apagado}
+\subsection{Análisis del tiempo de apagado}
 
 Teniendo en cuenta el punto anterior y que la carga es un motor, por ende de 
 caracter inductivo, surge la necesidad de realizaer el siguiente análisis sobre 
@@ -2750,9 +2755,9 @@ pasivo del dispositivo.
 
 Por último se agregó $D_{21}$ como diodo de \emph{freewheel}.
 
-\subsection{Circuito Cargador de Batería}
+\section{Circuito Cargador de Batería}
 
-\subsubsection{Tecnología Seleccionada - TI bq24610}
+\subsection{Tecnología Seleccionada - TI bq24610}
 
 Para lograr un completo control del perfil de carga descripto en la Sección
 \ref{sec:tecnica_carga}  es que seleccionamos e implementamos el circuito
@@ -2785,7 +2790,7 @@ de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
 la topología de nuestro pack de baterías \emph{6S3P} descripta en
 \ref{caract_pack}. El empaquetado del mismo es del tipo VQFN.
 
-\subsubsection{Diseño e Implementación}
+\subsection{Diseño e Implementación}
 
 La sección describe la implementación y desarrollo de un circuito cargador de
 baterías de Ion-Litio a partir del \acrfull{CI} bq24610 de la firma Texas
@@ -2826,7 +2831,7 @@ siguientes:
     $f_{s}=600 KHz$ &Frecuencia switching\\
 \end{tabular}
 
-\subsubsubsection{Alimentación}
+\subsubsection{Alimentación}
 
 El circuito de alimentación del cargador de batería consta de una red de descarga
 RC, de dos Mosfets canal-P colocados en configuración back to back con el objeto de
@@ -2881,7 +2886,7 @@ por la resistencia R38 seleccionada, $1/4W$, calculamos una capacidad $C_{S}$.
     &=2.6710nF
 \end{align}
    
-\subsubsubsection{Control de Perfil de Carga}
+\subsubsection{Control de Perfil de Carga}
 
 El perfil de carga \acrshort{CC} - \acrshort{CV} descripto en la sección
 \ref{sec:tecnica_carga} y sus correspondientes parámetros de control se setean
@@ -3068,7 +3073,7 @@ en la imagen \ref{fig:cb_set_point_I} a partir de un divisor resistivo formado
 por R53y R54. La corriente de entrada es sensada en la resistencia shunt R39,
 conectada en paralelo a ACP y ACN, pines 1 y 2 respectivamente.
 
-\subsubsubsection{Salida - Etapa de potencia}
+\subsubsection{Salida - Etapa de potencia}
 
 La figura \ref{fig:cb_output} corresponde a la etapa de potencia del cargador de
 batería tipo buck implementado. La integran dos Mosfet canal-N, Q9 y Q10, una
@@ -3224,7 +3229,7 @@ calculada siguiendo:
 La potencia máxima soportada por el Mosfet seleccionado es de 75W. En ambos
 casos los integrados se hayan sobre estimados para tolerar el uso dado. 
 
-\subsubsubsection{Interfaz de estado de carga}\label{seq:cb_interface_ce}
+\subsubsection{Interfaz de estado de carga}\label{seq:cb_interface_ce}
 
 El \acrshort{CI} bq24610 presenta 4 señales digitales a partir de las cuales se
 puede conocer el estado en el que está operando el cargador. Tres señales de
@@ -3286,8 +3291,8 @@ realizada de forma segura a instancias del BMS.
 \end{figure}
 \FloatBarrier
 
-\subsection{Implementación Puertos de Comunicación}
-\subsubsection{Modulo CAN}
+\section{Implementación Puertos de Comunicación}
+\subsection{Modulo CAN}
 Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente 
 dispositivos denominados transreceptores, los mismos son los encargados de 
 traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra 
@@ -3343,7 +3348,7 @@ fabricante.
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Puerto UART}
+\subsection{Puerto UART}
 Para poder registrar datos del microcontrolador en una PC durante la fase de 
 desarrollo se dispuso de un conector de 4 pines mapeado directamente al
 \acrshort{MCU} y programado como puerto UART, la misma se puede observar en la 
@@ -3368,7 +3373,7 @@ El puerto se encuentra configurado según las siguientes especificaciones:
 \end{figure}
 \FloatBarrier
 
-\subsection{Circuito impreso final}
+\section{Circuito impreso final}
 
 Finalmente, se realiz\'o el diseño del circuito impreso, en la Figura
 \ref{render_pcb} se puede observar un renderizado 3D de la placa final y en la
@@ -3399,7 +3404,7 @@ El esquem\'atico final del circuito se puede observar en el Ap\'endice
 
 \newpage
 
-\subsection{Implementación Software}\label{software_implementation}
+\section{Implementación Software}\label{software_implementation}
 
 El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
 escrito y desarrollado en el lenguaje de programación C sujeto al estandar C99.
@@ -3426,7 +3431,7 @@ abstacción de hardware STM32Cube \acrshort{HAL} (por sus siglas en ingles,
 superiores (aplicaciones, librerias y el stack) puedan interactuar con los 
 recursos del hardware, en un lenguaje \emph{amigable} para el desarrollador.
 
-\subsubsection{Estructura de archivos}
+\subsection{Estructura de archivos}
 
 La estructura de archivos del software se describe a continuación:
 
@@ -3465,7 +3470,7 @@ siguientes operaciones:
         informaci\'on del proceso de carga.
 \end{itemize}
 
-\subsubsection{Desarrollo de Módelo Máquina de Estado Finitos}
+\subsection{Desarrollo de Módelo Máquina de Estado Finitos}
 
 Para llevar a cabo las tareas previamente mencionadas, se opt\'o por un modelo 
 de máquina de estados debido a la capacidad de representar sistemas 
@@ -3537,7 +3542,7 @@ El sistema se subdivide en 4 subsistemas:
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Drivers propietarios}
+\subsection{Drivers propietarios}
 
 Siguiendo el modelo de capas descripto en la Sección 
 \ref{software_implementation}, fue necesario desarrollar los drivers de los
@@ -3557,7 +3562,7 @@ estado del cargador.
 
 Se describen a continuación detallatadamente.
 
-\subsubsubsection{Driver \texttt{bq76}}\label{bq76_driver}
+\subsubsection{Driver \texttt{bq76}}\label{bq76_driver}
 
 El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -3726,7 +3731,7 @@ en la Figura \ref{bq76_v_cell_time}.
 \end{figure}
 \FloatBarrier
 
-\subsubsubsection{Drivers \texttt{ina226}}
+\subsubsection{Drivers \texttt{ina226}}
 
 El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -3808,7 +3813,7 @@ Figura \ref{ina226_time}.
 \end{figure}
 \FloatBarrier
 
-\subsubsubsection{Driver bq2461x}
+\subsubsection{Driver bq2461x}
 
 El driver \texttt{bq2461x} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -3863,7 +3868,7 @@ dedicadas a implementar su propia \acrshort{HAL} con respecto a la interfaz
     \item \texttt{bq24\_write\_CE()}
 \end{itemize}
 
-\subsubsection{Implementaci\'on del filtro de Kalman}\label{dev_fw_kalman}
+\subsection{Implementaci\'on del filtro de Kalman}\label{dev_fw_kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
 depende de las librer\'ias \acrshort{CMSIS} que, en s\'intesis, provee una capa de 
@@ -3955,7 +3960,7 @@ funciones privadas de la \acrshort{API}:
         del sistema como tambi\'en la salida predecida del mismo.
 \end{itemize}
 
-\subsubsubsection{Ensayos unitarios del filtro}
+\subsubsection{Ensayos unitarios del filtro}
 
 \begin{minipage}{0.5\textwidth}
 Para ensayar las capas de abstracci\'on del firmware, se utiliz\'o el
@@ -3983,9 +3988,9 @@ fall\'o. El ejemplo utilizado se puede visualizar en la Figura
     \end{center}
 \end{minipage}
 
-\subsubsection{\acrshort{API} del modelo de una celda}
+\subsection{\acrshort{API} del modelo de una celda}
 
-\subsubsubsection{Desarrollo de la \acrshort{API}}
+\subsubsection{Desarrollo de la \acrshort{API}}
 
 En esta \acrshort{API} se combina el modelo generado en la Secci\'on
 \ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
@@ -4026,7 +4031,7 @@ provee las siguientes funciones p\'ublicas para el desarrollador:
         \acrshort{SOC} de la celda.
 \end{itemize}
 
-\subsubsubsection{Extensi\'on al pack de bater\'ias}
+\subsubsection{Extensi\'on al pack de bater\'ias}
 
 El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
 \ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
@@ -4049,7 +4054,7 @@ A su vez la librer\'ia tiene dos funciones p\'ublicas:
         cada celda.
 \end{itemize}
 
-\subsubsubsection{Tiempo de muestreo}
+\subsubsection{Tiempo de muestreo}
 
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
 digitales nos encontramos con la necesidad de discretizar los procesos y tener
@@ -4118,7 +4123,7 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
 sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
 sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
 
-\subsubsection{Ensayos unitarios}
+\subsection{Ensayos unitarios}
 
 Para ensayar esta librer\'ia se realizaron dos tests separados, uno para medir
 cuanto tiempo tarda en realizar un c\'alculo de las 6 celdas y otro para
@@ -4154,7 +4159,8 @@ simulaciones que se desarrollaron en la Secci\'on \ref{dev_batt_model}.
 
 \clearpage
 
-\section{Ensayos}\label{ensayos}
+\chapter{Ensayos}\label{ensayos}
+\thispagestyle{fancy}
 
 Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de 
 litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo 
@@ -4194,9 +4200,8 @@ proceso.
 \end{figure}
 \FloatBarrier
 
-\newpage
-
-\section{Conclusiones}\label{conclusiones}
+\chapter{Conclusiones}\label{conclusiones}
+\thispagestyle{fancy}
 
 En primer instancia, se logr\'o, de forma exitosa, estudiar, diseñar e 
 implementar un \acrshort{BMS} alcanzando los objetivos del proyecto. El trabajo
@@ -4262,7 +4267,8 @@ este trabajo para futuras referencias, el mismo se encuentra en la siguiente URL
 
 \appendix 
 
-\section{Desarrollo matem\'atico del Filtro de Kalman}\label{matKalman}
+\chapter{Desarrollo matem\'atico del Filtro de Kalman}\label{matKalman}
+\thispagestyle{fancy}
 
 \noindent El filtro de Kalman es construido como un minimizador del error 
 cuadr\'atico medio (o \acrshort{MSE}, del ingl\'es 
@@ -4276,7 +4282,7 @@ realizado utilizando funciones de costo o p\'erdida, por lo tanto, podemos
 definir que el objetivo del filtro es minimizar la funci\'on de p\'erdida (o en
 ingl\'es, \emph{loss}).
 
-\subsection{Error Cuadr\'atico Medio}
+\section{Error Cuadr\'atico Medio}
 
 \noindent Las señales lineales pueden ser descriptas de la siguiente forma
 (\emph{ec.\ref{lineal_signal}}):
@@ -4321,7 +4327,7 @@ Que esto resulta en la funci\'on \acrshort{MSE} (\emph{ec. \ref{mse}}).
     \epsilon(t) = E(e^2_k) \label{mse}
 \end{equation}
 
-\subsection{M\'axima Probabilidad}\label{maximum_likelihood_section}
+\section{M\'axima Probabilidad}\label{maximum_likelihood_section}
 
 La derivaci\'on del error cuadr\'atico medio, a pesar de ser intuitivo, se lo
 considera de car\'acter heur\'istico. Una derivaci\'on m\'as rigurosa puede ser
@@ -4366,7 +4372,7 @@ $\mathrm{\hat{x}_k}$ que maximiza la probabilidad de la señal $\mathrm{y_k}$.
 En la pr\'oxima derivaci\'on se define el filtro \emph{\'optimo} como aqu\'el
 filtro, de todos los posibles filtros que minimizan el \acrshort{MSE}.
 
-\subsection{Derivaci\'on del Filtro de Kalman}
+\section{Derivaci\'on del Filtro de Kalman}
 
 \noindent Al momento de desarrolar el filtro de Wiener, Wiener describe un 
 filtro \'optimo de tipo respuesta al impulso finito, o \acrshort{FIR} (del 
@@ -4386,7 +4392,7 @@ navegaci\'on. Definiendo el filtro en t\'erminos de un espacio de estados
 tambi\'en simplifica la implementaci\'on del filtro en el dominio discreto, otra
 raz\'on por la cual es utilizado ampliamente.
 
-\subsubsection{Derivaci\'on a partir del espacio de estados}
+\subsection{Derivaci\'on a partir del espacio de estados}
 
 \noindent Asumiendo que se quiere conocer el valor de una variable dentro de un 
 proceso de la forma dada por la Ecuaci\'on \ref{system_eq}.
@@ -4655,11 +4661,11 @@ Actualizaci\'on de la matriz de covarianza        & $P_k = \left(I - K_k H\right
 \end{table}
 
 
-\section{Esquemático completo BMS}\label{seq:appendix_full_sch}
+\chapter{Esquemático completo BMS}\label{seq:appendix_full_sch}
+\thispagestyle{fancy}
 
 \includepdf[pages=-, landscape=true]{bms_hardware.pdf}
 
-\newpage
 % Print table of acronyms
 \addcontentsline{toc}{section}{Tabla de Abreviaturas}
 \glsaddall
