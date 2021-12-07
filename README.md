@@ -28,7 +28,7 @@ If you find this project interesting or useful for your work, please let us know
 ```
 ## TODO RevA:                                                                         
 - [x] convert sections into chapters                                               
-- [ ] correct accent marks through entire ex section 4                            
+- [x] correct accent marks through entire ex section 4
 - [ ] (FDC) Reformulate Battery Model Section taking special attention to bibliography citation. Make it a chapter
 - [ ] (LS) Make Hardware sections 4.5 to 4.11 a chapter, develope an introduction to the chapter. 
 - [ ] (MM) Make Software section 4.12 a chapter. Move Unitary tests subsectios to 'ensayos' chapter.                                                          
