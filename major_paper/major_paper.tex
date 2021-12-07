@@ -116,8 +116,6 @@ Escuela de Ingeniería Electrónica}
 
 \DeclareGraphicsExtensions{.bmp, .png, .jpg}
 
-\renewcommand*\contentsname{Índice}
-
 \topmargin = -1.5cm
 \leftmargin = -1cm
 \oddsidemargin = 0cm
@@ -188,6 +186,7 @@ DebugOn
 \newpage
 
 \begin{abstract}
+    \thispagestyle{fancy}
 
     \setlength{\parskip}{0.6em}
 
@@ -823,12 +822,12 @@ del pack, por ejemplo:
 
 \begin{itemize}
     \item Protecci\'on en contra a la corrosi\'on.
-    \item Buena conductividad el\'ectrica. El Niquel tiene la mitad de la
+    \item Buena conductividad el\'ectrica. El N\'iquel tiene la mitad de la
         resistencia el\'ectrica que el acero 1010.
     \item Buena resistencia mec\'anica.
     \item Bajo costo.
     \item Es soldable, por lo que se puede aplicar una soldadura de punto entre
-        la tira de niquel y los electrodos de la celda.
+        la tira de n\'iquel y los electrodos de la celda.
 \end{itemize}
 
 \begin{figure}[h!]
@@ -921,7 +920,7 @@ en la Secci\'on \ref{param_18650pf}.
 \end{figure}
 \FloatBarrier
 
-De acuerdo a la figura \ref{randles_2rc}, la salida del modelo es descripta por
+De acuerdo a la Figura \ref{randles_2rc}, la salida del modelo es descripta por
 la Ecuación \ref{eq:Vout_randles_2rc}
 
 \begin{equation}
@@ -1061,10 +1060,10 @@ Matlab.
     Y &= a*exp(b*x)+c*exp(d*x)\label{eq:exp2}
 \end{align}
 
-Se selecciono especificamente la fase de relajación de uno de los escalones del
+Se seleccion\'o especificamente la fase de relajación de uno de los escalones del
 ensayo HPPC. Cuando se retira el escalón de corriente, la respuesta transitoria
-inmediata es condicionada por $R_{0}$ pero rapidamente la dinamica
-fundamentalmente es descipta por el número de ramas R-C en serie dispuestas en
+inmediata es condicionada por $R_{0}$ pero r\'apidamente la din\'amica
+fundamentalmente es descripta por el número de ramas R-C en serie dispuestas en
 el circuito equivalente. 
 
 \begin{figure}[h!]
@@ -1077,7 +1076,7 @@ el circuito equivalente.
 \FloatBarrier
 
 A la vista del resultado obtenido en la Figura \ref{fig:model_fit} se concluye
-que 2 terminos exponenciales temporales serán suficientes para describir la
+que 2 t\'erminos exponenciales temporales serán suficientes para describir la
 dinamica de una celda de Ion-Litio ensayada. Situación de compromiso entre
 la precisión del modelo, la complejidad matemática y la necesidad de mantener el
 costo computacional bajo a los fines de embeber el modelo en el
@@ -1094,7 +1093,7 @@ entrada y salida.
 
 El modelo est\'a compuesto por una fuente de tensi\'on controlada, que
 representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que
-representan los componentes pasivos del circuito. Los 6 componentes depende
+representan los componentes pasivos del circuito. Los 6 componentes dependen
 exclusivamente del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on
 se puede observar en la Figura \ref{battery_model_simulink}. 
 
@@ -1134,7 +1133,7 @@ obtenidas de la \acrshort{LUT} de forma manual.
 
 Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
-excitacipon con un escal\'on de corriente.
+excitaci\'on con un escal\'on de corriente.
 
 Para el ensayo se utilizan par\'ametros con valores predeterminados: 
 
@@ -1439,9 +1438,9 @@ Los resultados finales se presentan en la Figura \ref{fig:exp_vs_sim} donde se
 comparan los datos experimentales completos del ensayo \acrshort{HPPC} con los
 obtenidos al simular el modelo. Para evaluar los resultados del algoritmo de 
 optimización y la calidad de la simulación obtenida con cada uno de los 66 
-juegos de parámetros calculados fue necesario observar puntualmente cada escalon 
-de corriente del ensayo, focalizándonos en aquellos donde la tensión en bornes 
-de la simulación no logra converger con los datos experimentales.
+juegos de parámetros calculados fue necesario observar puntualmente cada
+escal\'on de corriente del ensayo, focalizándonos en aquellos donde la tensión 
+en bornes de la simulación no logra converger con los datos experimentales.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -1737,7 +1736,7 @@ es diferente a cero y la matriz de observabilidad tiene un rango n
 \end{equation}
 
 En este caso, n es igual a tres, dado que el modelo de Randles es un sistema de 
-segundo \'orden, por lo tanto, la matriz O est\'a dada por la Ecuaci\'on 
+segundo orden, por lo tanto, la matriz O est\'a dada por la Ecuaci\'on 
 \ref{obs_matrix_randles},
 
 \begin{equation}
@@ -1804,7 +1803,7 @@ estimaci\'on.
 
 Para poder implementar el Sistema de Ecuaciones en \ref{ss_kalman_gain} sobre
 el modelo de Randles es necesario proveer las matrices que proporcionan valores 
-de varianza sobre las incertezas del modelo (Q) como tambi\'ien los valores de
+de varianza sobre las incertezas del modelo (Q) como tamb\'ien los valores de
 varianza sobre el ruido al que est\'an sometidas las variables de medici\'on
 (R), por el otro lado, tambi\'en es necesario proveer el estado inicial del
 sistema ($x_0$) como tambi\'en su covarianza inicial ($P_0$).
@@ -1882,7 +1881,7 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
     \begin{center}
         \includegraphics[width=1\textwidth]{kalman_result_matlab.eps}
         \caption{1ra Gr\'afica: Estimaci\'on del \acrshort{SOC} vs
-        \acrshort{SOC} del ensayo. 2da Gr\'afica: Corriente del dataset. 3ra
+        tiempo del ensayo. 2da Gr\'afica: Corriente del dataset. 3ra
         Gr\'afica: Voltaje del dataset. 4ta Gr\'afica: Error en la estimaci\'on
         del \acrshort{SOC}} 
         \label{kalman_result_matlab}
@@ -1903,13 +1902,13 @@ dos de los pilares fundamentales para la selección e implementación del
 Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}. 
 
 El \textbf{STM32F407VG} es un microcontrolador de la familia STM32F407xx de la
-firma \emph{STMicroelectronics} que implementan un nucleo de alto rendimiento de
+firma \emph{STMicroelectronics} que implementan un n\'ucleo de alto rendimiento de
 32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} y que puede operar a
-una frecuencia de hasta 168 MHz. El nucleo Cortex-M4 implementa dos módulos
-fundamentáles para la optimización del proceso de cálculo matemático del
+una frecuencia de hasta 168 MHz. El n\'ucleo Cortex-M4 implementa dos módulos
+fundamentales para la optimización del proceso de cálculo matemático del
 \acrshort{BMS} y el procesamiento en tiempo real. Una unidad de punto flotante
-(por sus siglas en ingles \acrfull{FPU}) de precision simple que soporta todas
-las instrucciones y tipos de datos Single-Precision data-Processing del nucleo
+(por sus siglas en ingles \acrfull{FPU}) de precisi\'on simple que soporta todas
+las instrucciones y tipos de datos Single-Precision data-Processing del n\'ucleo
 y un set completo de instrucciones de \acrshort{DSP}. La familia STM32F407xx a
 su vez incorpora una memoria FLASH embebida de alta velocidad de hasta 1 Mbyte y
 192+4 Kbytes de RAM (\acrfull{SRAM}).
@@ -2000,21 +1999,21 @@ observar su implementación modelo.
 
 El criterio de selección se basó en la necesidad de optimizar el consumo de
 energía del pack de batería, priorizando el máximo ahorro. Por lo que la
-tecnología switchin se preseta como una solución superadora frente a otras
-opciones, como ser los reguladores transistorizados, de menor eficiencia
+tecnología \emph{switching} se presenta como una solución superadora frente a 
+otras opciones, como ser los reguladores transistorizados, de menor eficiencia
 energética.
 
 El TPS54331 implementa un convertidor de energía tipo buck de hasta 28 V y 3 A
 que integra en la propia pastilla de silicio un MOSFET de bajo RDS(on) a la
 salida simplificando el circuito y abaratando costos.
-Para incrementar su performance durante los transitorios de linea y carga y para
+Para incrementar su performance durante los transitorios de l\'inea y carga y para
 disminuir la disipación de energía el dispositivo implementa un control por
-corriente a frencuencia constante el cual permite reducir la capacidad de salida
+corriente a frecuencia constante el cual permite reducir la capacidad de salida
 y simplificar el diseño del filtro de salida y su compensación. El \acrshort{CI}
-opera a una freciencia pre fijada de $f_{sw}=570 KHz$.
-El empaquetado del \acrshort{CI} implementado es del tipo SOIC de 8-pines. El
-mismo no requiere disipación energética externa adicional y la misma se realiza
-a través del plano de masa del \acrshort{PCB}.
+opera a una frecuencia fijada de $f_{sw}=570 KHz$.
+El empaquetado del \acrshort{CI} es del tipo SOIC de 8-pines. El mismo no 
+requiere disipación térmica externa y la misma se realiza a través del plano de 
+masa del \acrshort{PCB}.
 
 \begin{figure}[h!]
     \centering
@@ -2024,14 +2023,14 @@ a través del plano de masa del \acrshort{PCB}.
 \end{figure}
 \FloatBarrier
 
-El set-point del voltaje de salida se configura externamente seteando un voltaje
-en el pin SENSE del \acrshort{CI} a partir del divisor resistivo presentado en
-la figura \ref{fig:3v3_set_point}. La relación del voltaje de salida y la
-tensión sensada se presenta en la Ecuación \ref{eq:3v3_vout}.
+El \emph{set-point} del voltaje de salida se configura externamente seteando un 
+voltaje en el pin SENSE del \acrshort{CI} a partir del divisor resistivo 
+presentado en la Figura \ref{fig:3v3_set_point}. La relación del voltaje de 
+salida y la tensión sensada se presenta en la Ecuación \ref{eq:3v3_vout}.
 
 El voltaje aplicado en SENSE es comparado al interior del \acrshort{CI} contra
 una referencia $V_{ref} = 0.8 V \pm2\%$ la cual define si el voltaje de
-salida se haya por debajo o por encima del valor deseado. 
+salida se encuentra por debajo o por encima del valor deseado. 
 
 La Ecuación \ref{eq:3v3_vout} que define el voltaje de salida $V_{out}$ a partir
 de hacer $ V_{SENSE} \equiv V_{ref}$ será entonces:
@@ -2064,10 +2063,11 @@ de hacer $ V_{SENSE} \equiv V_{ref}$ será entonces:
 \FloatBarrier
 
 El \acrshort{CI} requiere de una alimentación mayor a $3.5 V$ para operar
-correctamente. El pin de Habilitación EN implementa una fuente de corriente
-interna que permite ajustar un voltaje mínimo de bloquéo por falta de
+correctamente. El pin de habilitación EN implementa una fuente de corriente
+interna que permite ajustar un voltaje mínimo de bloqueo por falta de
 alimentación externa a partir de un arreglo de resistencias como se observa en
 la Figura \ref{fig:3v3_input_under_voltage}.
+
 Se fijan los voltajes de apagado por falta de alimentación y de encendido
 teniendo en cuenta evitar que se consuma energía del pack de batería cuando las
 celdas presenten voltajes por debajo de su valor de operación segura.
@@ -2079,13 +2079,13 @@ celdas presenten voltajes por debajo de su valor de operación segura.
     R_{2} &= \frac{V_{en}}{I_{hist} + 1\mu A} = 27K\ohm 
 \end{align}
 
-La figura \ref{fig:3v3_output_filter} corresponde a la etapa de potencia de la
+La Figura \ref{fig:3v3_output_filter} corresponde a la etapa de potencia de la
 fuente de alimentación tipo buck implementada. La integran un Mosfet canal-N y
-un diodo de bootstrap integrado al miso \acrshort{CI}, una inductancia y 1
+un diodo de bootstrap integrado al \acrshort{CI}, una inductancia y 1
 capacitor, L2 y C42 respectivamente, que funcionan como filtros de ripple a la
 salida. También forman parte fundamental de la etapa el capacitor C39 que
 funciona como bootstrap del voltaje necesario para excitar el gate del mosfet de
-la parte alta. Puede observarse en la imagen \ref{fig:3v3_IC}.
+la parte alta. Puede observarse en la Figura \ref{fig:3v3_IC}.
 
 \begin{figure}[h!]
     \centering
@@ -2094,12 +2094,12 @@ la parte alta. Puede observarse en la imagen \ref{fig:3v3_IC}.
     \label{fig:3v3_output_filter}
 \end{figure}
 
-La selección de los componente que integran la etapa de salida fue realizada
+La selección de los componentes que integran la etapa de salida fue realizada
 siguiendo los lineamientos y recomendaciones de la hoja de datos del
 \acrshort{CI}. 
 
 Calculamos el valor mínimo de la inductancia sustituyendo los valores de las
-condiciones de operación en la ecuación \ref{eq:3v3_L}. Donde $K_{IND}$ es el
+condiciones de operación en la Ecuación \ref{eq:3v3_L}. Donde $K_{IND}$ es el
 coeficiente que representa la cantidad de ripple de corriente en relación a la
 corriente de salida.
 
@@ -2108,24 +2108,24 @@ corriente de salida.
     \label{eq:3v3_L} 
 \end{equation}
 
-Para el cálculo de la capacidad de salida C, se tuvo en cuenta los facores de
+Para el cálculo de la capacidad de salida C, se tuvo en cuenta los factores de
 diseño como la corriente de ripple, la resistencia serie equivalente
 (\acrshort{ESR}) y el voltaje DC que deberá soportar el integrado. El valor de
 \acrshort{ESR} es fundamental ya que junto con la capacidad determinan el ripple
-del voltaje de salida. El valor seleccionado $ESR_{max} = 47.87 m\ohm$
+del voltaje de salida. El valor seleccionado es $ESR_{max} = 47.87 m\ohm$
 
-Calculamos el valor mínimo de la capacidad de salida $C_{0 (min)}$ sustituyendo
-los valores de las condiciones de operación en la ecuación \ref{eq:3v3_C}. Donde
-$R_{O} = \frac{V_{out}}{I_{out}}$ equivale la impedancia de salida y $F_{CO
-(max)}$ a la frecuencia de corte seleccionada, que como regla general se toma
-$\frac{f_{sw}}{5} = 25 kHz$ 
+Se calcula el valor mínimo de la capacidad de salida $C_{0 (min)}$ sustituyendo
+los valores de las condiciones de operación en la Ecuación \ref{eq:3v3_C}. Donde
+$R_{O} = \frac{V_{out}}{I_{out}}$ equivale a la impedancia de salida y 
+$F_{CO\left(max\right)}$ a la frecuencia de corte seleccionada, que como regla 
+general se toma $\frac{f_{sw}}{5} = 25 kHz$ 
 
 \begin{equation}
     C_{o (min)} = \frac{1}{2\pi * R_{0} * F_{CO (max)}} = 6.875\mu F\\
     \label{eq:3v3_C}
 \end{equation}
 
-La capacidad de salida seleccionada finalmente fue de $20\mu F$, acorde a los
+La capacidad de salida seleccionada es de $20\mu F$, acorde a los
 ensayos experimentales realizados durante el proceso de montaje de la placa. 
 
 \subsection{Placa de desarrollo - Discovery}
@@ -2156,7 +2156,6 @@ balanceo.
 
 \subsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
 
-
 El balanceo de celdas se realiza durante la etapa de \acrshort{CV} en el proceso
 de carga de la bater\'ia, en el cual todas las variables involucradas de esta
 operaci\'on deben ser parametrizadas para cumplir con los tiempos de carga del
@@ -2180,7 +2179,7 @@ El balanceador debe cumplir con los siguientes requerimientos:
 El criterio de selección de la magnitud de la corriente de balanceo se
 funda en lo enunciado en \cite{CAMPESTRINI2016142} donde se estudia el método de
 balanceo pasivo tradicional de celdas de litio-ion. Sus resultados muestran que
-los m\'odulos ensayados presentan una variaci\'on en capacidad menor al 1\% de
+los m\'odulos ensayados presentan una variaci\'on en capacidad menor al 1\% 
 despu\'es de 1200 ciclos de carga y descarga. La celda utilizada en este estudio
 tiene una capacidad nominal de 2800mAh similar a los 2900mAh de las celdas
 Panasonic seleccionadas en el proyecto.
@@ -2198,7 +2197,7 @@ c\'alculo de la resistencia \emph{Shunt},
     Q_{diff} = \frac{V_{batt}}{R_{shunt}} \times t_{CV} \label{calc_r_shunt}
 \end{equation}
 
-parametrizando la ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
+parametrizando la Ecuaci\'on \ref{calc_r_shunt} con la tensi\'on m\'axima
 admitida, la m\'inima variac\'on entre porcentajes y el tiempo m\'aximo de carga
 a \acrshort{CV}, obtenemos que la resistencia shunt m\'inima requerida es de 
 38.62m$\mathrm{\ohm}$, en base a estos resultados, se ha realizado el desarrollo
@@ -2238,7 +2237,7 @@ menor cantidad de celdas en serie.
 
 \begin{minipage}{0.5\textwidth}
 El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
-celdas conectadas en serie, que pueden acoplarse entre si para extenderse a 192
+celdas conectadas en serie, que pueden acoplarse entre s\'i para extenderse a 192
 celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del ingl\'es
 \acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital (\acrshort{ADC},
 del ingl\'es \acrlong{ADC}), utilizado para medir de forma precisa el voltaje de
@@ -2268,13 +2267,13 @@ la Figura \ref{bq76_simplified_schematic}
 
 \subsection{Diseño del esquem\'atico}
 
-En primer instancia, al tener que controlar solo un pack de bater\'ias de 6
-celdas, solo se utiliz\'o un solo \acrshort{IC} sin necesidad de acoplar otro
-integrado similar para extender su capacidad, esto se puede observar en la
-Figura \ref{fig:bq76_implementation_sch}, en la que se muestra la implementaci\'on del
-dispositivo, donde el puerto SPI norte est\'a conectado a la tensi\'on total del 
-pack de bater\'ias ($\mathrm{V_{BATT}}$) y el puerto sur a masa 
-($\mathrm{GND}$), anulando ambos perif\'ericos.
+En primer instancia, al tener que controlar s\'olo un pack de bater\'ias de 6
+celdas, se utiliza un \acrshort{IC} sin necesidad de extender su capacidad, 
+esto se puede observar en la Figura \ref{fig:bq76_implementation_sch}, en la que 
+se muestra la implementaci\'on del dispositivo, donde el puerto \acrshort{SPI} 
+norte est\'a conectado a la tensi\'on total del pack de bater\'ias 
+($\mathrm{V_{BATT}}$) y el puerto sur a masa ($\mathrm{GND}$), anulando ambos 
+perif\'ericos.
 
 En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los capacitores de desacople
 especificados por el fabricante \cite{BQ76PL536A}:
@@ -2398,7 +2397,7 @@ shunt son:
 	magnéticos externos y variaciones de temperatura.
     \item Alta linealidad de la solución en todo el rango de voltaje en 
 	comparación a la solución basada en tecnología Hall, sobre todo en 
-	la zona cercana a cero y la de saturación del nucleo. 
+	la zona cercana a cero y la de saturación del n\'ucleo. 
     \item Mejor resolución para mediciones de corriente continua frente a 
 	las soluciones basadas en mediciones de efecto Hall. 
 	Particularmente debido a la baja sensitividad que presenta frente a 
@@ -2535,7 +2534,7 @@ fenómenos asociados a los tiempos de apagado y encendido.
 
 Para analizar el comportamiento durante la conmutación se debe tener en cuenta
 los modelos en los estados por los cuales transiciona el transistor, los mismos
-se muestran en la figura \ref{modelo_mosfet}. 
+se muestran en la Figura \ref{modelo_mosfet}. 
 
 \begin{figure}[h!]
 	\begin{center}
@@ -2584,7 +2583,7 @@ zona de óxido y la zona empobrecida de portadores contigua a la zona del
 disminuyendo rápidamente con $V_{DS}$ creciente. Con tensión $V_{DS}$ del orden
 de la tensión $V_{GS}$ de comando del MOSFET (10-15V) la capacidad es
 aproximadamente 30 veces menor  que con $V_{DS}\approx1V$. Para efectos de
-estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la figura
+estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la Figura
 \ref{aprox_CGD}.
 
 Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores
@@ -2686,7 +2685,7 @@ Los interruptores pueden ser clasificados, según su interconexión respecto a l
 carga y la alimentación, como \emph{high side} o \emph{low side} drivers. 
 La diferencia principal radica en que el primero desconecta la
 carga del borne de mayor potencial de la batería, el positivo, y el otro
-desconecta la carga del borne de menor potencial, el negativo. La figura
+desconecta la carga del borne de menor potencial, el negativo. La Figura
 \ref{low_high_driver_sch} muestra los dos tipos de interruptores implementados
 con transistores mosfet.
 
@@ -2727,7 +2726,7 @@ driver} con un transistor IRF9310PbF de Infineon Technologies, el cual posee una
 tensión de bloqueo de $30V$ y una corriente máxima de drain de $20A$, pero la
 característica fundamental es que a pesar de ser un MOSFET canal P posee un
 valor de $R_{on}=4.6 m\ohm$ minimizando perdidas en conducción. El circuito de
-la figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la
+la Figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la
 salida del microcontrolador al gate del interruptor y un circuito de apagado
 rápido para incrementar la corriente de gate y minimizar el tiempo de apagado.
 
@@ -2778,8 +2777,8 @@ descripto en la sección \ref{sec:tecnica_carga} a partir de una fuente de
 alimentación de tensión continua externa.
 
 Emplea un controlador de corriente y de tensión sincrónico
-switching PWM de frecuencia constante y de alta resolución cuya
-topología simplificada puede observarse en la figura \ref{fig:simp_sch_char}. 
+\emph{switching} \acrshort{PWM} de frecuencia constante y de alta resolución cuya
+topología simplificada puede observarse en la Figura \ref{fig:simp_sch_char}. 
 
 \begin{figure}[h!]
     \centering
@@ -2895,7 +2894,7 @@ por la resistencia R38 seleccionada, $1/4W$, calculamos una capacidad $C_{S}$.
 
 El perfil de carga \acrshort{CC} - \acrshort{CV} descripto en la sección
 \ref{sec:tecnica_carga} y sus correspondientes parámetros de control se setean
-en el bq24610 a partir de los divisores resistivos que se observan en la figura
+en el bq24610 a partir de los divisores resistivos que se observan en la Figura
 \ref{fig:cb_set_point}.
 
 \begin{figure}[h!]
@@ -2922,7 +2921,7 @@ El set point de corriente del perfil de carga a corriente constante descripto en
 la 'Sección' \ref{sec:tecnica_carga} es definido en el cargador de batería a
 partir de fijar una tensión en ISET1, pin 11 del bq24610. El voltaje de
 referencia se logra a partir de un divisor resistivo formado con R48 y R49 entre
-$V_{ref} \equiv 3.3V$ y masa como se puede observar en la figura
+$V_{ref} \equiv 3.3V$ y masa como se puede observar en la Figura
 \ref{fig:cb_set_point_I}. 
 
 El voltaje aplicado en ISET1 define la corriente máxima de carga rápida, la cual
@@ -2938,7 +2937,7 @@ La ecuación de corriente máxima de carga $I_{FastCharge}$ será entonces:
 
 Definiendo la corriente de salida máxima que puede entregar el cargador
 $I_{Out (max)}=5A$ se selecciona el valor de la resistencia shunt sensora de la
-corriente de salida $R_{SR}$. La diferencia de potencial máximo admitida entre
+corriente de salida $R_{SR}$. La diferencia de potencial máxima admitida entre
 los pines SRP y SRN $\Delta V_{SR (Max)} \leq 100mV$.
 
 \begin{align}
@@ -2954,10 +2953,10 @@ de la corriente de carga.
 Según la hoja de datos de la celda de litio NCR18650PF la corriente de
 carga máxima de la misma debe ser 0.5 veces la capacidad nominal de la misma.
 Debido a la configuración 6S3P de nuestro pack de batería con 3 celdas en
-paralelo la corriente de carga rápida del mismo deberá ser fijada en $
-I_{FastCharge}=0.5*C*3=4125mA$.
+paralelo la corriente de carga rápida del mismo debe ser fijada en 
+$I_{FastCharge}=0.5*C*3=4125mA$.
 
-Despejando $V_{ISET1}$ de la ecuación \ref{eq:IFastCharge} se conoce el
+Despejando $V_{ISET1}$ de la Ecuación \ref{eq:IFastCharge} se conoce el
 valor de tensión que debemos aplicar en el terminal ISET1 del \acrshort{CI}.
 
 \begin{align}
@@ -2989,20 +2988,20 @@ cargador de batería a partir de fijar una tensión en ISET2, pin 15 del bq24610
 El voltaje de referencia se logra a partir de un divisor resistivo formado
 por $R_{50}$ y $R_{51}$ entre $V_{ref} \equiv 3.3V$ y masa. 
 
-La ecuación de corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cutt
-off}$ será entonces:
+La corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cutt
+off}$ se desarrolla entonces en la Ecuaci\'on \ref{eq:ICutOff},
 
 \begin{equation}
     I_{cutt off}=I_{pre charge}=\frac{V_{ISET2}}{100*R_{SR}}
     \label{eq:ICutOff}
 \end{equation}
 
-Según la hoja de datos de la celda de litio NCR18650PF la corriente de cut-off o
-fín de carga es 100mA a 25°C.  Por lo tanto, debido a la configuración 6S3P del
+según la hoja de datos de la celda de litio NCR18650PF la corriente de cut-off o
+fín de carga es 100mA a 25°C. Por lo tanto, debido a la configuración 6S3P del
 pack de batería con 3 celdas en paralelo la corriente de fin de carga sensada
 por el cargador deberá ser 300mA.
 
-Despejando $V_{ISET2}$ de la ecuación \ref{eq:ICutOff} se conoce  el valor de
+Despejando $V_{ISET2}$ de la Ecuación \ref{eq:ICutOff} se conoce  el valor de
 tensión que deberá ser aplicado en ISET2.
 
 \begin{align}
@@ -3025,10 +3024,10 @@ Se adopta $R_{51} = 8K2\ohm$ y se calcula $R_{51} = 37K\ohm$, ambas resistencias
 de 0.5\%
 
 El set point de voltaje de carga propio del perfil de carga a voltaje contante
-descripto en la 'Sección' \ref{sec:tecnica_carga} se define fijando una tensión en
+descripto en la Sección \ref{sec:tecnica_carga} se define fijando una tensión en
 VFB, pin 12 del bq24610. El voltaje de referencia es obtenido a partir de un
 divisor resistivo formado por R55, R56 y R57, entre el voltaje del pack de
-batería $V_{BAT}$ y masa como se observa en la figura \ref{fig:cb_set_point_V}. 
+batería $V_{BAT}$ y masa como se observa en la Figura \ref{fig:cb_set_point_V}. 
 
 El voltaje aplicado en VFB es comparado al interior del \acrshort{CI} contra una
 referencia de 2.05V la cual define si el voltaje de salida se haya por debajo o
@@ -3045,7 +3044,7 @@ una única celda es 4,2V a 25°C. Por lo tanto, debido a la configuración 6S3P 
 pack de batería con 6 celdas en serie el voltaje de carga deberá ser fijado en
 $V_{Charge} = 4.2V*6 = 25.2V$
 
-A partir de conocer la tensión de carga $V_{Charge}$ se despejo el divisor
+A partir de conocer la tensión de carga $V_{Charge}$ se despej\'o el divisor
 resistivo para conocer $R_{55}$, $R_{56}$ y $R_{57}$
 
 \begin{equation}
@@ -3063,7 +3062,7 @@ dias$, tiempo que tardaría en descargar completamente el pack de batería.
 
 El voltaje aplicado en ACSET, pin 16 del \acrshort{CI}, define el límite
 dinámico de potencia de carga o \acrfull{DPM} por sus siglas en inglés. Si bien
-es una funcionalidad que se decidio no utilizar, el cargador de batería bq24610
+es una funcionalidad que se decidi\'o no utilizar, el cargador de batería bq24610
 está preparado para alimentar una carga y cargar el pack de batería de forma
 simultanea haciendo que la corriente consumida a la fuente externa sea función
 de ambos parámetros. Al fijar un voltaje en ACSET se logra que el cargador
@@ -3074,13 +3073,13 @@ naturaleza del proyecto no es compatible alimentar la carga simultaneamente con
 el proceso de carga del pack de batería.
 
 ACSET fue fijado en su valor de rango máximo $\equiv 2V$ como puede observarse
-en la imagen \ref{fig:cb_set_point_I} a partir de un divisor resistivo formado
+en la Figura \ref{fig:cb_set_point_I} a partir de un divisor resistivo formado
 por R53y R54. La corriente de entrada es sensada en la resistencia shunt R39,
 conectada en paralelo a ACP y ACN, pines 1 y 2 respectivamente.
 
 \subsubsection{Salida - Etapa de potencia}
 
-La figura \ref{fig:cb_output} corresponde a la etapa de potencia del cargador de
+La Figura \ref{fig:cb_output} corresponde a la etapa de potencia del cargador de
 batería tipo buck implementado. La integran dos Mosfet canal-N, Q9 y Q10, una
 inductancia y 2 capacitores, L1, C34 y C35 respectivamente, que funcionan como
 filtros de ripple a la salida.
@@ -3088,7 +3087,7 @@ filtros de ripple a la salida.
 También forman parte fundamental de la etapa el diodo Schottky D18 colocado en
 paralelo entre REGN y BTST, pines 18 y 22 respectivamente, y el capacitor C31
 que funciona como bootstrap del voltaje necesario para excitar el gate del mosfet
-de la parte alta. Ambos componentes pueden observarse en la imagen \ref{fig:bc_ic}.
+de la parte alta. Ambos componentes pueden observarse en la Figura \ref{fig:bc_ic}.
 
 \begin{figure}[h!]
     \centering
@@ -3264,7 +3263,7 @@ información necesaria del estado del proceso de carga y operarlo.
 El diseño del cargador implementado permite que el mismo sea operado de forma
 autónoma e independiente de la unidad de procesamiento. Esto se logra a partir
 del switch SW2, select CE, que independiza el cargador de la unidad de
-procesamiento como se indica en le imagen \ref{fig:cb_interface_ce}. Una vez que
+procesamiento como se indica en la Figura \ref{fig:cb_interface_ce}. Una vez que
 el cargador se haye operando en modo autónomo el usuario cuenta con la
 posibilidad de resetear el ciclo de carga a partir del swtich SW1. Esta
 funcionalidad se diseñó en vistas de facilitar la puesta en marcha del circuito
@@ -4111,7 +4110,7 @@ de la Ecuación \ref{nyquist_condition_2}.
 	\label{nyquist_condition_2}
 \end{equation}
 
-En la figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
+En la Figura \ref{system_bode} se observa que a partir de $\omega = 10 rad/s$ la
 ganancia esta determinada por $-20log(R_{0})\approx-30dB$, lo cual es coherente
 con los calculos previos.
 
@@ -4243,7 +4242,7 @@ operando seg\'un los objetivos propuestos en el trabajo presente. Una de las
 grandes limitaciones a la hora de resolver los problemas encontrados son los 
 grandes costos de la importaci\'on de los dispositivos, ya que los mismos no 
 est\'an disponibles en Argentina y los tiempos de env\'io y modificaci\'on del 
-circuito impreso.
+circuito impreso son altos.
 
 Finalmente, la implementaci\'on del firmware del \acrshort{BMS} fue
 satisfactoria, con la contraparte de que realizar ensayos del dispositivo
@@ -4261,7 +4260,7 @@ ecualizaci\'on de celdas.
 
 Finalmente, el proyecto se encuentra publicado en un repositorio p\'ublico donde
 diferentes estudiantes, investigadores y/o desarrolladores pueden referenciar
-este trabajo para futuras referencias, el mismo se encuentra en la siguiente URL 
+este trabajo para futuros proyectos, el mismo se encuentra en la siguiente URL 
 \href{https://github.com/moyamartin/bms_unr}{https://github.com/moyamartin/bms\_unr}
 
 \newpage
