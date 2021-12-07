@@ -592,7 +592,7 @@ implementar los distintos componentes del sistema en un sistema f\'isico real.
 
 \section{Espíritu del proyecto}
 
-El desarrollo del proyecto se funda sobre bases de espíritu colarborativas, bajo
+El desarrollo del proyecto se funda sobre bases de espíritu colarborativo, bajo
 la filosofía de codigo abierto y de software libre. Fuera del paraguas de alguna
 licencia en particular. Tanto los archivos fuentes del proyecto, de software y
 hardware, como la extensa y profunda documentación del mismo se encuentran
@@ -610,12 +610,12 @@ herramienta que lo permita.
 
 \section{Pack de bater\'ias}\label{battery_pack}
 
-Como se menciona en la secci\'on \ref{proy_specs}, el pack de bater\'ias a
+Como se menciona en la Secci\'on \ref{proy_specs}, el pack de bater\'ias a
 controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
 compuesto por 3 celdas de litio-ion conectadas en paralelo. En este caso, el pack
 de bater\'ias est\'a conformado por celdas de litio-ion modelo NCR18650PF. La
 arquitectura del pack se puede observar en la Figura \ref{pack_bateria} y una
-im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
+imagen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \begin{figure}[h!]
     \begin{subfigure}[b]{.5\textwidth}
@@ -710,14 +710,14 @@ im\'agen de la celda se muestra en la Figura \ref{foto_bateria}
 
 \subsection{Celda NCR18650PF}
 
-La celda de litio-ion 18650 fue originalmente diseñada para ser utilizada en
+La celda de Litio-Ion 18650 fue originalmente diseñada para ser utilizada en
 bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
-expandi\'o hasta ser implementados en \acrshort{VVEE}s. \'Estas bater\'ias se
+expandi\'o hasta ser implementados en \acrshort{VVEE}s. Estas bater\'ias se
 caracterizan por su tamaño reducido de 18mm de di\'ametro por 65mm de alto,
-caracteristicas que le dan su nombre. En el mercado actual, se pueden encontrar
+características que le dan su nombre. En el mercado actual, se pueden encontrar
 diferentes versiones del mismo modelo debido a que cada uno posee una
 composici\'on qu\'imica diferente, dando lugar a las distintas caracter\'isticas
-de capacidad y voltaje que se descrien a continuaci\'on:
+de capacidad y voltaje que se describen a continuaci\'on:
 
 \begin{itemize}
     \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
@@ -763,17 +763,22 @@ carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
     \end{center}
 \end{table}
 
-Por el otro lado, \cite{18650pf} también nos provee curvas significativas, de su
+Por el otro lado, \cite{18650pf} también nos provee curvas significativas para su
 operaci\'on como por ejemplo, la curva de carga \emph{(Fig. \ref{cc_cv_18650})}, 
 la curva de descarga para distintas corrientes 
 \emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de la 
 batería \emph{(Fig. \ref{life_cycle_18650})}.
 
-La elecci\'on de \'este tipo de celda se debe a principalmente a que el pack a
-controlar ya utiliza \'este modelo y, por el otro lado, ya existe un set de 
-datos abiertos \cite{Kollmeyer2018} de distintos ensayos sobre el
-mismo, con el cual se pueden desarrollar e investigar distintos modelos y 
-simulaciones. 
+El criterio de selección de la celda Panasonic NCR18650PF, para la
+implementación del pack de baterías a controlar por el \acrshort{BMS}, se funda
+principalmente en la popularidad que tienen las celdas tipo 18650 en
+implementaciones de packs de baterias de uso comercial para vehículos eléctricos
+y en la disponibilidad en el mercado que esto conlleva. A su vez ha
+sido un factor determinante para su selección la existencia y disponibilidad de
+un set de datos completos \cite{Kollmeyer2018}, abiertos y libres de distintos
+ensayos sobre la celda en cuestión a partir del cual nos ha sido posible
+desarrollar e investigar los distintos modelos, simulaciones y algoritmos. Y
+fundamentalmente a partir de los cuales validar los resultados obtenidos.  
 
 \begin{figure}[h!]
     \begin{subfigure}[t]{.5\textwidth}
@@ -802,8 +807,7 @@ simulaciones.
     \caption{Curvas sgnificativas celda Panasonic 18650PF}
     \label{curvas_sign_18650}
 \end{figure}
-
-\newpage
+\FloatBarrier
 
 \subsection{Ensamblado del pack}
 
