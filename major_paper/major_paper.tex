@@ -946,36 +946,12 @@ El modelo puede ser reescrito en el dominio de la transformada de Laplace como:
     \end{split}
        \label{eq:L_Vout_randles_2rc}
 \end{align}
-
-\subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
-
-La estimaci\'on de par\'ametros es com\'unmente usado para ajustar la respuesta 
-de un modelo a los datos experimentales de un modelo f\'isico. En el caso de 
-las celdas de litio-ion, los datos experimentales provienen de curvas
-\acrfull{HPPC}. Este proceso involucra reiteradas simulaciones del modelo
-matem\'atico planteado junto con la implementación y uso de un algoritmo de
-optimizaci\'on num\'erico. De esta forma, el proceso de optimizaci\'on busca
-ajustar los par\'ametros del modelo para minimizar el error entre los datos
-experimentales y los resultados de las simulaciones realizadas.
-
-En este caso, la curva \acrshort{HPPC}, que contiene un conjunto de pulsos de
-carga/descarga, provee una representaci\'on con un alto nivel de fidelidad sobre
-el comportamiento din\'amico de la bater\'ia, en m\'ultiples niveles del
-\acrshort{SOC}. Para reflejar este comportamiento en el modelo planteado en la
-Figura \ref{randles_2rc}, se requieren elementos circuitales no lineas flexibles
-a las condiciones de operaci\'on y estados de la celda. Para realizar esto,
-com\'unmente se emplean tablas de b\'usqueda (\acrshort{LUT}, del ingl\'es
-\emph{\acrlong{LUT}}).
-
-En este caso, los datos experimentales a analizar provienen de 
-\cite{Kollmeyer2018}, que son descriptos en la siguiente secci\'on.
-
 \subsection{Descripci\'on del set de datos}
 
-El set de datos de  es un conjunto de ensayos realizados en 
-la Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos 
-son realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara 
-t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una 
+El set de datos utilizado es un conjunto de ensayos realizados en la
+Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos
+fueron realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara
+t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una
 capacidad de descarga de 25A a 18V.
 
 Los ensayos fueron realizados bajo 5 temperaturas diferentes, en donde la
@@ -1010,22 +986,42 @@ ejecutaron los siguientes ciclos:
         anteriormente.
 \end{enumerate}
 
+Nos centramos puntualmente en la descrićión del ensayo \acrshort{HPPC} ya que es
+a partir del cual calculamos los parámetros internos del modelo de Randles
+propuesto.
+
 \subsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
 El ensayo \acrshort{HPPC} es una metodología utilizada para poder caratcerizar
-la dinámica de una celda. El perfil de ensayo \acrshort{HPPC} del dataset
-\cite{Kollmeyer2018} presenta múltiples pulsos de descarga y de relajación a
-intervalos de 5\% del estado de carga (\acrshort{SOC}). El ensayo es llevado a
-cabo bajo el estricto control de la temperatura del electrolito y de la
-corriente de descarga. Los pulsos de descarga son apreciablemente cortos
-respecto del periodo de relajación siendo su duración de 1s y 2 minutos
-respectivamente, con la intención de que el pulso del ensayo perturve la celda
-sin modificar su estado de carga.
+la dinámica de una celda. Un perfil genérico de ensayo \acrshort{HPPC}, como
+puede observarse en la Figura \ref{fig:gen_HPPC}, presenta
+pulsos de carga y descarga de muy corta duración y periodos de relajación a
+diferentes intervalos del estado de carga (\acrshort{SOC}). Para alcazar los
+diferentes estados de carga de ensayo se utilizan pulsos de descarga únicos de
+larga duración previos al periodo de relajación para poder acondicionar el
+estado de carga del ciclo de ensayos siguiente.
 
-Para poder poblar las tablas de busqueda del modelo es necesario contar con
-información experimental suficiente que ejercite cada uno de los parámetros que
-las componen. Son las curvas del ensayo \acrshort{HPPC}, que pueden observarse
-en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria.
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{HPPC-test-profile.png}
+        \caption{Perfil genérico de un ensayo HPPC}
+        \label{fig:gen_HPPC}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+En el caso del perfil de ensayo \acrshort{HPPC} del dataset \cite{Kollmeyer2018}
+se presentan unicamente pulsos múltiples de descarga y un periodo de relajación
+entre intervalos del 5\% del estado de carga (\acrshort{SOC}). El pulso de
+descarga entre intervalos del \acrshort{SOC} no está presente en el set de
+datos.
+
+El ensayo es llevado a cabo bajo el estricto control de la temperatura del
+electrolito y de la corriente de descarga. Los pulsos de descarga de ensayo son
+apreciablemente cortos en tiempo respecto del periodo de relajación siendo su
+duración de 1s y 2 minutos respectivamente, con la intención de que el pulso del
+ensayo perturve la celda sin modificar su estado de carga.
+
 
 \begin{figure}[h!]
     \begin{center}
@@ -1036,12 +1032,10 @@ en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria
 \end{figure}
 \FloatBarrier
 
-%\newpage
-
 La Figura \ref{hppc_kollmeyer_zoom} muestra una vista detallada y ampliada de
 uno de los pulsos de descarga que conforman el ensayo \acrshort{HPPC}. Cada uno
 de estos pulsos nos brindan no solo información respecto de la tensión de
-circuito abierto (\acrshort{OCV}), sino tambien de la evolución de la celda
+circuito abierto (\acrshort{OCV}), sino también de la evolución de la celda
 frente a una excitación por corriente a estados de carga (\acrshort{SOC})
 determinado.
 
@@ -1054,6 +1048,42 @@ determinado.
     \end{center}
 \end{figure}
 \FloatBarrier
+
+\subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
+
+La estimaci\'on de los par\'ametros del modelo de una celda de litio-ion es
+com\'unmente usado para ajustar la respuesta de un modelo f\'isico a los datos
+experimentales obtenidos a partir de ensayos de laboratorio. Este proceso
+involucra reiteradas simulaciones del modelo matem\'atico planteado junto con la
+implementación y uso de un algoritmo de optimizaci\'on num\'erico. De esta
+forma, el proceso de optimizaci\'on busca ajustar los par\'ametros del modelo
+para minimizar el error entre los datos experimentales y los resultados de las
+simulaciones realizadas. En el caso de las celdas de litio-ion, los datos
+experimentales fueron obtenidos a partir de ensayos \acrfull{HPPC} que se
+describió el la Sección \ref{ensayo_HPPC}. 
+
+Múltiples curvas \acrshort{HPPC}, cada una provista de un conjunto de pulsos de
+carga/descarga en los diferentes niveles del \acrshort{SOC}, proveen una
+representacion fidedigna del comportamiento din\'amico de la bater\'ia bajo
+múltiples condiciones de operación de \acrshort{SOC} y de temperatura.
+
+Para ajustar el comportamiento del modelo planteado en la Figura
+\ref{randles_2rc} a las condiciones de ensayo se requieren multiples juegos de
+parámetros que respondan a las condiciones de operaci\'on y de estados de la
+celda. Para realizar esto, empleamos tablas de b\'usqueda (\acrshort{LUT}, del
+ingl\'es \emph{\acrlong{LUT}}).
+
+Entonce podemos concluir que nuestro modelo, para poder representar con
+exactitud la dinámica de una celda en cada uno de los escalones de
+\acrshort{SOC}, requiere de múltipes juegos de parámetros internos. Un juego por
+cada escalón de descarga de corriente que presente el ensayo \acrshort{HPPC} y a
+su vez, otro juego completo de parámetros por cada temperatura de ensayo
+distinta en caso de querer ajustar el modelo a las variaciones de temperaturas.
+
+Para poder poblar las tablas de busqueda del modelo es necesario contar con
+información experimental suficiente que ejercite cada uno de los parámetros que
+las componen. Son las curvas del ensayo \acrshort{HPPC}, que pueden observarse
+en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria.
 
 \subsection{Validación número de ramas R-C del modelo}
 
