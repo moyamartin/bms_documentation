@@ -901,6 +901,14 @@ modelo de Randles de segundo orden, que se encuentra representado por el
 esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
 en la Secci\'on \ref{param_18650pf}.
 
+En la presente Sección se describe el trabajo relizado para definir las
+características y llevar a cabo el cálculo y optimización de los parámetros
+internos que describen al modelo en cuestión. Pasando por el pre-procesamiento y
+tratamiento del set de datos experimentales utilizado, como por el proceso
+intrínseco de cálculo y posterior trabajo recursivo de optimización para ajustar
+los parámertros y así el comportamiento del modelo a los datos experimentales
+validando los mismos.
+
 \begin{figure}[h!]
     \begin{center}
 	    \ctikzset{bipoles/length=1.0cm}
@@ -938,36 +946,12 @@ El modelo puede ser reescrito en el dominio de la transformada de Laplace como:
     \end{split}
        \label{eq:L_Vout_randles_2rc}
 \end{align}
-
-\subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
-
-La estimaci\'on de par\'ametros es com\'unmente usado para ajustar la respuesta 
-de un modelo a los datos experimentales de un modelo f\'isico. En el caso de 
-las celdas de litio-ion, los datos experimentales provienen de curvas
-\acrfull{HPPC}. Este proceso involucra reiteradas simulaciones del modelo
-matem\'atico planteado junto con la implementación y uso de un algoritmo de
-optimizaci\'on num\'erico. De esta forma, el proceso de optimizaci\'on busca
-ajustar los par\'ametros del modelo para minimizar el error entre los datos
-experimentales y los resultados de las simulaciones realizadas.
-
-En este caso, la curva \acrshort{HPPC}, que contiene un conjunto de pulsos de
-carga/descarga, provee una representaci\'on con un alto nivel de fidelidad sobre
-el comportamiento din\'amico de la bater\'ia, en m\'ultiples niveles del
-\acrshort{SOC}. Para reflejar este comportamiento en el modelo planteado en la
-Figura \ref{randles_2rc}, se requieren elementos circuitales no lineas flexibles
-a las condiciones de operaci\'on y estados de la celda. Para realizar esto,
-com\'unmente se emplean tablas de b\'usqueda (\acrshort{LUT}, del ingl\'es
-\emph{\acrlong{LUT}}).
-
-En este caso, los datos experimentales a analizar provienen de 
-\cite{Kollmeyer2018}, que son descriptos en la siguiente secci\'on.
-
 \subsection{Descripci\'on del set de datos}
 
-El set de datos de  es un conjunto de ensayos realizados en 
-la Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos 
-son realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara 
-t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una 
+El set de datos utilizado es un conjunto de ensayos realizados en la
+Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos
+fueron realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara
+t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una
 capacidad de descarga de 25A a 18V.
 
 Los ensayos fueron realizados bajo 5 temperaturas diferentes, en donde la
@@ -1002,22 +986,42 @@ ejecutaron los siguientes ciclos:
         anteriormente.
 \end{enumerate}
 
+Nos centramos puntualmente en la descrićión del ensayo \acrshort{HPPC} ya que es
+a partir del cual calculamos los parámetros internos del modelo de Randles
+propuesto.
+
 \subsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
 El ensayo \acrshort{HPPC} es una metodología utilizada para poder caratcerizar
-la dinámica de una celda. El perfil de ensayo \acrshort{HPPC} del dataset
-\cite{Kollmeyer2018} presenta múltiples pulsos de descarga y de relajación a
-intervalos de 5\% del estado de carga (\acrshort{SOC}). El ensayo es llevado a
-cabo bajo el estricto control de la temperatura del electrolito y de la
-corriente de descarga. Los pulsos de descarga son apreciablemente cortos
-respecto del periodo de relajación siendo su duración de 1s y 2 minutos
-respectivamente, con la intención de que el pulso del ensayo perturve la celda
-sin modificar su estado de carga.
+la dinámica de una celda. Un perfil genérico de ensayo \acrshort{HPPC}, como
+puede observarse en la Figura \ref{fig:gen_HPPC}, presenta
+pulsos de carga y descarga de muy corta duración y periodos de relajación a
+diferentes intervalos del estado de carga (\acrshort{SOC}). Para alcazar los
+diferentes estados de carga de ensayo se utilizan pulsos de descarga únicos de
+larga duración previos al periodo de relajación para poder acondicionar el
+estado de carga del ciclo de ensayos siguiente.
 
-Para poder poblar las tablas de busqueda del modelo es necesario contar con
-información experimental suficiente que ejercite cada uno de los parámetros que
-las componen. Son las curvas del ensayo \acrshort{HPPC}, que pueden observarse
-en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria.
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{HPPC-test-profile.png}
+        \caption{Perfil genérico de un ensayo HPPC}
+        \label{fig:gen_HPPC}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+En el caso del perfil de ensayo \acrshort{HPPC} del dataset \cite{Kollmeyer2018}
+se presentan unicamente pulsos múltiples de descarga y un periodo de relajación
+entre intervalos del 5\% del estado de carga (\acrshort{SOC}). El pulso de
+descarga entre intervalos del \acrshort{SOC} no está presente en el set de
+datos.
+
+El ensayo es llevado a cabo bajo el estricto control de la temperatura del
+electrolito y de la corriente de descarga. Los pulsos de descarga de ensayo son
+apreciablemente cortos en tiempo respecto del periodo de relajación siendo su
+duración de 1s y 2 minutos respectivamente, con la intención de que el pulso del
+ensayo perturve la celda sin modificar su estado de carga.
+
 
 \begin{figure}[h!]
     \begin{center}
@@ -1028,12 +1032,10 @@ en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria
 \end{figure}
 \FloatBarrier
 
-%\newpage
-
 La Figura \ref{hppc_kollmeyer_zoom} muestra una vista detallada y ampliada de
 uno de los pulsos de descarga que conforman el ensayo \acrshort{HPPC}. Cada uno
 de estos pulsos nos brindan no solo información respecto de la tensión de
-circuito abierto (\acrshort{OCV}), sino tambien de la evolución de la celda
+circuito abierto (\acrshort{OCV}), sino también de la evolución de la celda
 frente a una excitación por corriente a estados de carga (\acrshort{SOC})
 determinado.
 
@@ -1047,11 +1049,54 @@ determinado.
 \end{figure}
 \FloatBarrier
 
+\subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
+
+La estimaci\'on de los par\'ametros del modelo de una celda de litio-ion es
+com\'unmente usado para ajustar la respuesta de un modelo f\'isico a los datos
+experimentales obtenidos a partir de ensayos de laboratorio. Este proceso
+involucra reiteradas simulaciones del modelo matem\'atico planteado junto con la
+implementación y uso de un algoritmo de optimizaci\'on num\'erico. De esta
+forma, el proceso de optimizaci\'on busca ajustar los par\'ametros del modelo
+para minimizar el error entre los datos experimentales y los resultados de las
+simulaciones realizadas. En el caso de las celdas de litio-ion, los datos
+experimentales fueron obtenidos a partir de ensayos \acrfull{HPPC} que se
+describió el la Sección \ref{ensayo_HPPC}. 
+
+Múltiples curvas \acrshort{HPPC}, cada una provista de un conjunto de pulsos de
+carga/descarga en los diferentes niveles del \acrshort{SOC}, proveen una
+representacion fidedigna del comportamiento din\'amico de la bater\'ia bajo
+múltiples condiciones de operación de \acrshort{SOC} y de temperatura.
+
+Para ajustar el comportamiento del modelo planteado en la Figura
+\ref{randles_2rc} a las condiciones de ensayo se requieren multiples juegos de
+parámetros que respondan a las condiciones de operaci\'on y de estados de la
+celda. Para realizar esto, empleamos tablas de b\'usqueda (\acrshort{LUT}, del
+ingl\'es \emph{\acrlong{LUT}}).
+
+Entonce podemos concluir que nuestro modelo, para poder representar con
+exactitud la dinámica de una celda en cada uno de los escalones de
+\acrshort{SOC}, requiere de múltipes juegos de parámetros internos. Un juego por
+cada escalón de descarga de corriente que presente el ensayo \acrshort{HPPC} y a
+su vez, otro juego completo de parámetros por cada temperatura de ensayo
+distinta en caso de querer ajustar el modelo a las variaciones de temperaturas.
+
+Para poder poblar las tablas de busqueda del modelo es necesario contar con
+información experimental suficiente que ejercite cada uno de los parámetros que
+las componen. Son las curvas del ensayo \acrshort{HPPC}, que pueden observarse
+en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria.
+
 \subsection{Validación número de ramas R-C del modelo}
 
-Para validar que el modelo propuesto sea capaz de describir la dinámida completa
-de una celda de Ion-Litio ensayada se ajustaron 2 ecuasiones exponenciales, una
-de orden 1 (Eq. \ref{eq:exp1}) y otra de orden 2 (Eq. \ref{eq:exp2}), a la curva
+Una vez estudiados los ensayos \acrshort{HPPC} nos surge el interrogante de sí el
+modelo seleccionado en la Sección \ref{dev_batt_model} para representar nuestra
+celda de Litio-Ion será capaz de describir la dinámica que presentan las celdas
+ensayadas. 
+
+Para validar que el modelo que proponemos sea capaz de describir la dinámida
+completa de una celda de Ion-Litio ensayada seguimos el procedimiento enunciado
+en \cite{Jackey2013BatteryMP} para la selección del número de ramas R-C
+que debe presentar un modelo y ajustamos 2 ecuasiones exponenciales, una de
+orden 1 (Eq. \ref{eq:exp1}) y otra de orden 2 (Eq.  \ref{eq:exp2}), a la curva
 que traza los datos del en sayo HPPC utilizando la herramienta Curve Fitting de
 Matlab.
 
@@ -1060,11 +1105,11 @@ Matlab.
     Y &= a*exp(b*x)+c*exp(d*x)\label{eq:exp2}
 \end{align}
 
-Se seleccion\'o especificamente la fase de relajación de uno de los escalones del
-ensayo HPPC. Cuando se retira el escalón de corriente, la respuesta transitoria
-inmediata es condicionada por $R_{0}$ pero r\'apidamente la din\'amica
-fundamentalmente es descripta por el número de ramas R-C en serie dispuestas en
-el circuito equivalente. 
+Se seleccion\'o especificamente la fase de relajación de uno de los escalones
+del ensayo \acrshort{HPPC}. Cuando se retira el escalón de corriente, la
+respuesta transitoria inmediata es condicionada por $R_{0}$ pero r\'apidamente
+la din\'amica fundamentalmente es descripta por el número de ramas R-C en serie
+dispuestas en el circuito equivalente. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -1075,11 +1120,12 @@ el circuito equivalente.
 \end{figure}
 \FloatBarrier
 
-A la vista del resultado obtenido en la Figura \ref{fig:model_fit} se concluye
-que 2 t\'erminos exponenciales temporales serán suficientes para describir la
-dinamica de una celda de Ion-Litio ensayada. Situación de compromiso entre
-la precisión del modelo, la complejidad matemática y la necesidad de mantener el
-costo computacional bajo a los fines de embeber el modelo en el
+A la vista del resultado obtenido en la Figura \ref{fig:model_fit} concluimos
+que dos t\'erminos exponenciales temporales, que en términos circuitales son dos
+ramas RC paralelas, serán suficientes para describir la dinamica de una celda de
+Ion-Litio ensayada. El orden del modelo presenta una situación de compromiso
+entre la precisión del modelo, la complejidad matemática y la necesidad de
+mantener el costo computacional bajo a los fines de embeber el modelo en el
 microcontrolador. 
 
 \subsection{Implementación del circuito de Randles}
@@ -1092,10 +1138,10 @@ medida y representar los elementos pasivos que lo componen y las señales de
 entrada y salida.
 
 El modelo est\'a compuesto por una fuente de tensi\'on controlada, que
-representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que
-representan los componentes pasivos del circuito. Los 6 componentes dependen
-exclusivamente del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on
-se puede observar en la Figura \ref{battery_model_simulink}. 
+representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que representan
+los componentes pasivos del circuito. Los 6 componentes dependen exclusivamente
+del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on se puede
+observar en la Figura \ref{battery_model_simulink}. 
 
 El modelo implementado, a su vez, incluye una fuente de corriente a la salida
 que hace las veces de carga de la celda y logra capturar la señal de corriente
@@ -1118,6 +1164,16 @@ Las variables de entrada del modelo serán entonces:
     \item $I_{load}(t)$
 \end{itemize}
 
+Los componentes pasivos del circuito a estimar son: 
+
+\begin{itemize}
+    \item $R_{0}(SoC)$
+    \item $R_{1}(SoC)$
+    \item $C_{1}(SoC)$
+    \item $R_{2}(SoC)$
+    \item $C_{2}(SoC)$
+\end{itemize}
+
 El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
 ante las variaciones de sus variables de entrada a partir de la medición de la
 tensi\'on de salida que simula el mismo.
@@ -1135,7 +1191,9 @@ Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitaci\'on con un escal\'on de corriente.
 
-Para el ensayo se utilizan par\'ametros con valores predeterminados: 
+Para el ensayo se utilizan par\'ametros con valores predeterminados. Los valores
+seleccionados no responden a ningun criterio de selección, solamente buscan
+ejercitar el symulink para corroborar su correcto funcionamiento.
 
 \begin{itemize}
     \item $C_{1} = C_{2} = 1F$
@@ -1156,25 +1214,28 @@ Para el ensayo se utilizan par\'ametros con valores predeterminados:
 
 Se puede observar en la Figura \ref{comp_simulink_no_opt} que a pesar de no
 estar optimizados los parámetros para disminuir el error en la tensi\'on de
-salida, el modelo logra representar, de forma lejana, la din\'amica de la
+salida, el modelo logra representar correctamente la din\'amica de la
 respuesta al escal\'on validando la implementación realizada.
 
 %\newpage
 
 \subsection{Pre-procesamiento datos}\label{data_preprocessing}
 
-El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} debe ser
-preprocesado para obtener ciertas variables de inter\'es, como por ejemplo, la
-señal del \acrshort{SOC} de la curva relevante para comparar los resultados de
-nuestro modelo, como tambi\'en la segmentaci\'on o modificaci\'on de los datos
-es \'util para el desarrollo del modelo.
+El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} necesita
+ser preprocesado para obtener ciertas variables de inter\'es, como por ejemplo,
+la señal del \acrshort{SOC} de la curva relevante para comparar los resultados
+de nuestro modelo, el \acrshort{OCV} necesario para alimentar el modelo durante
+las simulaciones o la segmentaci\'on o modificaci\'on de los datos \'util para
+acotar el problema de procesamiento del modelo simplificando el proceso de
+optimización.
 
 \subsubsection{Curva de \acrshort{SOC}}
 
-Dentro de los datos de la curva \acrshort{HPPC}, el ensayo de
-\cite{Kollmeyer2018} acumula la corriente que circula desde y hacia el pack en
-Ampehere-hora (Ah), en base a esto, se calcula \acrshort{SOC} en todo el ensayo
-usando la Ecuaci\'on \ref{calculo_soc_ah}.
+Dentro de los datos que presenta la curva \acrshort{HPPC}, el ensayo de
+\cite{Kollmeyer2018} acumula la corriente que circula desde y hacia la celda en
+Ampehere-hora (Ah), en base a este dato se calcula el valor del \acrshort{SOC}
+de la celda durante el transcurso del tiempo del ensayo \acrshort{HPPC} usando
+la Ecuaci\'on \ref{calculo_soc_ah}.
 
 \begin{equation}
     SOC = \frac{Ah_{acumulado} + Ah_{min}}{Ah_{min}} \label{calculo_soc_ah}
@@ -1198,24 +1259,38 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 
 \subsubsection{Obtenci\'on del \acrshort{OCV}}
 
-Dentro de la curva \acrshort{HPPC} de la Figura \ref{hppc_kollmeyer}, podemos
-observar per\'iodos de descanso lo suficientemente largos como para considerar
-que la bater\'ia alcanz\'o la estabilidad qu\'imica, por lo tanto, presentando
-una lectura de voltaje equivalente al \acrshort{OCV}. Esta informaci\'on del 
-\acrshort{OCV} durante el ensayo, permite relacionar la tensi\'on de circuito 
-abierto de la celda con el estado de carga para los distintos pulsos de la 
-curva. \'Esta variable resulta de gran importancia para parametrizar y ajustar
-los distintos par\'ametros del modelo, porque representa la fuente de voltaje
-controlada por el \acrshort{SOC} de la Figura \ref{randles_2rc}.
+Para poder rescatar el valor de tención de circuito abierto \acrshort{OCV} a
+partir del ensayo \acrshort{HPPC} y construir la curva que se presenta en la
+Figura \ref{fig:ocv_detection}  necesitamos seleccionar criteriosamente el punto
+donde tomar el valor de voltaje en bornes de la celda. Se necesita poder
+asegurar que la celda ensayada haya alcanzado el mayor estado posible de
+relajación antes de tomar el valor de \acrshort{OCV} para asegurar que su
+tensión en bornes equivalga a la tensión de circuito abierto.
+
+Durante todo el ensayo \acrshort{HPPR} podemos observar per\'iodos de descanso
+lo suficientemente largos como para considerar que la bater\'ia alcanz\'o la
+estabilidad qu\'imica, por lo tanto, presentando una lectura de voltaje
+equivalente al \acrshort{OCV}.
 
 Para construir la curva de \acrshort{OCV}, se retuvieron los valores de voltaje
 en los puntos donde se detect\'o un flanco negativo, como se describe en la
-Secci\'on \ref{flank_seg} y se extrapoló este valor hasta el siguiente flanco
-negativo, obteniendo la curva de la Figura \ref{fig:ocv_detection}.
+Secci\'on \ref{flank_seg} y se extrapoló este valor hasta el flanco negativo
+inmediatamente anterior como se observa en la figura
+\ref{fig:ocv_detection_closeup}, obteniendo como resultado la curva de la Figura
+\ref{fig:ocv_detection}.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=.7\textwidth]{soc_detection}
+        \includegraphics[width=.6\textwidth]{ocv_detection_closeup.eps}
+        \caption{Toma del valor de \acrshort{OCV} y extrpolación}
+        \label{fig:ocv_detection_closeup}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{ocv_detection.eps}
         \caption{En naranja se muestra el \acrshort{OCV} en la que se observa
         que toma el mismo valor de voltaje antes de que ocurra el flanco
         negativo en la celda, y en azul la curva \acrshort{HPPC} original}
@@ -1224,7 +1299,12 @@ negativo, obteniendo la curva de la Figura \ref{fig:ocv_detection}.
 \end{figure}
 \FloatBarrier
 
-\newpage
+La informaci\'on del \acrshort{OCV} durante el ensayo, permite relacionar la
+tensi\'on de circuito abierto de la celda con el estado de carga para los
+distintos pulsos de la curva. \'Esta variable resulta de gran importancia para
+parametrizar y ajustar los distintos par\'ametros del modelo, porque representa
+la fuente de voltaje controlada por el \acrshort{SOC} de la Figura
+\ref{randles_2rc}.
 
 Relacionando estos resultados con los datos obtenidos en la Figura 
 \ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
@@ -1259,7 +1339,7 @@ deseados y el tiempo de programación que ello implica.
 Como resultado de las complejidades planteadas y en vista de evaluar el resultado
 del proceso de optimizaci\'on del modelo en toda la extensión de la curva
 \acrshort{HPPC}, es necesario segmentar los datos disponibles en porciones que
-sean faciles de abordar. Idealmente los datos del ensayo fueron separados según
+sean faciles de abordar. Los datos del ensayo fueron separados según
 los pulsos de corriente para cada nivel del \acrshort{SOC}. 
 
 Para ello se implementa en MATLAB un algoritmo llamado \texttt{flanks.m}, el cual
