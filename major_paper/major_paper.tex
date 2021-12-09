@@ -1138,10 +1138,10 @@ medida y representar los elementos pasivos que lo componen y las señales de
 entrada y salida.
 
 El modelo est\'a compuesto por una fuente de tensi\'on controlada, que
-representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que
-representan los componentes pasivos del circuito. Los 6 componentes dependen
-exclusivamente del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on
-se puede observar en la Figura \ref{battery_model_simulink}. 
+representa el \acrshort{OCV} de la bater\'ia y 5 \acrshort{LUT}s que representan
+los componentes pasivos del circuito. Los 6 componentes dependen exclusivamente
+del nivel de \acrshort{SOC} de la bater\'ia. Su implementaci\'on se puede
+observar en la Figura \ref{battery_model_simulink}. 
 
 El modelo implementado, a su vez, incluye una fuente de corriente a la salida
 que hace las veces de carga de la celda y logra capturar la señal de corriente
@@ -1164,6 +1164,16 @@ Las variables de entrada del modelo serán entonces:
     \item $I_{load}(t)$
 \end{itemize}
 
+Los componentes pasivos del circuito a estimar son: 
+
+\begin{itemize}
+    \item $R_{0}(SoC)$
+    \item $R_{1}(SoC)$
+    \item $C_{1}(SoC)$
+    \item $R_{2}(SoC)$
+    \item $C_{2}(SoC)$
+\end{itemize}
+
 El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
 ante las variaciones de sus variables de entrada a partir de la medición de la
 tensi\'on de salida que simula el mismo.
@@ -1181,7 +1191,9 @@ Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitaci\'on con un escal\'on de corriente.
 
-Para el ensayo se utilizan par\'ametros con valores predeterminados: 
+Para el ensayo se utilizan par\'ametros con valores predeterminados. Los valores
+seleccionados no responden a ningun criterio de selección, solamente buscan
+ejercitar el symulink para corroborar su correcto funcionamiento.
 
 \begin{itemize}
     \item $C_{1} = C_{2} = 1F$
@@ -1202,25 +1214,28 @@ Para el ensayo se utilizan par\'ametros con valores predeterminados:
 
 Se puede observar en la Figura \ref{comp_simulink_no_opt} que a pesar de no
 estar optimizados los parámetros para disminuir el error en la tensi\'on de
-salida, el modelo logra representar, de forma lejana, la din\'amica de la
+salida, el modelo logra representar correctamente la din\'amica de la
 respuesta al escal\'on validando la implementación realizada.
 
 %\newpage
 
 \subsection{Pre-procesamiento datos}\label{data_preprocessing}
 
-El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} debe ser
-preprocesado para obtener ciertas variables de inter\'es, como por ejemplo, la
-señal del \acrshort{SOC} de la curva relevante para comparar los resultados de
-nuestro modelo, como tambi\'en la segmentaci\'on o modificaci\'on de los datos
-es \'util para el desarrollo del modelo.
+El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} necesita
+ser preprocesado para obtener ciertas variables de inter\'es, como por ejemplo,
+la señal del \acrshort{SOC} de la curva relevante para comparar los resultados
+de nuestro modelo, el \acrshort{OCV} necesario para alimentar el modelo durante
+las simulaciones o la segmentaci\'on o modificaci\'on de los datos \'util para
+acotar el problema de procesamiento del modelo simplificando el proceso de
+optimización.
 
 \subsubsection{Curva de \acrshort{SOC}}
 
-Dentro de los datos de la curva \acrshort{HPPC}, el ensayo de
-\cite{Kollmeyer2018} acumula la corriente que circula desde y hacia el pack en
-Ampehere-hora (Ah), en base a esto, se calcula \acrshort{SOC} en todo el ensayo
-usando la Ecuaci\'on \ref{calculo_soc_ah}.
+Dentro de los datos que presenta la curva \acrshort{HPPC}, el ensayo de
+\cite{Kollmeyer2018} acumula la corriente que circula desde y hacia la celda en
+Ampehere-hora (Ah), en base a este dato se calcula el valor del \acrshort{SOC}
+de la celda durante el transcurso del tiempo del ensayo \acrshort{HPPC} usando
+la Ecuaci\'on \ref{calculo_soc_ah}.
 
 \begin{equation}
     SOC = \frac{Ah_{acumulado} + Ah_{min}}{Ah_{min}} \label{calculo_soc_ah}
@@ -1244,24 +1259,38 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 
 \subsubsection{Obtenci\'on del \acrshort{OCV}}
 
-Dentro de la curva \acrshort{HPPC} de la Figura \ref{hppc_kollmeyer}, podemos
-observar per\'iodos de descanso lo suficientemente largos como para considerar
-que la bater\'ia alcanz\'o la estabilidad qu\'imica, por lo tanto, presentando
-una lectura de voltaje equivalente al \acrshort{OCV}. Esta informaci\'on del 
-\acrshort{OCV} durante el ensayo, permite relacionar la tensi\'on de circuito 
-abierto de la celda con el estado de carga para los distintos pulsos de la 
-curva. \'Esta variable resulta de gran importancia para parametrizar y ajustar
-los distintos par\'ametros del modelo, porque representa la fuente de voltaje
-controlada por el \acrshort{SOC} de la Figura \ref{randles_2rc}.
+Para poder rescatar el valor de tención de circuito abierto \acrshort{OCV} a
+partir del ensayo \acrshort{HPPC} y construir la curva que se presenta en la
+Figura \ref{fig:ocv_detection}  necesitamos seleccionar criteriosamente el punto
+donde tomar el valor de voltaje en bornes de la celda. Se necesita poder
+asegurar que la celda ensayada haya alcanzado el mayor estado posible de
+relajación antes de tomar el valor de \acrshort{OCV} para asegurar que su
+tensión en bornes equivalga a la tensión de circuito abierto.
+
+Durante todo el ensayo \acrshort{HPPR} podemos observar per\'iodos de descanso
+lo suficientemente largos como para considerar que la bater\'ia alcanz\'o la
+estabilidad qu\'imica, por lo tanto, presentando una lectura de voltaje
+equivalente al \acrshort{OCV}.
 
 Para construir la curva de \acrshort{OCV}, se retuvieron los valores de voltaje
 en los puntos donde se detect\'o un flanco negativo, como se describe en la
-Secci\'on \ref{flank_seg} y se extrapoló este valor hasta el siguiente flanco
-negativo, obteniendo la curva de la Figura \ref{fig:ocv_detection}.
+Secci\'on \ref{flank_seg} y se extrapoló este valor hasta el flanco negativo
+inmediatamente anterior como se observa en la figura
+\ref{fig:ocv_detection_closeup}, obteniendo como resultado la curva de la Figura
+\ref{fig:ocv_detection}.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=.7\textwidth]{soc_detection}
+        \includegraphics[width=.6\textwidth]{ocv_detection_closeup.eps}
+        \caption{Toma del valor de \acrshort{OCV} y extrpolación}
+        \label{fig:ocv_detection_closeup}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{ocv_detection.eps}
         \caption{En naranja se muestra el \acrshort{OCV} en la que se observa
         que toma el mismo valor de voltaje antes de que ocurra el flanco
         negativo en la celda, y en azul la curva \acrshort{HPPC} original}
@@ -1270,7 +1299,12 @@ negativo, obteniendo la curva de la Figura \ref{fig:ocv_detection}.
 \end{figure}
 \FloatBarrier
 
-\newpage
+La informaci\'on del \acrshort{OCV} durante el ensayo, permite relacionar la
+tensi\'on de circuito abierto de la celda con el estado de carga para los
+distintos pulsos de la curva. \'Esta variable resulta de gran importancia para
+parametrizar y ajustar los distintos par\'ametros del modelo, porque representa
+la fuente de voltaje controlada por el \acrshort{SOC} de la Figura
+\ref{randles_2rc}.
 
 Relacionando estos resultados con los datos obtenidos en la Figura 
 \ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
@@ -1305,7 +1339,7 @@ deseados y el tiempo de programación que ello implica.
 Como resultado de las complejidades planteadas y en vista de evaluar el resultado
 del proceso de optimizaci\'on del modelo en toda la extensión de la curva
 \acrshort{HPPC}, es necesario segmentar los datos disponibles en porciones que
-sean faciles de abordar. Idealmente los datos del ensayo fueron separados según
+sean faciles de abordar. Los datos del ensayo fueron separados según
 los pulsos de corriente para cada nivel del \acrshort{SOC}. 
 
 Para ello se implementa en MATLAB un algoritmo llamado \texttt{flanks.m}, el cual
