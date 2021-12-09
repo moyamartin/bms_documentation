@@ -1893,7 +1893,24 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 \chapter{Desarrollo e implementación de hardware}\label{desarrollo_hw}
 \thispagestyle{fancy}
 
+En este capítulo se enumeran y detallan el criterio de elección y desarrollo de todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
+
+\begin{itemize}
+	\item Unidad de procesamiento
+	\item Alimentación
+	\item Balanceador y Sensor de Tensión
+	\item Sensor de Corriente
+	\item Interruptor de Seguridad entre Batería y Vehículo
+	\item Circuito Cargador de Baterías
+	\item Puertos de Comunicación
+\end{itemize}
+
+
 \section{Unidad de procesamiento}
+
+Este dispositivo es el que centraliza toda la información, es el encargado de recibir procesar, almacenar y retransmitir todos los datos provenientes de los subsistemas del BMS por los puerto de comunicación, en este caso CAN y UART.
+Para llevar a cabo estas tareas debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la capacidad de computo y frecuencia necesarias para cumplir con los tiempos de muestreo y la ejecución del Filtro de Kalman.
+
 
 \subsection{Tecnología seleccionada - STM32F407VG}
 
@@ -2147,6 +2164,9 @@ que implementa el microcontrolador seleccionado STM32F407.
 
 \section{Sensor de tensi\'on - Balanceador}
 
+Este dispositivo se encarga de mantener las celdas en valores de tensión seguros, para llevar a cabo esta tarea implementa sensores de tensión para cada celda individual, además se debe reportar toda la información a la unidad de procesamiento.
+Por otro lado también se encarga de accionar los transistores de ByPass según comandos de la unidad de procesamiento para balancear las celdas en base al estado de carga estimado por el Filtro de Kalman
+
 Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
 y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
 mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
@@ -2382,6 +2402,8 @@ conexión del pack de batería en caliente.
 
 \section{Sensor de corriente}
 
+Este dispositivo es el que finalmente nos provee la corriente que circula a través de las celdas hacia la carga o desde el cargador. El dato de la corriente es clave para el correcto funcionamiento del Filtro de Kalman y además  nos permite tomar acciones de seguridad en caso de valores de corriente elevados o variaciones bruscas.
+
 \subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
 Frente a los requerimientos y la naturaleza de un \acrshort{BMS} se ha
@@ -2596,7 +2618,7 @@ un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
 
 \begin{figure}[h!]
 	\begin{center}
-		\includegraphics[width=0.75\textwidth]{Capacitor_vs_Vds.pdf}
+		\includegraphics[width=0.65\textwidth]{Capacitor_vs_Vds.pdf}
 		\caption{Variación de las capacidades del MOSFET en base a $V_{DS}$.}
 		\label{aprox_CGD}
 	\end{center}
@@ -2611,7 +2633,7 @@ el circuito de la Figura \ref{comando_mosfet}:
 
 \begin{figure}[h!]
 	\begin{center}
-		\begin{minipage}[c]{0.7\textwidth}
+		\begin{minipage}[c]{0.65\textwidth}
 			\centering
 			\begin{circuitikz}[american]
 				%\draw[step=0.5,green,thin,xshift=0.5cm,yshift=0.5cm] (-6,-6) grid (6,6);
