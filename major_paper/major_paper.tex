@@ -1087,9 +1087,16 @@ en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria
 
 \subsection{Validación número de ramas R-C del modelo}
 
-Para validar que el modelo propuesto sea capaz de describir la dinámida completa
-de una celda de Ion-Litio ensayada se ajustaron 2 ecuasiones exponenciales, una
-de orden 1 (Eq. \ref{eq:exp1}) y otra de orden 2 (Eq. \ref{eq:exp2}), a la curva
+Una vez estudiados los ensayos \acrshort{HPPC} nos surge el interrogante de sí el
+modelo seleccionado en la Sección \ref{dev_batt_model} para representar nuestra
+celda de Litio-Ion será capaz de describir la dinámica que presentan las celdas
+ensayadas. 
+
+Para validar que el modelo que proponemos sea capaz de describir la dinámida
+completa de una celda de Ion-Litio ensayada seguimos el procedimiento enunciado
+en \cite{Jackey2013BatteryMP} para la selección del número de ramas R-C
+que debe presentar un modelo y ajustamos 2 ecuasiones exponenciales, una de
+orden 1 (Eq. \ref{eq:exp1}) y otra de orden 2 (Eq.  \ref{eq:exp2}), a la curva
 que traza los datos del en sayo HPPC utilizando la herramienta Curve Fitting de
 Matlab.
 
@@ -1098,11 +1105,11 @@ Matlab.
     Y &= a*exp(b*x)+c*exp(d*x)\label{eq:exp2}
 \end{align}
 
-Se seleccion\'o especificamente la fase de relajación de uno de los escalones del
-ensayo HPPC. Cuando se retira el escalón de corriente, la respuesta transitoria
-inmediata es condicionada por $R_{0}$ pero r\'apidamente la din\'amica
-fundamentalmente es descripta por el número de ramas R-C en serie dispuestas en
-el circuito equivalente. 
+Se seleccion\'o especificamente la fase de relajación de uno de los escalones
+del ensayo \acrshort{HPPC}. Cuando se retira el escalón de corriente, la
+respuesta transitoria inmediata es condicionada por $R_{0}$ pero r\'apidamente
+la din\'amica fundamentalmente es descripta por el número de ramas R-C en serie
+dispuestas en el circuito equivalente. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -1113,11 +1120,12 @@ el circuito equivalente.
 \end{figure}
 \FloatBarrier
 
-A la vista del resultado obtenido en la Figura \ref{fig:model_fit} se concluye
-que 2 t\'erminos exponenciales temporales serán suficientes para describir la
-dinamica de una celda de Ion-Litio ensayada. Situación de compromiso entre
-la precisión del modelo, la complejidad matemática y la necesidad de mantener el
-costo computacional bajo a los fines de embeber el modelo en el
+A la vista del resultado obtenido en la Figura \ref{fig:model_fit} concluimos
+que dos t\'erminos exponenciales temporales, que en términos circuitales son dos
+ramas RC paralelas, serán suficientes para describir la dinamica de una celda de
+Ion-Litio ensayada. El orden del modelo presenta una situación de compromiso
+entre la precisión del modelo, la complejidad matemática y la necesidad de
+mantener el costo computacional bajo a los fines de embeber el modelo en el
 microcontrolador. 
 
 \subsection{Implementación del circuito de Randles}
