@@ -803,7 +803,7 @@ fundamentalmente a partir de los cuales validar los resultados obtenidos.
         \label{life_cycle_18650}
 	\end{subfigure}
     \end{centering}
-    \caption{Curvas sgnificativas celda Panasonic 18650PF}
+    \caption{Curvas significativas celda Panasonic 18650PF}
     \label{curvas_sign_18650}
 \end{figure}
 \FloatBarrier
@@ -1988,8 +1988,8 @@ En este capítulo se enumeran y detallan el criterio de elección y desarrollo d
 
 \section{Unidad de procesamiento}
 
-Este dispositivo es el que centraliza toda la información, es el encargado de recibir procesar, almacenar y retransmitir todos los datos provenientes de los subsistemas del BMS por los puerto de comunicación, en este caso CAN y UART.
-Para llevar a cabo estas tareas debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la capacidad de computo y frecuencia necesarias para cumplir con los tiempos de muestreo y la ejecución del Filtro de Kalman.
+Este dispositivo es el que centraliza toda la información, es el encargado de recibir procesar, almacenar y retransmitir todos los datos provenientes de los subsistemas del BMS por los puertos de comunicación previamente mencionados.
+Debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la capacidad de cómputo y frecuencia necesarias para cumplir con los tiempos de muestreo y la ejecución del Filtro de Kalman.
 
 
 \subsection{Tecnología seleccionada - STM32F407VG}
@@ -2245,7 +2245,7 @@ que implementa el microcontrolador seleccionado STM32F407.
 \section{Sensor de tensi\'on - Balanceador}
 
 Este dispositivo se encarga de mantener las celdas en valores de tensión seguros, para llevar a cabo esta tarea implementa sensores de tensión para cada celda individual, además se debe reportar toda la información a la unidad de procesamiento.
-Por otro lado también se encarga de accionar los transistores de ByPass según comandos de la unidad de procesamiento para balancear las celdas en base al estado de carga estimado por el Filtro de Kalman
+Por otro lado, también se encarga de accionar los transistores de ByPass según lo determine el algoritmo de balanceo de las celdas en base al estado de carga estimado por el Filtro de Kalman
 
 Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
 y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
@@ -2482,7 +2482,7 @@ conexión del pack de batería en caliente.
 
 \section{Sensor de corriente}
 
-Este dispositivo es el que finalmente nos provee la corriente que circula a través de las celdas hacia la carga o desde el cargador. El dato de la corriente es clave para el correcto funcionamiento del Filtro de Kalman y además  nos permite tomar acciones de seguridad en caso de valores de corriente elevados o variaciones bruscas.
+Este dispositivo es el que finalmente nos provee el valor de corriente que circula a través de las celdas hacia la carga o desde el cargador. El dato de la corriente es clave para el correcto funcionamiento del Filtro de Kalman y nos permite tomar acciones de seguridad en caso de valores de corriente elevados o variaciones bruscas de esta.
 
 \subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
