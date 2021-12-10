@@ -31,7 +31,7 @@
 \usepackage{xfrac}
 \usepackage{pdfpages}
 
-\usetikzlibrary{arrows, decorations.markings, positioning}
+\usetikzlibrary{arrows, arrows.meta, decorations.markings, positioning}
 \addbibresource{major_paper.bib}
 
 % if definition for section compilling control
@@ -1973,7 +1973,8 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 \chapter{Desarrollo e implementación de hardware}\label{desarrollo_hw}
 \thispagestyle{fancy}
 
-En este capítulo se enumeran y detallan el criterio de elección y desarrollo de todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
+En este capítulo se enumera y detalla el criterio de elección y desarrollo de 
+todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
 
 \begin{itemize}
 	\item Unidad de procesamiento
@@ -1984,6 +1985,144 @@ En este capítulo se enumeran y detallan el criterio de elección y desarrollo d
 	\item Circuito Cargador de Baterías
 	\item Puertos de Comunicación
 \end{itemize}
+
+En la Figura \ref{db_bms_hardware} se presenta un esquem\'atico en alto nivel 
+del hardware del dispositivo.
+
+\begin{figure}[h!]
+    \begin{center}
+	\begin{circuitikz}[european]
+        
+        % draw rectangle around the battery pack
+	    \draw [dashed] (-.6, 2.6) rectangle (2.6, -2.6);
+
+        % each of these are 6 cells in series %
+	    \draw (0, 2) -- (0, 2.2);
+	    \draw (0, 2) to[battery1] (0, 1.6);
+	    \draw (0, 1.6) -- (0, 1.2);
+	    \draw (0, 1.2) to[battery1] (0, .8);            
+	    \draw (0, 0.8) -- (0, 0.4);           
+	    \draw (0, 0.4) to[battery1] (0, 0);           
+	    \draw (0, 0) -- (0, -0.4);
+	    \draw (0, -0.4) to[battery1] (0, -0.8);
+	    \draw (0, -.8) -- (0, -1);
+	    \draw (0, -1) to[battery1] (0, -1.4);
+	    \draw (0, -1.4) -- (0, -1.6);
+	    \draw (0, -1.6) to[battery1] (0, -2);
+	    \draw (0, -2) -- (0, -2.2);
+
+        \draw (1, 2) -- (1, 2.5) node[vcc]{$\mathrm{V_{batt}}$};
+	    \draw (1, 2) to[battery1] (1, 1.6);
+	    \draw (1, 1.6) -- (1, 1.2);
+	    \draw (1, 1.2) to[battery1] (1, .8);            
+	    \draw (1, 0.8) -- (1, 0.4);           
+	    \draw (1, 0.4) to[battery1] (1, 0);           
+	    \draw (1, 0) -- (1, -0.4);
+	    \draw (1, -0.4) to[battery1] (1, -0.8);
+	    \draw (1, -.8) -- (1, -1);
+	    \draw (1, -1) to[battery1] (1, -1.4);
+	    \draw (1, -1.4) -- (1, -1.6);
+	    \draw (1, -1.6) to[battery1] (1, -2);
+        \draw (1, -2) -- (1, -2.4) node[ground]{};
+
+
+	    \draw (2, 2) -- (2, 2.2);
+	    \draw (2, 2) to[battery1] (2, 1.6);
+	    \draw (2, 1.6) -- (2, 1.2);
+	    \draw (2, 1.2) to[battery1] (2, .8);            
+	    \draw (2, 0.8) -- (2, 0.4);           
+	    \draw (2, 0.4) to[battery1] (2, 0);           
+	    \draw (2, 0) -- (2, -0.4);
+	    \draw (2, -0.4) to[battery1] (2, -0.8);
+	    \draw (2, -.8) -- (2, -1);
+	    \draw (2, -1) to[battery1] (2, -1.4);
+	    \draw (2, -1.4) -- (2, -1.6);
+	    \draw (2, -1.6) to[battery1] (2, -2);
+	    \draw (2, -2) -- (2, -2.2);
+
+        % connecting the cells in parallel %
+        \draw (0, 2.2) to[short, -*] (1, 2.2) to[short, -*] (2, 2.2);
+        \draw (0, 1.4) to[short, -*] (1, 1.4) to[short, -*] (2, 1.4);
+        \draw (0, 0.6) to[short, -*] (1, 0.6) to[short, -*] (2, 0.6);
+        \draw (0, -.2) to[short, -*] (1, -.2) to[short, -*] (2, -.2);
+        \draw (0, -.9) to[short, -*] (1, -.9) to[short, -*] (2, -.9);
+        \draw (0, -1.5) to[short, -*] (1, -1.5) to[short, -*] (2, -1.5);
+        \draw (0, -2.2) to[short, -*] (1, -2.2) to[short, -*] (2, -2.2);
+
+        % cell balancing and voltage sensing block %
+	    \draw (5, -1) rectangle (9, 1)[fill=blue!10!white];
+	    \node at (7, 0.5) {Balanceador};
+        \node at (7, 0.0) {\&};
+        \node at (7, -0.5){Sensor de voltaje};
+
+        % cell balancing and voltage sensing block %
+	    \draw (10, -1) rectangle (12, 1)[fill=blue!10!white];
+        \node at (11, 0.0) {MCU};
+
+        % rx/tx interface block %
+	    \draw (5, -1.2) rectangle (9, -2.6)[fill=blue!10!white];
+        \node at (7, -1.6) {Interfaz de};
+        \node at (7, -2.2) {Comunicaci\'on};
+
+        % DC-DC 3.3V converter block %
+	    \draw (5, 1.2) rectangle (9, 2.6)[fill=blue!10!white];
+        \node at (7, 1.9) {Convertidor DC-DC};
+        \draw (3.4, 2.2) -- (5, 2.2);
+        \draw (5, 1.5) -| (4.6, 1.4) node[ground]{};
+        \draw [-latex] (9, 1.9) -| (11, 1);
+        \draw (11, 1.9) to[short, *-] (11, 2.2) node[vcc]{$\mathrm{V_{reg}}$};
+
+        % switch protection switch %
+        \draw (13, -1.2) rectangle (15, -2.6)[fill=blue!10!white];
+        \node at (14, -1.9) {Protecci\'on};
+        \draw[-Implies, line width=1pt, double distance=6] (14, -2.6) -- (14, -3.6);
+        \draw[-latex] (11.8, -1) |- (13, -1.9);
+        \node at (14, -3.8){A carga};
+
+        % current sensor block % 
+        \draw (13, -1) rectangle (15, 1)[fill=blue!10!white];
+        \node at (14, 0.3) {Sensor de};
+        \node at (14, -0.3) {Corriente};
+        \draw[Implies-Implies, line width=1pt, double distance=6] (13, 0) -- (12, 0);
+        \draw (15.5, 2.6) node[vcc]{$\mathrm{V_{batt}}$};
+        \draw (15.5, 2.6) |- (15, 1.9); 
+        \draw (15.5, 1.9) |- (15, 0.3);
+        \draw (15, -.3) -| (15.5, -1.7);
+        \draw (15.5, -1.7) -- (15, -1.7);
+
+        % charger block %
+        \draw (13, 1.2) rectangle (15, 2.6)[fill=blue!10!white];
+        \node at (14, 1.9) {Cargador};
+        \draw[-Implies, line width=1pt, double distance=6] (14, 3.6) -- (14, 2.6);
+        \node at (14, 4){Fuente de alimentaci\'on externa};
+        \draw (13, 1.4) -- (12.5, 1.4) node[ground];
+
+
+        % connect 6 series cells to balancing module %
+        \draw (2, 2.2) -- (3.4, 2.2) -- (3.4, 0.75) -- (5, 0.75);
+        \draw (2, 1.4) -- (3.2, 1.4) -- (3.2, 0.5) -- (5, 0.5);
+        \draw (2, 0.6) -- (3, 0.6) -- (3, 0.25) -- (5, 0.25);
+        \draw (2, -.2) -- (2.8, -.2) -- (2.8, 0) -- (5, 0);
+        \draw (2, -.9) -- (3, -.9) -- (3, -.25) -- (5, -.25);
+        \draw (2, -1.5) -- (3.2, -1.5) -- (3.2, -.5) -- (5, -.5);
+        \draw (2, -2.2) -- (3.4, -2.2) -- (3.4, -.75) -- (5, -.75);
+
+        % Conexion entre el MCU y el balanceador % 
+        \draw[Implies-Implies, line width=1pt, double distance=6] (9, 0) -- (10, 0);
+        \draw[-Implies, line width=1pt, double distance=6] (11, -1) |- (9, -1.9);
+        \draw[-Implies, line width=1pt, double distance=6] (7, -2.6) -- (7, -3.6);
+        \node at (7, -4){A Computadora a bordo};
+
+
+	\end{circuitikz}
+    \end{center}
+    \caption{Diagrama en Bloques del hardware desarrollado para el 
+             \acrshort{BMS}}
+    \label{db_bms_hardware}
+\end{figure}
+
+
+
 
 
 \section{Unidad de procesamiento}
