@@ -225,7 +225,6 @@ DebugOn
 
 \newpage
 
-
 \chapter{Introducción}
 \thispagestyle{fancy}
 
@@ -621,107 +620,13 @@ ensayo y desarrollo de futuros proyectos que partan de este \acrshort{BMS}. Con
 el objetivo de que la disposición de la documentación funcione como la
 herramienta que lo permita.
 
-\section{Pack de bater\'ias}\label{battery_pack}
 
-Como se menciona en la Secci\'on \ref{proy_specs}, el pack de bater\'ias a
-controlar posee 6 m\'odulos conectados en serie, donde cada m\'odulo est\'a
-compuesto por 3 celdas de litio-ion conectadas en paralelo. En este caso, el pack
-de bater\'ias est\'a conformado por celdas de litio-ion modelo NCR18650PF. La
-arquitectura del pack se puede observar en la Figura \ref{pack_bateria} y una
-imagen de la celda se muestra en la Figura \ref{foto_bateria}
+\chapter{Desarrollo e implementación medición \acrshort{SOC}}\label{ch:dev_soc}
+\thispagestyle{fancy}
 
-\begin{figure}[h!]
-    \begin{subfigure}[b]{.5\textwidth}
-	\begin{center}
-	    \begin{minipage}[c]{0.45\textwidth}
-		\centering
-		\begin{circuitikz}[european]
+TODO: Descripción general del capítulo
 
-		    \draw (7, 2) -- (7, 2.2);
-		    \draw (7, 2) to[battery1] (7, 1.6);
-		    \draw (7, 1.4) -- (7, 1.6);
-		    \draw (7, 1.4) to[battery1] (7, .9);			
-		    \draw (7, .7) -- (7, .9);			
-		    \draw (7, 0.7) to[battery1] (7, 0.2);			
-		    \draw (7, 0.2) -- (7, -0.2);
-		    \draw (7, -0.2) to[battery1] (7, -0.7);
-		    \draw (7, -.7) -- (7, -.9);
-		    \draw (7, -.9) to[battery1] (7, -1.4);
-		    \draw (7, -1.4) -- (7, -1.6);
-		    \draw (7, -1.6) to[battery1] (7, -2);
-		    \draw (7, -2) -- (7, -2.2);
-
-		    \draw (9, 2) -- (9, 2.2);
-		    \draw (9, 2) to[battery1] (9, 1.6);
-		    \draw (9, 1.4) -- (9, 1.6);
-		    \draw (9, 1.4) to[battery1] (9, .9);			
-		    \draw (9, .7) -- (9, .9);			
-		    \draw (9, 0.7) to[battery1] (9, 0.2);			
-		    \draw (9, 0.2) -- (9, -0.2);
-		    \draw (9, -0.2) to[battery1] (9, -0.7);
-		    \draw (9, -.7) -- (9, -.9);
-		    \draw (9, -.9) to[battery1] (9, -1.4);
-		    \draw (9, -1.4) -- (9, -1.6);
-		    \draw (9, -1.6) to[battery1] (9, -2);
-		    \draw (9, -2) -- (9, -2.2);
-
-		    \draw (11, 2) to[battery1] (11, 1.6);
-		    \draw (11, 1.4) -- (11, 1.6);
-		    \draw (11, 1.4) to[battery1] (11, .9);			
-		    \draw (11, .7) -- (11, .9);			
-		    \draw (11, 0.7) to[battery1] (11, 0.2);		
-		    \draw (11, 0.2) -- (11, -0.2);
-		    \draw (11, -0.2) to[battery1] (11, -0.7);
-		    \draw (11, -.7) -- (11, -.9);
-		    \draw (11, -.9) to[battery1] (11, -1.4);
-		    \draw (11, -1.4) -- (11, -1.6);
-		    \draw (11, -1.6) to[battery1] (11, -2);
-		    \draw (11, -2) -- (11, -2.2);
-
-		    \draw (7, 0) -- (9, 0);
-		    \draw (9, 0) -- (11, 0);
-
-		    \draw (7, 0.8) -- (9, 0.8);
-		    \draw (9, 0.8) -- (11, 0.8);
-
-		    \draw (7, 1.5) -- (9, 1.5);
-		    \draw (9, 1.5) -- (11, 1.5);
-
-		    \draw (7, 2.2) -- (9, 2.2);
-		    \draw (9, 2.2) -- (11, 2.2);			
-
-		    \draw (7, -0.8) -- (9, -0.8);
-		    \draw (9, -0.8) -- (11, -0.8);
-
-		    \draw (7, -1.5) -- (9, -1.5);
-		    \draw (9, -1.5) -- (11, -1.5);
-
-		    \draw (7, -2.2) -- (9, -2.2);
-		    \draw (9, -2.2) -- (11, -2.2);			
-
-		    \draw [dashed] (6.5, 2.4) rectangle (11.5, -2.4);
-
-		    \draw node at (8.2, 2.6) {Pack de Baterías 6s3p};
-		\end{circuitikz}
-	    \end{minipage}
-	\end{center}
-	\caption{Esquemático de la arquitectura del pack de baterías.}
-	\label{pack_bateria}
-    \end{subfigure}%
-    \begin{subfigure}[b]{.45\textwidth}
-	\centering
-	\includegraphics[width=0.7\textwidth]{18650.jpg}
-	\caption{Foto celda NCR18650PF.}
-	\label{foto_bateria}
-    \end{subfigure}
-    \caption{Pack 6s3p y Celda NCR18650PF.}
-    \label{pack}
-\end{figure}
-\FloatBarrier
-
-\newpage
-
-\subsection{Celda NCR18650PF}
+\section{Celda NCR18650PF} \label{seq:cel_selection}
 
 La celda de Litio-Ion 18650 fue originalmente diseñada para ser utilizada en
 bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
@@ -822,81 +727,6 @@ fundamentalmente a partir de los cuales validar los resultados obtenidos.
 \end{figure}
 \FloatBarrier
 
-\subsection{Ensamblado del pack}
-
-El pack de bater\'ias fue ensamblado utilizando soportes encastrables
-\emph{(Fig.  \ref{soporte_18650})} impresos utilizando una impresora 3D, donde
-cada celda es conectada entre s\'i utilizando una banda de níquel y la
-conexi\'on es realizada por medio de una soldadora de puntos manual. Esto es
-debido a dos motivos importantes, en primer instancia el tiempo en la
-aplicaci\'on de temperatura, por parte de la soldadura de puntos, es muy corto
-evitando problemas t\'ermicos de la celda durante el proceso de ensamblado. Por
-el otro lado, la banda de níquel tiene propiedades que benefician al ensamblado
-del pack, por ejemplo:
-
-\begin{itemize}
-    \item Protecci\'on en contra a la corrosi\'on.
-    \item Buena conductividad el\'ectrica. El N\'iquel tiene la mitad de la
-        resistencia el\'ectrica que el acero 1010.
-    \item Buena resistencia mec\'anica.
-    \item Bajo costo.
-    \item Es soldable, por lo que se puede aplicar una soldadura de punto entre
-        la tira de n\'iquel y los electrodos de la celda.
-\end{itemize}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.45\textwidth]{soporte_18650.png}
-        \caption{Soporte encastrable para celdas 18650}
-        \label{soporte_18650}
-    \end{center}
-\end{figure}
-\FloatBarrier
-
-Por el otro lado, a cada m\'odulo conectado en serie se le suelda un cable en
-bornes de cada electrodo que va conectado a un conector JST-XH-2.50 para poder
-acceder facilmente al voltaje de cada m\'odulo del pack de bater\'ias. El pack
-ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
-
-\begin{figure}[h!]
-    \begin{subfigure}[b]{.3\textwidth}
-	\begin{center}
-        \includegraphics[width=.9\textwidth]{battery_top.png}
-	\end{center}
-    \caption{Imagen superior del pack de bater\'ias 6s3p. 
-    }
-	\label{battery_top}
-    \end{subfigure}%
-    \begin{subfigure}[b]{.3\textwidth}
-	\centering
-	\includegraphics[width=.9\textwidth]{battery_bot.png}
-	\caption{Imagen inferior del pack de bater\'ias 6s3p.}
-	\label{battery_bot}
-    \end{subfigure}
-    \begin{subfigure}[b]{.3\textwidth}
-	\centering
-	\includegraphics[width=.9\textwidth]{batt_side.png}
-	\caption{Imagen lateral del pack de bater\'ias 6s3p. En esta foto se puede
-    apreciar el conector JST}
-	\label{battery_side}
-    \end{subfigure}
-\end{figure}
-\FloatBarrier
-
-\subsection{Caracter\'isticas del pack}\label{caract_pack}
-
-Como resultado obtenemos un pack de bater\'ias con las siguientes
-caracter\'isticas:
-
-\begin{itemize}
-    \item Voltaje nominal de salida: 21.6V
-    \item Voltaje m\'aximo de salida: 25.2V
-    \item Voltaje m\'inimo de salida: 15V
-    \item Capacidad t\'ipica: 8700mAh
-    \item Capacidad m\'inima: 8250mAh
-    \item Corriente de carga m\'axima: 4.35A
-    \item Corriente de descarga m\'axima: 17.4A (2C)
-\end{itemize}
 
 \section{Modelo de la celda de litio-ion}\label{dev_batt_model}
 
@@ -1995,6 +1825,7 @@ todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
 	\item Sensor de Corriente
 	\item Interruptor de Seguridad entre Batería y Vehículo
 	\item Circuito Cargador de Baterías
+    \item Pack de Baterías
 	\item Puertos de Comunicación
 \end{itemize}
 
@@ -2109,7 +1940,6 @@ del hardware del dispositivo.
         \node at (14, 4){Fuente de alimentaci\'on externa};
         \draw (13, 1.4) -- (12.5, 1.4) node[ground]{};
 
-
         % connect 6 series cells to balancing module %
         \draw (2, 2.2) -- (3.4, 2.2) -- (3.4, 0.75) -- (5, 0.75);
         \draw (2, 1.4) -- (3.2, 1.4) -- (3.2, 0.5) -- (5, 0.5);
@@ -2132,7 +1962,6 @@ del hardware del dispositivo.
              \acrshort{BMS}}
     \label{db_bms_hardware}
 \end{figure}
-
 
 \section{Unidad de procesamiento}
 
@@ -3553,6 +3382,191 @@ realizada de forma segura a instancias del BMS.
     \end{subfigure}
     \caption{Interfaz de estado de carga}
     \label{fig:cb_interface}
+\end{figure}
+\FloatBarrier
+
+
+
+\section{Pack de bater\'ias}\label{battery_pack}
+
+Durante el proceso de desarrollo del \acrshort{BMS} implementamos nuestro propio
+pack de baterías con el objetivo de que el mismo cumpla con las especificaciones
+necesarias que nos permitan llevar adelante los ensayos que se describen en la
+Sencción \ref{ensayos}.
+
+Como se menciona en la Secci\'on \ref{proy_specs}, el pack de bater\'ias a
+controlar posee 6 m\'odulos conectados en serie. Cáda módulo est\'a compuesto
+por 3 celdas de litio-ion conectadas en paralelo. El pack de bater\'ias est\'a
+conformado por celdas de litio-ion modelo NCR18650PF como se describen
+anteriormente en la Sección \ref{seq:cel_selection}. La arquitectura del pack se
+puede observar en la Figura \ref{pack_bateria} y una imagen de la celda se
+muestra en la Figura \ref{foto_bateria}
+
+\begin{figure}[h!]
+    \begin{subfigure}[b]{.5\textwidth}
+	\begin{center}
+	    \begin{minipage}[c]{0.45\textwidth}
+		\centering
+		\begin{circuitikz}[european]
+
+		    \draw (7, 2) -- (7, 2.2);
+		    \draw (7, 2) to[battery1] (7, 1.6);
+		    \draw (7, 1.4) -- (7, 1.6);
+		    \draw (7, 1.4) to[battery1] (7, .9);			
+		    \draw (7, .7) -- (7, .9);			
+		    \draw (7, 0.7) to[battery1] (7, 0.2);			
+		    \draw (7, 0.2) -- (7, -0.2);
+		    \draw (7, -0.2) to[battery1] (7, -0.7);
+		    \draw (7, -.7) -- (7, -.9);
+		    \draw (7, -.9) to[battery1] (7, -1.4);
+		    \draw (7, -1.4) -- (7, -1.6);
+		    \draw (7, -1.6) to[battery1] (7, -2);
+		    \draw (7, -2) -- (7, -2.2);
+
+		    \draw (9, 2) -- (9, 2.2);
+		    \draw (9, 2) to[battery1] (9, 1.6);
+		    \draw (9, 1.4) -- (9, 1.6);
+		    \draw (9, 1.4) to[battery1] (9, .9);			
+		    \draw (9, .7) -- (9, .9);			
+		    \draw (9, 0.7) to[battery1] (9, 0.2);			
+		    \draw (9, 0.2) -- (9, -0.2);
+		    \draw (9, -0.2) to[battery1] (9, -0.7);
+		    \draw (9, -.7) -- (9, -.9);
+		    \draw (9, -.9) to[battery1] (9, -1.4);
+		    \draw (9, -1.4) -- (9, -1.6);
+		    \draw (9, -1.6) to[battery1] (9, -2);
+		    \draw (9, -2) -- (9, -2.2);
+
+		    \draw (11, 2) to[battery1] (11, 1.6);
+		    \draw (11, 1.4) -- (11, 1.6);
+		    \draw (11, 1.4) to[battery1] (11, .9);			
+		    \draw (11, .7) -- (11, .9);			
+		    \draw (11, 0.7) to[battery1] (11, 0.2);		
+		    \draw (11, 0.2) -- (11, -0.2);
+		    \draw (11, -0.2) to[battery1] (11, -0.7);
+		    \draw (11, -.7) -- (11, -.9);
+		    \draw (11, -.9) to[battery1] (11, -1.4);
+		    \draw (11, -1.4) -- (11, -1.6);
+		    \draw (11, -1.6) to[battery1] (11, -2);
+		    \draw (11, -2) -- (11, -2.2);
+
+		    \draw (7, 0) -- (9, 0);
+		    \draw (9, 0) -- (11, 0);
+
+		    \draw (7, 0.8) -- (9, 0.8);
+		    \draw (9, 0.8) -- (11, 0.8);
+
+		    \draw (7, 1.5) -- (9, 1.5);
+		    \draw (9, 1.5) -- (11, 1.5);
+
+		    \draw (7, 2.2) -- (9, 2.2);
+		    \draw (9, 2.2) -- (11, 2.2);			
+
+		    \draw (7, -0.8) -- (9, -0.8);
+		    \draw (9, -0.8) -- (11, -0.8);
+
+		    \draw (7, -1.5) -- (9, -1.5);
+		    \draw (9, -1.5) -- (11, -1.5);
+
+		    \draw (7, -2.2) -- (9, -2.2);
+		    \draw (9, -2.2) -- (11, -2.2);			
+
+		    \draw [dashed] (6.5, 2.4) rectangle (11.5, -2.4);
+
+		    \draw node at (8.2, 2.6) {Pack de Baterías 6s3p};
+		\end{circuitikz}
+	    \end{minipage}
+	\end{center}
+	\caption{Esquemático de la arquitectura del pack de baterías.}
+	\label{pack_bateria}
+    \end{subfigure}%
+    \begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=0.7\textwidth]{18650.jpg}
+	\caption{Foto celda NCR18650PF.}
+	\label{foto_bateria}
+    \end{subfigure}
+    \caption{Pack 6s3p y Celda NCR18650PF.}
+    \label{pack}
+\end{figure}
+\FloatBarrier
+
+\subsection{Caracter\'isticas del pack}\label{caract_pack}
+
+Como resultado obtenemos un pack de bater\'ias con las siguientes
+caracter\'isticas:
+
+\begin{itemize}
+    \item Voltaje nominal de salida: 21.6V
+    \item Voltaje m\'aximo de salida: 25.2V
+    \item Voltaje m\'inimo de salida: 15V
+    \item Capacidad t\'ipica: 8700mAh
+    \item Capacidad m\'inima: 8250mAh
+    \item Corriente de carga m\'axima: 4.35A
+    \item Corriente de descarga m\'axima: 17.4A (2C)
+\end{itemize}
+
+\subsection{Ensamblado del pack}
+
+El pack de bater\'ias fue ensamblado utilizando soportes encastrables
+\emph{(Fig. \ref{soporte_18650})} impresos utilizando una impresora 3D, donde
+cada celda es conectada entre s\'i utilizando una banda de níquel y la
+conexi\'on es realizada por medio de una soldadora de puntos manual. Esto es
+debido a dos motivos importantes, en primer instancia el tiempo en la
+aplicaci\'on de temperatura, por parte de la soldadura de puntos, es muy corto
+evitando problemas t\'ermicos de la celda durante el proceso de ensamblado. Por
+el otro lado, la banda de níquel tiene propiedades que benefician al ensamblado
+del pack, por ejemplo:
+
+\begin{itemize}
+    \item Protecci\'on en contra a la corrosi\'on.
+    \item Buena conductividad el\'ectrica. El N\'iquel tiene la mitad de la
+        resistencia el\'ectrica que el acero 1010.
+    \item Buena resistencia mec\'anica.
+    \item Bajo costo.
+    \item Es soldable, por lo que se puede aplicar una soldadura de punto entre
+        la tira de n\'iquel y los electrodos de la celda.
+\end{itemize}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{soporte_18650.png}
+        \caption{Soporte encastrable para celdas 18650}
+        \label{soporte_18650}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+Por el otro lado, a cada m\'odulo conectado en serie se le suelda un cable en
+bornes de cada electrodo que va conectado a un conector JST-XH-2.50 para poder
+acceder facilmente al voltaje de cada m\'odulo del pack de bater\'ias.
+
+El pack ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
+
+\begin{figure}[h!]
+    \begin{subfigure}[t]{.3\textwidth}
+	\begin{center}
+        \includegraphics[width=.9\textwidth]{battery_top.png}
+	\end{center}
+    \caption{Imagen superior del pack de bater\'ias 6s3p. 
+    }
+	\label{battery_top}
+    \end{subfigure}%
+    \begin{subfigure}[t]{.3\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{battery_bot.png}
+	\caption{Imagen inferior del pack de bater\'ias 6s3p.}
+	\label{battery_bot}
+    \end{subfigure}
+    \begin{subfigure}[t]{.3\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{batt_side.png}
+	\caption{Imagen lateral del pack de bater\'ias 6s3p. En esta foto se puede
+    apreciar el conector JST}
+	\label{battery_side}
+    \end{subfigure}
+    \label{battery_pack}
+    \caption{Pack debaterías 6s3p}
 \end{figure}
 \FloatBarrier
 
