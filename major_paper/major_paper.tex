@@ -3664,12 +3664,14 @@ sobre los siguientes m\'odulos:
 
 \begin{itemize}
     \item Drivers de los perif\'ericos del hardware (o en ingl\'es, \emph{Device
-        drivers}), que incluye los sensores de corriente, tensi\'on,
+        Drivers}), que incluye los sensores de corriente, tensi\'on,
         balanceador, cargador de bater\'ias como tambi\'en protocolos de
-        comunicaci\'on.
-    \item Modelo de la celda desarrollado en el Cap\'itulo \ref{dev_batt_model}
+        comunicaci\'on e interrupciones del \acrshort{MCU}.
+    \item Modelo de la celda desarrollado en el Cap\'itulo \ref{dev_batt_model},
+        incluyendo el filtro de Kalman.
     \item Extensi\'on del modelo de una celda al pack de bater\'ias.
-    \item M\'aquina de estados del sistema.
+    \item M\'aquina de estados del sistema (\acrshort{FSM}, del ingl\'es
+        \emph{\acrlong{FSM}}).
 \end{itemize}
 
 El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
@@ -3711,8 +3713,18 @@ encapsulada y utilizada por los distintos m\'odulos del firmware.
             \draw (-.5, -.5) rectangle ++ (4, 3);
             \node at (1, 2.1) {\texttt{Device Drivers}};
 
-            \draw (4, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS-DSP}};
+            \draw (4.25, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS-DSP}};
+            \draw (4, -.25) rectangle ++ (3.5, 2);
+            \node at (5.25, 1.3) {\texttt{Cell model}};
+            \draw (3.75, -.5) rectangle ++ (4, 3);
+            \node at (5.25, 2.1) {\texttt{Battery pack}};
+
+            \draw (-.75, -.75) rectangle ++ (8.75, 4);
+            \node at (-0.2, 2.75) {\texttt{FSM}};
+
         \end{tikzpicture}
+        \caption{Arquitectura del software que corre el \acrshort{BMS}}
+        \label{stack_fw}
     \end{center}
 \end{figure}
 
