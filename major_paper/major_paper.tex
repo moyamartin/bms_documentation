@@ -1876,10 +1876,8 @@ es posible considerar el observador de la Ecuaci\'on \ref{ss_kalman_gain},
 \end{align}
 
 donde $K(t)$ es la ganancia de Kalman, cuyo objetivo, como se menciona en la
-secci\'on \ref{KalmanFilterMethod}, es minimizar la covarianza del error de
+Secci\'on \ref{KalmanFilterMethod}, es minimizar la covarianza del error de
 estimaci\'on. 
-
-\newpage
 
 Para poder implementar el Sistema de Ecuaciones en \ref{ss_kalman_gain} sobre
 el modelo de Randles es necesario proveer las matrices que proporcionan valores 
@@ -2122,13 +2120,14 @@ del hardware del dispositivo.
 \end{figure}
 
 
-
-
-
 \section{Unidad de procesamiento}
 
-Este dispositivo es el que centraliza toda la información, es el encargado de recibir procesar, almacenar y retransmitir todos los datos provenientes de los subsistemas del BMS por los puertos de comunicación previamente mencionados.
-Debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la capacidad de cómputo y frecuencia necesarias para cumplir con los tiempos de muestreo y la ejecución del Filtro de Kalman.
+Este dispositivo es el que centraliza toda la información, es el encargado de 
+recibir procesar, almacenar y retransmitir todos los datos provenientes de los 
+subsistemas del BMS por los puertos de comunicación previamente mencionados.
+Debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la 
+capacidad de cómputo y frecuencia necesarias para cumplir con los tiempos de 
+muestreo y la ejecución del Filtro de Kalman.
 
 
 \subsection{Tecnología seleccionada - STM32F407VG}
@@ -2621,7 +2620,11 @@ conexión del pack de batería en caliente.
 
 \section{Sensor de corriente}
 
-Este dispositivo es el que finalmente nos provee el valor de corriente que circula a través de las celdas hacia la carga o desde el cargador. El dato de la corriente es clave para el correcto funcionamiento del Filtro de Kalman y nos permite tomar acciones de seguridad en caso de valores de corriente elevados o variaciones bruscas de esta.
+Este dispositivo es el que finalmente nos provee el valor de corriente que 
+circula a través de las celdas hacia la carga o desde el cargador. El dato de la 
+corriente es clave para el correcto funcionamiento del Filtro de Kalman y nos 
+permite tomar acciones de seguridad en caso de valores de corriente elevados o 
+variaciones bruscas de esta.
 
 \subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
@@ -3017,7 +3020,7 @@ stand-alone.
 
 Implementa un convertirdor de energía DC-DC del tipo buck sin aislamiento que
 nos permite obtener un perfil de tensión y corriente controlado como el
-descripto en la sección \ref{sec:tecnica_carga} a partir de una fuente de
+descripto en la Sección \ref{sec:tecnica_carga} a partir de una fuente de
 alimentación de tensión continua externa.
 
 Emplea un controlador de corriente y de tensión sincrónico
@@ -3652,7 +3655,22 @@ El esquem\'atico final del circuito se puede observar en el Ap\'endice
 
 \newpage
 
-\section{Implementación Software}\label{software_implementation}
+\chapter{Desarrollo e implementaci\'on del Software}\label{software_implementation}
+\thispagestyle{fancy}
+
+Durante este cap\'itulo se explaya el software que corre sobre el hardware
+desarrollado en el Cap\'itulo \ref{desarrollo_hw}, el mismo est\'a compuesto 
+sobre los siguientes m\'odulos:
+
+\begin{itemize}
+    \item Drivers de los perif\'ericos del hardware (o en ingl\'es, \emph{Device
+        drivers}), que incluye los sensores de corriente, tensi\'on,
+        balanceador, cargador de bater\'ias como tambi\'en protocolos de
+        comunicaci\'on.
+    \item Modelo de la celda desarrollado en el Cap\'itulo \ref{dev_batt_model}
+    \item Extensi\'on del modelo de una celda al pack de bater\'ias.
+    \item M\'aquina de estados del sistema.
+\end{itemize}
 
 El software implementado en la unidad de procesamiento del \acrshort{BMS} fue
 escrito y desarrollado en el lenguaje de programación C sujeto al estandar C99.
@@ -3678,6 +3696,26 @@ abstacción de hardware STM32Cube \acrshort{HAL} (por sus siglas en ingles,
 \acrfull{HAL}), que provee una serie de \acrshort{API}s para que las capas 
 superiores (aplicaciones, librerias y el stack) puedan interactuar con los 
 recursos del hardware, en un lenguaje \emph{amigable} para el desarrollador.
+
+En la Figura \ref{stack_fw} se muestra la arquitectura del software del
+proyecto, en ella  se puede observar como cada librer\'ia es
+encapsulada y utilizada por los distintos m\'odulos del firmware.
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{tikzpicture}
+            % draw device drivers stack
+            \draw (0.0, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS}};
+            \draw (-.25, -0.25) rectangle ++ (3.5, 2);
+            \node at (0.75, 1.3) {\texttt{STM32HAL}};
+            \draw (-.5, -.5) rectangle ++ (4, 3);
+            \node at (1, 2.1) {\texttt{Device Drivers}};
+
+            \draw (4, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS-DSP}};
+        \end{tikzpicture}
+    \end{center}
+\end{figure}
+
 
 \subsection{Estructura de archivos}
 
@@ -3829,7 +3867,7 @@ periférico \acrshort{SPI} del microcontrolador, ya que el \acrshort{CI}
 implementa una interfaz serie de alta velocidad para poder comunicarse y ser
 controlado.
 
-Una descripción más acabada del mismo puede encontrarse en la sección 
+Una descripción más acabada del mismo puede encontrarse en la Sección 
 \ref{seq:bq26_selection}. El driver expone una estructura de datos y un conjunto
 de funciones que facilitan su operaci\'on para el desarrollador, el mismo est\'a
 diseñado de forma tal que puedan coexistir m\'ultiples instancias del
@@ -3997,7 +4035,7 @@ dispositivo en cuesti\'on.
 El \acrshort{CI} INA226 implementa una interfaz de comunicación $I^2C$ sobre la
 cual solo puede operar como dispositivo esclavo para la comunicación con la
 unidad de procesamiento. Una descripción más acabada del mismo puede
-encontrarse en la sección \ref{seq:ina226_selection}. El driver se implementa 
+encontrarse en la Sección \ref{seq:ina226_selection}. El driver se implementa 
 bajo una filosofía de instanciado que permite atender y operar en múltiples
 instancias correspondientes a múltiples medidores de corriente presentes en el 
 hardware bajo el único requisito de que estén comunicándose todos sobre el mismo 
@@ -4078,7 +4116,7 @@ general GPIO del micro.
 El \acrshort{CI} BQ24610 no dispone de ningun tipo de comunicación serie.
 Implementa una interfaz de comunicación a partir de señales digitales paralelas.
 Una descripción más acabada de su interfaz con el \acrshort{MCU} puede
-encontrarse en la sección \ref{seq:cb_interface_ce}. El driver se implementa
+encontrarse en la Sección \ref{seq:cb_interface_ce}. El driver se implementa
 bajo una filosofía de instanciado que permite atender y operar en múltiples
 instancias correspondientes a múltiples cargadores de batería presentes en el
 hardware bajo el único requisito de el usuario provea las funciones de lectura y
@@ -4666,7 +4704,7 @@ $\mathrm{v_k}$ es asociado con el error de medici\'on. Que, nuevamente, esta
 \'ultima variable se asume como un ruido Gaussiano con una conocida covarianza y 
 es independiente al ruido inherente al proceso (mx1).
 
-\noindent Como se describe en la secci\'on \ref{maximum_likelihood_section} para
+\noindent Como se describe en la Secci\'on \ref{maximum_likelihood_section} para
 minimizar \acrshort{MSE} se debe poder modelar correctamente los errores del
 sistema utilizando distribuciones Gaussianas. La covarianza de los dos modelos
 de ruido se asumen estacionarios en el tiempo y est\'an dadas por las Ecuaciones
