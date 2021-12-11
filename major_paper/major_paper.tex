@@ -206,14 +206,14 @@ DebugOn
 
     \noindent Está orientado a veh\'iculos el\'ectricos de baja y mediana
     potencia, como por ejemplo, bicicletas/monopatines hasta triciclos de
-    transporte con carga y busca resolver mucha de las problem\'aticas
+    transporte con carga y busca resolver muchas de las problem\'aticas
     intr\'insecas de la tecnolog\'ia litio-ion, como por ejemplo, la
     inestabilidad del pack de batería frente a operaciones fuera del \'area
     segura de operaci\'on, como tambi\'en la falta de proyectos abiertos de esta
     \'indole en el mercado.
 
-    \noindent A pesar de estar caracterizado para veh\'iculos el\'ectricos, el
-    mismo puede ser aplicado a almacenadores de energ\'ia, tales como los
+    \noindent A pesar de estar diseñado para veh\'iculos el\'ectricos, el
+    mismo puede ser implementado con almacenadores de energ\'ia, tales como los
     paneles solares, incluso hasta sistemas de alimentaci\'on ininterrumpida, o
     \acrshort{UPS} (del inglés, \emph{\acrlong{UPS}}).
 
@@ -233,7 +233,7 @@ DebugOn
 calentamiento global en las últimas décadas y el inquietante impacto que 
 el mismo tiene sobre la calidad de vida de las personas, se han intentado 
 buscar distintas soluciones para apaciguar las principales causas que 
-generan un deterioro del medio ambiente, entre ellas, se encuentra el 
+generan el deterioro del medio ambiente, entre ellas, se encuentra el 
 desarrollo de nuevas fuentes de energía renovables y su aprovechamiento.
 
 \noindent El \acrfull{VE} \emph{(Fig. \ref{EV})} es considerado 
@@ -258,24 +258,24 @@ determinando la autonomía del vehículo. En base a este criterio, las
 baterías de iones de litio (\emph{Li-Ion}) resultan las más adecuadas para 
 esta aplicación debido a su alta densidad energética, es decir, que este 
 tipo de baterías tienen una gran capacidad para su reducido volumen a 
-comparación de otras tecnologías. Para poder ser utilizados en
+comparación de otras tecnologías. Para poder ser utilizadas en
 \acrshort{VVEE}, las baterías de Li-Ion son conectadas en forma de arreglos 
 o packs de baterías en serie que permiten obtener mayores valores de tensión
-y, otras, en paralelo para aumentar la capacidad del pack.
+y/o en paralelo para aumentar la capacidad del pack.
 
 \newpage
 
 \section{Motivaci\'on del proyecto}
 
 \noindent Una de las grandes problem\'aticas de las bater\'ias de Litio-ion 
-reside en que se debe tener en cuenta ciertas precauciones a la hora de
+reside en que se deben tener en cuenta ciertas precauciones a la hora de
 implementarlas, debido a que las mismas son propensas a fallar al ser 
 sobrecargadas, completamente descargadas u operadas fuera del
-rango seguro de temperatura, tensi\'on o corriente, adem\'as, en un pack de 
+rango seguro de temperatura, tensi\'on o corriente. Adem\'as, en un pack de 
 bater\'ias conectadas en serie, se pueden manifestar pequeñas diferencias de 
-capacidades a traves de todas las celdas, causado por tolerancias de
+capacidades a traves de todas las celdas, causadas por tolerancias de
 producci\'on o diferentes condiciones de operaci\'on, que tienden
-a incrementar con cada ciclo de carga. Por \'ultimo, las bater\'ias
+a incrementarse con cada ciclo de carga. Por \'ultimo, las bater\'ias
 sufren un proceso de \emph{auto-descarga} (t\'ipicamente entre un
 2-10\% dependiendo de la temperatura y el estado de carga de la misma). 
 Si la distribuci\'on de temperatura a lo largo del pack es
@@ -292,7 +292,7 @@ Esto trae varias consecuencias, entre ellas, se encuentran:
     \item \textbf{Salud de la batería:} La degradación de la batería es 
         extremadamente sensible a la operación de la misma fuera de la zona 
         indicada. Si la temperatura de operación o la tensión máxima de carga 
-        es excedida esto provoca una aceleración en la degradación de su vida 
+        es excedida esto provoca una degradación acelerada de su vida 
         útil.
     \item \textbf{Autonomía:} Consideremos que el circuito de protección 
         detecta que una de las baterías se encuentra descargada a niveles 
@@ -302,16 +302,16 @@ Esto trae varias consecuencias, entre ellas, se encuentran:
         entregar a la carga desaprovechando la capacidad del pack entero.
 \end{itemize}
 
-Estas situaciones hacen necesario la implementación de un sistema de
+Estas situaciones hacen necesaria la implementación de un sistema de
 administración de baterías (\emph{\acrshort{BMS}} por sus siglas en inglés
 \acrlong{BMS}). En definitiva, un \acrshort{BMS} es un dispositivo encargado de
 controlar las funciones vitales de las baterías para que operen de forma
-correcta y segura, con el objetivo de otorgar seguridad al usuario y prolongar
+correcta, con el objetivo de otorgar seguridad al usuario y prolongar
 la autonomía del vehículo. Las funciones más relevantes que llevan a cabo son:
 
 \begin{itemize}
     \item Protección del pack para su operación en la región segura tanto 
-        en tensión, corriente como también en temperatura.
+        de tensión y corriente, como también de temperatura.
     \item Ecualización de las celdas individuales del pack, es decir,
         controlar que la carga entre celdas sea uniforme
     \item Estimación del estado de carga del pack de batería 
@@ -346,7 +346,7 @@ centenares de kWh y kW, especialmente para sistemas que requieren altos niveles
 de fiabilidad.
 
 \noindent El proyecto no tiene intenciones de ser usado de forma comercial en
-productos ya que no cumple con estandards espec\'ificos y requieren determinados
+productos ya que no cumple con estándardes espec\'ificos y requieren determinados
 certificados para ser vendidos en el mercado. Solamente cumple con el 
 prop\'osito de ser una plataforma de ensayo y desarollo que provee todas las 
 funcionalidades del manejo de la complejidad y tamaño de los sistemas de 
@@ -380,7 +380,19 @@ disponibles relacionados al tema.
 
 \section{Estructura del informe}
 
-El informe se encuentra dividido en 6 secciones, en la Sección \ref{descripcion}
+El informe se encuentra dividido en 8 secciones, las mismas atienden a los siguientes enfoques:
+
+\begin{itemize}
+	\item Sección \ref{descripcion}: Se realiza una descripci\'on en alto nivel del proyecto, detallando los objetivos generales, las especificaciones y requerimientos del trabajo.
+	\item Sección \ref{teoria}: Se encuentra el fundamento te\'orico, donde se detalla el funcionamiento de una celda de Litio-Ion, los fundamentos b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, como tambi\'en aquellos relacionados a la equalizaci\'on de celdas. Adem\'as, se presenta el desarrollo matem\'atico de muchos de los m\'etodos junto con el planteo de las ventajas y desventajas que ofrecen uno sobre el otro.
+	\item Sección \ref{desarrollo}: Se describe el desarrollo del modelo mátemático de la celda de Ion-Litio y su implementación en un Filtro de Kalman.
+	\item Sección \ref{desarrollo_hw}: Se describe el diseño e implementación del soporte físico del BMS, esto incluye  la selección de los circuitos integrados y el dimensionamiento de los componentes.
+	\item Sección \ref{software_implementation}: Se describe la estructura de software desarrollada para la implementación del Filtro de Kalman y la coordinación de los submodulos del BMS.
+	\item Sección \ref{ensayos}: Se presentan los ensayos realizados a lo largo del proyecto para validar los modelos y hacer comprobaciones de hardware.
+	\item Sección \ref{conclusiones}: Se presentan los conocimientos y experiencias adquiridos con la realización del proyecto, asi cómo también se presentan posibles proyectos de extensión del mismo.
+\end{itemize}
+
+\begin{comment} El informe se encuentra dividido en 6 secciones, en la Sección \ref{descripcion}
 se realiza una descripci\'on en alto nivel del proyecto, detallando los
 objetivos generales, las especificaciones y requerimientos del trabajo, a
 continuaci\'on, se encuentra el fundamento te\'orico (Secci\'on \ref{teoria}),
@@ -394,6 +406,8 @@ con su modelo y algoritmos como tambi\'en su final implementaci\'on en un
 sistema embebido con los ensayos realizados para validar el funcionamiento del
 sistema. Finalmente, en la Secci\'on \ref{conclusiones} se describen las
 conclusiones y futuros proyectos a continuar sobre el eje de estudio.
+\end{comment}
+
 
 \chapter{Descripci\'on}\label{descripcion}
 
@@ -406,7 +420,7 @@ Como solución a los problemas planteados, se propone desarrollar un
 
 \begin{itemize}
     \item Proteger el pack de baterías evitando que el mismo salga de su 
-	zona de operación segura, tanto en tensión, corriente como en 
+	zona de operación segura, tanto de tensión y corriente, como de 
 	temperatura, evaluando los umbrales correspondientes para las celdas de 
     Litio-Ion.
     \item Estimar el estado de carga en tiempo real.
@@ -427,29 +441,29 @@ desarrollada.
 
 \noindent El sistema a implementar debe ser capaz de poder administrar un 
 pack de bater\'ias de 6 m\'odulos conectados en serie, donde cada módulo est\'a 
-compuesto por 3 celdas en paralelo encargado de: 
+compuesto por 3 celdas en paralelo, el sistema está encargado de: 
 
 \begin{itemize}
     \item Sensar la tensión de las celdas individuales del pack y de la 
-	corriente que circula desde y hacia el pack as\'i como tambi\'en 
+	corriente que circula desde y hacia el pack, as\'i como tambi\'en 
 	la temperatura media.
     \item Realizar el balanceo de los m\'odulos que componen a la bater\'ia.
     \item Proteger el mismo, desconectando el pack de bater\'ias de la carga
 	frente a operaciones fuera de la zona segura.
     \item Estimar el estado de carga y detectar las celdas que se encuentran
-	en desbalance utilizando una unidad de cómputo como por ejemplo, un
+	en desbalance utilizando una unidad de cómputo, como por ejemplo, un
 	microcontrolador o \acrshort{MCU} (del ingl\'es \emph{\acrlong{MCU}}).
     \item Controlar el proceso de carga del pack de bater\'ias.
     \item Comunicar las variables del sistema a una computadora central a
-	trav\'es de un protocolo especificado
+	trav\'es de un protocolo especificado.
 \end{itemize}
 
 \noindent La descripción anterior se puede visualizar en el \acrfull{DB} de la
 Figura \ref{bms}. Como puede observarse, el microcontrolador es el encargado de
 comunicarse y comandar los módulos de protecci\'on, ecualizaci\'on y carga de 
-la batería, como tambi\'en obtener variables de los mismos para poder estimar 
+la batería, como tambi\'en de obtener variables de los mismos para poder estimar 
 el \acrshort{SOC}, determinar el desbalanceo de una o m\'as celdas y tomar 
-acci\'on al respecto, y por último, pero m\'as relevante, comandar las 
+acci\'on al respecto. Por último y de mayor relevancia, comandar las 
 protecciones en caso de una falla y/o alerta de la batería. 
 De forma simult\'anea, el mismo debe estar a cargo de comunicar las distintas 
 variables del sistema a una computadora central.
@@ -2093,7 +2107,7 @@ del hardware del dispositivo.
         \node at (14, 1.9) {Cargador};
         \draw[-Implies, line width=1pt, double distance=6] (14, 3.6) -- (14, 2.6);
         \node at (14, 4){Fuente de alimentaci\'on externa};
-        \draw (13, 1.4) -- (12.5, 1.4) node[ground];
+        \draw (13, 1.4) -- (12.5, 1.4) node[ground]{};
 
 
         % connect 6 series cells to balancing module %
