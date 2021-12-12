@@ -3786,7 +3786,7 @@ encapsulada y utilizada por los distintos m\'odulos del firmware.
 \end{figure}
 
 
-\subsection{Estructura de archivos}
+\section{Estructura de archivos}
 
 La estructura de archivos del software se describe a continuación:
 
@@ -3825,7 +3825,7 @@ siguientes operaciones:
         informaci\'on del proceso de carga.
 \end{itemize}
 
-\subsection{Desarrollo de Módelo Máquina de Estado Finitos}
+\section{Desarrollo de Módelo Máquina de Estado Finitos}
 
 Para llevar a cabo las tareas previamente mencionadas, se opt\'o por un modelo 
 de máquina de estados debido a la capacidad de representar sistemas 
@@ -3897,7 +3897,7 @@ El sistema se subdivide en 4 subsistemas:
 \end{figure}
 \FloatBarrier
 
-\subsection{Drivers propietarios}
+\section{Drivers propietarios}
 
 Siguiendo el modelo de capas descripto en la Sección 
 \ref{software_implementation}, fue necesario desarrollar los drivers de los
@@ -3917,7 +3917,7 @@ estado del cargador.
 
 Se describen a continuación detallatadamente.
 
-\subsubsection{Driver \texttt{bq76}}\label{bq76_driver}
+\subsection{Driver \texttt{bq76}}\label{bq76_driver}
 
 El driver \texttt{bq76} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -4086,7 +4086,7 @@ en la Figura \ref{bq76_v_cell_time}.
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Drivers \texttt{ina226}}
+\subsection{Drivers \texttt{ina226}}
 
 El driver \texttt{ina226} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -4168,7 +4168,7 @@ Figura \ref{ina226_time}.
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Driver bq2461x}
+\subsection{Driver bq2461x}
 
 El driver \texttt{bq2461x} provee una \acrshort{API} de baja complejidad que
 implementa las estructuras de datos, definiciones y funciones necesarias para la
@@ -4223,7 +4223,7 @@ dedicadas a implementar su propia \acrshort{HAL} con respecto a la interfaz
     \item \texttt{bq24\_write\_CE()}
 \end{itemize}
 
-\subsection{Implementaci\'on del filtro de Kalman}\label{dev_fw_kalman}
+\section{Implementaci\'on del filtro de Kalman}\label{dev_fw_kalman}
 
 Como se menciona en la Secci\'on \ref{software_implementation}, el firmware
 depende de las librer\'ias \acrshort{CMSIS} que, en s\'intesis, provee una capa de 
@@ -4315,37 +4315,9 @@ funciones privadas de la \acrshort{API}:
         del sistema como tambi\'en la salida predecida del mismo.
 \end{itemize}
 
-\subsubsection{Ensayos unitarios del filtro}
+\section{\acrshort{API} del modelo de una celda}
 
-\begin{minipage}{0.5\textwidth}
-Para ensayar las capas de abstracci\'on del firmware, se utiliz\'o el
-framework \emph{CppUTest}, que se especializa en correr test unitarios,
-especialmente para sistemas embebidos. En este caso, se realiza el ensayo del
-algoritmo programado bajo el lenguaje C, utilizando un ejemplo de la
-estimaci\'on de un proyectil en el plano x-y, en primer instancia se desarrolla
-el ejemplo en un script escrito en el lenguaje \emph{python} y, con los
-datos de entrada y los resultados del mismo, se vuelve a implementar utilizando
-la \emph{API} del filtro de Kalman. Finalmente, se comparan ambos resultados con
-el objetivo de que los valores coincidan entre si, si el algoritmo falla en
-calcular un resultado, el framework notifica al desarrollador que el test
-fall\'o. El ejemplo utilizado se puede visualizar en la Figura
-\ref{tracking_proyectile_example}.
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-    \begin{center}
-        \includegraphics[width=1\textwidth]{tracking_proyectile_example.png}
-        \captionof{figure}{Descripci\'on gr\'afica del ejemplo de la estimaci\'on de
-        trayectoria de un proyectil. En la curva azul se muestra la posici\'on
-        verdadera del mismo, en la trayectoria verde a trazos se muestra la
-        estimaci\'on del filtro de Kalman y en la curva naranja de puntos se 
-        observa el valor medido con ruido}
-        \label{tracking_proyectile_example}
-    \end{center}
-\end{minipage}
-
-\subsection{\acrshort{API} del modelo de una celda}
-
-\subsubsection{Desarrollo de la \acrshort{API}}
+\subsection{Desarrollo de la \acrshort{API}}
 
 En esta \acrshort{API} se combina el modelo generado en la Secci\'on
 \ref{dev_batt_model} con los par\'ametros obtenidos del algoritmo de Kalman en
@@ -4386,7 +4358,7 @@ provee las siguientes funciones p\'ublicas para el desarrollador:
         \acrshort{SOC} de la celda.
 \end{itemize}
 
-\subsubsection{Extensi\'on al pack de bater\'ias}
+\subsection{Extensi\'on al pack de bater\'ias}
 
 El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
 \ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
@@ -4409,7 +4381,7 @@ A su vez la librer\'ia tiene dos funciones p\'ublicas:
         cada celda.
 \end{itemize}
 
-\subsubsection{Tiempo de muestreo}
+\subsection{Tiempo de muestreo}
 
 Al trabajar con estrategias de control basadas en microcontroladores y sensores
 digitales nos encontramos con la necesidad de discretizar los procesos y tener
@@ -4478,7 +4450,10 @@ Los tiempos de procesamiento del Microcontrolador del filtro de Kalman y los
 sensores en conjunto son de 10ms por lo que la frecuencia de muestreo de nuestro
 sistema es $100 Hz$ cumpliendo con la condición \ref{nyquist_condition}.
 
-\subsection{Ensayos unitarios}
+\chapter{Ensayos}\label{ensayos}
+\thispagestyle{fancy}
+
+\section{Ensayos unitarios}
 
 Para ensayar esta librer\'ia se realizaron dos tests separados, uno para medir
 cuanto tiempo tarda en realizar un c\'alculo de las 6 celdas y otro para
@@ -4512,10 +4487,7 @@ Por el otro lado, se implementaron tests unitarios de la misma forma que para la
 \acrshort{API} del filtro de Kalman, pero utilizando los datos de las
 simulaciones que se desarrollaron en la Secci\'on \ref{dev_batt_model}.
 
-\clearpage
-
-\chapter{Ensayos}\label{ensayos}
-\thispagestyle{fancy}
+\section{Ensayo del disposito}
 
 Para ensayar el comportamiento del módulo de balanceo se cargaron las celdas de 
 litio a valores aleatoriamente dispares, luego se habilitó el módulo de balanceo 
