@@ -1,5 +1,5 @@
 
-\subsection{Batería de Litio-Ion}
+\section{Batería de Litio-Ion}
 
 La energía eléctrica ha empoderado a la sociedad desde su descubrimiento y,
 gracias a los avances tecnológicos, el acceso a la misma se vuelve cada vez más
@@ -14,7 +14,7 @@ tecnolog\'ia en almacenamiento de energ\'ia y ha logrado impulsar la
 revoluci\'on digital empoderando los dispositivos móviles, a trav\'es de su gran
 capacidad y densidad energ\'etica.
 
-\subsubsection{Principios b\'asicos}
+\subsection{Principios b\'asicos}
 
 El principio de funcionamiento de una batería, en su configuraci\'on
 b\'asica, consiste en una celda compuesta por dos electrodos 
@@ -84,7 +84,7 @@ tecnolog\'ias que permitan obtener una mayor capacidad en las bater\'ias con un
 tamaño reducido, permitiendo el descubrimiento las propiedades del metal de
 litio y su aplicacicación en las celdas que llevan su nombre.
 
-\subsubsection{Litio}
+\subsection{Litio}
 
 El litio es un metal descubierto en 1818 que tiene excelentes propiedades para
 servir como material para el desarrollo de baterías. Es el metal m\'as liviano
@@ -128,7 +128,7 @@ batería de Litio-Ion recargable acuosa o \acrshort{ARLB} (del ingles
 \emph{\acrlong{ARLB}}), que utiliza metal de litio recubierto como ánodo en una
 solución de electrolitos mejorando ampliamente la densidad energética.
 
-\subsubsection{Principio de funcionamiento}\label{battery_fun}
+\subsection{Principio de funcionamiento}\label{battery_fun}
 
 El principio de los procesos de carga y descarga en las baterías de Litio-Ion se
 pueden describir utilizando como ejemplo el óxido de litio-cobalto 
@@ -286,7 +286,7 @@ celdas conectadas en paralelo.
 
 %\newpage
 
-\subsection{Modelado de bater\'ias de Litio-Ion}\label{litioModel}
+\section{Modelado de bater\'ias de Litio-Ion}\label{litioModel}
 
 \noindent Como se menciona anteriormente, las celdas de Litio-Ion son utilizadas
 ampliamente en el mercado de consumo electr\'onico para un gran espectro de 
@@ -321,7 +321,7 @@ en la literatura actual. Esta comparaci\'on es basada en tres criterios:
         funcionamiento interno de una bater\'ia.
 \end{description}
 
-\subsubsection{Modelos F\'isicos}\label{phyModel}
+\subsection{Modelos F\'isicos}\label{phyModel}
 
 \noindent Los modelos f\'isicos, o tambi\'en conocidos como cajas blancas, son 
 modelos de bajo nivel con un grado de exactitud muy alto. Permiten abarcar la 
@@ -429,7 +429,7 @@ implementar en sistemas de tiempo real debido a la gran cantidad de ecuaciones
 diferenciales a implementar con su extensa cantidad de par\'ametros a ajustar en
 el mismo, imposibilitando su uso en veh\'iculos el\'ectricos.
 
-\subsubsection{Modelos emp\'iricos}\label{empModels}
+\subsection{Modelos emp\'iricos}\label{empModels}
 
 \noindent Los modelos emp\'iricos, tambi\'en conocidos como \emph{cajas negras},
 son aquellos que describen a la batería en puntos de trabajo definidos y que
@@ -442,7 +442,7 @@ como tambi\'en generar predicciones y respuestas r\'apidas. Sin embargo, la
 exactitud es limitada, especialmente si el modelo es muy simple, aunque puede
 ser mejorado si se combina con un modelo de bajo nivel.
 
-\subsubsection{Modelos abstractos}\label{absModels}
+\subsection{Modelos abstractos}\label{absModels}
 
 \noindent Tambi\'en conocidos como \emph{cajas grises}, los modelos abstractos 
 proveen una representaci\'on alternativa de la entidad f\'isica a modelar. 
@@ -465,7 +465,7 @@ degradaci\'on de la capacidad y el envejecimiento de las celdas.
 \noindent A continuaci\'on se describen los modelos m\'as utilizados dentro de 
 la literatura actual.
 
-\subsubsubsection{Circuito simple}
+\subsubsection{Circuito simple}
 
 \noindent El circuito el\'ectrico más simple que representa una bater\'ia de 
 Litio-Ion es un circuito con constante de tiempo cero que se puede observar en 
@@ -546,7 +546,7 @@ bater\'ia durante el proceso de carga/descarga.
 mejorados agregando m\'as tanques RC al circuito, lo que a su vez incrementa la
 complejidad del mismo. 
 
-\subsubsubsection{Modelos basados en el espectro de impedancia}
+\subsubsection{Modelos basados en el espectro de impedancia}
 
 La espectroscopía de impedancia electroquímica (\acrshort{EIS}, del ingl\'es
 \acrlong{EIS}), es una técnica utilizada para describir las propiedades
@@ -674,7 +674,7 @@ que no tienen una directa interpretaci\'on f\'isica. Este modelo es v\'alido,
 porque tiene la misma respuesta en frecuencia, y es m\'as f\'acil de 
 parametrizar.
 
-\subsubsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
+\subsection{Comparaci\'on de modelos y su evaluaci\'on para aplicaciones
 en veh\'iculos el\'ectricos}\label{compModels}
 
 \noindent La Tabla \ref{table_comp_models} presenta una comparaci\'on de los
@@ -714,7 +714,7 @@ Monitoreo y diagn\'ostico
 \end{center}
 \end{table}
 
-\subsection{Algoritmos de Estimaci\'on del Estado de Carga}\label{algSoc}
+\section{Algoritmos de Estimaci\'on del Estado de Carga}\label{algSoc}
 
 \noindent El \acrshort{SOC} es el equivalente a medir la cantidad de combustible
 restante en un veh\'iculo convencional basado en combustibles f\'osiles. La
@@ -792,7 +792,7 @@ meramente en datos experimentales, m\'etodos modernos basados en teor\'ias de
 control y, por \'ultimo, novedosos m\'etodos basados en algoritmos
 pertenecientes a lo que hoy se denomina la \emph{ciencia de datos}.
 
-\subsubsection{M\'etodos tradicionales basados en experimentos}
+\subsection{M\'etodos tradicionales basados en experimentos}
 \label{tradSocMeth}
 
 Estos m\'etodos dependen exclusivamente de una interpretaci\'on de mediciones
@@ -802,7 +802,7 @@ base a estos valores con respecto al \acrshort{SOC}. Por lo general se
 caracterizan por ser simples de implementar mostrando un alto grado de error del
 modelo. 
 
-\subsubsubsection{M\'etodo en base al voltaje de circuito abierto}
+\subsubsection{M\'etodo en base al voltaje de circuito abierto}
 \label{ocv_section}
 
 \noindent La medici\'on del voltaje de circuito abierto, u \acrshort{OCV} (del
@@ -884,7 +884,7 @@ metodolog\'ias de estimaci\'on.
 
 \newpage
 
-\subsubsubsection{M\'etodo de integraci\'on de corriente}\label{ahMethod}
+\subsubsection{M\'etodo de integraci\'on de corriente}\label{ahMethod}
 
 \noindent Este m\'etodo se basa en el c\'alculo de la circulaci\'on de 
 corriente acumulada durante el proceso de carga y descarga de una bater\'ia. En 
@@ -947,7 +947,7 @@ por \acrshort{OCV} junto a \'este para compensar los errores inherentes, as\'i
 obteniendo una metodolog\'ia simple y eficiente para estimar el \acrshort{SOC}
 de una celda.
 
-\subsubsubsection{Medici\'on de resistencia interna}\label{internalRMethod}
+\subsubsection{Medici\'on de resistencia interna}\label{internalRMethod}
 
 \noindent Este m\'etodo tiene el objetivo de relacionar la resistencia interna
 de una celda con el \acrshort{SOC}, considerando la corriente de descarga y la
@@ -1022,7 +1022,7 @@ que:
 \end{itemize}
 
 
-\subsubsection{M\'etodos modernos basados en la teor\'ia de control}
+\subsection{M\'etodos modernos basados en la teor\'ia de control}
 \label{controlTheoryMethod}
 
 \noindent Dentro de la ingenier\'ia y las matem\'aticas, la teor\'ia de control
@@ -1108,7 +1108,7 @@ del \emph{Filtro de Kalman} como un buen candidato (\cite{spagnol_kalman},
 prometedores. A continuaci\'on se desarrolla su principio de funcionamiento, 
 beneficios y cómo se utiliza como observador del \acrshort{SOC}.
 
-\subsubsubsection{M\'etodo del Filtro de Kalman}\label{KalmanFilterMethod}
+\subsubsection{M\'etodo del Filtro de Kalman}\label{KalmanFilterMethod}
 
 \noindent Dentro de las herramientas matem\'aticas que pueden ser utilizadas 
 para estimaci\'on de variables a partir de mediciones ruidosas, una de las m\'as
@@ -1332,7 +1332,7 @@ como un observador del Estado de Carga obtuvieron resultados prometedores que
 hacen que el algoritmo sea un gran candidato para sistemas en tiempo real, tales
 como \acrshort{VVEE} o \acrshort{UPS}.
 
-\subsubsection{M\'etodos basados en el aprendizaje autom\'atico}
+\subsection{M\'etodos basados en el aprendizaje autom\'atico}
 
 \noindent El aprendizaje autom\'atico o, en ingl\'es, \acrfull{ML} surge como
 una metodolog\'ia alternativa a la ingenier\'ia actual para el diseño de una
@@ -1436,7 +1436,7 @@ durante el proceso de entrenamiento.
 autom\'atico para la estimaci\'on del \acrshort{SOC}, se propone el uso de
 varias hip\'otesis detalladas a continuaci\'on,
 
-\subsubsubsection{Redes Neuronales Artificiales}
+\subsubsection{Redes Neuronales Artificiales}
 
 \noindent Las redes neuronales artificiales (\acrshort{ANN}, del ingl\'es
 \emph{\acrlong{ANN}}) tienen la capacidad de aprendizaje y adaptaci\'on para
@@ -1474,7 +1474,7 @@ desarrollo es costoso si el presupuesto es limitado.
 
 \newpage
 
-\subsubsubsection{M\'aquinas de Vectores de Soporte}
+\subsubsection{M\'aquinas de Vectores de Soporte}
 
 \noindent El m\'etodo basado en las M\'aquinas de Vectores de Soporte 
 (\acrshort{SVN} del ingl\'es \acrlong{SVN}) utiliza el algoritmo de regresi\'on 
@@ -1504,7 +1504,7 @@ temperatura, la energ\'ia entregada/consumida, entre otras variables de
 inter\'es. Sin embargo, este m\'etodo consume una gran cantidad de tiempo lo que 
 lo imposibilita para funcionar en un sistema en tiempo real.
 
-\subsubsubsection{L\'ogica Difusa}
+\subsubsection{L\'ogica Difusa}
 
 \noindent La l\'ogica difusa (\acrshort{FL}, del ingl\'es \acrlong{FL}) es un
 algoritmo utilizado para generar modelos complejos no-lineales con la ayuda de
@@ -1532,7 +1532,7 @@ aplicaciones.
 
 \newpage
 
-\subsubsection{Algoritmo de Estimaci\'on}
+\subsection{Algoritmo de Estimaci\'on}
 
 \noindent La Figura \ref{comp_error_soc} demuestra la complejidad computacional 
 en base al error en la estimaci\'on sobre los m\'etodos de estimaci\'on de 
@@ -1554,7 +1554,7 @@ envejecimiento, la temperatura y el efecto de hist\'erisis.
     \end{center}
 \end{figure}
 
-\subsection{Proceso de Carga}\label{sec:tecnica_carga}
+\section{Proceso de Carga}\label{sec:tecnica_carga}
 
 El proceso de carga de una \acrfull{Ion-Li} no es trivial. Aplicar una tensión
 constante en  bornes, como podríamos proceder con baterías de plomo ácido, no es
@@ -1564,7 +1564,7 @@ lineamientos particulares de acuerdo a las carácterísticas constructivas de la
 celdas que lo componen. Este proceso est\'a descripto por un perfil de Corriente
 Constante (CC) - Voltaje Constante (CV)
 
-\subsubsection{Corriente Constante CC - Voltaje Constante CV}
+\subsection{Corriente Constante CC - Voltaje Constante CV}
 
 El perfil de carga que se ajusta a las celdas de \acrshort{Ion-Li}, como se
 observa en la figura \ref{fig:char_prof}, es el perfil \acrshort{CC} -
@@ -1678,7 +1678,7 @@ tambi\'en se debe monitorear sobre el mismo la ecualizaci\'on de las celdas en
 caso de que el pack de bater\'ias posea una arquitectura con mayor cantidad de
 celdas conectadas en serie.
 
-\subsection{Ecualización de celdas}\label{cell_balancing_theory}
+\section{Ecualización de celdas}\label{cell_balancing_theory}
 
 Los packs de bater\'ias en los \acrshort{VVEE} consisten de un gran n\'umero de
 celdas agrupadas en serie y en paralelo para proveer la suficiente energia y
@@ -1716,7 +1716,7 @@ la tecnolog\'ia actual para el diseño del \acrshort{BMS}
 
 \newpage
 
-\subsubsection{Inconsistencias entre celdas}
+\subsection{Inconsistencias entre celdas}
 
 Para satisfacer la demanda de voltaje, potencia y energ\'ia en los 
 \acrshort{VVEE}, los packs de bater\'ia contienen desde decenas hasta miles de
@@ -1761,7 +1761,7 @@ bater\'ias.
     \end{center}
 \end{figure}
 
-\subsubsubsection{Inconsistencias causadas por la producci\'on}
+\subsubsection{Inconsistencias causadas por la producci\'on}
 
 El proceso de producci\'on de las celdas de Litio-Ion consiste en mezclar
 materiales acuosos, cubrir, cortar, devanar, ensamblar e inyectar electrolito,
@@ -1782,7 +1782,7 @@ que sean consistentes entre s\'i, mejorando la fiabilidad, seguridad y tiempo de
 vida de un pack de bater\'ias. \'Estos m\'etodos se basan en criterios tales
 como la capacidad, la resistencia interna y la corriente de auto-descarga.
 
-\subsubsubsection{Inconsistencias causadas por el ensamblaje del pack}
+\subsubsection{Inconsistencias causadas por el ensamblaje del pack}
 
 Adem\'as del proceso de producci\'on, la tecnolog\'ia de ensamblado de los
 packs de bater\'ias tambi\'en son esenciales para mantener la consistencia de
@@ -1806,7 +1806,7 @@ internamente pueden intercambiar calor solamente con las bater\'ias adyacentes.
 Por lo tanto, el diseño del ensamblaje puede llevar a diferentes distribuciones
 de temperatura, logrando una inconsistencia entre celdas.
 
-\subsubsubsection{Inconsistencias causadas por el uso}
+\subsubsection{Inconsistencias causadas por el uso}
 
 Las celdas en el mismo pack tienden a mantener la uniformidad despu\'es del
 ensamblaje inicial, pero la inconsistencia de este ensamblaje puede incrementar
@@ -1860,7 +1860,7 @@ material en el c\'atodo. Diferencias de \acrshort{SOC} entre celdas puede llevar
 a velocidades de envejecimiento inconsistente, causando tambi\'en una diferencia 
 entre el \acrshort{DOD}.
 
-\subsubsubsection{Administraci\'on de la inconsistencia}
+\subsubsection{Administraci\'on de la inconsistencia}
 
 La inconsistencia en el pack no puede ser completamente eliminada pero puede ser
 restringida a un rango de operaci\'on razonable. Para resolver esto existe un gran
@@ -1879,7 +1879,7 @@ correcta. La consistencia entre celdas puede ser mejorada a trav\'es de varios
 mecanismos, como por ejemplo, estructuras mec\'anicas apropiadas o el proceso de 
 ecualizaci\'on en el \acrshort{BMS}.
 
-\subsubsection{Sistema de Administraci\'on de Ecualizaci\'on}
+\subsection{Sistema de Administraci\'on de Ecualizaci\'on}
 
 El sistema de administraci\'on de ecualizaci\'on (\acrshort{EMS}, del ingl\'es
 \emph{\acrlong{EMS}}) juega un papel importante en la reducci\'on de
@@ -1887,7 +1887,7 @@ inconsistencias entre las celdas del pack. Existe una gran variedad de
 t\'ecnicas de ecualizaci\'on que fueron investigadas e implementadas en
 \acrshort{VVEE}.
 
-\subsubsubsection{Clasificaciones}
+\subsubsection{Clasificaciones}
 
 Los \acrshort{EMS} pueden ser clasificados entre sistemas pasivos y activos
 dependiendo de la topolog\'ia del circuito. Independientemente de la
@@ -1927,7 +1927,7 @@ ecualizaci\'on activa que comienza el trabajo una vez que la bater\'ia est\'a
 completamente cargada o descargada para minimizar la transferencia de carga 
 durante el proceso de balanceo.
 
-\subsubsection{Control de balanceo pasivo}\label{seq:balanceo_pasivo}
+\subsection{Control de balanceo pasivo}\label{seq:balanceo_pasivo}
 
 Los controladores de balanceo pasivos (del ingl\'es
 \emph{\acrfull{PBC}}) generalmente emplean resistencias \emph{shunt} en paralelo
@@ -1998,7 +1998,7 @@ sin embargo hay una limitaci\'on de costos, volumen y complejidad muy alta.
     \end{center}
 \end{figure}
 
-\subsubsection{Controlador de Balanceo Activo}
+\subsection{Controlador de Balanceo Activo}
 
 Los controladores de balanceo activo (\acrshort{ABC}, del ingl\'es \acrlong{ABC})
 tienen topolog\'ias que, en vez de disipar energ\'ia, la transfieren entre
@@ -2012,7 +2012,7 @@ alta velocidad y alta precisi\'on. Sin embargo, comparado con los
 como por ejemplo estructuras complejas, grandes tamaños y sistemas costosos de 
 implementar.
 
-\subsubsubsection{Camino de transferencia de energ\'ia}
+\subsubsection{Camino de transferencia de energ\'ia}
 
 Una de las ventajas superiores de los \acrshort{ABC}s es que la energ\'ia se
 puede transferir entre distintos niveles para alcanzar un balanceo del sistema,
@@ -2076,7 +2076,7 @@ eficacia del 93\% en modo \acrshort{C2M} y 72.5\% en modo \acrshort{M2C}.
     \end{center}
 \end{figure}
 
-\subsubsubsection{Controlador de balanceo basado en capacitores}
+\subsubsection{Controlador de balanceo basado en capacitores}
 
 Los controladores de balanceo basados en capacitores (\acrshort{CBBC}, del
 ingl\'es \emph{\acrlong{CBBC}}) pueden transportar energ\'ia entre celdas o
@@ -2166,7 +2166,7 @@ Su estructura se puede observar en la Figura \ref{cbbc_mesh_top}
 
 %\newpage
 
-\subsubsubsection{Controlador de balanceo basado en inductores}
+\subsubsection{Controlador de balanceo basado en inductores}
 
 Los controladores de balanceo basado en inductores (\acrshort{IBBC}, del
 ingl\'es \acrlong{IBBC}) pueden transferir energ\'ia entre celdas y m\'odulos a
@@ -2236,7 +2236,7 @@ de la celda 2 respectivamente.
 %una celda de mayor voltaje. Por lo tanto, la estrategia de balanceo debe ser
 %considerada cuidadosamente para evitar un error de balanceo.
 
-\subsubsubsection{Controlador de balanceo basado en transformadores}
+\subsubsection{Controlador de balanceo basado en transformadores}
 
 Los controladores de balanceo basados en transformadores (\acrshort{TBBC}, del
 ingl\'es \emph{\acrlong{TBBC}}) pueden transferir energ\'ia entre distintas celdas y
@@ -2294,7 +2294,7 @@ a p\'erdidas de inductancia en el devanado de los transformadores. Otro gran
 problema de estas topolog\'ias es que la fabricaci\'on de devanados sim\'etricos
 para aplicaciones de alta potencia son costosos.
 
-\subsubsubsection{Balanceadores basados en convertidores de potencia}
+\subsubsection{Balanceadores basados en convertidores de potencia}
 
 Los convertidores DC/DC, o convertidores de potencia, pueden convertir una fuente
 DC de un voltaje a otro distinto. Los controladores de balanceo basados en
@@ -2390,7 +2390,7 @@ LiFeP$\mathrm{O_4}$ adoptando una modalidad de transferencia entre m\'odulos
 
 %\newpage
 
-\subsubsection{Topolog\'ias h\'ibridas}
+\subsection{Topolog\'ias h\'ibridas}
 
 Las topolog\'ias h\'ibridas pueden mejorar el rendimiento del balanceador
 gracias a la combinaci\'on de una ecualizaci\'on pasiva con una activa. 
@@ -2418,7 +2418,7 @@ proceso de balanceo.
     \end{center}
 \end{figure}
 
-\subsubsubsection{Comparaci\'on de topolog\'ias}
+\subsubsection{Comparaci\'on de topolog\'ias}
 
 La topolog\'ia es el fundamento principal de los sistemas de ecualizaci\'on de
 bater\'ias, la misma determina el costo y el tamaño del sistema completo. Una
@@ -2490,7 +2490,7 @@ y 5 el mejor.}
     \end{center}
 \end{figure}
 %\newpage
-\subsubsection{Estrategias de ecualizaci\'on}
+\subsection{Estrategias de ecualizaci\'on}
 
 Las estrategias de ecualizaci\'on son utilizadas para controlar la operaci\'on
 del balanceo teniendo un alto impacto sobre este proceso. Una estrategia de 
@@ -2510,7 +2510,7 @@ y el desglose de las mismas se puede observar en la Figura
     \end{center}
 \end{figure}
 
-\subsubsubsection{Variables de Ecualizaci\'on}
+\subsubsection{Variables de Ecualizaci\'on}
 
 Las variables de ecualizaci\'on son la base para las estrategias de
 ecualizaci\'on. El error de la muestra, el costo computacional y el car\'acter de
@@ -2518,7 +2518,7 @@ hist\'eresis deben ser consideradas a la hora de elegir qué variable ecualizar.
 Para la ecualizaci\'on se encuentran tres variables disponibles, el voltaje de 
 las celdas, \acrshort{SOC}, capacidad y resistencia interna.
 
-\subsubsubsection{Estrategias de Ecualizaci\'on basadas en voltaje
+\subsubsection{Estrategias de Ecualizaci\'on basadas en voltaje
 (\acrshort{VBES})}
 
 Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltaje de las celdas
@@ -2548,7 +2548,7 @@ Litio-Ion con una linealidad relativa en la curva \acrshort{OCV}-\acrshort{SOC},
 pero no son efectivas y corren el riesgo de un desbalanceo cuando son utilizadas
 en celdas tipo LiFeP$\mathrm{O_4}$. 
 
-\subsubsubsection{Estrategias de Ecualizaci\'on basadas en la capacidad
+\subsubsection{Estrategias de Ecualizaci\'on basadas en la capacidad
 (\acrshort{CBES})}
 
 Las \acrshort{CBES} (del ing\'es, \emph{\acrlong{CBES}}) se basan en balancear
@@ -2557,7 +2557,7 @@ se ven influenciadas por condiciones tales como la corriente y la temperatura
 por lo que identificar su valor es complicado y lograr una uniformidad entre
 celdas de un pack.
 
-\subsubsubsection{Estrateg\'ia de Ecualizaci\'on basada en el \acrshort{SOC}}
+\subsubsection{Estrateg\'ia de Ecualizaci\'on basada en el \acrshort{SOC}}
 
 Como se menciona en la secci\'on \ref{algSoc}, el \acrshort{SOC} es una variable
 que permite caracterizar la capacidad remanente en una celda. La literatura
@@ -2566,7 +2566,7 @@ robusta que la basada en voltaje bajo condiciones din\'amicas de operaci\'on.
 Sin embargo, el \acrshort{SOC} no puede ser medido de forma directa, si no que
 tiene que ser estimado con cierta gravedad de error.
 
-\subsubsubsection{Estrategia de Ecualizaci\'on basada en m\'etodos h\'ibridos}
+\subsubsection{Estrategia de Ecualizaci\'on basada en m\'etodos h\'ibridos}
 
 Este tipo de m\'etodo consiste en tomar ventaja de varias estrategias de
 ecualizaci\'on. Por ejemplo, en \cite{ZHANG20194702} se propone el desarrollo de 
@@ -2583,7 +2583,7 @@ en acoplar la estimaci\'on de ambas variables. Los resultados de las
 simulaciones realizadas demuestran que un m\'etodo de balanceo activo puede 
 mejorar el desbalance del \acrshort{SOC} entre celdas.
 
-\subsubsubsection{Comparaci\'on de las variables de control}
+\subsubsection{Comparaci\'on de las variables de control}
 
 Como se menciona anteriormente, la variable a controlar para realizar la
 ecualizaci\'on del pack de bater\'ias es crucial para lograr un balanceo
@@ -2600,7 +2600,7 @@ los m\'etodos h\'ibridos que se encargan de fusionar ambas variables, como el
 voltaje y el \acrshort{SOC} para combinar ambas ventajas y obtener una
 ecualizaci\'on m\'as robusta del sistema.
 
-\subsubsection{Algoritmos de control para la ecualizaci\'on}
+\subsection{Algoritmos de control para la ecualizaci\'on}
 
 Los algoritmos de control son cruciales para el rendimiento de la
 ecualizaci\'on, son utilizados para determinar el tiempo de balanceo y
@@ -2611,7 +2611,7 @@ Estos algoritmos son posibles de implementar en determinados casos y deben ser
 seleccionados acorde al costo computacional, intervalo de muestreo y el nivel de
 robustez requerido.
 
-\subsubsubsection{Algortimos cl\'asicos de control}
+\subsubsection{Algortimos cl\'asicos de control}
 
 Los \acrshort{CCA}s realizan operaciones matem\'aticas basadas en las variables
 de ecualizaci\'on selccionadas. Normalmente, los \acrshort{CCA}s utilizan el
@@ -2638,7 +2638,7 @@ eficiencia de ecualizaci\'on y el tiempo de balanceo puede verse afectado por
 las variables seleccionadas, que deben ser consideradas cuidadosamente basado en
 condiciones espec\'ificas.
 
-\subsubsubsection{Algoritmos de control avanzado}
+\subsubsection{Algoritmos de control avanzado}
 
 Muchos de los m\'etodos avanzados de control, como por ejemplo el control
 predictivo y el control por l\'ogica difusa fueron implementados en muchas
@@ -2667,7 +2667,7 @@ Por \'ultimo, en la literatura se propuso el uso de redes neuronales,
 controladores tipo PID y algoritmos acoplados como potenciales algoritmos de
 control para mejorar el rendimiento del balanceo.
 
-\subsubsubsection{Comparaci\'on de algoritmos de control}
+\subsubsection{Comparaci\'on de algoritmos de control}
 
 Los algoritmos basados en el control cl\'asico fueron las primeras
 implementaciones de balanceo utilizadas en \acrshort{VVEE}s debido a sus 
@@ -2684,7 +2684,7 @@ estos sistemas est\'an apareados a un alto costo computacional, y el rendimiento
 del control depende exclusivamente de la precisi\'on del modelo, que es
 complicado de obtener.
 
-\subsection{Sensado de Corriente}
+\section{Sensado de Corriente}
 
 El sensado de la corriente de carga como de descarga del pack de batería juega
 un rol muy importante en el desarrollo exitoso de un \acrshort{BMS}. Es a partir
@@ -2713,7 +2713,7 @@ de Baterías \acrshort{BMS} son las mediciones a partir de resistencias Shunt y
 mediciones a partir de sensores de efecto hall debido a las caracter\'isticas de
 ambas metodolog\'ias.
 
-\subsubsection{Resistencia Shunt}
+\subsection{Resistencia Shunt}
 
 La tecnología Shunt se vale del Sensado de la caída del voltaje sobre una
 resistencia de unos pocos mili ohmios en serie con el paso de la corriente
@@ -2735,7 +2735,7 @@ Aunque los shunts de corrientes operen bajo el principio de caida de voltaje
 ohmico, en la práctica las resistencias presentan una inductancia intrínseca que
 comprometen la precisión y el ancho de banda máximo de las mediciones.
 
-\subsubsection{Sensor de efecto Hall}
+\subsection{Sensor de efecto Hall}
 
 El sensor de efecto Hall es un sensor de efecto magnético basado en el fenómeno
 físico homónimo que le da su nombre.  El sensor de efecto Hall es un dispositivo
@@ -2772,7 +2772,7 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 
 \newpage
 
-\subsection{Protocolos de comunicación}
+\section{Protocolos de comunicación}
 En la actualidad es innegable la expansión de la tecnología y la electrónica haciendose más presentes en nuestro día a día, hoy no es raro escuchar de domótica, IoT y Smart Devices.Los vehículos no son la excepción y aún en los vehículos de 4 plazas de gamma baja se integran un conjunto de sensores, actuadores y controladores electrónicos.
 Estos dispositivos se hayan interconectados entre sí por redes de comunicación transmitiendo señales en tiempo real y recabando información y controlando los diversos procesos que ocurren permanentemente en el vehiculo. Así como también reportando fallas al usuario permitiendo tomar deciciones anticipadas, facilitando el mantenimiento de la unidad.
 
@@ -2782,7 +2782,7 @@ Dentro del vehículo hallamos sistemas de naturaleza muy variada, por ejemplo, e
 
 De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, debido a la arquitectura multiplexada con un único bus serie que reduce costos combinada con algoritmos de detección de errores que brindan confiabilidad a la red. Otra de las ventajas de CAN es que si un dispositivo sale de servicio la red continua funcionando perfectamente, además de contar con control de acceso al medio con prioridad. Todo esto hace de CAN un protocolo que desde sus orígenes es óptimo para el rubro automotríz.
 
-\subsubsection{Protocolo CAN}
+\subsection{Protocolo CAN}
 Este es un protocolo desarrollado inicialmente por la empresa alemana Robert Bosch GmbH en 1983 la cual fue aceptada ampliamente y que posterior mente fue definida como estándar que en su especificación ISO 11898 describe como la información será transmitida entre los diferentes dispositivos de red.
 
 Las principales características de este protocolo son \cite{RBG1991}:
@@ -2811,7 +2811,7 @@ Trabaja en según el modelo \acrshort{OSI} (\acrfull{OSI}) en la primera y la se
 
 El protocolo CAN  sólo define las dos primeras capas del Modelo \acrshort{OSI} (\acrfull{OSI}) (física y enlace), aunque no especifica la interfaz al medio físico (Medio de transmisión, conectores).La norma ISO 11898 es el estándar internacional para la comunicación de alta velocidad usando el protocolo de bus CAN. Esencialmente este estándar define las capas física y de enlace de datos.
 
-\subsubsubsection{Capa Física} 
+\subsubsection{Capa Física} 
 La capa física en \acrshort{CAN} es responsable de la transferencia de bits entre los distintos nodos que componen la red. Define aspectos como, niveles de señal, codificación, sincronización y tiempos en que los bits se transfieren al bus.
 En la especificación original de \acrshort{CAN}, la capa física no fue definida, permitiendo diferentes opciones para la elección del medio y niveles eléctrico de transmisión. Las características de las señales eléctricas en el bus fueron establecidas más tarde por el estandar ISO 11898.
 
@@ -2829,7 +2829,7 @@ La topología es bus con derivaciones de corta longitud.Si se presenta el caso d
 El número máximo de nodos no está limitado por la especificación básica y depende de las características de los transreceptores, las especificaciones de buses de campo lo limitan a 32 o 64 en una red sin repetidores.
 
 
-\subsubsubsection{Capa de Datos}
+\subsubsection{Capa de Datos}
 Unas de las características que distingue a CAN con respecto a otras normas, es su técnica de acceso al medio denominada como 
 CSMA/CD+CR o ``Carrier Sense, Multiple Access/Colission Detection + Collision Resolution" (Acceso múltiple con detección de 
 portadora, detección de colisión más resolución de colisión). 
@@ -2848,7 +2848,7 @@ escucha  continuamente  el  valor  presente  en  el  bus,  y  se  retira  cuando
 forzado.    Mientras  hay  coincidencia  la  transmisión  continua,  finalmente  el  mensaje  con  identificador  de  máxima  prioridad  
 sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible.\\
 
-\subsubsubsection{Mensajes y Tipos de Tramas}
+\subsubsection{Mensajes y Tipos de Tramas}
 CAN utiliza mensajes de estructura predefinida, tramas, para la gestión de la comunicación.
 Se distinguen entre dos variantes de CAN, el definido en CAN 2.A o ``CAN Standard" y el definido en CAN 2.B o ``CAN
 Extendido", los formatos de trama son análogos diferenciándose básicamente en el número de bits que se utiliza para el
@@ -2871,11 +2871,14 @@ Los tipos de trama, y estados de bus, utilizados segun \cite{KaschelHector2004} 
 
 \begin{comment}
 
-En un bus CAN los nodos transmiten la información espontáneamente con tramas de datos, bien sea por un proceso cíclico o activado ante eventos en el nodo. La trama de interrogación remota sólo se suele utilizar para detección de presencia de nodos o para puesta al día de información en un nodo recién incorporado a la red. Los mensajes pueden entrar en colisión en el bus, el de identificador de mayor prioridad sobrevivirá y los demás son retransmitidos lo antes posible.
+En un bus CAN los nodos transmiten la información espontáneamente con tramas de
+datos, bien sea por un proceso cíclico o activado ante eventos en el nodo. La
+trama de interrogación remota sólo se suele utilizar para detección de presencia
+de nodos o para puesta al día de información en un nodo recién incorporado a la
+red. Los mensajes pueden entrar en colisión en el bus, el de identificador de
+mayor prioridad sobrevivirá y los demás son retransmitidos lo antes posible.
 
-
-
-\subsubsubsection{Formatos de Trama}
+\subsubsection{Formatos de Trama}
 
 	\textbf{Trama de Datos}\\
 	Una trama de datos es generada por un nodo CAN cuando transmite información. Los campos incluidos en una trama de datos
@@ -2952,7 +2955,5 @@ nodos dando lugar, como se ha indicado, a un máximo de 12 bits dominantes de in
 Cada nodo que transmite, a su vez está monitoreando el dato que se refleja en el bus y se contrasta con el dato enviado por el mismo, en caso de no coincidir esto quiere decir que el transmisor de mayor prioridad es él mismo y continua la transmisión, de lo contrario detectará que hay un mensaje de mayor prioridad en el bus y lo leerá.
 
 \end{comment}
-
-
 
 
