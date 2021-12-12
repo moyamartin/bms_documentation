@@ -30,6 +30,7 @@
 \usepackage{wrapfig}
 \usepackage{xfrac}
 \usepackage{pdfpages}
+\usepackage{multicol}
 
 \usetikzlibrary{arrows, arrows.meta, decorations.markings, positioning}
 \addbibresource{major_paper.bib}
@@ -593,16 +594,17 @@ variables del sistema a una computadora central.
 
 \input{state_of_art}
 
-\chapter{Preámbulo}\label{preambulo}
+\chapter{Desarrollo e implementación - Preámbulo}\label{preambulo}
 \thispagestyle{fancy}
 
-A partir de \'esta secci\'on se presenta el desarrollo matem\'atico y la implementaci\'on 
-f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias, el modelo 
-matem\'atico de la celda de Litio-Ion junto a sus algortimos de estimaci\'on de 
-\acrshort{SOC} y ecualizaci\'on de celdas, mostrando los resultados de las
-simulaciones y, finalmente, el desarrollo del hardware y firmware necesario para
-implementar los distintos componentes del sistema en un sistema f\'isico real. 
-Consideramos imperativo dar a conocer nuestro interés en el desarrollo de este proyecto en particular.
+A partir de \'esta secci\'on se presenta el desarrollo matem\'atico y la
+implementaci\'on f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias,
+el modelo matem\'atico de la celda de Litio-Ion junto a sus algortimos de
+estimaci\'on de \acrshort{SOC} y ecualizaci\'on de celdas, mostrando los
+resultados de las simulaciones y, finalmente, el desarrollo del hardware y
+firmware necesario para implementar los distintos componentes del sistema en un
+sistema f\'isico real.  Encontramos significativo dar a conocer nuestro interés en
+el desarrollo de este proyecto en particular.
 
 \section{Espíritu del proyecto}
 
@@ -623,21 +625,37 @@ el objetivo de que la disposición de la documentación funcione como la
 herramienta que lo permita.
 
 
-\chapter{Desarrollo e implementación de un Filtro de Kalman para la estimación del \acrshort{SOC} de celdas de Li-Ion}\label{ch:dev_soc}
+\chapter{Desarrollo e implementación de un Filtro de Kalman para la estimación
+del \acrshort{SOC} de celdas de Li-Ion}\label{ch:dev_soc}
 \thispagestyle{fancy}
 
-TODO: Descripción general del capítulo
+Como hemos presentado a través de la Sección \ref{algSoc}, existen
+diferentes opciones para el cálculo del \acrshort{SOC} del
+pack de baterías de un \acrshort{BMS}. Durante el siguiente capítulo se
+presenta el proceso de desarrolo e implementación de un algoritmo de cálculo del
+\acrshort{SOC} de un pack de baterías de Litio-Ion a partir de la implementación
+de un Filtro de Kalman Extendido como se describe en la Sección
+\ref{KalmanFilterMethod}.
 
-\section{Celda NCR18650PF} \label{seq:cel_selection}
+El exito de la implementación del algoritmo de estimación de \acrshort{SOC}
+seleccionado depende a su vez de contar con un modelo preciso de la celda de
+Litio-Ion que sea capaz de representar los datos experimentales de ensayo de
+laboratorio de la misma. El proceso de selección de la celda, de la optención de
+los datos experimentales, su procesamiento y de la selección y desarrollo de un
+modelo de la celda de Litio-Ion son tambien presentados a continuación. 
 
-La celda de Litio-Ion 18650 fue originalmente diseñada para ser utilizada en
-bater\'ias de notebooks pero debido a su amplia versatilidad su uso se
-expandi\'o hasta ser implementados en \acrshort{VVEE}s. Estas bater\'ias se
-caracterizan por su tamaño reducido de 18mm de di\'ametro por 65mm de alto,
-características que le dan su nombre. En el mercado actual, se pueden encontrar
-diferentes versiones del mismo modelo debido a que cada uno posee una
-composici\'on qu\'imica diferente, dando lugar a las distintas caracter\'isticas
-de capacidad y voltaje que se describen a continuaci\'on:
+\section{Celda Panasonic NCR18650PF} \label{seq:cel_selection}
+
+El modelo da la celda de Litio-Ion 18650 fue originalmente diseñada para ser
+utilizada en bater\'ias de notebooks pero debido a su amplia versatilidad su uso
+fue expandiéndose con el tiempo a un sin número de dispositivos entre ellos los
+relacionados a las implementaciones en \acrshort{VVEE}s.
+
+Estas bater\'ias se caracterizan por su tamaño reducido de 18mm de di\'ametro
+por 65mm de alto, características que le dan su nombre. En el mercado actual, se
+pueden encontrar diferentes versiones del mismo modelo debido a que cada uno
+posee una composici\'on qu\'imica diferente, dando lugar a las distintas
+caracter\'isticas de capacidad y voltaje que se describen a continuaci\'on:
 
 \begin{itemize}
     \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
@@ -654,9 +672,21 @@ de capacidad y voltaje que se describen a continuaci\'on:
         ICR, LCO o Li-cobalto.
 \end{itemize}
 
-En este caso, la celda NCR18650PF se caracteriza por su cátodo, cuya composición 
-química se basa en el óxido de litio níquel cobalto aluminio 
-($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus 
+El criterio de selección de la celda Panasonic NCR18650PF, para la
+implementación del pack de baterías a controlar por el \acrshort{BMS}, se funda
+principalmente en la popularidad que tienen las celdas tipo 18650 en
+implementaciones de packs de baterias de uso comercial para vehículos eléctricos
+y en la disponibilidad en el mercado que esto conlleva. A su vez ha sido un
+factor determinante para su selección la existencia y disponibilidad de un set
+de datos completos \cite{Kollmeyer2018}, abiertos y libres de distintos ensayos
+sobre la celda en cuestión a partir del cual nos ha sido posible desarrollar e
+investigar el modelo de la celda, correr simulaciones de la misma y pantear
+diferentes algoritmos de medición del \acrshort{SOC}. Datos a partir de los
+cuales fundamentalmente se validaron los resultados obtenidos.  
+
+La celda NCR18650PF de Panasonic se caracteriza por la composición química de su
+cátodo, basada en el óxido de litio níquel cobalto aluminio
+($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus
 carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
 
 \begin{table}[h]
@@ -689,16 +719,6 @@ la curva de descarga para distintas corrientes
 \emph{(Fig. \ref{descarga_18650})} y la curva del ciclo de vida típico de la 
 batería \emph{(Fig. \ref{life_cycle_18650})}.
 
-El criterio de selección de la celda Panasonic NCR18650PF, para la
-implementación del pack de baterías a controlar por el \acrshort{BMS}, se funda
-principalmente en la popularidad que tienen las celdas tipo 18650 en
-implementaciones de packs de baterias de uso comercial para vehículos eléctricos
-y en la disponibilidad en el mercado que esto conlleva. A su vez ha
-sido un factor determinante para su selección la existencia y disponibilidad de
-un set de datos completos \cite{Kollmeyer2018}, abiertos y libres de distintos
-ensayos sobre la celda en cuestión a partir del cual nos ha sido posible
-desarrollar e investigar los distintos modelos, simulaciones y algoritmos. Y
-fundamentalmente a partir de los cuales validar los resultados obtenidos.  
 
 \begin{figure}[h!]
     \begin{subfigure}[t]{.5\textwidth}
@@ -729,76 +749,15 @@ fundamentalmente a partir de los cuales validar los resultados obtenidos.
 \end{figure}
 \FloatBarrier
 
+\subsection{Set de datos}
 
-\section{Modelo de la celda de litio-ion}\label{dev_batt_model}
+El set de datos experimentales utilizado es un conjunto de ensayos realizados en
+la Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer
+\cite{Kollmeyer2018}.
 
-Contar con un modelo matemático preciso que describa fehacientemente el
-comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
-para la implementación exitosa de los algoritmos de estimación del
-\acrshort{SOC} y de ecualización basados en el filtro de Kalman.
-
-El modelado de una celda de litio puede ser abordado desde distintas
-perspectivas y con difetentes herramientas matemáticas de acuerdo a los fines
-que se persigan. La necesidad de conjugar un modelo de exactitud elevada que no
-represente una carga computacional imposible de procesar en tiempo real en un
-microcontrolador nos ha llevado a adoptar un modelo de segundo orden basado en
-un circuito eléctrico siguiendo \cite{spagnol_kalman}, también conocido como
-modelo de Randles de segundo orden, que se encuentra representado por el
-esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
-en la Secci\'on \ref{param_18650pf}.
-
-En la presente Sección se describe el trabajo relizado para definir las
-características y llevar a cabo el cálculo y optimización de los parámetros
-internos que describen al modelo en cuestión. Pasando por el pre-procesamiento y
-tratamiento del set de datos experimentales utilizado, como por el proceso
-intrínseco de cálculo y posterior trabajo recursivo de optimización para ajustar
-los parámertros y así el comportamiento del modelo a los datos experimentales
-validando los mismos.
-
-\begin{figure}[h!]
-    \begin{center}
-	    \ctikzset{bipoles/length=1.0cm}
-	    \ctikzset{bipoles/resistor/height=.3}
-
-	    \begin{circuitikz}[american]
-		\draw (0,0) to[R=$R_0$] (2,0) -- (2,-1) to[R=$R_1$] (4,-1) -- (4,0);
-        \draw (2,0) -- (2, 1) to[C=$C_1$,v=$V_{C1}$] (4, 1) -- (4,0);
-        \draw (4,0) to[short] (5, 0) -- (5, 1) to[C=$C_2$,v=$V_{C2}$] (7, 1) -- (7, 0);
-		\draw (5,0) -- (5,-1) to[R=$R_2$] (7,-1) -- (7,0) to[short,f=$i$] (8,0);
-        \draw (0,0) to[battery2=$V_{OCV}(SOC)$] (0,-3) -- (8,-3); 
-        \draw  (8,0) to [open,v=$V_{out}$,invert] (8,-3);
-	    \end{circuitikz}
-        \caption{Circuito de Randles de Segundo Orden.}
-        \label{randles_2rc}
-    \end{center}
-\end{figure}
-\FloatBarrier
-
-De acuerdo a la Figura \ref{randles_2rc}, la salida del modelo es descripta por
-la Ecuación \ref{eq:Vout_randles_2rc}
-
-\begin{equation}
-    V_{out}(t)=V_{OCV}(SOC)-(V_{R0}(t)+V_{C1}(t)+V_{C2}(t))
-    \label{eq:Vout_randles_2rc}
-\end{equation}
-
-El modelo puede ser reescrito en el dominio de la transformada de Laplace como: 
-
-\begin{align}
-    \begin{split}
-    V_{out}(t)&=V_{OCV}(SOC)-(R_{0}+\frac{R_{1}}{(1+sR_{1}C_{1})}\frac{R_{2}}{(1+sR_{2}C_{2})})i(t)\\
-    &=V_{OCV}(SOC)-(R_{0}+\frac{K_{p}(1+sT_{2})}{(1+sT_{P1})(1+sT_{P2})})i(t)\\
-    &=V_{OCV}(SOC)-R_{0}i(t)-G(s)i(t)
-    \end{split}
-       \label{eq:L_Vout_randles_2rc}
-\end{align}
-\subsection{Descripci\'on del set de datos}
-
-El set de datos utilizado es un conjunto de ensayos realizados en la
-Universidad de Wisconsin-Madison por el Dr. Phillip Kollmeyer. Estos ensayos
-fueron realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en una c\'amara
-t\'ermica con una celda de carga marca \emph{Digatron} que cuenta con una
-capacidad de descarga de 25A a 18V.
+Estos ensayos fueron realizados sobre una celda Panasonic NCR18650PF de 2.9Ah en
+una c\'amara t\'ermica con una celda de carga marca \emph{Digatron} que cuenta
+con una capacidad de descarga de 25A a 18V.
 
 Los ensayos fueron realizados bajo 5 temperaturas diferentes, en donde la
 bater\'ia es cargada a 4.2V@2.9A despu\'es de cada ciclo. Sobre la celda se
@@ -833,8 +792,8 @@ ejecutaron los siguientes ciclos:
 \end{enumerate}
 
 Nos centramos puntualmente en la descrićión del ensayo \acrshort{HPPC} ya que es
-a partir del cual calculamos los parámetros internos del modelo de Randles
-propuesto.
+a partir del cual calculamos los parámetros internos del modelo de la celda de
+Litio-Ion que se presentará en la sección \ref{dev_batt_model}.
 
 \subsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
@@ -895,16 +854,79 @@ determinado.
 \end{figure}
 \FloatBarrier
 
+
+\section{Modelo de la celda de litio-ion}\label{dev_batt_model}
+
+Contar con un modelo matemático preciso que describa fehacientemente el
+comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
+para la implementación exitosa de los algoritmos de estimación del
+\acrshort{SOC} y de ecualización basados en el filtro de Kalman.
+
+El modelado de una celda de litio puede ser abordado desde distintas
+perspectivas y con difetentes herramientas matemáticas de acuerdo a los fines
+que se persigan. La necesidad de conjugar un modelo de exactitud elevada que no
+represente una carga computacional imposible de procesar en tiempo real en un
+microcontrolador nos ha llevado a adoptar un modelo de segundo orden basado en
+un circuito eléctrico siguiendo \cite{spagnol_kalman}, también conocido como
+modelo de Randles de segundo orden, que se encuentra representado por el
+esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
+en la Secci\'on \ref{param_18650pf}.
+
+En la presente Sección se describe el trabajo relizado para definir las
+características y llevar a cabo el cálculo y optimización de los parámetros
+internos que describen al modelo en cuestión. Pasando por el pre-procesamiento y
+tratamiento del set de datos experimentales utilizado, presentado en la Sección
+\ref{ensayo_HPPC}, como por el proceso intrínseco de cálculo y posterior trabajo
+recursivo de optimización para ajustar los parámertros y con ellos el
+comportamiento del modelo a los datos experimentales validando los mismos.
+
+\begin{figure}[h!]
+    \begin{center}
+	    \ctikzset{bipoles/length=1.0cm}
+	    \ctikzset{bipoles/resistor/height=.3}
+
+	    \begin{circuitikz}[american]
+		\draw (0,0) to[R=$R_0$] (2,0) -- (2,-1) to[R=$R_1$] (4,-1) -- (4,0);
+        \draw (2,0) -- (2, 1) to[C=$C_1$,v=$V_{C1}$] (4, 1) -- (4,0);
+        \draw (4,0) to[short] (5, 0) -- (5, 1) to[C=$C_2$,v=$V_{C2}$] (7, 1) -- (7, 0);
+		\draw (5,0) -- (5,-1) to[R=$R_2$] (7,-1) -- (7,0) to[short,f=$i$] (8,0);
+        \draw (0,0) to[battery2=$V_{OCV}(SOC)$] (0,-3) -- (8,-3); 
+        \draw  (8,0) to [open,v=$V_{out}$,invert] (8,-3);
+	    \end{circuitikz}
+        \caption{Circuito de Randles de Segundo Orden.}
+        \label{randles_2rc}
+    \end{center}
+\end{figure}
+\FloatBarrier
+
+De acuerdo a la Figura \ref{randles_2rc}, la salida del modelo es descripta por
+la Ecuación \ref{eq:Vout_randles_2rc}
+
+\begin{equation}
+    V_{out}(t)=V_{OCV}(SOC)-(V_{R0}(t)+V_{C1}(t)+V_{C2}(t))
+    \label{eq:Vout_randles_2rc}
+\end{equation}
+
+El modelo puede ser reescrito en el dominio de la transformada de Laplace como: 
+
+\begin{align}
+    \begin{split}
+    V_{out}(t)&=V_{OCV}(SOC)-(R_{0}+\frac{R_{1}}{(1+sR_{1}C_{1})}\frac{R_{2}}{(1+sR_{2}C_{2})})i(t)\\
+    &=V_{OCV}(SOC)-(R_{0}+\frac{K_{p}(1+sT_{2})}{(1+sT_{P1})(1+sT_{P2})})i(t)\\
+    &=V_{OCV}(SOC)-R_{0}i(t)-G(s)i(t)
+    \end{split}
+       \label{eq:L_Vout_randles_2rc}
+\end{align}
 \subsection{Parametrizaci\'on del modelo}\label{param_18650pf}
 
 La estimaci\'on de los par\'ametros del modelo de una celda de litio-ion es
-com\'unmente usado para ajustar la respuesta de un modelo f\'isico a los datos
+com\'unmente usado para ajustar la respuesta de un modelo matemático a los datos
 experimentales obtenidos a partir de ensayos de laboratorio. Este proceso
 involucra reiteradas simulaciones del modelo matem\'atico planteado junto con la
 implementación y uso de un algoritmo de optimizaci\'on num\'erico. De esta
-forma, el proceso de optimizaci\'on busca ajustar los par\'ametros del modelo
-para minimizar el error entre los datos experimentales y los resultados de las
-simulaciones realizadas. En el caso de las celdas de litio-ion, los datos
+forma, el proceso de optimizaci\'on busca ajustar los par\'ametros internos del
+modelo para minimizar el error entre los datos experimentales y los resultados
+de las simulaciones realizadas. En el caso de las celdas de litio-ion, los datos
 experimentales fueron obtenidos a partir de ensayos \acrfull{HPPC} que se
 describió el la Sección \ref{ensayo_HPPC}. 
 
@@ -1012,13 +1034,15 @@ Las variables de entrada del modelo serán entonces:
 
 Los componentes pasivos del circuito a estimar son: 
 
-\begin{itemize}
-    \item $R_{0}(SoC)$
-    \item $R_{1}(SoC)$
-    \item $C_{1}(SoC)$
-    \item $R_{2}(SoC)$
-    \item $C_{2}(SoC)$
-\end{itemize}
+\begin{multicols}{2}
+    \begin{itemize}
+        \item $R_{0}(SoC)$
+        \item $R_{1}(SoC)$
+        \item $C_{1}(SoC)$
+        \item $R_{2}(SoC)$
+        \item $C_{2}(SoC)$
+    \end{itemize}
+\end{multicols}
 
 El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
 ante las variaciones de sus variables de entrada a partir de la medición de la
@@ -1036,27 +1060,31 @@ obtenidas de la \acrshort{LUT} de forma manual.
 Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitaci\'on con un escal\'on de corriente.
-
 Para el ensayo se utilizan par\'ametros con valores predeterminados. Los valores
-seleccionados no responden a ningun criterio de selección, solamente buscan
-ejercitar el symulink para corroborar su correcto funcionamiento.
+seleccionados para $C_{1}, C_{2}, R_{1}, R_2}$ responden solamente a ensayos
+experimentales previos y tienen unicamente el objetivo de ejercitar el symulink
+para corroborar su correcto funcionamiento.
+En el caso de $R_{0}$ su valor fue obtenido promediando todos los valores de
+$R_{0}$ calculados para cada uno de los pulso de corriente del ensayo HPPC.
 
 \begin{itemize}
-    \item $C_{1} = C_{2} = 1F$
-    \item $ R_{1} = R_{2} = 1m\mathrm{\Omega}$
-    \item $\mathrm{R_0}=40m\mathrm{\Omega}$
+    \item $C_{1} = 172.28 F$
+    \item $C_{2} = 1485.47 F$
+    \item $R_{1} = 0.0273 \mathrm{\Omega}$
+    \item $R_{2} = 0.1200 \mathrm{\Omega}$
+    \item $\mathrm{R_0}=0.0256\mathrm{\Omega}$
 \end{itemize}
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{v_sim_v_dataset_no_opt.eps}
+        \includegraphics[width=1\textwidth]{v_sim_v_dataset_no_opt.png}
         \caption{Comparaci\'on de la tensi\'on de salida del modelo de
                  \emph{Simulink} sin optimizar con la curva de tensi\'on de 
                  salida del set de datos}
          \label{comp_simulink_no_opt}
     \end{center}
 \end{figure}
-%\FloatBarrier
+\FloatBarrier
 
 Se puede observar en la Figura \ref{comp_simulink_no_opt} que a pesar de no
 estar optimizados los parámetros para disminuir el error en la tensi\'on de
@@ -1152,17 +1180,17 @@ parametrizar y ajustar los distintos par\'ametros del modelo, porque representa
 la fuente de voltaje controlada por el \acrshort{SOC} de la Figura
 \ref{randles_2rc}.
 
-Relacionando estos resultados con los datos obtenidos en la Figura 
+Relacionando estos resultados con los datos obtenidos en la Figura
 \ref{soc_hppc_data}, obtenemos la curva que representa la fuente de voltaje
 controlada por \acrshort{OCV} del esquem\'atico en la Figura \ref{randles_2rc}.
-Esta curva se puede observar en la Figura \ref{fig:ocv_vs_soc}.
+Esta curva se puede observar en la Figura \ref{fig:ocv_vs_soc}, que representa
+el funcionamiento de la fuente de voltaje controlada por \acrshort{SOC} en el
+esquem\'atico de Randles.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=.7\textwidth]{ocv_vs_soc.eps}
-        \caption{Curva \acrshort{OCV} en relaci\'on al \acrshort{SOC}, que
-            representa el funcionamiento de la fuente de voltaje controlada por
-        \acrshort{SOC} en el esquem\'atico de Randles.}
+        \includegraphics[width=0.9\textwidth]{ocv_vs_soc.jpg}
+        \caption{Curva \acrshort{OCV} Vs \acrshort{SOC}}
         \label{fig:ocv_vs_soc}
     \end{center}
 \end{figure}
@@ -1441,8 +1469,7 @@ coincide con los datos experimentales.
     \caption{Drive Cicle - Modelo Vs Data}                             
     \label{fig:DC_modVsData}                                          
 \end{figure}
-
-
+\FloatBarrier
 
 \section{Desarrollo de la estimaci\'on de \acrshort{SOC}}\label{dev_soc_est}
 
@@ -1801,7 +1828,7 @@ utilizado en \ref{ensayo_HPPC}. Como resultado se obtuvo las gr\'aficas que se
 observan en la Figura \ref{kalman_result_matlab}, en la que se puede deducir que
 se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 
-\begin{figure}[h!]
+\begin{figure}[t!]
     \begin{center}
         \includegraphics[width=1\textwidth]{kalman_result_matlab.eps}
         \caption{1ra Gr\'afica: Estimaci\'on del \acrshort{SOC} vs
@@ -1811,159 +1838,160 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
         \label{kalman_result_matlab}
     \end{center}
 \end{figure}
-
-\newpage
+\FloatBarrier
 
 \chapter{Desarrollo e implementación de hardware}\label{desarrollo_hw}
 \thispagestyle{fancy}
 
+\begin{figure}[h!]
+    \begin{center}
+        \begin{circuitikz}[european]
+
+        % draw rectangle around the battery pack
+            \draw [dashed] (-.6, 2.6) rectangle (2.6, -2.6);
+
+        % each of these are 6 cells in series %
+            \draw (0, 2) -- (0, 2.2);
+            \draw (0, 2) to[battery1] (0, 1.6);
+            \draw (0, 1.6) -- (0, 1.2);
+            \draw (0, 1.2) to[battery1] (0, .8);            
+            \draw (0, 0.8) -- (0, 0.4);           
+            \draw (0, 0.4) to[battery1] (0, 0);           
+            \draw (0, 0) -- (0, -0.4);
+            \draw (0, -0.4) to[battery1] (0, -0.8);
+            \draw (0, -.8) -- (0, -1);
+            \draw (0, -1) to[battery1] (0, -1.4);
+            \draw (0, -1.4) -- (0, -1.6);
+            \draw (0, -1.6) to[battery1] (0, -2);
+            \draw (0, -2) -- (0, -2.2);
+
+            \draw (1, 2) -- (1, 2.5) node[vcc]{$\mathrm{V_{batt}}$};
+            \draw (1, 2) to[battery1] (1, 1.6);
+            \draw (1, 1.6) -- (1, 1.2);
+            \draw (1, 1.2) to[battery1] (1, .8);            
+            \draw (1, 0.8) -- (1, 0.4);           
+            \draw (1, 0.4) to[battery1] (1, 0);           
+            \draw (1, 0) -- (1, -0.4);
+            \draw (1, -0.4) to[battery1] (1, -0.8);
+            \draw (1, -.8) -- (1, -1);
+            \draw (1, -1) to[battery1] (1, -1.4);
+            \draw (1, -1.4) -- (1, -1.6);
+            \draw (1, -1.6) to[battery1] (1, -2);
+            \draw (1, -2) -- (1, -2.4) node[ground]{};
+
+
+            \draw (2, 2) -- (2, 2.2);
+            \draw (2, 2) to[battery1] (2, 1.6);
+            \draw (2, 1.6) -- (2, 1.2);
+            \draw (2, 1.2) to[battery1] (2, .8);            
+            \draw (2, 0.8) -- (2, 0.4);           
+            \draw (2, 0.4) to[battery1] (2, 0);           
+            \draw (2, 0) -- (2, -0.4);
+            \draw (2, -0.4) to[battery1] (2, -0.8);
+            \draw (2, -.8) -- (2, -1);
+            \draw (2, -1) to[battery1] (2, -1.4);
+            \draw (2, -1.4) -- (2, -1.6);
+            \draw (2, -1.6) to[battery1] (2, -2);
+            \draw (2, -2) -- (2, -2.2);
+
+        % connecting the cells in parallel %
+            \draw (0, 2.2) to[short, -*] (1, 2.2) to[short, -*] (2, 2.2);
+            \draw (0, 1.4) to[short, -*] (1, 1.4) to[short, -*] (2, 1.4);
+            \draw (0, 0.6) to[short, -*] (1, 0.6) to[short, -*] (2, 0.6);
+            \draw (0, -.2) to[short, -*] (1, -.2) to[short, -*] (2, -.2);
+            \draw (0, -.9) to[short, -*] (1, -.9) to[short, -*] (2, -.9);
+            \draw (0, -1.5) to[short, -*] (1, -1.5) to[short, -*] (2, -1.5);
+            \draw (0, -2.2) to[short, -*] (1, -2.2) to[short, -*] (2, -2.2);
+
+        % cell balancing and voltage sensing block %
+            \draw (5, -1) rectangle (9, 1)[fill=blue!10!white];
+            \node at (7, 0.5) {Balanceador};
+            \node at (7, 0.0) {\&};
+            \node at (7, -0.5){Sensor de voltaje};
+
+        % cell balancing and voltage sensing block %
+            \draw (10, -1) rectangle (12, 1)[fill=blue!10!white];
+            \node at (11, 0.0) {MCU};
+
+        % rx/tx interface block %
+            \draw (5, -1.2) rectangle (9, -2.6)[fill=blue!10!white];
+            \node at (7, -1.6) {Interfaz de};
+            \node at (7, -2.2) {Comunicaci\'on};
+
+        % DC-DC 3.3V converter block %
+            \draw (5, 1.2) rectangle (9, 2.6)[fill=blue!10!white];
+            \node at (7, 1.9) {Convertidor DC-DC};
+            \draw (3.4, 2.2) -- (5, 2.2);
+            \draw (5, 1.5) -| (4.6, 1.4) node[ground]{};
+            \draw [-latex] (9, 1.9) -| (11, 1);
+            \draw (11, 1.9) to[short, *-] (11, 2.2) node[vcc]{$\mathrm{V_{reg}}$};
+
+        % switch protection switch %
+            \draw (13, -1.2) rectangle (15, -2.6)[fill=blue!10!white];
+            \node at (14, -1.9) {Protecci\'on};
+            \draw[-Implies, line width=1pt, double distance=6] (14, -2.6) -- (14, -3.6);
+            \draw[-latex] (11.8, -1) |- (13, -1.9);
+            \node at (14, -3.8){A carga};
+
+        % current sensor block % 
+            \draw (13, -1) rectangle (15, 1)[fill=blue!10!white];
+            \node at (14, 0.3) {Sensor de};
+            \node at (14, -0.3) {Corriente};
+            \draw[Implies-Implies, line width=1pt, double distance=6] (13, 0) -- (12, 0);
+            \draw (15.5, 2.6) node[vcc]{$\mathrm{V_{batt}}$};
+            \draw (15.5, 2.6) |- (15, 1.9); 
+            \draw (15.5, 1.9) |- (15, 0.3);
+            \draw (15, -.3) -| (15.5, -1.7);
+            \draw (15.5, -1.7) -- (15, -1.7);
+
+        % charger block %
+            \draw (13, 1.2) rectangle (15, 2.6)[fill=blue!10!white];
+            \node at (14, 1.9) {Cargador};
+            \draw[-Implies, line width=1pt, double distance=6] (14, 3.6) -- (14, 2.6);
+            \node at (14, 4){Fuente de alimentaci\'on externa};
+            \draw (13, 1.4) -- (12.5, 1.4) node[ground]{};
+
+        % connect 6 series cells to balancing module %
+            \draw (2, 2.2) -- (3.4, 2.2) -- (3.4, 0.75) -- (5, 0.75);
+            \draw (2, 1.4) -- (3.2, 1.4) -- (3.2, 0.5) -- (5, 0.5);
+            \draw (2, 0.6) -- (3, 0.6) -- (3, 0.25) -- (5, 0.25);
+            \draw (2, -.2) -- (2.8, -.2) -- (2.8, 0) -- (5, 0);
+            \draw (2, -.9) -- (3, -.9) -- (3, -.25) -- (5, -.25);
+            \draw (2, -1.5) -- (3.2, -1.5) -- (3.2, -.5) -- (5, -.5);
+            \draw (2, -2.2) -- (3.4, -2.2) -- (3.4, -.75) -- (5, -.75);
+
+        % Conexion entre el MCU y el balanceador % 
+            \draw[Implies-Implies, line width=1pt, double distance=6] (9, 0) -- (10, 0);
+            \draw[-Implies, line width=1pt, double distance=6] (11, -1) |- (9, -1.9);
+            \draw[-Implies, line width=1pt, double distance=6] (7, -2.6) -- (7, -3.6);
+            \node at (7, -4){A Computadora a bordo};
+
+        \end{circuitikz}
+    \end{center}
+    \caption{Diagrama en Bloques del hardware desarrollado para el 
+    \acrshort{BMS}}
+    \label{db_bms_hardware}
+\end{figure}
+\FloatBarrier
+
 En este capítulo se enumera y detalla el criterio de elección y desarrollo de 
 todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
 
-\begin{itemize}
-	\item Unidad de procesamiento
-	\item Alimentación
-	\item Balanceador y Sensor de Tensión
-	\item Sensor de Corriente
-	\item Interruptor de Seguridad entre Batería y Vehículo
-	\item Circuito Cargador de Baterías
-    \item Pack de Baterías
-	\item Puertos de Comunicación
-\end{itemize}
+\begin{multicols}{2}
+    \begin{itemize}
+        \item Unidad de procesamiento
+        \item Alimentación
+        \item Balanceador y Sensor de Tensión
+        \item Sensor de Corriente
+        \item Interruptor de Seguridad entre Batería y Vehículo
+        \item Circuito Cargador de Baterías
+        \item Pack de Baterías
+        \item Puertos de Comunicación
+    \end{itemize}
+\end{multicols}
 
 En la Figura \ref{db_bms_hardware} se presenta un esquem\'atico en alto nivel 
 del hardware del dispositivo.
-
-\begin{figure}[h!]
-    \begin{center}
-	\begin{circuitikz}[european]
-        
-        % draw rectangle around the battery pack
-	    \draw [dashed] (-.6, 2.6) rectangle (2.6, -2.6);
-
-        % each of these are 6 cells in series %
-	    \draw (0, 2) -- (0, 2.2);
-	    \draw (0, 2) to[battery1] (0, 1.6);
-	    \draw (0, 1.6) -- (0, 1.2);
-	    \draw (0, 1.2) to[battery1] (0, .8);            
-	    \draw (0, 0.8) -- (0, 0.4);           
-	    \draw (0, 0.4) to[battery1] (0, 0);           
-	    \draw (0, 0) -- (0, -0.4);
-	    \draw (0, -0.4) to[battery1] (0, -0.8);
-	    \draw (0, -.8) -- (0, -1);
-	    \draw (0, -1) to[battery1] (0, -1.4);
-	    \draw (0, -1.4) -- (0, -1.6);
-	    \draw (0, -1.6) to[battery1] (0, -2);
-	    \draw (0, -2) -- (0, -2.2);
-
-        \draw (1, 2) -- (1, 2.5) node[vcc]{$\mathrm{V_{batt}}$};
-	    \draw (1, 2) to[battery1] (1, 1.6);
-	    \draw (1, 1.6) -- (1, 1.2);
-	    \draw (1, 1.2) to[battery1] (1, .8);            
-	    \draw (1, 0.8) -- (1, 0.4);           
-	    \draw (1, 0.4) to[battery1] (1, 0);           
-	    \draw (1, 0) -- (1, -0.4);
-	    \draw (1, -0.4) to[battery1] (1, -0.8);
-	    \draw (1, -.8) -- (1, -1);
-	    \draw (1, -1) to[battery1] (1, -1.4);
-	    \draw (1, -1.4) -- (1, -1.6);
-	    \draw (1, -1.6) to[battery1] (1, -2);
-        \draw (1, -2) -- (1, -2.4) node[ground]{};
-
-
-	    \draw (2, 2) -- (2, 2.2);
-	    \draw (2, 2) to[battery1] (2, 1.6);
-	    \draw (2, 1.6) -- (2, 1.2);
-	    \draw (2, 1.2) to[battery1] (2, .8);            
-	    \draw (2, 0.8) -- (2, 0.4);           
-	    \draw (2, 0.4) to[battery1] (2, 0);           
-	    \draw (2, 0) -- (2, -0.4);
-	    \draw (2, -0.4) to[battery1] (2, -0.8);
-	    \draw (2, -.8) -- (2, -1);
-	    \draw (2, -1) to[battery1] (2, -1.4);
-	    \draw (2, -1.4) -- (2, -1.6);
-	    \draw (2, -1.6) to[battery1] (2, -2);
-	    \draw (2, -2) -- (2, -2.2);
-
-        % connecting the cells in parallel %
-        \draw (0, 2.2) to[short, -*] (1, 2.2) to[short, -*] (2, 2.2);
-        \draw (0, 1.4) to[short, -*] (1, 1.4) to[short, -*] (2, 1.4);
-        \draw (0, 0.6) to[short, -*] (1, 0.6) to[short, -*] (2, 0.6);
-        \draw (0, -.2) to[short, -*] (1, -.2) to[short, -*] (2, -.2);
-        \draw (0, -.9) to[short, -*] (1, -.9) to[short, -*] (2, -.9);
-        \draw (0, -1.5) to[short, -*] (1, -1.5) to[short, -*] (2, -1.5);
-        \draw (0, -2.2) to[short, -*] (1, -2.2) to[short, -*] (2, -2.2);
-
-        % cell balancing and voltage sensing block %
-	    \draw (5, -1) rectangle (9, 1)[fill=blue!10!white];
-	    \node at (7, 0.5) {Balanceador};
-        \node at (7, 0.0) {\&};
-        \node at (7, -0.5){Sensor de voltaje};
-
-        % cell balancing and voltage sensing block %
-	    \draw (10, -1) rectangle (12, 1)[fill=blue!10!white];
-        \node at (11, 0.0) {MCU};
-
-        % rx/tx interface block %
-	    \draw (5, -1.2) rectangle (9, -2.6)[fill=blue!10!white];
-        \node at (7, -1.6) {Interfaz de};
-        \node at (7, -2.2) {Comunicaci\'on};
-
-        % DC-DC 3.3V converter block %
-	    \draw (5, 1.2) rectangle (9, 2.6)[fill=blue!10!white];
-        \node at (7, 1.9) {Convertidor DC-DC};
-        \draw (3.4, 2.2) -- (5, 2.2);
-        \draw (5, 1.5) -| (4.6, 1.4) node[ground]{};
-        \draw [-latex] (9, 1.9) -| (11, 1);
-        \draw (11, 1.9) to[short, *-] (11, 2.2) node[vcc]{$\mathrm{V_{reg}}$};
-
-        % switch protection switch %
-        \draw (13, -1.2) rectangle (15, -2.6)[fill=blue!10!white];
-        \node at (14, -1.9) {Protecci\'on};
-        \draw[-Implies, line width=1pt, double distance=6] (14, -2.6) -- (14, -3.6);
-        \draw[-latex] (11.8, -1) |- (13, -1.9);
-        \node at (14, -3.8){A carga};
-
-        % current sensor block % 
-        \draw (13, -1) rectangle (15, 1)[fill=blue!10!white];
-        \node at (14, 0.3) {Sensor de};
-        \node at (14, -0.3) {Corriente};
-        \draw[Implies-Implies, line width=1pt, double distance=6] (13, 0) -- (12, 0);
-        \draw (15.5, 2.6) node[vcc]{$\mathrm{V_{batt}}$};
-        \draw (15.5, 2.6) |- (15, 1.9); 
-        \draw (15.5, 1.9) |- (15, 0.3);
-        \draw (15, -.3) -| (15.5, -1.7);
-        \draw (15.5, -1.7) -- (15, -1.7);
-
-        % charger block %
-        \draw (13, 1.2) rectangle (15, 2.6)[fill=blue!10!white];
-        \node at (14, 1.9) {Cargador};
-        \draw[-Implies, line width=1pt, double distance=6] (14, 3.6) -- (14, 2.6);
-        \node at (14, 4){Fuente de alimentaci\'on externa};
-        \draw (13, 1.4) -- (12.5, 1.4) node[ground]{};
-
-        % connect 6 series cells to balancing module %
-        \draw (2, 2.2) -- (3.4, 2.2) -- (3.4, 0.75) -- (5, 0.75);
-        \draw (2, 1.4) -- (3.2, 1.4) -- (3.2, 0.5) -- (5, 0.5);
-        \draw (2, 0.6) -- (3, 0.6) -- (3, 0.25) -- (5, 0.25);
-        \draw (2, -.2) -- (2.8, -.2) -- (2.8, 0) -- (5, 0);
-        \draw (2, -.9) -- (3, -.9) -- (3, -.25) -- (5, -.25);
-        \draw (2, -1.5) -- (3.2, -1.5) -- (3.2, -.5) -- (5, -.5);
-        \draw (2, -2.2) -- (3.4, -2.2) -- (3.4, -.75) -- (5, -.75);
-
-        % Conexion entre el MCU y el balanceador % 
-        \draw[Implies-Implies, line width=1pt, double distance=6] (9, 0) -- (10, 0);
-        \draw[-Implies, line width=1pt, double distance=6] (11, -1) |- (9, -1.9);
-        \draw[-Implies, line width=1pt, double distance=6] (7, -2.6) -- (7, -3.6);
-        \node at (7, -4){A Computadora a bordo};
-
-
-	\end{circuitikz}
-    \end{center}
-    \caption{Diagrama en Bloques del hardware desarrollado para el 
-             \acrshort{BMS}}
-    \label{db_bms_hardware}
-\end{figure}
 
 \section{Unidad de procesamiento}
 
