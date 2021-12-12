@@ -1034,13 +1034,15 @@ Las variables de entrada del modelo serán entonces:
 
 Los componentes pasivos del circuito a estimar son: 
 
-\begin{itemize}
-    \item $R_{0}(SoC)$
-    \item $R_{1}(SoC)$
-    \item $C_{1}(SoC)$
-    \item $R_{2}(SoC)$
-    \item $C_{2}(SoC)$
-\end{itemize}
+\begin{multicols}{2}
+    \begin{itemize}
+        \item $R_{0}(SoC)$
+        \item $R_{1}(SoC)$
+        \item $C_{1}(SoC)$
+        \item $R_{2}(SoC)$
+        \item $C_{2}(SoC)$
+    \end{itemize}
+\end{multicols}
 
 El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
 ante las variaciones de sus variables de entrada a partir de la medición de la
@@ -1058,27 +1060,31 @@ obtenidas de la \acrshort{LUT} de forma manual.
 Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitaci\'on con un escal\'on de corriente.
-
 Para el ensayo se utilizan par\'ametros con valores predeterminados. Los valores
-seleccionados no responden a ningun criterio de selección, solamente buscan
-ejercitar el symulink para corroborar su correcto funcionamiento.
+seleccionados para $C_{1}, C_{2}, R_{1}, R_2}$ responden solamente a ensayos
+experimentales previos y tienen unicamente el objetivo de ejercitar el symulink
+para corroborar su correcto funcionamiento.
+En el caso de $R_{0}$ su valor fue obtenido promediando todos los valores de
+$R_{0}$ calculados para cada uno de los pulso de corriente del ensayo HPPC.
 
 \begin{itemize}
-    \item $C_{1} = C_{2} = 1F$
-    \item $ R_{1} = R_{2} = 1m\mathrm{\Omega}$
-    \item $\mathrm{R_0}=40m\mathrm{\Omega}$
+    \item $C_{1} = 172.28 F$
+    \item $C_{2} = 1485.47 F$
+    \item $R_{1} = 0.0273 \mathrm{\Omega}$
+    \item $R_{2} = 0.1200 \mathrm{\Omega}$
+    \item $\mathrm{R_0}=0.0256\mathrm{\Omega}$
 \end{itemize}
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{v_sim_v_dataset_no_opt.eps}
+        \includegraphics[width=1\textwidth]{v_sim_v_dataset_no_opt.png}
         \caption{Comparaci\'on de la tensi\'on de salida del modelo de
                  \emph{Simulink} sin optimizar con la curva de tensi\'on de 
                  salida del set de datos}
          \label{comp_simulink_no_opt}
     \end{center}
 \end{figure}
-%\FloatBarrier
+\FloatBarrier
 
 Se puede observar en la Figura \ref{comp_simulink_no_opt} que a pesar de no
 estar optimizados los parámetros para disminuir el error en la tensi\'on de
