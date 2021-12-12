@@ -379,12 +379,13 @@ disponibles relacionados al tema.
 
 \section{Estructura del informe}
 
-El informe se encuentra dividido en 8 secciones, las mismas atienden a los siguientes enfoques:
+El informe se encuentra dividido en 9 secciones, las mismas atienden a los siguientes enfoques:
 
 \begin{itemize}
 	\item Sección \ref{descripcion}: Se realiza una descripci\'on en alto nivel del proyecto, detallando los objetivos generales, las especificaciones y requerimientos del trabajo.
 	\item Sección \ref{teoria}: Se encuentra el fundamento te\'orico, donde se detalla el funcionamiento de una celda de Litio-Ion, los fundamentos b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, como tambi\'en aquellos relacionados a la equalizaci\'on de celdas. Adem\'as, se presenta el desarrollo matem\'atico de muchos de los m\'etodos junto con el planteo de las ventajas y desventajas que ofrecen uno sobre el otro.
-	\item Sección \ref{desarrollo}: Se describe el desarrollo del modelo mátemático de la celda de Ion-Litio y su implementación en un Filtro de Kalman.
+	\item Sección \ref{preambulo}: Esta sección se compone de unas breves palabras que dan el puntapie inicial al desarrollo e implementación del proyecto
+	\item Sección \ref{ch:dev_soc}: Se describe el desarrollo del modelo mátemático de la celda de Ion-Litio y su implementación en un Filtro de Kalman.
 	\item Sección \ref{desarrollo_hw}: Se describe el diseño e implementación del soporte físico del BMS, esto incluye  la selección de los circuitos integrados y el dimensionamiento de los componentes.
 	\item Sección \ref{software_implementation}: Se describe la estructura de software desarrollada para la implementación del Filtro de Kalman y la coordinación de los submodulos del BMS.
 	\item Sección \ref{ensayos}: Se presentan los ensayos realizados a lo largo del proyecto para validar los modelos y hacer comprobaciones de hardware.
@@ -592,15 +593,16 @@ variables del sistema a una computadora central.
 
 \input{state_of_art}
 
-\chapter{Desarrollo}\label{desarrollo}
+\chapter{Preámbulo}\label{preambulo}
 \thispagestyle{fancy}
 
-En \'esta secci\'on se explaya el desarrollo matem\'atico y la implementaci\'on 
+A partir de \'esta secci\'on se presenta el desarrollo matem\'atico y la implementaci\'on 
 f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias, el modelo 
-matem\'atico de la celda de litio-ion junto a sus algortimos de estimaci\'on de 
+matem\'atico de la celda de Litio-Ion junto a sus algortimos de estimaci\'on de 
 \acrshort{SOC} y ecualizaci\'on de celdas, mostrando los resultados de las
 simulaciones y, finalmente, el desarrollo del hardware y firmware necesario para
-implementar los distintos componentes del sistema en un sistema f\'isico real.
+implementar los distintos componentes del sistema en un sistema f\'isico real. 
+Consideramos imperativo dar a conocer nuestro interés en el desarrollo de este proyecto en particular.
 
 \section{Espíritu del proyecto}
 
@@ -621,7 +623,7 @@ el objetivo de que la disposición de la documentación funcione como la
 herramienta que lo permita.
 
 
-\chapter{Desarrollo e implementación medición \acrshort{SOC}}\label{ch:dev_soc}
+\chapter{Desarrollo e implementación de un Filtro de Kalman para la estimación del \acrshort{SOC} de celdas de Li-Ion}\label{ch:dev_soc}
 \thispagestyle{fancy}
 
 TODO: Descripción general del capítulo
@@ -1969,7 +1971,7 @@ Este dispositivo es el que centraliza toda la información, es el encargado de
 recibir procesar, almacenar y retransmitir todos los datos provenientes de los 
 subsistemas del BMS por los puertos de comunicación previamente mencionados.
 Debe ser capaz de interpretar y poder comunicarse con los sensores, y tener la 
-capacidad de cómputo y frecuencia necesarias para cumplir con los tiempos de 
+capacidad de cómputo y velocidad de procesamiento necesarias para cumplir con los tiempos de 
 muestreo y la ejecución del Filtro de Kalman.
 
 
@@ -2226,9 +2228,9 @@ que implementa el microcontrolador seleccionado STM32F407.
 \section{Sensor de tensi\'on - Balanceador}
 
 Este dispositivo se encarga de mantener las celdas en valores de tensión seguros, para llevar a cabo esta tarea implementa sensores de tensión para cada celda individual, además se debe reportar toda la información a la unidad de procesamiento.
-Por otro lado, también se encarga de accionar los transistores de ByPass según lo determine el algoritmo de balanceo de las celdas en base al estado de carga estimado por el Filtro de Kalman
+Por otro lado, también se encarga de accionar los transistores de ByPass según lo determine el algoritmo de balanceo de las celdas en base al estado de carga estimado por el Filtro de Kalman.
 
-Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{battery_pack} 
+Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{Section_battery_pack} 
 y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
 mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
 producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
@@ -2467,7 +2469,7 @@ Este dispositivo es el que finalmente nos provee el valor de corriente que
 circula a través de las celdas hacia la carga o desde el cargador. El dato de la 
 corriente es clave para el correcto funcionamiento del Filtro de Kalman y nos 
 permite tomar acciones de seguridad en caso de valores de corriente elevados o 
-variaciones bruscas de esta.
+variaciones bruscas de la misma.
 
 \subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
@@ -3387,17 +3389,16 @@ realizada de forma segura a instancias del BMS.
 
 
 
-\section{Pack de bater\'ias}\label{battery_pack}
+\section{Pack de bater\'ias}\label{Section_battery_pack}
 
 Durante el proceso de desarrollo del \acrshort{BMS} implementamos nuestro propio
 pack de baterías con el objetivo de que el mismo cumpla con las especificaciones
 necesarias que nos permitan llevar adelante los ensayos que se describen en la
-Sencción \ref{ensayos}.
+Sección \ref{ensayos}.
 
 Como se menciona en la Secci\'on \ref{proy_specs}, el pack de bater\'ias a
-controlar posee 6 m\'odulos conectados en serie. Cáda módulo est\'a compuesto
-por 3 celdas de litio-ion conectadas en paralelo. El pack de bater\'ias est\'a
-conformado por celdas de litio-ion modelo NCR18650PF como se describen
+controlar posee 6 m\'odulos conectados en serie. Cada módulo est\'a compuesto
+por 3 celdas de Litio-Ion conectadas en paralelo, modelo NCR18650PF como se describen
 anteriormente en la Sección \ref{seq:cel_selection}. La arquitectura del pack se
 puede observar en la Figura \ref{pack_bateria} y una imagen de la celda se
 muestra en la Figura \ref{foto_bateria}
