@@ -371,7 +371,7 @@ y comunicar las variables del pack a traves del protocolo \acrshort{CAN}.
 
 \noindent Si bien, se encuentran todos los archivos del proyecto a disposición
 del publico, la documentaci\'on es muy escaza para ser implementado
-f\'acilmente para un proyecto relacionado.
+f\'acilmente en un proyecto relacionado.
 
 \noindent En definitiva, las motivaciones para llevar a cabo el presente trabajo
 se basan en la complejidad en el manejo de grandes packs de
@@ -380,35 +380,43 @@ disponibles relacionados al tema.
 
 \section{Estructura del informe}
 
-El informe se encuentra dividido en 9 secciones, las mismas atienden a los siguientes enfoques:
+El informe se encuentra dividido en 9 Cap\'itulos que atienden a los siguientes 
+enfoques:
 
 \begin{itemize}
-	\item Sección \ref{descripcion}: Se realiza una descripci\'on en alto nivel del proyecto, detallando los objetivos generales, las especificaciones y requerimientos del trabajo.
-	\item Sección \ref{teoria}: Se encuentra el fundamento te\'orico, donde se detalla el funcionamiento de una celda de Litio-Ion, los fundamentos b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, como tambi\'en aquellos relacionados a la equalizaci\'on de celdas. Adem\'as, se presenta el desarrollo matem\'atico de muchos de los m\'etodos junto con el planteo de las ventajas y desventajas que ofrecen uno sobre el otro.
-	\item Sección \ref{preambulo}: Esta sección se compone de unas breves palabras que dan el puntapie inicial al desarrollo e implementación del proyecto
-	\item Sección \ref{ch:dev_soc}: Se describe el desarrollo del modelo mátemático de la celda de Ion-Litio y su implementación en un Filtro de Kalman.
-	\item Sección \ref{desarrollo_hw}: Se describe el diseño e implementación del soporte físico del BMS, esto incluye  la selección de los circuitos integrados y el dimensionamiento de los componentes.
-	\item Sección \ref{software_implementation}: Se describe la estructura de software desarrollada para la implementación del Filtro de Kalman y la coordinación de los submodulos del BMS.
-	\item Sección \ref{ensayos}: Se presentan los ensayos realizados a lo largo del proyecto para validar los modelos y hacer comprobaciones de hardware.
-	\item Sección \ref{conclusiones}: Se presentan los conocimientos y experiencias adquiridos con la realización del proyecto, asi cómo también se presentan posibles proyectos de extensión del mismo.
+	\item Cap\'itulo \ref{descripcion}: Se realiza una descripci\'on en alto 
+        nivel del proyecto, detallando los objetivos generales, las 
+        especificaciones y requerimientos del trabajo.
+	\item Cap\'itulo \ref{teoria}: Se encuentra el fundamento te\'orico, donde 
+        se detalla el funcionamiento de una celda de Litio-Ion, los fundamentos 
+        b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, 
+        como tambi\'en aquellos relacionados a la equalizaci\'on de celdas. 
+        Adem\'as, se presenta el desarrollo matem\'atico de muchos de los 
+        m\'etodos junto con el planteo de las ventajas y desventajas que ofrecen 
+        uno sobre el otro.
+	\item Cap\'itulo \ref{preambulo}: Describe brevemente el desarrollo e
+        implementaci\'on del proyecto, otorgando al lector informaci\'on previa
+        de las especificaciones t\'ecnicas del proyecto sobre como fue
+        desarrollado el modelo, el hardware y el software del mismo.
+	\item Cap\'itulo \ref{ch:dev_soc}: Se describe el desarrollo del modelo 
+        mátemático de la celda de Ion-Litio y su implementación en un Filtro de 
+        Kalman.
+	\item Cap\'itulo \ref{desarrollo_hw}: Se describe el diseño e implementación 
+        del soporte físico del BMS, esto incluye la selección de los circuitos 
+        integrados y el dimensionamiento de los componentes.
+	\item Cap\'itulo \ref{software_implementation}: Se describe la estructura de 
+        software desarrollada para la implementaci\'on del modelo de la celda en
+        el dispositivo f\'isico, como tambi\'en los drivers de los 
+        perif\'ericos utilizados y, finalmente, como se integran los distintos
+        m\'odulos en una m\'aquina de estados.
+	\item Cap\'itulo \ref{ensayos}: Se presentan los ensayos realizados a lo 
+        largo del proyecto para validar los modelos y el funcionamiento del
+        hardware.
+	\item Cap\'itulo \ref{conclusiones}: Se presentan los resultados de la
+        experiencia del proyecto y, consecuentemente, los conocimientos 
+        adquiridos, asi cómo también se presentan futuras mejoras y extensiones
+        del mismo.
 \end{itemize}
-
-\begin{comment} El informe se encuentra dividido en 6 secciones, en la Sección \ref{descripcion}
-se realiza una descripci\'on en alto nivel del proyecto, detallando los
-objetivos generales, las especificaciones y requerimientos del trabajo, a
-continuaci\'on, se encuentra el fundamento te\'orico (Secci\'on \ref{teoria}),
-donde se detalla el funcionamiento de una celda de litio-ion, los fundamentos
-b\'asicos de modelados de celdas y algoritmos de estimaci\'on de carga, como
-tambi\'en aquellos relacionados a la equalizaci\'on de celdas, adem\'as, se
-presenta el desarrollo matem\'atico de mucho de los m\'etodos como tambi\'en una
-comparativa, por ultimo se presentan las Secciones \ref{desarrollo} y
-\ref{ensayos} donde se describe el desarrollo de la bater\'ia en si, en conjunto
-con su modelo y algoritmos como tambi\'en su final implementaci\'on en un
-sistema embebido con los ensayos realizados para validar el funcionamiento del
-sistema. Finalmente, en la Secci\'on \ref{conclusiones} se describen las
-conclusiones y futuros proyectos a continuar sobre el eje de estudio.
-\end{comment}
-
 
 \chapter{Descripci\'on}\label{descripcion}
 
@@ -1061,9 +1069,9 @@ Se valida el funcionamiento de la implementación del modelo propuesto para
 representar el set de datos disponible observando la respuesta del mismo ante la
 excitaci\'on con un escal\'on de corriente.
 Para el ensayo se utilizan par\'ametros con valores predeterminados. Los valores
-seleccionados para $C_{1}, C_{2}, R_{1}, R_2}$ responden solamente a ensayos
-experimentales previos y tienen unicamente el objetivo de ejercitar el symulink
-para corroborar su correcto funcionamiento.
+seleccionados para $\mathrm{C_{1}, C_{2}, R_{1}, R_{2}}$ responden solamente a 
+ensayos experimentales previos y tienen unicamente el objetivo de ejercitar el 
+\emph{simulink} para corroborar su correcto funcionamiento.
 En el caso de $R_{0}$ su valor fue obtenido promediando todos los valores de
 $R_{0}$ calculados para cada uno de los pulso de corriente del ensayo HPPC.
 
