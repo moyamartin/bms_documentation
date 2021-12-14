@@ -604,18 +604,17 @@ variables del sistema a una computadora central.
 \chapter{Desarrollo e implementación - Preámbulo}\label{preambulo}
 \thispagestyle{fancy}
 
-A partir de \'esta secci\'on se presenta el desarrollo matem\'atico y la
+A partir de este Cap\'itulo se presenta el desarrollo matem\'atico y la
 implementaci\'on f\'isica del \acrshort{BMS}, incluyendo el pack de bater\'ias,
-el modelo matem\'atico de la celda de Litio-Ion junto a sus algortimos de
+el modelo matem\'atico de la celda de Litio-Ion junto a sus algoritmos de
 estimaci\'on de \acrshort{SOC} y ecualizaci\'on de celdas, mostrando los
 resultados de las simulaciones y, finalmente, el desarrollo del hardware y
 firmware necesario para implementar los distintos componentes del sistema en un
-sistema f\'isico real.  Encontramos significativo dar a conocer nuestro interés en
-el desarrollo de este proyecto en particular.
+sistema f\'isico real.  
 
 \section{Espíritu del proyecto}
 
-El desarrollo del proyecto se funda sobre bases de espíritu colarborativo, bajo
+El desarrollo del proyecto se funda sobre bases de espíritu colaborativo, bajo
 la filosofía de codigo abierto y de software libre. Fuera del paraguas de alguna
 licencia en particular. Tanto los archivos fuentes del proyecto, de software y
 hardware, como la extensa y profunda documentación del mismo se encuentran
@@ -644,12 +643,12 @@ presenta el proceso de desarrolo e implementación de un algoritmo de cálculo d
 de un Filtro de Kalman Extendido como se describe en la Sección
 \ref{KalmanFilterMethod}.
 
-El exito de la implementación del algoritmo de estimación de \acrshort{SOC}
+El \'exito de la implementación del algoritmo de estimación de \acrshort{SOC}
 seleccionado depende a su vez de contar con un modelo preciso de la celda de
 Litio-Ion que sea capaz de representar los datos experimentales de ensayo de
-laboratorio de la misma. El proceso de selección de la celda, de la optención de
-los datos experimentales, su procesamiento y de la selección y desarrollo de un
-modelo de la celda de Litio-Ion son tambien presentados a continuación. 
+laboratorio de la misma. El proceso de selección de la celda, de la obtención de
+los datos experimentales, su procesamiento y, de la selección y desarrollo de un
+modelo de la celda de Litio-Ion son tambi\'en presentados a continuación. 
 
 \section{Celda Panasonic NCR18650PF} \label{seq:cel_selection}
 
@@ -667,11 +666,11 @@ caracter\'isticas de capacidad y voltaje que se describen a continuaci\'on:
 \begin{itemize}
     \item \textbf{LiFePO4}: Fosfato de hierro y litio o tambi\'en conocidas como
         IFR, LFP o Li-fosfato.
-    \item \textbf{LiMn2O4}: Oxido de litio manganesio o tambi\'en conocidas como
+    \item \textbf{LiMn2O4}: \'Oxido de litio manganesio o tambi\'en conocidas como
         IMR, LMO o Li-manganesio.
     \item \textbf{LiNiMnCoO2}: Litio manganesio n\'iquel o tambi\'en conocidas como
         INR o NMC
-    \item \textbf{LiNiCoAl2}: Oxido de Litio n\'iquel cobalto aluminio o
+    \item \textbf{LiNiCoAl2}: \'Oxido de Litio n\'iquel cobalto aluminio o
         tambi\'en conocidas como NCA o Li-aluminio.
     \item \textbf{LiNiCoO2}: \'Oxido de litio n\'iquel cobalto o tambi\'en
         conocidas como NCO.
@@ -682,19 +681,20 @@ caracter\'isticas de capacidad y voltaje que se describen a continuaci\'on:
 El criterio de selección de la celda Panasonic NCR18650PF, para la
 implementación del pack de baterías a controlar por el \acrshort{BMS}, se funda
 principalmente en la popularidad que tienen las celdas tipo 18650 en
-implementaciones de packs de baterias de uso comercial para vehículos eléctricos
+implementaciones de packs de bater\'ias de uso comercial para vehículos eléctricos
 y en la disponibilidad en el mercado que esto conlleva. A su vez ha sido un
 factor determinante para su selección la existencia y disponibilidad de un set
 de datos completos \cite{Kollmeyer2018}, abiertos y libres de distintos ensayos
 sobre la celda en cuestión a partir del cual nos ha sido posible desarrollar e
-investigar el modelo de la celda, correr simulaciones de la misma y pantear
+investigar el modelo de la celda, correr simulaciones de la misma y plantear
 diferentes algoritmos de medición del \acrshort{SOC}. Datos a partir de los
 cuales fundamentalmente se validaron los resultados obtenidos.  
 
 La celda NCR18650PF de Panasonic se caracteriza por la composición química de su
 cátodo, basada en el óxido de litio níquel cobalto aluminio
 ($\mathrm{LiNiCoAlO_2}$) y, según su hoja de datos \cite{18650pf}, sus
-carateristicas electricas se pueden observar en la Tabla \ref{ncr18650pf_table}.
+carater\'isticas el\'ectricas se pueden observar en la Tabla 
+\ref{ncr18650pf_table}.
 
 \begin{table}[h]
     \begin{center}
@@ -798,20 +798,21 @@ ejecutaron los siguientes ciclos:
         anteriormente.
 \end{enumerate}
 
-Nos centramos puntualmente en la descrićión del ensayo \acrshort{HPPC} ya que es
-a partir del cual calculamos los parámetros internos del modelo de la celda de
-Litio-Ion que se presentará en la sección \ref{dev_batt_model}.
+El trabajo se encuentra centrado puntualmente en la descripción del ensayo 
+\acrshort{HPPC} ya que es a partir del cual se calculan los parámetros internos 
+del modelo de la celda de Litio-Ion que se presenta en la Sección 
+\ref{dev_batt_model}.
 
 \subsubsection{Ensayos HPPC}\label{ensayo_HPPC}
 
-El ensayo \acrshort{HPPC} es una metodología utilizada para poder caratcerizar
+El ensayo \acrshort{HPPC} es una metodología utilizada para poder caracterizar
 la dinámica de una celda. Un perfil genérico de ensayo \acrshort{HPPC}, como
 puede observarse en la Figura \ref{fig:gen_HPPC}, presenta
 pulsos de carga y descarga de muy corta duración y periodos de relajación a
-diferentes intervalos del estado de carga (\acrshort{SOC}). Para alcazar los
+diferentes intervalos del estado de carga (\acrshort{SOC}). Para alcanzar los
 diferentes estados de carga de ensayo se utilizan pulsos de descarga únicos de
 larga duración previos al periodo de relajación para poder acondicionar el
-estado de carga del ciclo de ensayos siguiente.
+estado de carga del ciclo de ensayo siguiente.
 
 \begin{figure}[h!]
     \begin{center}
@@ -823,16 +824,15 @@ estado de carga del ciclo de ensayos siguiente.
 \FloatBarrier
 
 En el caso del perfil de ensayo \acrshort{HPPC} del dataset \cite{Kollmeyer2018}
-se presentan unicamente pulsos múltiples de descarga y un periodo de relajación
-entre intervalos del 5\% del estado de carga (\acrshort{SOC}). El pulso de
-descarga entre intervalos del \acrshort{SOC} no está presente en el set de
-datos.
+se presentan \'unicamente pulsos múltiples de descarga y un periodo de 
+relajación entre intervalos del 5\% del \acrshort{SOC}. El pulso de descarga 
+entre intervalos del \acrshort{SOC} no está presente en el set de datos.
 
 El ensayo es llevado a cabo bajo el estricto control de la temperatura del
 electrolito y de la corriente de descarga. Los pulsos de descarga de ensayo son
 apreciablemente cortos en tiempo respecto del periodo de relajación siendo su
 duración de 1s y 2 minutos respectivamente, con la intención de que el pulso del
-ensayo perturve la celda sin modificar su estado de carga.
+ensayo perturbe la celda sin modificar su estado de carga.
 
 
 \begin{figure}[h!]
@@ -846,10 +846,9 @@ ensayo perturve la celda sin modificar su estado de carga.
 
 La Figura \ref{hppc_kollmeyer_zoom} muestra una vista detallada y ampliada de
 uno de los pulsos de descarga que conforman el ensayo \acrshort{HPPC}. Cada uno
-de estos pulsos nos brindan no solo información respecto de la tensión de
+de estos pulsos nos brinda, no solo información respecto de la tensión de
 circuito abierto (\acrshort{OCV}), sino también de la evolución de la celda
-frente a una excitación por corriente a estados de carga (\acrshort{SOC})
-determinado.
+frente a una excitación por corriente a determinados \acrshort{SOC}s.
 
 \begin{figure}[h!]
     \begin{center}
@@ -865,26 +864,26 @@ determinado.
 \section{Modelo de la celda de litio-ion}\label{dev_batt_model}
 
 Contar con un modelo matemático preciso que describa fehacientemente el
-comportamiento y la dinámica de una celda de Ion-Litio es condición sine qua non
-para la implementación exitosa de los algoritmos de estimación del
+comportamiento y la dinámica de una celda de Ion-Litio es condición \emph{sine
+qua non} para la implementación exitosa de los algoritmos de estimación del
 \acrshort{SOC} y de ecualización basados en el filtro de Kalman.
 
 El modelado de una celda de litio puede ser abordado desde distintas
 perspectivas y con difetentes herramientas matemáticas de acuerdo a los fines
-que se persigan. La necesidad de conjugar un modelo de exactitud elevada que no
+que se persigan. La necesidad de conjugar un modelo de exactitud elevada, que no
 represente una carga computacional imposible de procesar en tiempo real en un
-microcontrolador nos ha llevado a adoptar un modelo de segundo orden basado en
+microcontrolador, nos ha llevado a adoptar un modelo de segundo orden basado en
 un circuito eléctrico siguiendo \cite{spagnol_kalman}, también conocido como
 modelo de Randles de segundo orden, que se encuentra representado por el
 esquem\'atico de la Figura \ref{randles_2rc} cuya parametrizaci\'on se describe
 en la Secci\'on \ref{param_18650pf}.
 
-En la presente Sección se describe el trabajo relizado para definir las
+En la presente Sección se describe el trabajo realizado para definir las
 características y llevar a cabo el cálculo y optimización de los parámetros
 internos que describen al modelo en cuestión. Pasando por el pre-procesamiento y
 tratamiento del set de datos experimentales utilizado, presentado en la Sección
 \ref{ensayo_HPPC}, como por el proceso intrínseco de cálculo y posterior trabajo
-recursivo de optimización para ajustar los parámertros y con ellos el
+recursivo de optimización para ajustar los parámetros y con ellos el 
 comportamiento del modelo a los datos experimentales validando los mismos.
 
 \begin{figure}[h!]
@@ -914,7 +913,7 @@ la Ecuación \ref{eq:Vout_randles_2rc}
     \label{eq:Vout_randles_2rc}
 \end{equation}
 
-El modelo puede ser reescrito en el dominio de la transformada de Laplace como: 
+El modelo puede ser re-escrito en el dominio de la transformada de Laplace como: 
 
 \begin{align}
     \begin{split}
@@ -934,8 +933,8 @@ implementación y uso de un algoritmo de optimizaci\'on num\'erico. De esta
 forma, el proceso de optimizaci\'on busca ajustar los par\'ametros internos del
 modelo para minimizar el error entre los datos experimentales y los resultados
 de las simulaciones realizadas. En el caso de las celdas de litio-ion, los datos
-experimentales fueron obtenidos a partir de ensayos \acrfull{HPPC} que se
-describió el la Sección \ref{ensayo_HPPC}. 
+experimentales fueron obtenidos a partir de ensayos \acrshort{HPPC} cuyo perfil
+fue descripto en la Sección \ref{ensayo_HPPC}. 
 
 Múltiples curvas \acrshort{HPPC}, cada una provista de un conjunto de pulsos de
 carga/descarga en los diferentes niveles del \acrshort{SOC}, proveen una
@@ -945,62 +944,62 @@ múltiples condiciones de operación de \acrshort{SOC} y de temperatura.
 Para ajustar el comportamiento del modelo planteado en la Figura
 \ref{randles_2rc} a las condiciones de ensayo se requieren multiples juegos de
 parámetros que respondan a las condiciones de operaci\'on y de estados de la
-celda. Para realizar esto, empleamos tablas de b\'usqueda (\acrshort{LUT}, del
-ingl\'es \emph{\acrlong{LUT}}).
+celda. Para realizar esto, se emplearon tablas de b\'usqueda (\acrshort{LUT}, 
+del ingl\'es \emph{\acrlong{LUT}}).
 
-Entonce podemos concluir que nuestro modelo, para poder representar con
-exactitud la dinámica de una celda en cada uno de los escalones de
-\acrshort{SOC}, requiere de múltipes juegos de parámetros internos. Un juego por
-cada escalón de descarga de corriente que presente el ensayo \acrshort{HPPC} y a
-su vez, otro juego completo de parámetros por cada temperatura de ensayo
-distinta en caso de querer ajustar el modelo a las variaciones de temperaturas.
+Entonce se puede concluir que el modelo, para poder representar con exactitud la 
+dinámica de una celda en cada uno de los escalones de \acrshort{SOC}, requiere 
+de múltipes juegos de parámetros internos. Un juego por cada escalón de descarga 
+de corriente que presente el ensayo \acrshort{HPPC} y a su vez, otro juego 
+completo de parámetros por cada temperatura de ensayo distinta en caso de querer 
+ajustar el modelo a las variaciones de temperaturas.
 
 Para poder poblar las tablas de busqueda del modelo es necesario contar con
 información experimental suficiente que ejercite cada uno de los parámetros que
 las componen. Son las curvas del ensayo \acrshort{HPPC}, que pueden observarse
-en la Figura \ref{hppc_kollmeyer}, las que nos brindan la imformación necesaria.
+en la Figura \ref{hppc_kollmeyer}, las que nos brindan la información necesaria.
 
-\subsection{Validación número de ramas R-C del modelo}
+\subsection{Validación del número de ramas R-C del modelo}
 
-Una vez estudiados los ensayos \acrshort{HPPC} nos surge el interrogante de sí el
-modelo seleccionado en la Sección \ref{dev_batt_model} para representar nuestra
+Una vez estudiados los ensayos \acrshort{HPPC} surge el interrogante de sí el
+modelo seleccionado en la Sección \ref{dev_batt_model} para representar la 
 celda de Litio-Ion será capaz de describir la dinámica que presentan las celdas
 ensayadas. 
 
-Para validar que el modelo que proponemos sea capaz de describir la dinámida
-completa de una celda de Ion-Litio ensayada seguimos el procedimiento enunciado
-en \cite{Jackey2013BatteryMP} para la selección del número de ramas R-C
-que debe presentar un modelo y ajustamos 2 ecuasiones exponenciales, una de
-orden 1 (Eq. \ref{eq:exp1}) y otra de orden 2 (Eq.  \ref{eq:exp2}), a la curva
-que traza los datos del en sayo HPPC utilizando la herramienta Curve Fitting de
-Matlab.
+Para validar el modelo se propone que el mismo sea capaz de describir la 
+dinámica completa de una celda de Ion-Litio ensayada siguiendo el procedimiento 
+enunciado en \cite{Jackey2013BatteryMP} para la selección del número de ramas 
+R-C, que consiste en presentar un modelo y ajustar 2 ecuaciones exponenciales, 
+una de orden 1 (Ec. \ref{eq:exp1}) y otra de orden 2 (Ec. \ref{eq:exp2}), a la 
+curva que traza los datos del ensayo HPPC utilizando la herramienta \emph{Curve
+Fitting} de Matlab.
 
 \begin{align}
     Y &= a*exp(b*x)\label{eq:exp1}\\
     Y &= a*exp(b*x)+c*exp(d*x)\label{eq:exp2}
 \end{align}
 
-Se seleccion\'o especificamente la fase de relajación de uno de los escalones
+Se selecciona espec\'ificamente la fase de relajación de uno de los escalones
 del ensayo \acrshort{HPPC}. Cuando se retira el escalón de corriente, la
 respuesta transitoria inmediata es condicionada por $R_{0}$ pero r\'apidamente
-la din\'amica fundamentalmente es descripta por el número de ramas R-C en serie
+la din\'amica fundamental es descripta por el número de ramas R-C en serie
 dispuestas en el circuito equivalente. 
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=.65\textwidth]{rc_model_fit.png}
-        \caption{Ajuste curvas exponenciales orden Modelo R-C}
+        \caption{Ajuste de las curvas exponenciales al modelo R-C}
         \label{fig:model_fit}
     \end{center}
 \end{figure}
 \FloatBarrier
 
-A la vista del resultado obtenido en la Figura \ref{fig:model_fit} concluimos
-que dos t\'erminos exponenciales temporales, que en términos circuitales son dos
-ramas RC paralelas, serán suficientes para describir la dinamica de una celda de
+A la vista del resultado obtenido en la Figura \ref{fig:model_fit} se concluye
+que dos t\'erminos exponenciales temporales, el equivalente a dos ramas RC 
+paralelas, son suficientes para describir la dinamica de una celda de
 Ion-Litio ensayada. El orden del modelo presenta una situación de compromiso
 entre la precisión del modelo, la complejidad matemática y la necesidad de
-mantener el costo computacional bajo a los fines de embeber el modelo en el
+mantener el costo computacional bajo a los fines de embeber el modelo en un
 microcontrolador. 
 
 \subsection{Implementación del circuito de Randles}
@@ -1051,16 +1050,16 @@ Los componentes pasivos del circuito a estimar son:
     \end{itemize}
 \end{multicols}
 
-El modelo nos permite observar la evolucíon de la tensión en bornes de la celda
-ante las variaciones de sus variables de entrada a partir de la medición de la
-tensi\'on de salida que simula el mismo.
+El modelo nos permite observar la evoluci\'on de la tensión en bornes de la 
+celda ante las variaciones de sus variables de entrada a partir de la medición 
+de la tensi\'on de salida que simula el mismo.
 
-El modelado de los componentes a partir de \acrshort{LUT} no contempla
+El modelado de los componentes a partir de una \acrshort{LUT} no contempla
 variaciones de temperatura del electrolito de la celda ni de la corriente
 circulante por los elementos. Como condición de diseño se supone que el valor de
 los elementos posivos no se ve modificado ante la variación de la corriente de
 excitación de los mismo. Diferentes condiciones de operación, tanto en
-temperatura como en corriente de excitación, requeriran simplemente repetir el
+temperatura como en corriente de excitación, requerir\'an simplemente repetir el
 proceso de simulación para cada particularidad poblándose las nuevas dimensiones
 obtenidas de la \acrshort{LUT} de forma manual.
 
@@ -1098,16 +1097,14 @@ estar optimizados los parámetros para disminuir el error en la tensi\'on de
 salida, el modelo logra representar correctamente la din\'amica de la
 respuesta al escal\'on validando la implementación realizada.
 
-%\newpage
-
 \subsection{Pre-procesamiento datos}\label{data_preprocessing}
 
 El conjunto de datos del ensayo \acrshort{HPPC} de \cite{Kollmeyer2018} necesita
 ser preprocesado para obtener ciertas variables de inter\'es, como por ejemplo,
 la señal del \acrshort{SOC} de la curva relevante para comparar los resultados
 de nuestro modelo, el \acrshort{OCV} necesario para alimentar el modelo durante
-las simulaciones o la segmentaci\'on o modificaci\'on de los datos \'util para
-acotar el problema de procesamiento del modelo simplificando el proceso de
+las simulaciones o la segmentaci\'on o modificaci\'on de los datos \'utiles para
+acotar el problema de procesamiento del modelo, simplificando el proceso de
 optimización.
 
 \subsubsection{Curva de \acrshort{SOC}}
@@ -1140,23 +1137,23 @@ ensayo \acrshort{HPPC} se obtiene la gr\'afica que se observa en la Figura
 
 \subsubsection{Obtenci\'on del \acrshort{OCV}}
 
-Para poder rescatar el valor de tención de circuito abierto \acrshort{OCV} a
-partir del ensayo \acrshort{HPPC} y construir la curva que se presenta en la
-Figura \ref{fig:ocv_detection}  necesitamos seleccionar criteriosamente el punto
-donde tomar el valor de voltaje en bornes de la celda. Se necesita poder
-asegurar que la celda ensayada haya alcanzado el mayor estado posible de
-relajación antes de tomar el valor de \acrshort{OCV} para asegurar que su
-tensión en bornes equivalga a la tensión de circuito abierto.
+Para poder rescatar el valor del \acrshort{OCV} a partir del ensayo 
+\acrshort{HPPC} y construir la curva que se presenta en la
+Figura \ref{fig:ocv_detection} es necesario seleccionar criteriosamente el punto
+ en donde tomar el valor de voltaje en bornes de la celda para asegurar que la 
+ celda ensayada haya alcanzado el mayor estado posible de relajación antes de 
+ tomar el valor de \acrshort{OCV} para asegurar que su tensión en bornes 
+ equivalga al mismo.
 
-Durante todo el ensayo \acrshort{HPPC} podemos observar per\'iodos de descanso
-lo suficientemente largos como para considerar que la bater\'ia alcanz\'o la
+Durante todo el ensayo \acrshort{HPPC} se observan per\'iodos de descanso
+lo suficientemente largos como para considerar que la bater\'ia ha alcanzado la
 estabilidad qu\'imica, por lo tanto, presentando una lectura de voltaje
 equivalente al \acrshort{OCV}.
 
 Para construir la curva de \acrshort{OCV}, se retuvieron los valores de voltaje
-en los puntos donde se detect\'o un flanco negativo, como se describe en la
-Secci\'on \ref{flank_seg} y se extrapoló este valor hasta el flanco negativo
-inmediatamente anterior como se observa en la figura
+en los puntos donde un flanco negativo fue detectado, como se describe en la
+Secci\'on \ref{flank_seg} y, posteriormente, este valor es extrapolado hasta el 
+flanco negativo inmediatamente anterior como se observa en la figura
 \ref{fig:ocv_detection_closeup}, obteniendo como resultado la curva de la Figura
 \ref{fig:ocv_detection}.
 
@@ -1214,7 +1211,7 @@ estimación y optimización de los mismos.
 Son parámetros a tener en cuenta la velocidad de cómputo y el consumo de
 memoria, la selección de las condiciones iniciales, seteos y condiciones de
 borde de los parámetros a calcular que implican una etapa de
-prueva y error hasta obtener un proceso funcional acorde a los resultados
+prueba y error hasta obtener un proceso funcional acorde a los resultados
 deseados y el tiempo de programación que ello implica.
 
 Como resultado de las complejidades planteadas y en vista de evaluar el resultado
@@ -1249,8 +1246,8 @@ la Figura \ref{flank_seg_hppc}
 \end{figure}
 \FloatBarrier
 
-Una vez identificados todos los flancos segmentamos el set de datos en porciones
-abarcables por el algoritmo de optimización. En la Imagen
+Una vez identificados todos los flancos se segmenta el set de datos en porciones
+abarcables por el algoritmo de optimización. En la Figura 
 \ref{fig:data_seg_hppc} se puede apreciar, a modo de ejemplo, la porción de
 datos seleccionada y el criterio de corte utilizado. Para cada uno de los ciclos
 de optimización se seleccionó el intervalo de datos comprendidos entre dos
@@ -1276,12 +1273,12 @@ ejercitados al principio del intervalo siguiente.
 
 Cada pulso de corriente y su respectiva contraparte en tensión se pueden dividir
 en 2 zonas, una de excitación, aquella donde la corriente forzada está
-circulando por le modelo y una zona de relajación a partir de que el pulso de
+circulando por el modelo y una zona de relajación a partir de la que el pulso de
 corriente es eliminado. La zona de excitación puede ser considerada como una
 zona de transición entre \acrshort{SOC}s y entradas de las \acrshort{LUT}s.
 Es la zona de relajación la que cuenta con la mayor información sobre de la
 dinámica del sistema para ejercitar cada parámetro del modelo incluido el cambio
-instantaneo de voltaje que representa $R_{0}$. La zona de excitación no 
+instant\'aneo de voltaje que representa $R_{0}$. La zona de excitación no 
 brinda información sobre la dinámica completa del sistema, solo nos
 brinda información parcial, fundamentalmente sobre la parte rápida de la
 dinámica. 
@@ -1289,23 +1286,23 @@ dinámica.
 \subsection{Algoritmo recursivo de optimizaci\'on}
 
 El proceso de estimación y ajuste de los parámetros del modelo se realizó a
-partir de la implemenación en MATLAB de un algoritmo recursivo de optimización
+partir de la implementación en MATLAB de un algoritmo recursivo de optimización,
 que ejecuta la tarea de cálculo y ajuste de cada uno de los juegos de parámetros
 correspondientes a los segmentos de datos del ensayo \acrshort{HPPC} seccionados
-en el pre-procesamiento de forma secuencial y automatizada.
+en el pre-procesamiento, de forma secuencial y automatizada.
 
 El algoritmo desarrollado e implementado en \texttt{Semi-Automatic Li Ion
 battery RC model parameters estimator.m} se repite automaticamente para cada
 sección de datos seleccionada del ensayo \acrshort{HPPC} procesando cada una de
 las tareas de estimación y optimización secuencialmente. El código selecciona
 una porción de datos, setea los parámetros a ser estimados aplicando las
-condiciones iniciales y de limites de los mismos. El codigo a su vez prepara el
-modelo para ser ejecutado en cada tarea de estimación y ajuste seleccionando los
-intervalos correctos de las señales de entrada del modelo y sus condiciones
+condiciones iniciales y de limites de los mismos. El c\'odigo a su vez prepara 
+el modelo para ser ejecutado en cada tarea de estimación y ajuste seleccionando 
+los intervalos correctos de las señales de entrada del modelo y sus condiciones
 iniciales.
 
 Los límites de los parámetros a estimar se setean de forma experimental tomando
-en cuentas los resultados de cálculos matematicos realizados previamente y de
+en cuentas los resultados de cálculos matem\'aticos realizados previamente y de
 algunos ciclos de optimización ejecutados a los fines de la puesta a punto del
 sistema. Los valores obtenidos se definen a continuación. 
 
@@ -1320,22 +1317,24 @@ Una vez que se encuentra corriendo la tarea de optimización, la implementación
 ejecuta un algoritmo automatizado de optimización numérica a partir de la
 herramienta de Estimación de Parametros, parte del toolbox \emph{Design
 Optimization} de \emph{Simulink} que provee de funciones, herramientas activas
-y bloques para el tratamiento de modelos. El toolboox provee de la capaciad de
-interacción entre el modelo de la celda desarrollados con la librer\'ia
+y bloques para el tratamiento de modelos. El \emph{toolbox} provee la capacidad 
+de interacción entre el modelo de la celda desarrollados con la librer\'ia
 \emph{Power Systems} de \emph{Simscape}, la información experimental del ensayo
 \acrshort{HPPC} proveniente del dataset y el algoritmo de optimización planteado.
 
-El método matematico de optimización seleccionado es el de mínimos cuadrados no
+El método matem\'atico de optimización seleccionado es el de mínimos cuadrados no
 lineales implementado a partir de la función \emph{lsqnonlin} del toolbox de
 optimización. 
 El método minimiza los cuadrados de los residuos, por lo que requiere ser
 provisto de un vector de errores residuales, particular de nuestra solución, el
 cual se computa sobre una base de tiempo fija.
 El solucionador de mínimos cuadrados no lineales resuelve problemas de ajuste de
-curva de mínimos cuadrados no lineales de la forma
+curva de mínimos cuadrados no lineales de la forma descripta en la Ecuaci\'on
+\ref{min_cuad_form}
 
 \begin{equation}
-    \min_{x}\|f(x)\| = \min_{x} (f_1(x)^2 + f_2(x)^2+\dots+f_n(x)^2)
+    \min_{x}\|f(x)\| = \min_{x} (f_1(x)^2 +
+    f_2(x)^2+\dots+f_n(x)^2)\label{min_cuad_form}
 \end{equation}
 
 El vector de errores residuales se implementa en
@@ -1367,17 +1366,17 @@ forma vista en la Ecuación \ref{eq:residual_vect}.
 
 La selección del método de optimización fue realizada a instancias de
 \cite{Jackey2013BatteryMP} y debido a que el método \emph{lsqnonlin} es
-computacionalmente varias veces más rápido en comparación a otros metodos para
-la solución del problema en cuestión.
+computacionalmente más rápido en comparación a otros metodos para la solución 
+del problema en cuestión.
 
 El proceso de optimización se completa una vez que el tamaño del gradiente del
-vector residual es menor que el valor de tolerancia de optimización
+vector residual es menor que el valor de tolerancia de optimización 
 seleccionado.
 
 \begin{figure}[h!]
 	\begin{center}
 		\includegraphics[width=1\textwidth]{sim_vs_measured_response.png}
-		\caption{Respuesta simulada Vs Respuesta Medida antes - Resultado
+		\caption{Respuesta simulada Vs Respuesta medida antes - Resultado
         proceso de optimización}
 		\label{fig:sim_vs_mea_resp}
 	\end{center}
@@ -1385,8 +1384,8 @@ seleccionado.
 %\FloatBarrier
 
 Una vez finalizada cada tarea de optimización el algoritmo presenta la 
-comparación gráfica de los datos obtenidos de la slimulación respecto de los 
-datos experimentales antes y despues de ejecutado el proceso de optimizaciónlas, 
+comparación gráfica de los datos obtenidos de la simulación respecto de los 
+datos experimentales antes y despu\'es de ejecutado el proceso de optimización, 
 como las de la Figura \ref{fig:sim_vs_mea_resp}. Estas gráficas sirven para
 validar el proceso de optimización llevado a cabo y como mecanismo de control y
 corrección de los inconvenientes que se presenten durante el proceso de cálculo
@@ -1413,16 +1412,16 @@ en bornes de la simulación no logra converger con los datos experimentales.
 
 Para cada nivel de \acrshort{SOC} el ensayo aplica 5 pulsos de corriente de
 descarga consecutivos, como se describe en la Sección \ref{ensayo_HPPC}. Para
-cada nivel de \acrshort{SOC} la simulacióni del 5to escalón de corriente no
-logra ajustarse a los datos experimentales como se observa, a modod de ejemplo,
+cada nivel de \acrshort{SOC} la simulación del 5to escalón de corriente no
+logra ajustarse a los datos experimentales como se observa, a modo de ejemplo,
 en la Figura \ref{fig:exp_vs_sim_5_error}.
 
 Este fenómeno se explica debido a que el dataset no incluye la información de
-los periodos de descarga largos que llevan la celda al siguiente esclon de
+los periodos de descarga largos que llevan la celda al siguiente escal\'on de
 \acrshort{SOC} de ensayo. Por lo cual, estos pulsos carecen de la información
-sufuciente respecto del estado de relajación final de la celda una vez
-finalizado el pulso de corriente. Por otra parte no es casualidad que el
-fenómeno se precente en los pulsos de descarga de mayor intensidad, siendo los
+suficiente respecto del estado de relajación final de la celda una vez
+finalizado el pulso de corriente. Por otra parte, no es casualidad que el
+fenómeno se presente en los pulsos de descarga de mayor intensidad, siendo los
 que tienen mayor posibilidad de modificar el \acrshort{SOC} de la celda pese a
 no ser la intención del ensayo.
 
@@ -1434,17 +1433,17 @@ no ser la intención del ensayo.
 	\end{center}
 \end{figure}
 
-Viendo que el patrón se repetía sistemáticamente en los pulsos 5tos de cada uno
+Viendo que el patrón se repite sistemáticamente en los pulsos 5tos de cada uno
 de los escalones de \acrshort{SOC}. Y considerando que el dataset no cuenta con
 la información suficiente para ajustar los parámetros en los pulsos de ensayo en
 cuestion. La solución aplicada para corregir las \acrshort{LUT}s fue la de
 eliminar los juegos de parametros correspondientes a los pulsos defectuosos. Es
-así que concluimos el proceso de cálculo y optimizción con 55 juegos de
-parametros correspondientes a 55 \acrshort{SOC} de la celda que modelan la
+así que se concluye el proceso de cálculo y optimización con 55 juegos de
+par\'ametros correspondientes a 55 \acrshort{SOC} de la celda que modelan la
 dinámica completa de la misma a la temperatura del electrolito de $25\deg C$.
 
 La Figura \ref{fig:lut_RC} pesenta los valores finales de la \acrshort{LUT}s ya
-optimizadas para el cirucuito equivalente.
+optimizadas para el circuito equivalente.
 
 \begin{figure}[h!]
     \begin{center}
@@ -1464,10 +1463,10 @@ optimizadas para el cirucuito equivalente.
 \end{figure}
 \FloatBarrier
 
-Validamos los juegos de parámetros finales corregidos sometiendo el modelo
+Se validan los juegos de parámetros finales corregidos sometiendo el modelo
 calculado a multiples perfiles de corriente de distintos drive cicles y
 comparando los datos obtenidos con los valores experimentales. En la Figura
-\ref{fig:DC_modVsData} se se puede apreciar que la simulación del drive cicle
+\ref{fig:DC_modVsData} se puede apreciar que la simulación del drive cicle
 coincide con los datos experimentales.
 
 \begin{figure}[!h]
@@ -1482,8 +1481,8 @@ coincide con los datos experimentales.
 
 Como se detalla en la Secci\'on \ref{algSoc}, el \acrshort{SOC} y su
 estimaci\'on son factores claves para el diseño y desarrollo de un
-\acrshort{BMS} apropiado para nuestra aplicaci\'on en particular. Como el mismo
-solo puede ser estimado, la misma debe ser robusta con respecto a:
+\acrshort{BMS} apropiado. Como el mismo solo puede ser estimado, esta
+estimaci\'on debe ser robusta con respecto a:
 
 \begin{itemize}
     \item Valor de \acrshort{SOC} incorrecto.
@@ -1494,9 +1493,9 @@ solo puede ser estimado, la misma debe ser robusta con respecto a:
 
 Tambi\'en se menciona anteriormente la gran variedad de algoritmos disponibles
 para realizar la estimaci\'on de esta variable no medible en tiempo real. En el
-presente trabajo se desarrollaron dos algoritmos, uno basado en un filtro
-observador, como lo es el Filtro de Kalman y otro algoritmo basado en redes
-neuronales, cuyo desarrollo se describe a continuaci\'on.
+presente trabajo se desarrollan dos algoritmos, uno basado en un filtro
+observador, como lo es el Filtro de Kalman, cuyo desarrollo se describe a 
+continuaci\'on y otro algoritmo basado en redes neuronales.
 
 \subsection{Algoritmo basado en el Filtro de Kalman}
 
@@ -1565,9 +1564,9 @@ Dado que la Ecuaci\'on \ref{v_out_randles_linearized} representa la salida del
 sistema, esta Ecuaci\'on es el equivalente a la expresi\'on de $y(t)$ en el 
 sistema de Ecuaciones de estado \emph{(Ec. \ref{ss_model_generic})}
 
-Por lo tanto, la expresi\'on de $y(t)$ en el sistema de Ecuaciones
+Por lo tanto, la expresi\'on de $y(t)$ en el Sistema de Ecuaciones
 \ref{ss_model_generic} es reemplazado por la Ecuaci\'on \ref{v_out_randles}, que
-a su vez se desarollada matricialmente, como se puede observar en la
+a su vez es desarollada matricialmente, como se puede observar en la
 Ecuaci\'on \ref{v_out_randles_mat},
 
 \begin{equation}
@@ -1580,8 +1579,7 @@ a partir de esta expresi\'on se puede deducir que las variables de estado
 ($x(t)$) es el voltaje en ambos capacitores ($\mathrm{V_{C_1}}$ y 
 $\mathrm{V_{C_2}}$) y el \acrshort{SOC} de la bater\'ia, por otro lado, la 
 variable de entrada es la corriente ($i(t)$) y la matriz D es $R_0(SoC)$, 
-obteniendo el siguiente sistema de Ecuaciones de estados 
-\emph{(Ec. \ref{randles_ss_incomplete})}
+obteniendo el Sistema de Ecuaciones de Estados \ref{randles_ss_incomplete}.
 
 \begin{align}
     \begin{bmatrix}
@@ -1613,7 +1611,7 @@ Ampere-hora [Ah]. Derivando miembro a miembro, se obtiene la Ecuaci\'on
 \end{equation}
 
 Por otro lado, para determinar las expresiones de $V_{C_1}(t)$ y $V_{C_2}(t)$,
-se analiza el circuito RC paralelo \emph{(Fig. \ref{tanque_rc})},
+se analiza el circuito RC paralelo de la Figura \ref{tanque_rc}
 
 \begin{figure}[h!]
     \begin{center}
@@ -1630,8 +1628,8 @@ se analiza el circuito RC paralelo \emph{(Fig. \ref{tanque_rc})},
 \end{figure}
 
 partiendo de la Ecuaci\'on de carga de un capacitor, la ley de Kirchhoff de
-corrientes y la ley de Ohm se obtiene el siguiente sistema de Ecuaciones
-\emph{(Ecs. \ref{cap_sist_eq})},
+corrientes y la ley de Ohm se obtiene el siguiente Sistema de Ecuaciones
+\ref{cap_sist_eq},
 
 \begin{align}
     i_2(t) &= C_1 \dot{v}_{C_1}(t)\nonumber\\
@@ -1651,7 +1649,7 @@ obtenemos la Ecuaci\'on \ref{v_cap_reemplazada},
 
 Por \'ultimo, reemplazando \ref{soc_mod_integration_der} y
 \ref{v_cap_reemplazada} en el sistema de ecuaciones de estado, en forma
-matricial, finalmente se obtiene el sistema de Ecuaciones 
+matricial, finalmente se obtiene el Sistema de Ecuaciones 
 \ref{ss_randles_complete} correspondiente al circuito de Randles de segundo
 orden,
 
@@ -1679,9 +1677,9 @@ orden,
 
 Linealizado el sistema y obtenido el sistema de ecuaciones del modelo,
 el\'ectrico de Randles, solo resta determinar si el sistema es observable. Un
-sistema de ecuaciones de estados es observable, si y solo si, su matriz de
-observabilidad, valga la redundancia, es observable, es decir si su determinante 
-es diferente a cero y la matriz de observabilidad tiene un rango n 
+sistema de ecuaciones de estados es observable, si, y s\'olo si, su matriz de
+observabilidad, valga la redundancia, es observable, es decir, si su 
+determinante es diferente a cero y la matriz de observabilidad tiene un rango n 
 (orden del sistema). La matriz de observabilidad est\'a dada por la Ecuaci\'on 
 \ref{observation_matrix},
 
@@ -1708,7 +1706,7 @@ segundo orden, por lo tanto, la matriz O est\'a dada por la Ecuaci\'on
 \end{equation}
 
 aplicando el determinante de una matriz sobre la Ecuaci\'on
-\ref{obs_matrix_randles} obtenemos la expresi\'on \ref{det_obs_matrix_randles}
+\ref{obs_matrix_randles} obtenemos la Ecuaci\'on \ref{det_obs_matrix_randles}
 
 \begin{align}
     det\left(O\right) &= 0 + 0 -K_e \frac{1}{R_1C_1\left(R_2C_2\right)^2} + 
@@ -1719,7 +1717,7 @@ aplicando el determinante de una matriz sobre la Ecuaci\'on
                                    \label{det_obs_matrix_randles}
 \end{align}
 
-Por lo tanto la matriz O es observable, si y solo si, se cumple que los
+Por lo tanto la matriz O es observable, si, y s\'olo si, se cumple que los
 par\'ametros de los circuitos RC del modelo de Randles no sean iguales, ya que
 en caso contrario la determinante ser\'ia igual a cero. Por otro lado, se observa
 claramente que la matriz O es de dimensi\'on 3x3, por lo tanto es una matriz de
@@ -1727,8 +1725,8 @@ orden 3, concluyendo finalmente que el sistema de Randles es observable, por
 ende, se puede implementar el Filtro de Kalman para determinar el \acrshort{SOC} 
 de la celda.
 
-Finalmente, considerando un sistema de ecuaciones de la siguiente forma \emph{(Ecs.
-\ref{ss_with_noise})},
+Por \'ultimo, considerando un sistema de ecuaciones de la siguiente forma 
+\emph{(Ecs. \ref{ss_with_noise})},
 
 \begin{align}
     \dot{x} = Ax + Bu + \eta_x\nonumber\\
@@ -1759,12 +1757,13 @@ donde $K(t)$ es la ganancia de Kalman, cuyo objetivo, como se menciona en la
 Secci\'on \ref{KalmanFilterMethod}, es minimizar la covarianza del error de
 estimaci\'on. 
 
-Para poder implementar el Sistema de Ecuaciones en \ref{ss_kalman_gain} sobre
-el modelo de Randles es necesario proveer las matrices que proporcionan valores 
-de varianza sobre las incertezas del modelo (Q) como tamb\'ien los valores de
-varianza sobre el ruido al que est\'an sometidas las variables de medici\'on
-(R), por el otro lado, tambi\'en es necesario proveer el estado inicial del
-sistema ($x_0$) como tambi\'en su covarianza inicial ($P_0$).
+Para poder implementar el Sistema de Ecuaciones en la Ecuaci\'on 
+\ref{ss_kalman_gain} sobre el modelo de Randles es necesario proveer las 
+matrices que proporcionan valores de varianza sobre las incertezas del modelo 
+(Q) como tamb\'ien los valores de varianza sobre el ruido al que est\'an 
+sometidas las variables de medici\'on (R), por el otro lado, tambi\'en es 
+necesario proveer el estado inicial del sistema ($x_0$) como tambi\'en su 
+covarianza inicial ($P_0$).
 
 En primer instancia, se propone que el estado inicial de la bater\'ia es
 conocido, es decir, cuando el \acrshort{BMS} comienza a operar, se asume que la
@@ -1812,9 +1811,9 @@ valor equivalente al expresado en la Ecuaci\'on \ref{valor_r} medido en mV
 
 Finalmente, la matriz Q expresa la incerteza del modelo desarrollado en la 
 Secci\'on \ref{dev_batt_model}. Para obtener los valores de esta matriz se
-analizaron los resultados obtenidos en los resultados del modelo en la Secci\'on 
-\ref{val_param_modelo}, observando las variaciones de las tensiones de cada
-capacitor en conjunto con los valores de \acrshort{OCV}(SOC), se acotaron y
+analizaron los resultados obtenidos del modelo en la Secci\'on 
+\ref{val_param_modelo}, teniendo en cuenta las variaciones de las tensiones de 
+cada capacitor en conjunto con los valores de \acrshort{OCV}(SOC), se acotaron y
 ajustaron los valores de la matriz Q a los que se observan en la Ecuaci\'on
 \ref{valor_q},
 
@@ -1825,19 +1824,20 @@ ajustaron los valores de la matriz Q a los que se observan en la Ecuaci\'on
 	    0 & 5\times10^{-4} & 0 \\
 	    0 & 0 & 1\times10^{-10} \\
 	\end{bmatrix} 
-    \end{array} \nonumber
+    \end{array}
     \label{valor_q}
 \end{equation}
 
 Finalmente, se desarroll\'o el algoritmo de Kalman en un script de \emph{Matlab}
 y se ensay\'o el algoritmo en conjunto con el modelo bajo el mismo set de datos
-utilizado en \ref{ensayo_HPPC}. Como resultado se obtuvo las gr\'aficas que se
-observan en la Figura \ref{kalman_result_matlab}, en la que se puede deducir que
-se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
+utilizado en \ref{ensayo_HPPC}. Como resultado se obtuvieron las gr\'aficas que 
+se observan en la Figura \ref{kalman_result_matlab}, en ellas se puede deducir 
+que se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del 
+trabajo.
 
-\begin{figure}[t!]
+\begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=1\textwidth]{kalman_result_matlab.eps}
+        \includegraphics[width=0.8\linewidth]{kalman_result_matlab.png}
         \caption{1ra Gr\'afica: Estimaci\'on del \acrshort{SOC} vs
         tiempo del ensayo. 2da Gr\'afica: Corriente del dataset. 3ra
         Gr\'afica: Voltaje del dataset. 4ta Gr\'afica: Error en la estimaci\'on
@@ -1981,7 +1981,7 @@ se obtiene un error m\'aximo de 3\%, aceptable para los objetivos del trabajo.
 \end{figure}
 \FloatBarrier
 
-En este capítulo se enumera y detalla el criterio de elección y desarrollo de 
+En este Capítulo se enumera y detalla el criterio de elección y desarrollo de 
 todos los circuitos y componentes de los subsistemas del BMS, los mismos son:
 
 \begin{multicols}{2}
@@ -2021,15 +2021,16 @@ Microcontrolador \textbf{STM32F407VG} de la empresa \emph{STMicroelectronics}.
 
 El \textbf{STM32F407VG} es un microcontrolador de la familia STM32F407xx de la
 firma \emph{STMicroelectronics} que implementan un n\'ucleo de alto rendimiento de
-32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} y que puede operar a
-una frecuencia de hasta 168 MHz. El n\'ucleo Cortex-M4 implementa dos módulos
-fundamentales para la optimización del proceso de cálculo matemático del
-\acrshort{BMS} y el procesamiento en tiempo real. Una unidad de punto flotante
-(por sus siglas en ingles \acrfull{FPU}) de precisi\'on simple que soporta todas
-las instrucciones y tipos de datos Single-Precision data-Processing del n\'ucleo
-y un set completo de instrucciones de \acrshort{DSP}. La familia STM32F407xx a
-su vez incorpora una memoria FLASH embebida de alta velocidad de hasta 1 Mbyte y
-192+4 Kbytes de RAM (\acrfull{SRAM}).
+32-bits Arm® Cortex®-M4 con arquitectura \acrshort{RISC} (del ingl\'es,
+\acrlong{RISC}) y que puede operar a una frecuencia de hasta 168 MHz. 
+El n\'ucleo Cortex-M4 implementa dos módulos fundamentales para la optimización 
+del proceso de cálculo matemático del \acrshort{BMS} y el procesamiento en 
+tiempo real. Una unidad de punto flotante (por sus siglas en ingles 
+\acrfull{FPU}) de precisi\'on simple que soporta todas las instrucciones y tipos 
+de datos Single-Precision data-Processing del n\'ucleo y un set completo de 
+instrucciones de \acrshort{DSP} (del ingl\'es, \acrlong{DSP}). La familia 
+STM32F407xx a su vez incorpora una memoria FLASH embebida de alta velocidad de 
+hasta 1 Mbyte y 192+4 Kbytes de RAM (\acrfull{SRAM}).
 
 \begin{wrapfigure}{R}{5.5cm}
     \includegraphics[width=5.5cm]{STM32F407VG.png}
@@ -2124,7 +2125,7 @@ energética.
 El TPS54331 implementa un convertidor de energía tipo buck de hasta 28 V y 3 A
 que integra en la propia pastilla de silicio un MOSFET de bajo RDS(on) a la
 salida simplificando el circuito y abaratando costos.
-Para incrementar su performance durante los transitorios de l\'inea y carga y para
+Para incrementar su rendimiento durante los transitorios de l\'inea y carga y para
 disminuir la disipación de energía el dispositivo implementa un control por
 corriente a frecuencia constante el cual permite reducir la capacidad de salida
 y simplificar el diseño del filtro de salida y su compensación. El \acrshort{CI}
@@ -2198,7 +2199,7 @@ celdas presenten voltajes por debajo de su valor de operación segura.
 \end{align}
 
 La Figura \ref{fig:3v3_output_filter} corresponde a la etapa de potencia de la
-fuente de alimentación tipo buck implementada. La integran un Mosfet canal-N y
+fuente de alimentación tipo buck implementada. La integran un MOSFET canal-N y
 un diodo de bootstrap integrado al \acrshort{CI}, una inductancia y un 
 capacitor, L2 y C42 respectivamente, que funcionan como filtros de ripple a la
 salida. También forman parte fundamental de la etapa el capacitor C39 que
@@ -2262,17 +2263,21 @@ que implementa el microcontrolador seleccionado STM32F407.
 
 \section{Sensor de tensi\'on - Balanceador}
 
-Este dispositivo se encarga de mantener las celdas en valores de tensión seguros, para llevar a cabo esta tarea implementa sensores de tensión para cada celda individual, además se debe reportar toda la información a la unidad de procesamiento.
-Por otro lado, también se encarga de accionar los transistores de ByPass según lo determine el algoritmo de balanceo de las celdas en base al estado de carga estimado por el Filtro de Kalman.
+Este dispositivo se encarga de mantener las celdas ecualizadas, para llevar a 
+cabo esta tarea se implementa sensores de tensión para cada celda individual, 
+además de reportar toda la información a la unidad de procesamiento.
+Por otro lado, también se encarga de accionar los transistores de ByPass según 
+lo determine el algoritmo de balanceo de las celdas en base al estado de carga 
+estimado por el Filtro de Kalman.
 
-Dada las caracter\'isticas del pack descriptas en la Secci\'on \ref{Section_battery_pack} 
-y la diversidad de t\'ecnicas disponibles para el balanceo, con el objetivo de
-mantener un diseño simplificado agregando la funcionalidad de ecualizaci\'on al
-producto final, se opt\'o por un balanceador basado en una topolog\'ia pasiva 
-utilizando resistencias shunt en conjunto con una estrategia de control
-cl\'asica que depende del promedio del \acrshort{SOC} entre las 6 celdas,
-estableciendo un umbral m\'aximo de variaci\'on entre celdas como criterio de
-balanceo. 
+Dada las caracter\'isticas del pack descriptas en la Secci\'on 
+\ref{Section_battery_pack} y la diversidad de t\'ecnicas disponibles para el 
+balanceo, con el objetivo de mantener un diseño simplificado agregando la 
+funcionalidad de ecualizaci\'on al producto final, se opt\'o por un balanceador 
+basado en una topolog\'ia pasiva utilizando resistencias shunt en conjunto con 
+una estrategia de control cl\'asica que depende del promedio del 
+\acrshort{SOC} entre las 6 celdas, estableciendo un umbral m\'aximo de 
+variaci\'on entre celdas como criterio de balanceo. 
 
 
 \subsection{Teor\'ia de operaci\'on}\label{seq:bal_theory}
@@ -2357,20 +2362,21 @@ menor cantidad de celdas en serie.
 \end{table}
 
 \begin{minipage}{0.5\textwidth}
+
 El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
 celdas conectadas en serie, que pueden acoplarse entre s\'i para extenderse a 192
 celdas. El mismo integra un frontend anal\'ogico (\acrshort{AFE}, del ingl\'es
 \acrlong{AFE}) en conjunto con un conversor anal\'ogico-digital (\acrshort{ADC},
 del ingl\'es \acrlong{ADC}), utilizado para medir de forma precisa el voltaje de
 cada celda. Por el otro lado, tambi\'en posee dos \acrshort{ADC}s para leer la
-temperatura del pack de bater\'ias.\\
-\\
+temperatura del pack de bater\'ias.
+
 Adem\'as de la temperatura, tambi\'en  se monitorea el sobrevoltaje y el bajo
 voltaje por canal, es decir, por cada celda para tomar las medidas de
 protecci\'on necesarias, estas tres variables de protecci\'on pueden ser
 configuradas por el usuario a trav\'es del puerto SPI que provee el dispositivo
-para escribir los registros internos.\\
-\\
+para escribir los registros internos.
+
 Finalmente, el mismo puede soportar bater\'ias de hasta 192 celdas acoplando
 varios integrados entre si, a trav\'es de un bus SPI en cadena. Un esquem\'atico
 simplificado de \'este tipo de topolog\'ia del dispositivo se puede observar en
@@ -2396,8 +2402,9 @@ norte est\'a conectado a la tensi\'on total del pack de bater\'ias
 ($\mathrm{V_{BATT}}$) y el puerto sur a masa ($\mathrm{GND}$), anulando ambos 
 perif\'ericos.
 
-En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los capacitores de desacople
-especificados por el fabricante \cite{BQ76PL536A}:
+En la Figura \ref{fig:bq76_implementation_uncouple} se muestran todos los 
+capacitores de desacople especificados por el fabricante \cite{BQ76PL536A}:
+
 \begin{itemize}
     \item $\mathrm{V_{REF}}$ y AGND requieren un capacitor de 10uF de
         desacople conectados entre ellos lo m\'as cerca posible a esos pines.
@@ -2435,6 +2442,7 @@ El \acrshort{CI} bq76PL536 posee 6 salidas dedicadas, del pin CB1 a CB6, las
 cuales funcionan como driver de control de los transistores N-FETs utilizados
 como llaves para balancear las celdas correspondiente a cada una de las series
 del pack de batería.
+
 Por cada grupo de celdas en serie del pack de baterías se implemente un circuito
 equivalente al de la Figura \ref{fig:bq76_balance_power} encargado de manejar
 la potencia de descarga del balanceo de una celda.
@@ -2448,15 +2456,15 @@ la potencia de descarga del balanceo de una celda.
 \end{figure}
 
 El circuito de control de balanceo pasivo consta de un transistor N-FET
-\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado $SOT\textendash23$
-junto con las resistencias R15, R18 y el diodo D1 que forman parte del curcuito
-de encendido del Mosfet. Y de una resistencia, R21 en el caso del ejemplo
-presentado en la Figura \ref{fig:bq76_balance_power}, que hace las veces de
-resistencia \emph{shunt}, según se describio en la Sección
+\textbf{2N7002} de la firma \emph{ON Semiconductors} en su empaquetado 
+$SOT\textendash23$ junto con las resistencias R15, R18 y el diodo D1 que forman 
+parte del circuito de encendido del MOSFET. Y de una resistencia, R21 en el caso 
+del ejemplo presentado en la Figura \ref{fig:bq76_balance_power}, que hace las 
+veces de resistencia \emph{shunt}, según se describe en la Sección
 \ref{seq:balanceo_pasivo}, encargada de disipar la energía excesiva acumulada en
-la celda desbalanceada valiendose del voltaje de la misma. 
+la celda desbalanceada vali\'endose del voltaje de la misma. 
 
-La estrategia de ecualización es implmenentada y procesada en la unidad de
+La estrategia de ecualización es implementada y procesada en la unidad de
 procesamiento del \acrshort{BMS}
 
 La corriente de ecualización $I_{ecu}$ queda definida por la resistencia shunt
@@ -2484,27 +2492,25 @@ estos resultados, se ha realizado el desarrollo del hardware del balanceador.
 Se selecciona un valor de resistencia shunt $R_{shunt}$ para fijar una corriente
 de ecualización equivalente al $1\%$ de la capacidad nominal de la celda $29mA$. 
 Dada la topología del pack de batería con 3 celdas en paralelo, la corriente de
-ecualizacipon $I_{ecu} \equiv 29mA * 3 = 87 mA$
+ecualizaci\'on $I_{ecu} \equiv 29mA * 3 = 87 mA$
 
 Cada una de las entradas de ADC de medición de tensión de las celdas requieren
-la preciencia de un filtro anti-aliasing. El propósito del filtro es eliminar
-toda presencia de señales indeseadas con frecuencias superiores a frecuencia
-muestreo. Consiste en una resistencia de $1 K\ohm$ en serie con un capacitor de
-$100 nF$ en los pines VC6 - VC2 y de $1 \mu F$ en VC1 y VC0.
+la presencia de un filtro anti-aliasing. El propósito del filtro es eliminar
+toda señal indeseada con frecuencias superiores a frecuencia muestreo. 
+Cada filtro consiste en una resistencia de $1 K\ohm$ en serie con un capacitor 
+de $100 nF$ en los pines VC6 - VC2 y de $1 \mu F$ en VC1 y VC0.
 
 La sección de potencia del balanceador cuenta con otro circuito de proteccion de
-sus integrados. Un circuito dumper evitar transitorios de sobre voltaje por la
-conexión del pack de batería en caliente. 
-
-\newpage
+sus integrados. Un circuito \emph{dumper} para evitar transitorios de sobre 
+voltaje por la conexión del pack de batería en caliente. 
 
 \section{Sensor de corriente}
 
-Este dispositivo es el que finalmente nos provee el valor de corriente que 
-circula a través de las celdas hacia la carga o desde el cargador. El dato de la 
-corriente es clave para el correcto funcionamiento del Filtro de Kalman y nos 
-permite tomar acciones de seguridad en caso de valores de corriente elevados o 
-variaciones bruscas de la misma.
+Este dispositivo es el que provee el valor de corriente que circula a través 
+de las celdas hacia la carga o desde el cargador. El dato de la corriente es 
+clave para el correcto funcionamiento del Filtro de Kalman y nos permite tomar 
+acciones de seguridad en caso de valores de corriente elevados o variaciones
+bruscas de la misma.
 
 \subsection{Tecnología Seleccionada - INA226}\label{seq:ina226_selection}
 
@@ -2542,7 +2548,7 @@ shunt son:
 Texas Instruments. Seg\'un su hoja de datos \cite{ina226} el INA226 es un 
 conversor analógico digital de 16 bits (ADC) que implementa una interfaz 
 compatible I2C para la comunicación con el módulo del control. El dispositivo 
-monitorea simultaneamente la tensión que cae en una resistencia shunt y la del 
+monitorea simult\'aneamente la tensión que cae en una resistencia shunt y la del 
 bus de alimentación. Permite múltiples calibraciones y seteos, entre ellos 
 variar los tiempos de conversión y definir conversiones múltiples que al 
 implementar internamente un multiplicador y divisor permite obtener lecturas 
@@ -2554,7 +2560,7 @@ implementación modelo.
 \begin{figure}[h!]
     \begin{center}
 	\includegraphics[width=0.7\linewidth]{assets/INA226-Common_Implementation}
-	\caption{Implementación Tipo - INA226}
+	\caption{Implementación t\'ipica - INA226}
 	\label{fig:ina226-commonimplementation}
     \end{center}	
 \end{figure}
@@ -2655,7 +2661,7 @@ seguridad rapidamente evitando así posibles daños en el equipo.
 
 Los transistores que funcionan como interruptores trabajan principalmente en 2
 estados, en conducción y en corte (particularmente los mosfet en región
-\'ohmnica y región de corte),al conmutar, sin embargo, se pasa brevemente por el 
+\'ohmnica y región de corte), al conmutar, sin embargo, se pasa brevemente por el 
 estado de saturación por lo que se debe tener en cuenta para entender los 
 fenómenos asociados a los tiempos de apagado y encendido.
 
@@ -2692,31 +2698,32 @@ se muestran en la Figura \ref{modelo_mosfet}.
 			\end{circuitikz}
 		\end{minipage}
 	\end{center}
-	\caption{Modelos de transistor mosfet en zonas de saturación y ohmnica respectivamente.}
+	\caption{Modelos de transistor mosfet en zonas de saturación y \'ohmica 
+             respectivamente.}
 	\label{modelo_mosfet}
 \end{figure}
 \FloatBarrier
 
 Por otro lado, respecto a las capacidades intrínsecas del transistor se sabe que
-la capacidad de \emph{gate-source} $C_{GS}$ tiene el mayor valor, y es
+la capacidad de \emph{gate-source} ($C_{GS}$) tiene el mayor valor, y es
 prácticamente constante ya que queda determinada por la geometría del
 \emph{gate} y la metalización del \emph{source}.
 
-La capacidad de \emph{gate - drain}  $C_{GD}$ es la capacidad entre el
+La capacidad de \emph{gate - drain}  ($C_{GD}$) es la capacidad entre el
 \emph{gate} y la zona n- conductora fuera de la zona de deplexión formada por la
 polarización directa \emph{drain-source}. El dieléctrico de esta capacidad es la
 zona de óxido y la zona empobrecida de portadores contigua a la zona del
 \emph{gate-source}, aproximandose al valor de $C_{GS}$ cuando $V_{DS}= 0V$ y
 disminuyendo rápidamente con $V_{DS}$ creciente. Con tensión $V_{DS}$ del orden
 de la tensión $V_{GS}$ de comando del MOSFET (10-15V) la capacidad es
-aproximadamente 30 veces menor  que con $V_{DS}\approx1V$. Para efectos de
+aproximadamente 30 veces menor que con $V_{DS}\approx1V$. Para efectos de
 estudiar la conmutación la capacidad $C_{GD}$ puede modelarse como en la Figura
 \ref{aprox_CGD}.
 
 Se asume que $C_{GD}$ tiene valor $C_{GD1}$ para tensiones de $V_{DS}$ mayores
 que la tensión de comando de \emph{gate}, $V_{gg1}$, (llave todavía abierta) y
 un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
-(llave cerrándose)\cite{Mohan1989}.
+(llave cerrándose) \cite{Mohan1989}.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -2730,7 +2737,7 @@ un valor $C_{GD2}$ mucho mayor para tensiones menores que $V_{GS}$ de comando
 \subsection{Análisis del tiempo de apagado}
 
 Teniendo en cuenta el punto anterior y que la carga es un motor, por ende de 
-caracter inductivo, surge la necesidad de realizaer el siguiente análisis sobre 
+caracter inductivo, surge la necesidad de realizar el siguiente análisis sobre 
 el circuito de la Figura \ref{comando_mosfet}:
 
 \begin{figure}[h!]
@@ -2825,11 +2832,11 @@ ventiladores \cite{DigKey2016}.
 
 Estos interruptores difieren principalmente con respecto a su respuesta ante
 fallas. Es más probable encontrar fallas de cortocircuito a masa que
-cortocircuitos a la alimentación, dado que el chasis integro del vehiculo esta
-conectado a masa. Para un interruptor \emph{low-side} un cortocircuito a masa
-provoca el encendido de la carga. Para el caso del \emph{high-side} un
+cortocircuitos a la alimentación, dado que el chasis \'integro del veh\'iculo
+est\'a conectado a masa. Para un interruptor \emph{low-side} un cortocircuito a 
+masa provoca el encendido de la carga. Para el caso del \emph{high-side} un
 cortocircuito en su salida generará una sobrecorriente en el interuptor por lo
-que se deben tener en cuenta protecciones para el interruptor.
+que se deben tener en cuenta determinadas protecciones para el interruptor.
 
 Para la condición opuesta (cortocircuito a la alimentación) los comportamientos
 se invierten.
@@ -2852,7 +2859,7 @@ Para la implementación del sistema se optó implementar un \emph{high-side
 driver} con un transistor IRF9310PbF de Infineon Technologies, el cual posee una
 tensión de bloqueo de $30V$ y una corriente máxima de drain de $20A$, pero la
 característica fundamental es que a pesar de ser un MOSFET canal P posee un
-valor de $R_{on}=4.6 m\ohm$ minimizando perdidas en conducción. El circuito de
+valor de $R_{on}=4.6 m\ohm$ minimizando p\'erdidas en conducción. El circuito de
 la Figura \ref{load_sw_sch} posee una etapa de adaptación para conectar la
 salida del microcontrolador al gate del interruptor y un circuito de apagado
 rápido para incrementar la corriente de gate y minimizar el tiempo de apagado.
@@ -2898,14 +2905,14 @@ El \emph{bq24610} es un circuito altamente integrado que implementa un cargador
 de \acrfull{Ion-Li} o \acrfull{Li-Po} capaz de operar de forma independiente o
 stand-alone.
 
-Implementa un convertirdor de energía DC-DC del tipo buck sin aislamiento que
+Implementa un convertidor de energía DC-DC del tipo buck sin aislamiento que
 nos permite obtener un perfil de tensión y corriente controlado como el
 descripto en la Sección \ref{sec:tecnica_carga} a partir de una fuente de
 alimentación de tensión continua externa.
 
-Emplea un controlador de corriente y de tensión sincrónico
-\emph{switching} \acrshort{PWM} de frecuencia constante y de alta resolución cuya
-topología simplificada puede observarse en la Figura \ref{fig:simp_sch_char}. 
+Emplea un controlador de corriente y de tensión sincrónico \emph{switching} 
+\acrshort{PWM} de frecuencia constante y de alta resolución cuya topología 
+simplificada puede observarse en la Figura \ref{fig:simp_sch_char}. 
 
 \begin{figure}[h!]
     \centering
@@ -2915,10 +2922,10 @@ topología simplificada puede observarse en la Figura \ref{fig:simp_sch_char}.
 \end{figure}
 \FloatBarrier
 
-Admite la conexión de hasta 6 celdas en serie con una tensión y
-corriente máxima de entrada de hasta $28V$ y $10A$ respectivamente y una salída
-de hasta $26V$ y $10A$ ajustandose adecuadamente a nuestros requerimientos y a
-la topología de nuestro pack de baterías \emph{6S3P} descripta en
+Admite la conexión de hasta 6 celdas en serie con una tensión y corriente máxima 
+de entrada de hasta $28V$ y $10A$ respectivamente y una salída de hasta $26V$ y 
+$10A$ ajustandose adecuadamente a nuestros requerimientos y a la topología de 
+nuestro pack de baterías \emph{6S3P} descripta en la Secci\'on 
 \ref{caract_pack}. El empaquetado del mismo es del tipo VQFN.
 
 \subsection{Diseño e Implementación}
@@ -2958,16 +2965,17 @@ siguientes:
     $V_{Out (max)}=25.2V$ &Tensión de salida máxima\\
     $V_{Out (min)}=18.6V$ &Tensión de salida mínima\\
     $I_{Out (max)}=5A$ &Corriente de salida máxima\\
-    $V_{DS (on)}=37.55mV$ &Caida de voltaje en elemento switching Q9\\
+    $V_{DS (on)}=37.55mV$ &Ca\'ida de voltaje en elemento switching Q9\\
     $f_{s}=600 KHz$ &Frecuencia switching\\
 \end{tabular}
 
 \subsubsection{Alimentación}
 
-El circuito de alimentación del cargador de batería consta de una red de descarga
-RC, de dos Mosfets canal-P colocados en configuración back to back con el objeto de
-aislar la fuente de alimentación externa del circiuto del cargador propiamente
-dicho y de una resistencia shunt de sensado de la corriente de entrada. 
+El circuito de alimentación del cargador de batería consta de una red de 
+descarga RC, de dos MOSFETs canal-P colocados en configuración back to back con 
+el objeto de aislar la fuente de alimentación externa del circuito del cargador 
+propiamente dicho y de una resistencia shunt de sensado de la corriente de 
+entrada. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -2989,14 +2997,14 @@ fuente de alimentación al circuito mediante el control del tiempo de encendido.
 Durante una conexión o desconexión en caliente de la fuente externa de
 alimentación, la presencia de picos de sobre voltaje en la entrada pueden
 afectar al \acrshort{CI}. Esto se debe al sistema de segundo orden formado por
-las inductacias y capacidades parácitas que pueden presentarse en el cable de la
-fuente de alimentación. R38 y C24 en serie fornan un circuito de descarga que
+las inductancias y capacidades parásitas que pueden presentarse en el cable de 
+la fuente de alimentación. R38 y C24 en serie forman un circuito de descarga que
 elimina los picos de sobre tensión producidos por estos transitorios.
 
 Se seleccionó un valor de resistencia snubber $R_{S}$ que, por lo menos, permita
 la circulación de una magnitud de corriente equivalente a la de alimentación en
 caso de una desconexión en caliente de la fuente de alimentación externa o de un
-corte en los mosfet de entrada por parte del \acrshort{CI} siguiendo los
+corte en los MOSFETs de entrada por parte del \acrshort{CI} siguiendo los
 lineamientos en \cite{CD_RC_Snubber_AN}.  
 
 \begin{align}
@@ -3005,7 +3013,7 @@ lineamientos en \cite{CD_RC_Snubber_AN}.
     &=6\ohm
 \end{align}
 
-La disipasión de energía en $R_{S}$ es independiente de su valor y de la
+La disipación de energía en $R_{S}$ es independiente de su valor y de la
 corriente circulante ya que disipa la energía almacenada en el capacitor snubber
 $C_{S}$ en serie con la misma. Acorde a la potencia \emph{P} máxima admitida
 por la resistencia R38 seleccionada, $1/4W$, calculamos una capacidad $C_{S}$. 
@@ -3045,7 +3053,7 @@ en el bq24610 a partir de los divisores resistivos que se observan en la Figura
 \FloatBarrier
 
 El set point de corriente del perfil de carga a corriente constante descripto en
-la 'Sección' \ref{sec:tecnica_carga} es definido en el cargador de batería a
+la Sección \ref{sec:tecnica_carga} es definido en el cargador de batería a
 partir de fijar una tensión en ISET1, pin 11 del bq24610. El voltaje de
 referencia se logra a partir de un divisor resistivo formado con R48 y R49 entre
 $V_{ref} \equiv 3.3V$ y masa como se puede observar en la Figura
@@ -3063,7 +3071,7 @@ La ecuación de corriente máxima de carga $I_{FastCharge}$ será entonces:
 \end{equation}
 
 Definiendo la corriente de salida máxima que puede entregar el cargador
-$I_{Out (max)}=5A$ se selecciona el valor de la resistencia shunt sensora de la
+$I_{Out (max)}=5A$ se selecciona el valor de la resistencia shunt que sensa la
 corriente de salida $R_{SR}$. La diferencia de potencial máxima admitida entre
 los pines SRP y SRN $\Delta V_{SR (Max)} \leq 100mV$.
 
@@ -3105,7 +3113,7 @@ conocer $R_{48}$ y $R_{49}$
 A los fines pŕacticos y evitando sobre cargar la salida de $V_{ref}$ del
 \acrshort{CI} se adoptó $R_{48}$ y $R_{49}$ de $10K\ohm$ de 0.5\%
 
-Si el pack de batería se encontrase profundamente descargado, el bq24610
+Si el pack de baterías se encontrase profundamente descargado, el bq24610
 aplicará una corriente de pre-carga. Este valor de corriente coincide con el de
 corriente de fin de carga durante la fase de tensión constante del ciclo de
 carga.
@@ -3115,8 +3123,8 @@ cargador de batería a partir de fijar una tensión en ISET2, pin 15 del bq24610
 El voltaje de referencia se logra a partir de un divisor resistivo formado
 por $R_{50}$ y $R_{51}$ entre $V_{ref} \equiv 3.3V$ y masa. 
 
-La corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cutt
-off}$ se desarrolla entonces en la Ecuaci\'on \ref{eq:ICutOff},
+La corriente de precarga $I_{pre charge}$ y de fín de carga $I_{cuttoff}$ se 
+desarrolla entonces en la Ecuaci\'on \ref{eq:ICutOff},
 
 \begin{equation}
     I_{cutt off}=I_{pre charge}=\frac{V_{ISET2}}{100*R_{SR}}
@@ -3160,7 +3168,8 @@ El voltaje aplicado en VFB es comparado al interior del \acrshort{CI} contra una
 referencia de 2.05V la cual define si el voltaje de salida se haya por debajo o
 por encima del valor deseado. 
 
-La ecuación que define el voltaje de carga $V_{Charge} \equiv V_{VFB}$ será entonces:
+La ecuación que define el voltaje de carga $V_{Charge} \equiv V_{VFB}$ será 
+entonces:
 
 \begin{equation}
     V_{Charge}=2.1V(1+\frac{R_{55}+R_{56}}{R_{57}})
@@ -3171,7 +3180,7 @@ una única celda es 4,2V a 25°C. Por lo tanto, debido a la configuración 6S3P 
 pack de batería con 6 celdas en serie el voltaje de carga deberá ser fijado en
 $V_{Charge} = 4.2V*6 = 25.2V$
 
-A partir de conocer la tensión de carga $V_{Charge}$ se despej\'o el divisor
+A partir de conocer la tensión de carga $V_{Charge}$ se despeja el divisor
 resistivo para conocer $R_{55}$, $R_{56}$ y $R_{57}$
 
 \begin{equation}
@@ -3182,7 +3191,7 @@ Se adoptó $R_{57}= 51K\ohm$ y se calculó $R_{55}+R_{56}=561K\ohm$, todas
 resistencias de 0.1\% dado el orden de magnitud .
 
 El divisor resistivo formado por R55, R56 y R57 se ubica en paralelo con la
-batería. Es por esto que nos cercioramos que el drenado de corriente por el
+batería. Es por esto que se cerciora que el drenado de corriente por el
 mismo no descargue el pack de batería de forma incipiente. La corriente drenada
 por el divisor es de $42\mu A=\frac{2900mAh}{42\mu A}*3=207142 hs \equiv 8630
 dias$, tiempo que tardaría en descargar completamente el pack de batería.
@@ -3201,25 +3210,26 @@ el proceso de carga del pack de batería.
 
 ACSET fue fijado en su valor de rango máximo $\equiv 2V$ como puede observarse
 en la Figura \ref{fig:cb_set_point_I} a partir de un divisor resistivo formado
-por R53y R54. La corriente de entrada es sensada en la resistencia shunt R39,
+por R53 y R54. La corriente de entrada es sensada en la resistencia shunt R39,
 conectada en paralelo a ACP y ACN, pines 1 y 2 respectivamente.
 
 \subsubsection{Salida - Etapa de potencia}
 
 La Figura \ref{fig:cb_output} corresponde a la etapa de potencia del cargador de
-batería tipo buck implementado. La integran dos Mosfet canal-N, Q9 y Q10, una
+batería tipo buck implementado. La integran dos MOSFET canal-N, Q9 y Q10, una
 inductancia y 2 capacitores, L1, C34 y C35 respectivamente, que funcionan como
 filtros de ripple a la salida.
 
 También forman parte fundamental de la etapa el diodo Schottky D18 colocado en
 paralelo entre REGN y BTST, pines 18 y 22 respectivamente, y el capacitor C31
-que funciona como bootstrap del voltaje necesario para excitar el gate del mosfet
-de la parte alta. Ambos componentes pueden observarse en la Figura \ref{fig:bc_ic}.
+que funciona como bootstrap del voltaje necesario para excitar el gate del 
+mosfet de la parte alta. Ambos componentes pueden observarse en la Figura 
+\ref{fig:bc_ic}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{hardware/bat_charger/bc_output.png}
-    \caption{Etapa de potencia - Cargador de Bateria}
+    \caption{Etapa de potencia - Cargador de Bater\'ia}
     \label{fig:cb_output}
 \end{figure}
 \FloatBarrier
@@ -3229,8 +3239,8 @@ siguiendo los lineamientos y recomendaciones de la hoja de datos del
 \acrshort{CI}. 
 
 Calculamos el valor de la inductancia sustituyendo los valores de las
-condiciones de operación en la ecuación \ref{eq:cb_L} segun lo enunciado en las
-notas de aplicación \cite{ROHM_Switching_AN}.
+condiciones de operación en la Ecuación \ref{eq:cb_L} seg\'un lo enunciado en 
+las notas de aplicación \cite{ROHM_Switching_AN}.
 
 \begin{align}
     L&=\frac{(V_{In (max)}-V_{Out (max)})*V_{Out (max)}}{V_{In (max)}*f_{s}*R*I_{Out
@@ -3241,9 +3251,9 @@ notas de aplicación \cite{ROHM_Switching_AN}.
 \end{align}
 
 El fabricante recomienda que, para una corriente de salida del cargador de
-4A, la inductancia seleccionada sea de $6.8\mu H$. Se adopta este valor, mayor al
-calculado, para disminuir la relación entre la corriente de ripple y la corriente
-de salida.
+4A, la inductancia seleccionada sea de $6.8\mu H$. Se adopta este valor, mayor 
+al calculado, para disminuir la relación entre la corriente de ripple y la 
+corriente de salida.
 
 A su vez se tuvo en cuenta que la corriente de saturación $I_{Sat}$ soportada
 por la inductancia seleccionada supere a la corriente máxima de carga en por lo
@@ -3267,7 +3277,7 @@ operación $D= 0.620$.
 \end{align}
 
 La corriente de saturación de la inductancia seleccionada admite una
-circulación de corriente suficiente a los fines de la implmententación.
+circulación de corriente suficiente a los fines de la implementación.
 
 \begin{equation}
     I_{Sat}=6.5A \geq I_{chg} + \frac{1}{2}I_{ripple}=5.865
@@ -3291,8 +3301,8 @@ circuito LC de salida se haya en el rango entre 12 a 17 kHz
 La capacidad de salida seleccionada fue de $20\mu F$, acorde a la recomendación
 del fabricante, para la inductancia seleccionada de $6.8\mu H$. 
 
-Otras magnitudes tenidas en cuentra para la seleccipon de capacitor de salida
-fueron la corriente de ripple máxima que debeŕa soportar el integrado.
+Otras magnitudes tenidas en cuenta para la selecci\'on de capacitor de salida
+fueron la corriente de ripple máxima que deber\'a soportar el integrado.
 
 \begin{equation}
     I_{C out}=\frac{I_{ripple}}{2*\sqrt{3}}\approx 500.7mA
@@ -3305,7 +3315,7 @@ Y el ripple del voltaje de salida que deberá tolerar el capacitor de salida:
     max}^{2}}{V_{In max}})=6.43mV
 \end{equation}
 
-El puente de salida lo conforman dos Mosfets canal-N, Q9 y Q10, del tipo
+El puente de salida lo conforman dos MOSFETs canal-N, Q9 y Q10, del tipo
 FDD86580-F085 de la empresa ON Semiconductor / Fairchild de $V_{GS}=60V$ de
 voltaje máximo entre Drain y Source, una corriente máxima de 50A y una $R_{DS
 (on)} \approx 7.8 m\ohm$ a $V_{GS} = 10V$. 
@@ -3319,15 +3329,15 @@ para la comparación de las diferentes opciones disponibles, se utilizó el
 criterio de la Figura de Merito (\acrfull{FOM}, por sus siglas en inglés). La
 \acrshort{FOM} representa la situación de compromiso entre las perdidas por
 conducción y las perdidas por switcheo. Cuanto menor sea la \acrshort{FOM},
-menores las perdidas totales. 
+menores son las perdidas totales. 
 
-En el caso del Mosfet del lado alto del puente de salida, la \acrshort{FOM} se
+En el caso del MOSFET del lado alto del puente de salida, la \acrshort{FOM} se
 define como el producto entre la resistencia de encendido del mosfet y la carga
-entre gate y drain $Q_{GD}$. El FOM del Mosfet del lado bajo del puente de
+entre gate y drain $Q_{GD}$. El FOM del MOSFET del lado bajo del puente de
 salida se define como el producto entre la resistencia de On del mosfet y la
 carga total del gate $Q_{G}$
 
-No son presentado en el informe los cálculos de los diferentes Mosfets que se
+No son presentados en el informe los cálculos de los diferentes MOSFETs que se
 tuvieron en cuenta durante la etapa de diseño y que fueron desestimados. Se
 presentan solo los correspondientes a la opción seleccionada para que pueda ser
 comparada con otras opciones en caso de así desearlo. 
@@ -3339,9 +3349,9 @@ comparada con otras opciones en caso de así desearlo.
     \end{split}
 \end{equation}
 
-Las pérdidas en el Mosfet de la parte alta del puente fueron calculadas como
-función de ciclo de trabajo D, la corriente máxima de salida $I_{out (max)}$, la
-resistencia de encendido del mosfet $R_{DS(on)}$, el voltaje de alimentación
+Las pérdidas en el MOSFET de la parte alta del puente fueron calculadas como
+función de ciclo de trabajo D, la corriente máxima de salida $I_{out (max)}$, 
+la resistencia de encendido del mosfet $R_{DS(on)}$, el voltaje de alimentación
 $V_{in}$, la frecuencia de switcheo y el tiempo de encendido y de apagado del
 transistor.
 
@@ -3350,14 +3360,14 @@ transistor.
         = 2.913W
 \end{equation}
 
-La condición de pérdida del Mosfet del lado bajo del puente de salida es
+La condición de pérdida del MOSFET del lado bajo del puente de salida es 
 calculada siguiendo:
 
 \begin{equation}
     P_{bottom}=(1-D)*I_{out (max)}^{2}*R_{DS(on)}=0.025W
 \end{equation}
 
-La potencia máxima soportada por el Mosfet seleccionado es de 75W. En ambos
+La potencia máxima soportada por el MOSFET seleccionado es de 75W. En ambos
 casos los integrados se hayan sobre estimados para tolerar el uso dado. 
 
 \subsubsection{Interfaz de estado de carga}\label{seq:cb_interface_ce}
@@ -3399,7 +3409,7 @@ cargador independientemente de las demás secciones de hardware.
 Es importante aclarar que el proceso de carga autónomo no garantiza que el pack
 de batería alcance su máximo nivel de carga al no poder segurar el correcto
 balanceo de las celdas del pack de batería. Desaconsejamos fuertemente el uso de
-esta funcionalidad y recomenddamos que la carga del pack de batería sea
+esta funcionalidad y recomendamos que la carga del pack de batería sea
 realizada de forma segura a instancias del BMS.
 
 \begin{figure}[h!]
@@ -3544,9 +3554,9 @@ caracter\'isticas:
 
 \subsection{Ensamblado del pack}
 
-El pack de bater\'ias fue ensamblado utilizando soportes encastrables
-\emph{(Fig. \ref{soporte_18650})} impresos utilizando una impresora 3D, donde
-cada celda es conectada entre s\'i utilizando una banda de níquel y la
+El pack de bater\'ias fue ensamblado utilizando soportes encastrables como se
+observa en la Figura \ref{soporte_18650}, impresos utilizando una impresora 3D, 
+donde cada celda es conectada entre s\'i utilizando una banda de níquel y la
 conexi\'on es realizada por medio de una soldadora de puntos manual. Esto es
 debido a dos motivos importantes, en primer instancia el tiempo en la
 aplicaci\'on de temperatura, por parte de la soldadura de puntos, es muy corto
@@ -3577,7 +3587,8 @@ Por el otro lado, a cada m\'odulo conectado en serie se le suelda un cable en
 bornes de cada electrodo que va conectado a un conector JST-XH-2.50 para poder
 acceder facilmente al voltaje de cada m\'odulo del pack de bater\'ias.
 
-El pack ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{battery_side}
+El pack ensamblado se puede observar en las Figuras 
+\ref{battery_top}-\ref{battery_side}
 
 \begin{figure}[h!]
     \begin{subfigure}[t]{.3\textwidth}
@@ -3608,10 +3619,11 @@ El pack ensamblado se puede observar en las Figuras \ref{battery_top}-\ref{batte
 
 \section{Implementación Puertos de Comunicación}
 \subsection{Modulo CAN}
-Para la implementación de Protocolo CAN en dispositivos se utilizan generalmente 
-dispositivos denominados transreceptores, los mismos son los encargados de 
-traducir los niveles de tensión diferencial del BUS a niveles referidos a tierra 
-aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
+
+Para la implementación del protocolo CAN en dispositivos se utilizan 
+generalmente dispositivos denominados transreceptores, los mismos son los 
+encargados de traducir los niveles de tensión diferencial del BUS a niveles 
+referidos a tierra aptos para el microcontrolador en nuestro caso 0 a 3.3V. 
 
 Para la implementación del modulo CAN se optó por una solución de TI con el 
 integrado \emph{SN65HVD233} el mismo es un transreceptor con posibilidad de 
@@ -3621,14 +3633,14 @@ Ultra-bajo consumo siendo \'optimo para aplicaciones portables como un vehículo
 eléctrico.
 
 Otro punto muy importante a tener en cuenta es tener una aislación adecuada, el 
-BUS de comunicación es susceptible a fallas y suele estar expuesto a ambientes 
+bus de comunicación es susceptible a fallas y suele estar expuesto a ambientes 
 con presencia de ruido eléctrico, a desbalances en la puesta a tierra de los 
 dispositivos conectados al mismo, asi como también descargas electrostáticas. 
 Todos estos factores pueden generar tensiones y corrientes transitorias que 
 pueden dañar severamente los equipos, por lo cual es muy importante la correcta 
-aislación entre la electrónica interna del dispositivo y el BUS.
+aislación entre la electrónica interna del dispositivo y el bus.
 
-Para aislar al microcontrolador de los posibles desperfectos del BUS CAN que 
+Para aislar al microcontrolador de los posibles desperfectos del bus CAN que 
 pueden acarrear consigo problemas en el microcontrolador se utilizó el
 \acrshort{CI} AduM1201AR el cual provee 2 canales de comnunicación aislados 
 entre el transreceptor y el microcontrolador. Junto con un convertidor de 
@@ -3639,7 +3651,7 @@ dispositivos de conexión por puerto serie, principalmente en el ambito
 industrial. El mismo y la interconexión de los pines forman parte de las 
 recomendaciones de \acrshort{CiA} \cite{CIA2017}.    
 
-Las resistencias R6 y R7 en conjunto a C61 conforman una terminanción de bus 
+Las resistencias R6 y R7 en conjunto a C61 conforman una terminación de bus 
 con el valor característico de impedancia de line de $120 \ohm$ y mejorando el 
 rechazo del ruido a modo común. Mientras C62 y C63 filtran transitorios de alta 
 frecuencia. Los valores de las capacidades son los recomendados por el 
@@ -3666,10 +3678,11 @@ fabricante.
 \subsection{Puerto UART}
 Para poder registrar datos del microcontrolador en una PC durante la fase de 
 desarrollo se dispuso de un conector de 4 pines mapeado directamente al
-\acrshort{MCU} y programado como puerto UART, la misma se puede observar en la 
-Figura \ref{UART_Connector}, \'esta no se encuentra preparada para utilización 
-del usuario ya que no posee circuitos de protección ni aislación, la incorrecta 
-utilización del mismo puede provocar serios daños al \acrshort{BMS}.
+\acrshort{MCU} y programado como puerto serie (o \acrshort{UART}, del ingl\'es
+\acrlong{UART}), la misma se puede observar en la Figura \ref{UART_Connector}, 
+\'esta no se encuentra preparada para utilización del usuario ya que no posee 
+circuitos de protección ni aislación, la incorrecta utilización del mismo puede 
+provocar serios daños al \acrshort{BMS}.
 
 El puerto se encuentra configurado según las siguientes especificaciones:
 \begin{itemize}
@@ -3692,8 +3705,8 @@ El puerto se encuentra configurado según las siguientes especificaciones:
 
 Finalmente, se realiz\'o el diseño del circuito impreso, en la Figura
 \ref{render_pcb} se puede observar un renderizado 3D de la placa final y en la
-Figura \ref{placa_bms_fotografia} se puede observar una foto del circuito impreso
-ensamblado. 
+Figura \ref{placa_bms_fotografia} se puede observar una foto del circuito 
+impreso ensamblado. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -4368,7 +4381,7 @@ provee las siguientes funciones p\'ublicas para el desarrollador:
 \subsection{Extensi\'on al pack de bater\'ias}
 
 El modelo de la celda es extendido al pack bater\'ias descrita en la Secci\'on
-\ref{battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
+\ref{Section_battery_pack}, donde se utiliz\'o 6 modelos (\texttt{Cell}) y la corriente
 utilizada es dividida por 3, para reflejar el hecho de que el pack de bater\'ias 
 tiene, por m\'odulo, 3 celdas conectadas en paralelo, esto es posible de 
 realizar, ya que se considera que el modelo se encuentra linealizado en 

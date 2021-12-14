@@ -1568,7 +1568,7 @@ Constante (CC) - Voltaje Constante (CV)
 \subsection{Corriente Constante CC - Voltaje Constante CV}
 
 El perfil de carga que se ajusta a las celdas de \acrshort{Ion-Li}, como se
-observa en la figura \ref{fig:char_prof}, es el perfil \acrshort{CC} -
+observa en la Figura \ref{fig:char_prof}, es el perfil \acrshort{CC} -
 \acrshort{CV}. Este consiste en tres fases, una primera etapa de
 acondicionamiento o pre carga donde se inyecta a la batería una corriente
 constante pequeña de magnitud equivalente a la corriente de fin de carga. Una
@@ -2353,7 +2353,7 @@ investigaci\'on de convertidores reductores-elevadores junto a sus resultados
 experimentales.
          
 Los convertidores Cuk aumentan o disminuyen y, a la vez, invierten la tensi\'on
-de entrada. Un convertidor de tipo Cuk implementado en un balanceador se puede
+de entrada. Un convertidor tipo Cuk implementado en un balanceador se puede
 observar en la Figura \ref{pbbc_top}D, que contiene dos inductores y dos
 MOSFETs. Durante el proceso de ecualizaci\'on, la energ\'ia puede ser
 transferida entre bater\'ias contiguas con MOSFETs controlados por señales
@@ -2418,8 +2418,8 @@ proceso de balanceo.
 La topolog\'ia es el fundamento principal de los sistemas de ecualizaci\'on de
 bater\'ias, la misma determina el costo y el tamaño del sistema completo. Una
 topolog\'ia eficiente es esencial para extender el ciclo de vida de un pack de
-bater\'ias y mejorar su rendimiento efectivamente. Es crucial seleccionar la
-topolog\'ia adecuada seg\'un los requerimientos del sistema. 
+bater\'ias y mejorar su rendimiento efectivamente, por lo que es crucial 
+seleccionar la topolog\'ia adecuada seg\'un los requerimientos del sistema. 
 
 Las topolog\'ias pasivas tienen las ventajas de ser circuitos simples, de bajo
 costo y convenientes de implementar, por lo tanto, han sido ampliamente
@@ -2432,22 +2432,22 @@ y bajas p\'erdidas de potencia. Comparado con la ecualizaci\'on pasiva, la
 topolog\'ia activa puede efectivamente reducir la inconsistencia entre las
 capacidades entre celdas y resistencias internas mejorando el tiempo de vida del
 pack de bater\'ias y su energ\'ia disponible.
-%\newpage
+
 Dentro de los sistemas de balanceo activo, los \acrshort{CBBC}s tienen el
 m\'erito de implementar una estrategia muy simple y de bajo costo, con la
 contraparte de que los tiempos de ecualizaci\'on son muy bajos. Los
 \acrshort{IBBC}s puede transferir energ\'ia de forma bidireccional y tienen una
 velocidad de balanceo moderada, pero tienen problemas de \acrshort{EMI} y una
-estrategia de balanceo compleja de implementar. \acrshort{TBBC}s pueden proveer
-altas corrientes de ecualizaci\'on, con la contraparte de que su manufactura es
-compleja debido a la fabricaci\'on de transformadores con devanados
-sim\'etricos. Por \'ultimo los \acrshort{PBBC}s tales como los
+estrategia de balanceo compleja de implementar. Los \acrshort{TBBC}s pueden 
+proveer altas corrientes de ecualizaci\'on, con la contraparte de que su 
+manufactura es compleja debido a la fabricaci\'on de transformadores con 
+devanados sim\'etricos. Por \'ultimo, los \acrshort{PBBC}s tales como los
 convertidores reductores-elevadores y Cuk son atractivos gracias a su alta
-corriente de balanceo y su f\'acil integrac\'ion en el circuito, sin embargo,
+corriente de balanceo y su f\'acil integraci\'on en el circuito, sin embargo,
 estos resultan complejos y traen apareados estrategias de control complicadas.
 
 Debido a que el esquema pasivo y activo tienen caracter\'isticas muy distintas
-entre si, pueden ser aplicados en distintos escenarios seg\'un la aplicaci\'on
+entre s\'i, pueden ser aplicados en distintos escenarios seg\'un la aplicaci\'on
 en cuesti\'on, por ejemplo, los esquemas pasivos pueden ser implementados en
 \acrshort{VVEE}s de baja potencia o en veh\'iculos h\'ibridos mientras que las
 topolog\'ias activas son generalmente implementadas en \acrshort{VVEE}s de alta
@@ -2461,18 +2461,18 @@ comparanciones entre ellas.
 \begin{center}
 \begin{tabular}{@{}llcccccc@{}}
 \toprule
-\multicolumn{2}{l}{Topologias de balanceo}                                                 & Tiempo & Estructura & Control & Eficiencia & Volumen & Costo \\ \midrule
-\multirow{4}{*}{\acrshort{CBBC}} & Ecualizacion pasiva                    & 2      & 5                       & 5                     & 1          & 5       & 5     \\
+\multicolumn{2}{l}{Topolog\'ias de balanceo}                                                 & Tiempo & Estructura & Control & Eficiencia & Volumen & Costo \\ \midrule
+\multirow{4}{*}{\acrshort{CBBC}} & Ecualizaci\'on pasiva                    & 2      & 5                       & 5                     & 1          & 5       & 5     \\
                                                   & Capacitor alternativo                  & 2      & 4                       & 4                     & 4          & 4       & 4     \\
                                                   & Dos capas de capacitores               & 3      & 3                       & 3                     & 3          & 3       & 4     \\
                                                   & Multi-capas de capacitores             & 3      & 2                       & 2                     & 2          & 3       & 3     \\
-\acrshort{IBBC}                  & Multiples inductores                   & 4      & 3                       & 3                     & 3          & 2       & 2     \\
-\acrshort{TBBC}                  & Multiples devanados & 4      & 2                       & 3                     & 3          & 2       & 2     \\
+\acrshort{IBBC}                  & M\'ultiples inductores                   & 4      & 3                       & 3                     & 3          & 2       & 2     \\
+\acrshort{TBBC}                  & M\'ultiples devanados & 4      & 2                       & 3                     & 3          & 2       & 2     \\
 \multirow{2}{*}{\acrshort{PBBC}} & Cuk                                    & 4      & 2                       & 2                     & 2          & 3       & 2     \\
                                                   & reductor-elevador                      & 4      & 2                       & 2                     & 2          & 3       & 2     \\ \cmidrule(l){2-8}
 \end{tabular}
 \caption{La clasificaci\'on est\'a puntuada del 1 al 5. Donde 1 es el peor
-y 5 el mejor.}
+    puntaje y 5 el mejor puntaje.}
 \label{comp_bal_table}
 \end{center}
 \end{table}
@@ -2480,7 +2480,7 @@ y 5 el mejor.}
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.8\textwidth]{comp_eq_chart.png}
-        \caption{Gr\'afica comparativan de las distintas topolog\'ias disponibles}
+        \caption{Gr\'afica comparativa de las distintas topolog\'ias disponibles}
         \label{comp_bal_results}
     \end{center}
 \end{figure}
@@ -2489,17 +2489,16 @@ y 5 el mejor.}
 
 Las estrategias de ecualizaci\'on son utilizadas para controlar la operaci\'on
 del balanceo teniendo un alto impacto sobre este proceso. Una estrategia de 
-ecualizaci\'on inapropiadas para la ecualizaci\'on pueden llevar a problemas de 
-desbalanceo o sobrebalanceo, resultando en p\'erdida de potencia innecesaria y 
-decaimiento del pack de bater\'ias. Las variables a ecualizar y los algoritmos 
-de control son los temas a tener en cuenta en las estrategias de ecualizaci\'on, 
-y el desglose de las mismas se puede observar en la Figura 
-\ref{eq_strategy_class}.
+ecualizaci\'on inapropiada puede llevar a problemas de desbalanceo o 
+sobrebalanceo, resultando en una p\'erdida de potencia y decaimiento del pack de 
+bater\'ias. Las variables a ecualizar y los algoritmos de control son los temas 
+a tener en cuenta en las estrategias de ecualizaci\'on, y el desglose de las 
+mismas se puede observar en la Figura \ref{eq_strategy_class}.
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=.8\textwidth]{eq_strategy_class.png}
-        \caption{Los perfiles de las estrateg\'as de ecualizaci\'on y sus
+        \caption{Los perfiles de las estrategias de ecualizaci\'on y sus
                  clasificaciones}
         \label{eq_strategy_class}
     \end{center}
@@ -2510,34 +2509,34 @@ y el desglose de las mismas se puede observar en la Figura
 Las variables de ecualizaci\'on son la base para las estrategias de
 ecualizaci\'on. El error de la muestra, el costo computacional y el car\'acter de
 hist\'eresis deben ser consideradas a la hora de elegir qué variable ecualizar.
-Para la ecualizaci\'on se encuentran tres variables disponibles, el voltaje de 
-las celdas, \acrshort{SOC}, capacidad y resistencia interna.
+Para la ecualizaci\'on se encuentran cuatro variables disponibles, el voltaje de 
+las celdas, el \acrshort{SOC}, la capacidad y la resistencia interna.
 
 \subsubsection{Estrategias de Ecualizaci\'on basadas en voltaje
 (\acrshort{VBES})}
 
-Los \acrshort{VBES} (del ingl\'es, \acrlong{VBES}) usan el voltaje de las celdas
-medidos en sus terminales por el \acrshort{BMS} como la base para seleccionar
-qué bater\'ias deben ser ecualizada. La medición del voltaje en bornes de las
-celdas conectadas en serie puede ser realizado de forma directa con una
-exactitud aceptable, por lo tanto, los \acrshort{VBES}s son uno de los m\'etodos
-viables m\'as b\'asicos a implementar. Sin embargo, las características no
+Las estrategias de ecualizaci\'on basadas en voltaje, o \acrshort{VBES} 
+(del ingl\'es, \acrlong{VBES}) usan el voltaje de las celdas medidos en sus 
+terminales por el \acrshort{BMS} como la base para seleccionar qué bater\'ias 
+deben ser ecualizadas. La medición del voltaje en bornes de las celdas 
+conectadas en serie puede ser realizado de forma directa con una exactitud 
+aceptable, por lo tanto, los \acrshort{VBES}s son uno de los m\'etodos
+m\'as b\'asicos a implementar. Sin embargo, las características no
 lineales de las celdas de litio, cuestión que se desprende de la Sección
 \ref{litioModel} y las particularidades que se presentan a la hora de modelar
 una celda, nos permite inferir que el voltaje en bornes no refleja el valor real
-\acrshort{OCV} causando dificultades a la hora de utilizar esta variable para
-decidir sobre el proceso de ecualizaci\'on de las celdas.
+del \acrshort{OCV} causando dificultades en la estrategia de control.
 
 Para subsanar este problema, se propone una estrategia de ecualizaci\'on basada
 en el \acrshort{OCV}. Sin embargo, la medici\'on en tiempo real de esta variable
 no es viable ya que se necesita un largo tiempo de descanso para que la celda
-refleje esta variable en los terminales de la misma.
+refleje un valor exacto en los terminales de la misma.
 
 Debido a que la resistencia interna puede causar una ca\'ida de voltaje
 inmediata cuando circula corriente sobre la celda, la diferencia de tensi\'on se
 ve afectada a trav\'es de todas las celdas conectadas en serie ante un m\'inimo
 est\'imulo sobre ellas. Por lo tanto, esta metodolog\'ia no funcionar\'a
-adecuadamente salvo que el veh\'iculo est\'e completamente parado.
+adecuadamente salvo que el veh\'iculo est\'e completamente en \emph{stand-by}.
 Generalmente, este tipo de estrategias son usadas con ternas de celdas de
 Litio-Ion con una linealidad relativa en la curva \acrshort{OCV}-\acrshort{SOC},
 pero no son efectivas y corren el riesgo de un desbalanceo cuando son utilizadas
@@ -2587,17 +2586,17 @@ m\'as f\'acil de implemetar ya que su medicion se puede realizar de forma
 directa, sin embargo, lleva apareado una gran cantidad de inconvenientes, como
 por ejemplo, la polarizaci\'on de la celda y el error de la medici\'on pueden
 llevar a que el balanceo sea ineficiente poniendo en riesgo la salud del pack
-de bater\'ias. Por el otro lado, las estrategias basadas en \acrshort{SOC} y
-capacidad de la bater\'ia tienen el beneficio de poder determinar un desbalanceo
-de forma m\'as eficiente pero bajo el costo de necesitar un sistema de
-c\'omputos que permita estimar las variables bajo estudio. Finalmente, surgen
+de bater\'ias. Por el otro lado, las estrategias basadas en el \acrshort{SOC} y
+la capacidad de la bater\'ia tienen el beneficio de poder determinar un 
+desbalanceo de forma m\'as eficiente pero bajo el costo de necesitar un sistema 
+de c\'omputos que permita estimar las variables bajo estudio. Finalmente, surgen
 los m\'etodos h\'ibridos que se encargan de fusionar ambas variables, como el
 voltaje y el \acrshort{SOC} para combinar ambas ventajas y obtener una
 ecualizaci\'on m\'as robusta del sistema.
 
 \subsection{Algoritmos de control para la ecualizaci\'on}
 
-Los algoritmos de control son cruciales para el rendimiento de la
+Los algoritmos de control son indispensables para el rendimiento de la
 ecualizaci\'on, son utilizados para determinar el tiempo de balanceo y
 corriente. Generalmente, estos algoritmos se pueden dividir en dos grupos:
 algoritmos cl\'asicos de control (\acrshort{CCA}, del ingl\'es \acrlong{CCA}) y
@@ -2674,10 +2673,10 @@ sistemas embebidos en \acrshort{VVEE}s.
 Adicionalmente, los algoritmos de control avanzado tambi\'en son ampliamente
 utilizados en aplicaciones de almacenamiento de energ\'ia en celdas de
 Litio-Ion. Son caracterizados por tener una r\'apida convergencia, estabilidad y
-robustos, mejorando los problemas de sobre y desbalanceo de celdas. Sin embargo,
+robustez, mejorando los problemas de sobre y desbalanceo de celdas. Sin embargo,
 estos sistemas est\'an apareados a un alto costo computacional, y el rendimiento
-del control depende exclusivamente de la precisi\'on del modelo, que es
-complicado de obtener.
+del control depende exclusivamente de la precisi\'on del modelo, que muchas
+veces es dificultoso de obtener.
 
 \section{Sensado de Corriente}
 
@@ -2685,12 +2684,12 @@ El sensado de la corriente de carga como de descarga del pack de batería juega
 un rol muy importante en el desarrollo exitoso de un \acrshort{BMS}. Es a partir
 de conocer con precisión la magnitud de corriente que el sistema podrá mantener
 el pack de baterías operando dentro de la zona segura (\acrshort{SOA} por sus
-siglas en ingles), monitorear la distribución de carga entre las celdas,
-implementar correctamente los algoritmos de ecualización de carga y mantener un
-seguimiento preciso del estado de carga.
+siglas en ingl\'es \acrlong{SOA}), monitorear la distribución de carga entre las 
+celdas, implementar correctamente los algoritmos de ecualización de carga y 
+mantener un seguimiento preciso del estado de carga.
 
-\noindent Existen en el mercado una gran variedad de tecnologías y 
-soluciones para la medición de corriente en las diferentes aplicaciones. 
+Existen en el mercado una gran variedad de tecnologías y soluciones para la 
+medición de corriente en las diferentes aplicaciones. 
 Algunas de las tecnologías más relevantes, disponibles en el mercado son:
 \begin{itemize}
     \item Resistencia Shunt
@@ -2703,16 +2702,16 @@ Algunas de las tecnologías más relevantes, disponibles en el mercado son:
 \end{itemize}
 
 Dentro del amplio abanico de métodos y tecnologías utilizadas para la medición
-de corrientes los dos más elegidos e implementados en Sistemas de Administración
-de Baterías \acrshort{BMS} son las mediciones a partir de resistencias Shunt y
-mediciones a partir de sensores de efecto hall debido a las caracter\'isticas de
-ambas metodolog\'ias.
+de corrientes, los dos más elegidos e implementados en los \acrshort{BMS} son 
+las mediciones a partir de resistencias Shunt y mediciones a partir de sensores 
+de efecto hall debido a las caracter\'isticas de ambas metodolog\'ias.
 
 \subsection{Resistencia Shunt}
 
-La tecnología Shunt se vale del Sensado de la caída del voltaje sobre una
-resistencia de unos pocos mili ohmios en serie con el paso de la corriente
-incógnita para la medición indirecta de la corriente.
+La tecnología Shunt se vale del sensado de la caída del voltaje sobre una
+resistencia de un valor bajo, por lo general en el rango de los miliohmios, 
+en serie con el paso de la corriente incógnita para la medición indirecta de la 
+corriente.
 
 El método de sensado por resistencia tipo shunt presenta una de las mejores
 relaciones costos-efectividad, presentando un empaquetado compacto y aplicable
@@ -2727,17 +2726,18 @@ por sus siglas en ingles). Característica fundamental en las implementaciones d
 de temperatura de operación del sistema.
 
 Aunque los shunts de corrientes operen bajo el principio de caida de voltaje
-ohmico, en la práctica las resistencias presentan una inductancia intrínseca que
-comprometen la precisión y el ancho de banda máximo de las mediciones.
+\'ohmico, en la práctica las resistencias presentan una inductancia intrínseca 
+que comprometen la precisión y el ancho de banda máximo de las mediciones.
 
 \subsection{Sensor de efecto Hall}
 
 El sensor de efecto Hall es un sensor de efecto magnético basado en el fenómeno
 físico homónimo que le da su nombre.  El sensor de efecto Hall es un dispositivo
 aislado, no intrusivo que puede ser utilizado para medir corriente tanto
-continua como alterna de hasta unos cientos de kHz. El sensor Hall puede ser
-fabricado utilizando tecnología CMOS convencional pero a un costo mayor que las
-implementaciones con transformadores de corriente o bobinas de Rogowski.
+continua como alterna de hasta unos cientos de kHz. El sensor de efecto Hall 
+puede ser fabricado utilizando tecnología CMOS convencional pero a un costo 
+mayor que las implementaciones con transformadores de corriente o bobinas de 
+Rogowski.
 
 El traductor de efecto Hall encuentra normalmente su límite de medición en los
 picos de corriente debido al fenómeno de saturación magnética del núcleo y
@@ -2768,19 +2768,50 @@ varia fuertemente frente a las variaciones de temperatura de operación.
 \newpage
 
 \section{Protocolos de comunicación}
-En la actualidad es innegable la expansión de la tecnología y la electrónica haciendose más presentes en nuestro día a día, hoy no es raro escuchar de domótica, IoT y Smart Devices.Los vehículos no son la excepción y aún en los vehículos de 4 plazas de gamma baja se integran un conjunto de sensores, actuadores y controladores electrónicos.
-Estos dispositivos se hayan interconectados entre sí por redes de comunicación transmitiendo señales en tiempo real y recabando información y controlando los diversos procesos que ocurren permanentemente en el vehiculo. Así como también reportando fallas al usuario permitiendo tomar deciciones anticipadas, facilitando el mantenimiento de la unidad.
 
-En los vehiculos actuales los protocolos más utilizados en los vehículos son \acrshort{CAN}, por sus siglas en inglés \acrfull{CAN},  (tanto de alta como de baja velocidad), \acrshort{LIN} del inglés, \acrfull{LIN} y \acrshort{MOST} del inglés, \acrfull{MOST} \cite{Vela2016}.
+En la actualidad es innegable la expansión de la tecnología y la electrónica 
+haciendose más presentes en nuestro día a día, hoy no es raro escuchar de 
+domótica, IoT y Smart Devices. Los vehículos no son la excepción y aún en los 
+vehículos de 4 plazas de gamma baja se integran un conjunto de sensores, 
+actuadores y controladores electrónicos. Estos dispositivos se hayan 
+interconectados entre sí por redes de comunicación transmitiendo señales en 
+tiempo real y recabando información, controlando los diversos procesos que 
+ocurren permanentemente en el vehiculo. Así como también reportando fallas al 
+usuario permitiendo tomar deciciones anticipadas, facilitando el mantenimiento 
+de la unidad.
 
-Dentro del vehículo hallamos sistemas de naturaleza muy variada, por ejemplo, el sistema de frenos ABS, el cierre centralizado, las luces de interior y el canal de audio del sistema de sonido. Cada uno de los cuales tiene requerimientos totalmente distintos, en el caso del sistema ABS los tiempos de reacción deben ser del orden del milisegundo pero con un volumen de datos mínimo, mientras que por el contrario el sistema de sonido tiene un volumen de datos mucho mayor con una prioridad mucho menor ya que es un sistema de entretenimiento y no de seguridad.
+Seg\'un \cite{Vela2016} en los vehiculos actuales los protocolos más utilizados en los vehículos son 
+\acrshort{CAN} (por sus siglas en inglés \acrfull{CAN}), \acrshort{LIN} (del
+inglés, \acrfull{LIN}) y \acrshort{MOST} (del inglés, \acrfull{MOST}).
 
-De los protocolos mencionados el más utilizado por su superadora relación costo-confiabilidad es el protocolo \acrshort{CAN}, debido a la arquitectura multiplexada con un único bus serie que reduce costos combinada con algoritmos de detección de errores que brindan confiabilidad a la red. Otra de las ventajas de CAN es que si un dispositivo sale de servicio la red continua funcionando perfectamente, además de contar con control de acceso al medio con prioridad. Todo esto hace de CAN un protocolo que desde sus orígenes es óptimo para el rubro automotríz.
+Dentro del vehículo se hallan sistemas de naturaleza muy variada, por ejemplo, 
+el sistema de frenos ABS, el cierre centralizado, las luces de interior y el 
+canal de audio del sistema de sonido. Cada uno de los cuales tiene 
+requerimientos totalmente distintos, en el caso del sistema ABS los tiempos de 
+reacción deben ser del orden del milisegundo pero con un volumen de datos mínimo, 
+mientras que por el contrario el sistema de sonido tiene un volumen de datos 
+mucho mayor con una prioridad mucho menor ya que es un sistema de 
+entretenimiento y no de seguridad.
+
+De los protocolos mencionados el más utilizado, por su superadora relación
+costo-confiabilidad, es el protocolo \acrshort{CAN}, debido a la arquitectura 
+multiplexada con un único bus serie que reduce costos, combinada con algoritmos 
+de detección de errores que brindan confiabilidad a la red. Otra de las ventajas 
+de este protocol, es que si un dispositivo sale de servicio, la red continua 
+funcionando perfectamente, además de contar con control de acceso al medio con 
+prioridad. Todo esto hace del protocolo \acrshort{CAN} un protocolo que desde 
+sus orígenes es óptimo para el rubro automotriz.
 
 \subsection{Protocolo CAN}
-Este es un protocolo desarrollado inicialmente por la empresa alemana Robert Bosch GmbH en 1983 la cual fue aceptada ampliamente y que posterior mente fue definida como estándar que en su especificación ISO 11898 describe como la información será transmitida entre los diferentes dispositivos de red.
 
-Las principales características de este protocolo son \cite{RBG1991}:
+Este es un protocolo desarrollado inicialmente por la empresa alemana 
+\emph{Robert Bosch GmbH} en 1983 la cual fue aceptada ampliamente y que 
+posteriormente fue definida como estándar, que en su especificación ISO 11898 
+describe como la información será transmitida entre los diferentes dispositivos 
+de red.
+
+Seg\'un \cite{RBG1991}, las principales características de este protocolo son:
+
 \begin{itemize}
 	\item Priorización de mensajes
 	\item Sistema Multi-Maestro
@@ -2790,78 +2821,119 @@ Las principales características de este protocolo son \cite{RBG1991}:
 \end{itemize}
 
 Para  detectar  errores  a  nivel  de  mensajes  el  protocolo  implementa  tres  
-mecanismos: chequeo de redundancia cíclica (CRC), chequeo de formato de trama y 
-acuse de recibo (ACK).
+mecanismos: chequeo de redundancia cíclica (\acrshort{CRC}), chequeo de formato 
+de trama y acuse de recibo (\acrshort{ACK}, del ingl\'es \acrlong{ACK}).
 
 Para detectar errores a nivel de bit el protocolo implementa dos mecanismos: 
 
 \begin{itemize}
-	\item Monitoreo. Cada nodo transmisor monitorea el nivel del bus a fin 
-de detectar la diferencia entre el bit enviado y el recibido. 
-	\item Bits de Relleno (Bit stuffing). CAN utiliza la codificación NRZ (no 
-retorno a cero) y la técnica de bit  stuffing,  que consiste en insertar un bit complementario cada cinco bits iguales consecutivos transmitidos. 
+    \item \emph{Monitoreo}: Cada nodo transmisor monitorea el nivel del bus a fin 
+        de detectar la diferencia entre el bit enviado y el recibido. 
+    \item \emph{Bits de Relleno (Bit stuffing)}: El protocolo \acrshort{CAN} 
+        utiliza la codificación NRZ (no retorno a cero) y la técnica de
+        \emph{bit stuffing}, que consiste en insertar un bit complementario 
+        cada cinco bits iguales consecutivos transmitidos. 
 \end{itemize}
 
-Trabaja en según el modelo \acrshort{OSI} (\acrfull{OSI}) en la primera y la segunda capa, también conocidas como la capa física y la capa de enlace de datos respectivamente.
-
-El protocolo CAN  sólo define las dos primeras capas del Modelo \acrshort{OSI} (\acrfull{OSI}) (física y enlace), aunque no especifica la interfaz al medio físico (Medio de transmisión, conectores).La norma ISO 11898 es el estándar internacional para la comunicación de alta velocidad usando el protocolo de bus CAN. Esencialmente este estándar define las capas física y de enlace de datos.
+Trabaja en según el modelo \acrshort{OSI} (del ingl\'es \acrlong{OSI}) en la 
+primera y la segunda capa, también conocidas como la capa física y la capa de 
+enlace de datos respectivamente, aunque no especifica la interfaz al medio 
+físico (Medio de transmisión, conectores). 
 
 \subsubsection{Capa Física} 
-La capa física en \acrshort{CAN} es responsable de la transferencia de bits entre los distintos nodos que componen la red. Define aspectos como, niveles de señal, codificación, sincronización y tiempos en que los bits se transfieren al bus.
-En la especificación original de \acrshort{CAN}, la capa física no fue definida, permitiendo diferentes opciones para la elección del medio y niveles eléctrico de transmisión. Las características de las señales eléctricas en el bus fueron establecidas más tarde por el estandar ISO 11898.
 
-La especificación \acrfull{CiA}, complementó las definiciones respecto al medio físico y conectores. Los nodos conectados al bus interpretan dos niveles lógicos denominados:
+La capa física en \acrshort{CAN} es responsable de la transferencia de bits 
+entre los distintos nodos que componen la red. Define aspectos como, niveles de 
+señal, codificación, sincronización y tiempos en que los bits se transfieren al 
+bus.
+En la especificación original del protocol, la capa física no fue definida, 
+permitiendo diferentes opciones para la elección del medio y niveles eléctricos 
+de transmisión. Las características de las señales eléctricas en el bus fueron 
+establecidas más tarde por el estandar ISO 11898.
+
+La especificación \acrfull{CiA}, complementó las definiciones respecto al medio 
+físico y conectores. Los nodos conectados al bus interpretan dos niveles lógicos 
+denominados:
 
 \begin{itemize}
-	
-	\item Dominante: La tensión diferencial (CAN-H - CAN-L) es del orden de 2.0V con CAN-H = 3.5V y CAN-L = 1.5V (nominales).\\
-	\item Recesivo: La tensión diferencial (CAN-H - CAN-L) es del orden de 0V con CAN-H = 2.5V y CAN-L = 2.5V (nominales).\\
-	
+    \item \emph{Dominante}: La tensión diferencial (CAN-H - CAN-L) es del orden 
+        de 2.0V con CAN-H = 3.5V y CAN-L = 1.5V (nominales).
+    \item \emph{Recesivo}: La tensión diferencial (CAN-H - CAN-L) es del orden 
+        de 0V con CAN-H = 2.5V y CAN-L = 2.5V (nominales).
 \end{itemize}
 
-La topología es bus con derivaciones de corta longitud.Si se presenta el caso de perdida de prestaciones en cuanto a velocidad o longitud máxima se pueden adoptar topologias en estrella. El bus se cierra en los extremos con impedancias de carga.
+La topología principal consiste de un bus con derivaciones de corta longitud. 
+Si se presenta el caso de perdida de prestaciones, en cuanto a velocidad o
+longitud máxima, se pueden adoptar topologias tipo estrella. 
 
-El número máximo de nodos no está limitado por la especificación básica y depende de las características de los transreceptores, las especificaciones de buses de campo lo limitan a 32 o 64 en una red sin repetidores.
-
+Por el otro lado, el número máximo de nodos no está limitado por la 
+especificación básica y depende de las características de los transreceptores,
+por ejemplo las especificaciones de buses de campo lo limitan a 32 o 64 en una 
+red sin repetidores.
 
 \subsubsection{Capa de Datos}
-Unas de las características que distingue a CAN con respecto a otras normas, es su técnica de acceso al medio denominada como 
-CSMA/CD+CR o ``Carrier Sense, Multiple Access/Colission Detection + Collision Resolution" (Acceso múltiple con detección de 
-portadora, detección de colisión más resolución de colisión). 
 
-El  acceso  al  medio  por  medio  de  técnicas de acceso múltiple y detección de colisión evolucionaron desde el método ALOHA 
-inicial  hasta  su  consagración  como  método  de  acceso  al  medio  de  las  redes  Ethernet,  con  técnica  CSMA/CD.    El  método  de  
-acceso  al  medio  utilizado  en  bus  CAN  añade  una  característica  adicional:  la  resolución  de  colisión.    En  la  técnica  CSMA/CD  
-utilizada en redes Ethernet ante colisión de varias tramas, todas se pierden, CAN resuelve la colisión con la supervivencia de una 
-de  las  tramas  que  chocan  en  el  bus.    Además  la  trama  superviviente  es  aquella  a  la  que  se  ha  identificado  como  de  mayor  
-prioridad. 
+Unas de las características que distingue al protocolo \acrshort{CAN} con 
+respecto a otras normas, es su técnica de acceso al medio, denominada como 
+Acceso m\'ultiple con detecci\'on de señal portadora con detecci\'on y
+resoluci\'on de colisi\'on (\acrshort{CSMA/CD+CR}, del ingl\'es
+\acrlong{CSMA/CD+CR})
 
-La resolución de colisión se basa en una topología eléctrica que aplica una función lógica determinista a cada bit, que se resuelve 
-con la prioridad del nivel definido como bit de tipo dominante.  Definiendo el bit dominante como equivalente al valor lógico '0' y 
-bit   recesivo  al   nivel  lógico  '1'  se  trata  de  una  función  AND  de  todos  los  bits  transmitidos  simultáneamente.    Cada  transmisor  
-escucha  continuamente  el  valor  presente  en  el  bus,  y  se  retira  cuando  ese  valor  no  coincide  con  el  que  dicho  transmisor  ha  
-forzado.    Mientras  hay  coincidencia  la  transmisión  continua,  finalmente  el  mensaje  con  identificador  de  máxima  prioridad  
-sobrevive.  Los demás nodos reintentarán la transmisión lo antes posible.\\
+El m\'etodo \acrshort{CSMA/CD+CR} evolucion\'o desde el método ALOHA 
+inicial hasta su consagración como método de acceso al medio de las redes 
+Ethernet, con técnica CSMA/CD. El método de acceso al medio utilizado en el
+protocolo \acrshort{CAN} añade una característica adicional: la resolución de 
+colisión. En la técnica CSMA/CD, utilizada en redes Ethernet, ante una colisión 
+de varias tramas, todas se pierden, mientras que el protocolo \acrshort{CAN} 
+resuelve la colisión con la supervivencia de una de las tramas que chocan en el 
+bus. Además la trama superviviente es aquella a la que se ha identificado como 
+de mayor prioridad. 
+
+La resolución de colisión se basa en una topología eléctrica que aplica una 
+función lógica determinista a cada bit, que se resuelve con la prioridad del 
+nivel definido como bit de tipo dominante.  Definiendo el bit dominante como 
+equivalente al valor lógico '0' y bit recesivo al  nivel lógico '1' se trata de 
+una función AND de todos los bits transmitidos simultáneamente. Cada transmisor 
+escucha continuamente el valor presente en el bus, y se retira cuando ese valor 
+no coincide con el que dicho transmisor ha forzado. Mientras hay coincidencia 
+la transmisión continua, finalmente el mensaje con identificador de máxima 
+prioridad sobrevive. Los demás nodos reintentarán la transmisión lo antes 
+posible.
 
 \subsubsection{Mensajes y Tipos de Tramas}
-CAN utiliza mensajes de estructura predefinida, tramas, para la gestión de la comunicación.
-Se distinguen entre dos variantes de CAN, el definido en CAN 2.A o ``CAN Standard" y el definido en CAN 2.B o ``CAN
-Extendido", los formatos de trama son análogos diferenciándose básicamente en el número de bits que se utiliza para el
-identificador de mensaje: 11 bits (2032 identificadores) diferentes en CAN Standard y 29 bits (536.870.912 identificadores) en
-CAN Extendido.
-Las tramas CAN son de longitud reducida, la trama más larga es de 130 bits en CAN Estándar y 154 bits en CAN Extendido.
-Los tipos de trama, y estados de bus, utilizados segun \cite{KaschelHector2004} son:
+
+El protocol \acrshort{CAN} utiliza mensajes de estructura predefinida, tambi\'en
+conocidos como tramas, para la gestión de la comunicación.
+Se distinguen dos variantes del protocolo, el definido como CAN 2.A o 
+\emph{CAN Standard} y el definido en CAN 2.B o \emph{CAN Extendido}, los 
+formatos de trama son análogos diferenciándose básicamente en el número de bits 
+que se utiliza para el identificador de mensaje: 11 bits (2032 identificadores) 
+diferentes en CAN Standard y 29 bits (536870912 identificadores) en CAN 
+Extendido.
+Las tramas CAN son de longitud reducida, la trama más larga es de 130 bits en 
+CAN Estándar y 154 bits en CAN Extendido.
+Los tipos de trama, y estados de bus, utilizados seg\'un 
+\cite{KaschelHector2004} son:
+
 \begin{itemize}
-	\item Trama de datos: la que un nodo utiliza normalmente para poner información en el bus (siempre es un ``broadcast" a todos los demás nodos). Puede incluir entre 0 y 8 Bytes de información útil.\\
-	\item Trama de interrogación remota (en lo que sigue se denominará como trama remota (``remote frame"): puede ser utilizada por
-	un nodo para solicitar la transmisión de una trama de datos con la información asociada a un identificador dado. El nodo que
-	disponga de la información definida por el identificador la transmitirá en una trama de datos.\\
-	\item Tramas de error: usadas para señalar al resto de nodos la detección de un error, invalidando el mensaje erróneo normalmente (un caso especial es un nodo en estado de ``error pasivo").\\
-	\item Trama de sobrecarga: permite que un nodo fuerce a los demás a alargar el tiempo entre transmisión de tramas sucesivas
-	Espaciado inter-tramas: Las tramas de datos (y de interrogación remota) se separan entre sí por una secuencia predefinida que
-	se denomina espaciado inter-trama.\\
-	\item Bus en reposo: En los intervalos de inactividad se mantiene constantemente el nivel recesivo del bus.\\
-	\end{itemize}
+    \item \emph{Trama de datos}: la que un nodo utiliza normalmente para poner 
+        información en el bus (siempre es un ``broadcast" a los demás nodos). 
+        Puede incluir entre 0 y 8 Bytes de información útil.
+    \item \emph{Trama remota}: puede ser utilizada por un nodo para solicitar la 
+        transmisión de una trama de datos con la información asociada a un 
+        identificador dado. El nodo que disponga de la información definida por 
+        el identificador la transmitirá en una trama de datos.
+    \item \emph{Tramas de error}: utilizadas para señalar al resto de nodos la 
+        detección de un error, invalidando el mensaje erróneo normalmente (un 
+        caso especial es un nodo en estado de \emph{error pasivo}).
+    \item \emph{Trama de sobrecarga}: permite que un nodo fuerce a los demás a 
+        alargar el tiempo entre transmisión de tramas sucesivas
+    \item \emph{Espaciado inter-tramas}: Las tramas de datos 
+        (y de interrogación remota) se separan entre sí por una secuencia 
+        predefinida que se denomina espaciado inter-trama.
+    \item \emph{Bus en reposo}: En los intervalos de inactividad se mantiene 
+        constantemente el nivel recesivo del bus.
+\end{itemize}
 
 
 \begin{comment}
