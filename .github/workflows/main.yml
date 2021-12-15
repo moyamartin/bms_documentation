@@ -13,3 +13,4 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: major_paper.tex
+          working_directory: ./major_paper
