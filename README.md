@@ -25,12 +25,4 @@ If you find this project interesting or useful for your work, please let us know
     Institute = {Faculty of Exact Sciences, Engineering and Land Surveing -
     National University of Rosario}
 }
-```
-## TODO RevA:                                                                         
-- [x] convert sections into chapters                                               
-- [x] correct accent marks through entire ex section 4
-- [x] (FDC) Reformulate Battery Model Section taking special attention to bibliography citation. 
-- [x] (FDC) Replaxe some Battery Model Section figures.  Make it a chapter
-- [ ] (LS) Make Hardware sections 4.5 to 4.11 a chapter, develope an introduction to the chapter. 
-- [ ] (MM) Make Software section 4.12 a chapter. Move Unitary tests subsectios to 'ensayos' chapter.                                                          
-
+```                                                      
