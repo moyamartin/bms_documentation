@@ -1,4 +1,4 @@
-# Battery Management System (BMS) - Documentation
+# Battery Management System (BMS) - Documentation [![Build LaTeX document](https://github.com/moyamartin/bms_documentation/actions/workflows/main.yml/badge.svg)](https://github.com/moyamartin/bms_documentation/actions/workflows/main.yml)
 
 This repo contains all the documentation related to the [BMS project](https://github.com/moyamartin/bms_unr) which include the main's article project and the pre-investigation paper done for receiving approval from our directors to start working on this project.
 
