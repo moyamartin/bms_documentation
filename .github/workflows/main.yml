@@ -1,0 +1,25 @@
+name: Build LaTeX document
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Changes directory
+        run: |
+          cd major_paper
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: major_paper.tex
+          working_directory: ./major_paper
+
+  upload_latex:
+    runs-on: ubuntu-latest    
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/upload-artifact@v2
+        with:
+          name: major_paper_pdf
+          path: major_paper/major_paper.pdf
