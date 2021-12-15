@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest    
     if: github.ref == 'refs/heads/master'
     steps:
+      - name: list_files
+        run: |
+          ls
       - uses: actions/upload-artifact@v2
         with:
           name: major_paper_pdf
