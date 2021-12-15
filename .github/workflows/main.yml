@@ -14,3 +14,12 @@ jobs:
         with:
           root_file: major_paper.tex
           working_directory: ./major_paper
+
+  upload_latex:
+    runs-on: ubuntu-latest    
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/upload-artifact@v2
+        with:
+          name: major_paper_pdf
+          path: major_paper/major_paper.pdf
