@@ -14,8 +14,8 @@ jobs:
         with:
           root_file: major_paper.tex
           working_directory: ./major_paper
-
   upload_latex:
+    needs: build_latex
     runs-on: ubuntu-latest    
     if: github.ref == 'refs/heads/master'
     steps:
