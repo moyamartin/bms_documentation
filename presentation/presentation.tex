@@ -72,8 +72,9 @@
 \let\@@magyar@captionfix\relax
 \makeatother
 
-\title[Proyecto Final]{Estudio e implementación de un administrador de baterías de Litio-ion}
-\subtitle{Presentación de Avances}
+\title[Proyecto Final]{Estudio e Implementaci\'on de un Sistema de
+Administraci\'on de Bater\'ias de Li-Ion de baja y mediana potencia.}
+\subtitle{Presentación final - Proyecto I}
 
 %\beamertemplatenavigationsymbolsempty
 
@@ -120,187 +121,62 @@
 \setbeamertemplate{itemize items}[default]
 \setbeamertemplate{itemize subitem}[circle]
 
-\begin{frame}[allowframebreaks]
+\begin{frame}%[allowframebreaks]
 	\frametitle{Contenidos} % Table of contents slide, comment this block out to remove it
+    \small
 	\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these 	will automatically be printed on this slide as an overview of your presentation
 \end{frame}
 
-\section{Avances}
-\begin{frame}[allowframebreaks]
-  	\frametitle{Avances del Proyecto}
-  	\begin{itemize}
-		\item Selección del Sensor de corriente
-		\item Diseño de un modelo de una celda de Litio-Ion
-		\item Estimación del estado de carga utilizando un Filtro de Kalman
-  	\end{itemize}
-\end{frame}
-
-\section{Sensor de Corriente}
+\section{Objetivos del proyecto}
 
 \begin{frame}[allowframebreaks]
-	\frametitle{Sensor de Corriente}
-  	\begin{minipage}{0.4\textwidth}
-		\textbf{Objetivos}
-		\small
-		\begin{itemize}
-	  		\item Mantener al pack operando dentro del SOA.
-	  		\item Monitorear la distribución de carga entre celdas
-	  		\item Implementar y mantener un seguimiento preciso del SoC
-	  		\vspace{4\baselineskip}
-		\end{itemize}
- 	 \end{minipage}
-  	\hfill
-  	\begin{minipage}{0.4\textwidth}
-		\textbf{Tecnologías disponibles}
-		\small
-		\begin{itemize}
-	 		\item \textbf{Resistencia Shunt}
-	  		\item Transformador de Intensidad
-	  		\item \textbf{Sensor de Efecto Hall}
-	  		\item Sensor de Impedancia Magnética
-	  		\item Sensor de Magnetoresistencia Gigante
-	  		\item Sensores Ópticos
-		\end{itemize}
-  	\end{minipage}
-\end{frame}
+    \frametitle{Objetivos del proyecto}
 
-\begin{frame}[allowframebreaks]
-  	\frametitle{Resistencia Shunt}
-  	Calcula la corriente de forma indirecta midiendo la caída de tensión sobre
-  	una resistencia, que tiene un valor del órden de los miliohmios, al circular
-  	la corriente incógnita.\\
-  	Su esquemático se puede observar en la Figura \ref{sch_shunt}.
-	\begin{figure}[h!]
-		\begin{circuitikz}\draw
-	  		(0, 0) to[resistor=$R_{shunt}$, i_>=$I$] (6, 0)
-	  		;
-	  		\draw
-	  		(2, 0) to[short, *-] (2, 1.5)
-	 		(2, 1.5) to[voltmeter] (4, 1.5)
-	  		(4, 1.5) to[short, -*] (4, 0)
-	  		;
-		\end{circuitikz}
-		\caption{Esquemático de un sensor de corriente por resistencia shunt}
-		\label{sch_shunt}
-  	\end{figure}
-	\framebreak
-  	Características y consideraciones:
-  	\begin{itemize}
-		\item 	Alta relación de costo-efectividad, empaquetado compacto y aplicable
-	  			en mediciones tanto de corriente continua como alterna.
-		\item 	Alta frecuencia de corte (decenas de MHz).
-		\item 	Carece de aislación galvánica.
-		\item 	Alto rango de temperatura de operación.
-		\item 	La resistencia shunt presenta una inductancia intrínseca,
-	 			comprometiendo el ancho de banda y la presición
-  	\end{itemize}
-\end{frame}
+    En el presente trabajo se detalla el proceso de investigaci\'on, desarrollo e
+    implementaci\'on de un administrador de bater\'ias, tambien conocido como BMS (del
+    ingl\'es Battery Management System), compatible con un pack de bater\'ias de iones
+    de litio.
 
-\begin{frame}[allowframebreaks]
-  \frametitle{Sensor de Efecto Hall}
-  \begin{figure}[h!]
-	\begin{minipage}{0.45\textwidth}
-		Sensor de efecto magnético basado en el fenómeno físico denominado \emph{Efecto Hall}.
-	  \begin{itemize}		  
-		\item Dispositivo aislado, no intrusivo.
-		\item Mide CA como CC.
-	  \end{itemize}
-	\end{minipage}
-	\hspace{10pt}
-	\begin{minipage}{0.45\textwidth}
-	  \centering
-	  \includegraphics[width=0.7\textwidth]{./images/Open-loop_Hall_Sensor.jpg}
-	  \caption{Esquemático de un sensor de Efecto Hall}
-	  \label{sch_hall}
-	\end{minipage}
-  \end{figure}
-  \textbf{Consideraciones}:
-  \begin{itemize}
-	\item Debido al efecto de saturación magnética del núcleo, posee
-	  limitaciones en picos de corriente y frecuencias menores al MHz.
-	\item Sensible a la influencia de los campos magnéticos externos.
-	\item Presenta un voltaje de offset que es poco estable y varía
-	  fuertemente a cambios de temperatura.
-  \end{itemize}
-\end{frame}
+    \vspace{10mm}
 
-\begin{frame}[allowframebreaks]
-  	\frametitle{Tecnología seleccionada}
-  	Dada la naturaleza del BMS, elegimos el método de medición de corriente por
-  	resistencia Shunt, ya que posee las siguientes ventajas:
-  	\begin{itemize}
-		\item 	Bajo offset y baja susceptibilidad frente a campos magnéticos externos
-	  			y variaciones de temperatura.
-		\item	Alta linealidad, mayormente cerca de la zona cercana al cero y a la
-	  			saturación del núcleo, como también ante altas temperatura (bajo TCR).
-		\item 	Mejor resolución para mediciones de corriente continua, debido a la
-	  			baja sensitividad ante los campos magnéticos.
-		\item 	Fácil integración en circuitos impresos.
-		\item 	Disponibilidad de distribuidores nacionales.
-  	\end{itemize}
-\end{frame}
+    \begin{figure}[h!]
+        \includegraphics[width=1\textwidth]{./images/db_bms.png}
+        \caption{Diagrama en Bloques del BMS y el pack de bater\'ia}
+        \label{fig:r_ohm_result}
+    \end{figure}
 
+    \newpage
 
-\begin{frame}
-	\frametitle{Sensor de Corriente - INA226}
-  	El sensor a utilizar es el INA226 de la marca \emph{Texas Instruments} que
-  	posee las siguientes características:
-  	\begin{itemize}
-		\item 	ADC de 16 bits
-		\item 	Interfaz I/O compatible con I2C.
-		\item 	Implementa un multiplicador/divisor interno, esto permite pre-calcular
-	  			la corriente y potencia de forma rápida.
-  	\end{itemize}
-  	\begin{figure}[h!]  
-   		\centering
-		\includegraphics[width=0.75\linewidth]{./images/INA226-Common_Implementation.jpg}
-		\caption{Implementación del INA226}
-		\label{sch_ina226}	
-  	\end{figure}
-\end{frame}
-
-\section{Celda de Litio-Ion NCR18650PF}
-
-\begin{frame}
-	\frametitle{Celda NCR18650PF}
-  	\vspace{10pt}
-  	\begin{figure}[h!]
-		\begin{minipage}{0.3\textwidth}
-	  		\centering
-	  		\includegraphics[width=0.45\linewidth]{images/18650}
-	  		\caption{Celda NCR18650PF}
-		\end{minipage}
-		\begin{minipage}{0.65\linewidth}
-	  		\begin{itemize}
-				\item	Capacidad: \\Min. 2750mAh | Max. 2900mAh
-				\item	Voltage nominal: 3.6V
-				\item	Carga: CC-CV, Std. 1375mA, 4.20V, 4.0 hrs
-				\item	Densidad energética: \\577Wh/l | 207 Wh/kg
-	  		\end{itemize}
-		\end{minipage}
-  	\end{figure}
-  	\vspace{10pt}
-  	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
-		\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
-		\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
-		\caption{Curvas características de la celda NCR18650PF}
-  	\end{figure}
+    \textbf{Objetivos BSM:}
+    \begin{itemize}
+        \item Proteger el pack de bater\'ias evitando que el mismo salga de su
+            zona de operaci\'on segura.
+        \item Estimar el estado de carga (\emph{SoC}) en tiempo real.
+        \item Balancear la carga entre celdas.
+        \item Comunicar los par\'ametros fundamentales del pack.
+    \end{itemize}
 \end{frame}
 
 \section{Estimación del SoC}
 
+\subsection{Métodos de estimación}
 \begin{frame}[allowframebreaks]
 	\frametitle{Métodos de Estimación de SoC}
   	Hoy en día hay varios métodos para estimar el Estado de Carga de una batería,
   	entre ellas se encuentran las siguientes:
   	\begin{itemize}
-		\item 	Relación directa entre el SoC y el OCV
-		\item 	Conteo de carga o, en inglés, \emph{Coulomb Counting}.
-		\item 	Método por Fuerza Electro-Motriz.
-		\item 	Resistencia Interna.
-		\item 	\textbf{Estimación del Estado de Carga basado en modelos matemáticos.}
+        \item Metodos Tradicionales
+            \begin{itemize}
+                \item 	Relación directa entre el SoC y el OCV
+                \item 	Integración de Corriente \emph{Coulomb Counting}.
+                \item 	Resistencia Interna.
+            \end{itemize}
+        \item Metodos Modernos
+            \begin{itemize}
+                \item 	\textbf{Estimación del Estado de Carga basado en la Teor\'ia de
+                    Control y modelos matemáticos.}
+                \item 	Metodos basados en IA y Aprendizaje Automático.
+            \end{itemize}
   	\end{itemize}
 	\framebreak
   	Dentro del último, nos encontramos con los distintos modelos disponibles:
@@ -315,111 +191,26 @@
   	variaciones.
 \end{frame}
 
-\begin{frame}[allowframebreaks]
-	\frametitle{Método de estimación por FEM}
-  	En este caso, se realiza la estimación del OCV mediante el estudio de la
- 	 respuesta temporal de la tensión entre los terminales de la batería
-  	\emph{(fig. \ref{fig:relax_emf})} a través
-  	de una ecuación diferencial de primer órden \emph{(ec. \ref{ec_fem})}.
-  	\begin{minipage}{0.4\textwidth}
-		\centering
-		\begin{equation}
-	  		\frac{df(x)}{dx} = \alpha f(x)
-	  		\label{ec_fem}
-		\end{equation}
-  	\end{minipage}
-  	\hspace{10pt}
-  	\begin{minipage}{0.4\textwidth}
-		\begin{figure}[h!]
-	  		\includegraphics[width=1\textwidth]{images/EMF_relaxation.png}
-	  		\caption{Curva de relajación de una batería de Litio-Ion}
-	  		\label{fig:relax_emf}
-		\end{figure}
-  	\end{minipage}
-\end{frame}
 
 \begin{frame}[allowframebreaks]
-	\frametitle{Estimación basada en modelos Físicos}
-  	Este método requiere un profundo conocimiento de los fenómenos físicos y
-  	electroquímicos dentro de las baterías, como también la aplicación de las
-  	siguientes ecuaciones:
-  	\begin{itemize}
-		\item 	Conservación de carga y masa en un sólido homogéneo.
-		\item 	Conservación de carga y masa en un electrolito homogéneo.
-		\item 	Ecuación de Butler-Volmer de movimiento de cargas en una unión entre
-	 			un sólido conductor y una solucion de Litio-Ion.
-  	\end{itemize}
-\end{frame}
-
-\begin{frame}[allowframebreaks]
-	\frametitle{Estimación por resistencia interna}
-  	Se excita a la celda con un pulso de corriente de corta duración y se
-  	calcula la resistencia interna aplicando la ley de Ohm
-  	\emph{(eq. \ref{eq:ohm_law})}, obteniendo como resultado la gráfica de la
-  	Figura \ref{fig:r_ohm_result}
-  	
-	\vspace{15pt}
-  	\begin{minipage}{0.3\textwidth}
-		\begin{equation}
-	  		\frac{\Delta V}{\Delta I} = R_\Omega
-	  		\label{eq:ohm_law}
-		\end{equation}
-  	\end{minipage}
-  	\hfill
-  	\begin{minipage}{0.5\textwidth}
-		\begin{figure}[h!]
-	  		\includegraphics[width=1.2\textwidth]{./images/Ro_vs_SOC.png}
-	  		\caption{Resistencia Interna vs SOC de una batería}
-	  		\label{fig:r_ohm_result}
-		\end{figure}
-  	\end{minipage}
-\end{frame}
-
-\begin{frame}[allowframebreaks]
-  	\frametitle{Espectroscopía Dielétrica (EIS)}
-  	Consiste en llevar a la celda en un estado de carga conocido y excitar los
-  	terminales con una onda senoidal de tensión o corriente, midiendo su respectiva
-  	respuesta. Un ejemplo de ella se puede observar en la Figura \ref{fig:nyq_eis}
- 	 \begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.5\textwidth]{./images/EIS_Nyquist.png}
-		\caption{Espectroscopía Dielétrica de una batería Litio-Ion}
-		\label{fig:nyq_eis}
-  	\end{figure}
-\end{frame}
-
-\begin{frame}[allowframebreaks]
-  	\frametitle{Filtro de Kalman}
-  	El filtro de Kalman es un algoritmo recursivo que corrige las estimaciones
-  	mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y
-  	su estimación obtenida por modelos matemáticos.
-  	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/KalmanFilterDiagram.png}
-		\caption{Diagrama del Filtro de Kalman}
-		\label{fig:kf_sch}
-  	\end{figure}
-\end{frame}
-
-\begin{frame}[allowframebreaks]
-	\frametitle{Modelo Eléctrico + Filtro de Kalman}
-  	En este caso buscamos implementar un modelo eléctrico de una celda de
-  	Litio-Ion complementado con un Filtro de Kalman debido a que:
+    \frametitle{ M\'etodo de c\'alculo del SoC implementado.}
+    Implementamos  un modelo eléctrico de una celda de Litio-Ion complementado
+    con un Filtro de Kalman debido a que:
   	\begin{itemize}
 		\item Los componentes eléctricos de un modelo y sus dinámicas ya son de
-	  		de nuestro conocimiento y fáciles de simular.
-		\item Los cálculos de los parámetros del circuito son simples de estimar en
+	  		de nuestro conocimiento y f\'aciles de simular.
+		\item Los c\'alculos de los parámetros del circuito son simples de estimar en
 	  		base a un set de datos.
-		\item El Filtro de Kalman es un filtro predictor con amplia bibliografía y
-	 	 	ejemplos, lo que facilita su implementación.
-		\item La complejidad computacional tanto del modelo eléctrico como el filtro
+        \item El Filtro de Kalman es un filtro predictor con amplia
+            bibliograf\'ia y ejemplos, lo que facilita su implementación.
+		\item La complejidad computacional tanto del modelo el\'ectrico como el filtro
 	 		de Kalman son bajos.
-		\item Nos permite extender el modelo a una implementación física con un
+		\item Nos permite extender el modelo a una implementación f\'isica con un
 	  		ajuste fino minimizando errores.
   	\end{itemize}
 \end{frame}
 
-\section{Modelo equivalente}
+\subsection{Modelo equivalente}
 \begin{frame}
 	\frametitle{Datos Experimentales}
 	Como punto de partida, utilizamos un set de datos 
@@ -494,7 +285,7 @@
   	simulink.
   	\begin{figure}[!hb]
 		\centering
-		\includegraphics[width=0.9\linewidth]{images/Modelo_celda_simulink.png}
+		\includegraphics[width=0.9\linewidth]{images/battery_model_simulink.png}
 		\caption{Modelo Simulink Simscape de celda  NCR18650B }
 		\label{fig:simulink_celda}
   	\end{figure}
@@ -520,7 +311,20 @@
   	\end{figure}
 \end{frame}
 
-\section{Filtro de Kalman}
+\subsection{Filtro de Kalman}
+
+\begin{frame}[allowframebreaks]
+  	\frametitle{Filtro de Kalman}
+  	El filtro de Kalman es un algoritmo recursivo que corrige las estimaciones
+  	mediante la probabilidad conjunta de una o varias mediciones de un fenómeno y
+  	su estimación obtenida por modelos matemáticos.
+  	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{images/KalmanFilterDiagram.png}
+		\caption{Diagrama del Filtro de Kalman}
+		\label{fig:kf_sch}
+  	\end{figure}
+\end{frame}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Filtro de Kalman - Objetivos}
@@ -583,14 +387,504 @@
   \end{itemize}
 \end{frame}
 
-
-\section{Resultados y Observaciones}
+\subsection{Resultados y Observaciones}
 \begin{frame}[allowframebreaks]
   \frametitle{Resultados y Observaciones}
-
   \begin{figure}[h!]
 	\includegraphics[width=1\textwidth]{images/kf_result_25degree.eps}
   \end{figure}
+\end{frame}
+
+\section{Hardware}
+
+\begin{frame}
+	\frametitle{Desarrollo del Hardware}
+    Se seleccionaron los componenetes y se estudiaron e implementarons los
+    circuitos de los subsistemas del BMS, los mismos son:
+
+  	\begin{minipage}{0.4\textwidth}
+		\small
+		\begin{itemize}
+            \item Unidad de procesamiento
+	  		\item Alimentaci\'on CPU
+	  		\item Balanceador y Sensor de Tensi\'on
+	 		\item Sensor de Corriente
+		\end{itemize}
+ 	 \end{minipage}
+  	\hfill
+  	\begin{minipage}{0.4\textwidth}
+		\small
+		\begin{itemize}
+            \item Interruptor de Seguridad entre Bater\'ia y Veh\'iculo
+	  		\item Pack de bater\'ias
+	 		\item Puerto de Comunicaci\'on
+	  		%\vspace{4\baselineskip}
+		\end{itemize}
+  	\end{minipage}
+  	\begin{figure}[h!]
+	  		\centering
+            \includegraphics[width=0.75\linewidth]{images/db_hardware.png}
+	  		\caption{DB Hardware BMS}
+  	\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Circuito Impreso Final}
+
+    \begin{figure}[h!]
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{images/render_pcb.png}
+            \caption{Renderizado 3D del circuito impreso final, solo se muestra la
+            cara superior de la placa.}
+            \label{render_pcb}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Foto BMS}
+    \begin{figure}[h!]
+        \begin{center}
+            \includegraphics[width=0.8\textwidth]{images/placa_bms_foto.png}
+            \caption{Foto tomada despu\'es de finalizar el ensamblado y los ensayos
+                finales, se pueden notar conexiones soldadas para arreglar errores de
+            diseño.}
+            \label{placa_bms_fotografia}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\subsection{Unidad de Procesamiento}
+\begin{frame}
+    \frametitle{Unidad de Procesamiento}
+
+    \begin{wrapfigure}{R}{2.5cm}
+        \includegraphics[width=2.5cm]{images/STM32F407VG.png}
+        \caption{STM32f407VG}
+        \label{fig:stm32f407vg}                                                            
+    \end{wrapfigure}                                                                 
+
+    \textbf{STM STM32F407VG:}\\
+    La naturaleza de los desafios matemáticos que plantea el desarrollo del BMS y el
+    rendimiento computacional requerido para el procesamiento en tiempo real fueron
+    dos de los pilares fundamentales para la selección e implementación del
+    Microcontrolador STM32F407VG de la empresa STMicroelectronics.
+
+    \textbf{TI TPS54331:}\\
+    Para alimentar la unidad de procesamiento del BMS se desarrolla e implementa
+    un convertidor de tensión DC-DC basado en el circuito integrado TPS54331 de
+    tecnolog\'ia switching tipo Step Down de la firma Texas Instruments
 
 \end{frame}
+
+\subsection{Sensor de Tensión - Balanceador}
+\begin{frame}
+    \frametitle{Sensor de Tensión - Balanceador}
+
+    \begin{wrapfigure}{R}{2.5cm}
+        \includegraphics[width=2.5cm]{images/bq76_simplified_schematic.png}
+        \caption{STM32f407VG}
+        \label{fig:stm32f407vg}                                                            
+    \end{wrapfigure}                                                                 
+
+    Se opt\'o por un criterio de balanceo basado en una topolog\'ia pasiva
+    utilizando resistencias shunt en conjunto con una estrategia de control
+    cl\'asica que depende del promedio del SoC entre las 6 celdas, estableciendo
+    un umbral m\'aximo de variación entre celdas como criterio de balanceo.
+
+    \textbf{TI BQ76PL536A:}\\
+    El dispositivo es un monitor y protector de bater\'ias compuestos por 3 a 6
+    celdas conectadas en serie, que pueden acoplarse entre s\'i para extenderse
+    a 192 celdas. Integra un frontend anal\'ogico (AFE, del ingl\'es
+    Analog Frontend) en conjunto con un conversor analógico-digital (ADC, del
+    ingl\'es Analog-to-digital con- verter), utilizado para medir de forma precisa
+    el voltaje de cada celda.
+
+\end{frame}
+
+\subsection{Pack de Bater\'ias}
+\begin{frame}
+    \frametitle{Pack de Bater\'ias}
+
+    Durante el proceso de desarrollo del BMS implementamos nuestro propio pack
+    de baterc\'ias con el objetivo de que el mismo cumpla con las especificaciones
+    necesarias que nos permitan llevar adelante los ensayos plateados.
+
+    \begin{figure}[h!]
+        \begin{subfigure}[b]{.5\textwidth}
+            \begin{center}
+                \begin{minipage}[c]{0.45\textwidth}
+                    \centering
+                    \begin{circuitikz}[european, scale = 0.5, transform shape]
+
+                        \draw (7, 2) -- (7, 2.2);
+                        \draw (7, 2) to[battery1] (7, 1.6);
+                        \draw (7, 1.4) -- (7, 1.6);
+                        \draw (7, 1.4) to[battery1] (7, .9);			
+                        \draw (7, .7) -- (7, .9);			
+                        \draw (7, 0.7) to[battery1] (7, 0.2);			
+                        \draw (7, 0.2) -- (7, -0.2);
+                        \draw (7, -0.2) to[battery1] (7, -0.7);
+                        \draw (7, -.7) -- (7, -.9);
+                        \draw (7, -.9) to[battery1] (7, -1.4);
+                        \draw (7, -1.4) -- (7, -1.6);
+                        \draw (7, -1.6) to[battery1] (7, -2);
+                        \draw (7, -2) -- (7, -2.2);
+
+                        \draw (9, 2) -- (9, 2.2);
+                        \draw (9, 2) to[battery1] (9, 1.6);
+                        \draw (9, 1.4) -- (9, 1.6);
+                        \draw (9, 1.4) to[battery1] (9, .9);			
+                        \draw (9, .7) -- (9, .9);			
+                        \draw (9, 0.7) to[battery1] (9, 0.2);			
+                        \draw (9, 0.2) -- (9, -0.2);
+                        \draw (9, -0.2) to[battery1] (9, -0.7);
+                        \draw (9, -.7) -- (9, -.9);
+                        \draw (9, -.9) to[battery1] (9, -1.4);
+                        \draw (9, -1.4) -- (9, -1.6);
+                        \draw (9, -1.6) to[battery1] (9, -2);
+                        \draw (9, -2) -- (9, -2.2);
+
+                        \draw (11, 2) to[battery1] (11, 1.6);
+                        \draw (11, 1.4) -- (11, 1.6);
+                        \draw (11, 1.4) to[battery1] (11, .9);			
+                        \draw (11, .7) -- (11, .9);			
+                        \draw (11, 0.7) to[battery1] (11, 0.2);		
+                        \draw (11, 0.2) -- (11, -0.2);
+                        \draw (11, -0.2) to[battery1] (11, -0.7);
+                        \draw (11, -.7) -- (11, -.9);
+                        \draw (11, -.9) to[battery1] (11, -1.4);
+                        \draw (11, -1.4) -- (11, -1.6);
+                        \draw (11, -1.6) to[battery1] (11, -2);
+                        \draw (11, -2) -- (11, -2.2);
+
+                        \draw (7, 0) -- (9, 0);
+                        \draw (9, 0) -- (11, 0);
+
+                        \draw (7, 0.8) -- (9, 0.8);
+                        \draw (9, 0.8) -- (11, 0.8);
+
+                        \draw (7, 1.5) -- (9, 1.5);
+                        \draw (9, 1.5) -- (11, 1.5);
+
+                        \draw (7, 2.2) -- (9, 2.2);
+                        \draw (9, 2.2) -- (11, 2.2);			
+
+                        \draw (7, -0.8) -- (9, -0.8);
+                        \draw (9, -0.8) -- (11, -0.8);
+
+                        \draw (7, -1.5) -- (9, -1.5);
+                        \draw (9, -1.5) -- (11, -1.5);
+
+                        \draw (7, -2.2) -- (9, -2.2);
+                        \draw (9, -2.2) -- (11, -2.2);			
+
+                        \draw [dashed] (6.5, 2.4) rectangle (11.5, -2.4);
+
+                        \draw node at (8.2, 2.6) {Pack de Baterías 6s3p};
+                    \end{circuitikz}
+                \end{minipage}
+            \end{center}
+            \caption{Esquemático de la arquitectura del pack de baterías.}
+            \label{pack_bateria}
+        \end{subfigure}%
+        \begin{subfigure}[b]{.45\textwidth}
+            \centering
+            \includegraphics[width=0.5\textwidth]{images/18650.jpg}
+            \caption{Foto celda NCR18650PF.}
+            \label{foto_bateria}
+        \end{subfigure}
+        \caption{Pack 6s3p y Celda NCR18650PF.}
+        \label{pack}
+    \end{figure}
+\end{frame}
+
+\subsection{Celda de Litio-Ion NCR18650PF}
+
+\begin{frame}
+	\frametitle{Celda NCR18650PF}
+  	\vspace{10pt}
+  	\begin{figure}[h!]
+		\begin{minipage}{0.3\textwidth}
+	  		\centering
+	  		\includegraphics[width=0.45\linewidth]{images/18650}
+	  		\caption{Celda NCR18650PF}
+		\end{minipage}
+		\begin{minipage}{0.65\linewidth}
+	  		\begin{itemize}
+				\item	Capacidad: \\Min. 2750mAh | Max. 2900mAh
+				\item	Voltage nominal: 3.6V
+				\item	Carga: CC-CV, Std. 1375mA, 4.20V, 4.0 hrs
+				\item	Densidad energética: \\577Wh/l | 207 Wh/kg
+	  		\end{itemize}
+		\end{minipage}
+  	\end{figure}
+  	\vspace{10pt}
+  	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.32\textwidth]{images/cc_cv_18650}\hfill
+		\includegraphics[width=.32\textwidth]{images/discharge_18650}\hfill
+		\includegraphics[width=.32\textwidth]{images/life_cycle_18650}
+		\caption{Curvas características de la celda NCR18650PF}
+  	\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Pack de Bater\'ias}
+
+    Como resultado obtenemos un pack de bater\'ias con las siguientes
+    caracter\'isticas:
+    \small
+    \begin{itemize}
+        \item Voltaje nominal de salida: 21.6V
+        \item Voltaje m\'aximo de salida: 25.2V
+        \item Voltaje m\'inimo de salida: 15V
+        \item Capacidad t\'ipica: 8700mAh
+        \item Capacidad m\'inima: 8250mAh
+        \item Corriente de carga m\'axima: 4.35A
+        \item Corriente de descarga m\'axima: 17.4A (2C)
+    \end{itemize}
+
+\begin{figure}[h!]
+    \begin{subfigure}[t]{.3\textwidth}
+	\begin{center}
+        \includegraphics[width=.3\textwidth]{images/battery_top.png}
+	\end{center}
+    \caption{Imagen superior del pack de bater\'ias 6s3p. 
+    }
+	\label{battery_top}
+    \end{subfigure}%
+    \begin{subfigure}[t]{.3\textwidth}
+	\centering
+	\includegraphics[width=.3\textwidth]{images/battery_bot.png}
+	\caption{Imagen inferior del pack de bater\'ias 6s3p.}
+	\label{battery_bot}
+    \end{subfigure}
+    \begin{subfigure}[t]{.3\textwidth}
+	\centering
+	\includegraphics[width=.3\textwidth]{images/batt_side.png}
+	\caption{Imagen lateral del pack de bater\'ias 6s3p. En esta foto se puede
+    apreciar el conector JST}
+	\label{battery_side}
+    \end{subfigure}
+    \label{battery_pack}
+    \caption{Pack debaterías 6s3p}
+\end{figure}
+\end{frame}
+
+\subsection{Sensor de Corriente}
+
+%\begin{frame}[allowframebreaks]
+%	\frametitle{Sensor de Corriente}
+%  	\begin{minipage}{0.4\textwidth}
+%		\textbf{Objetivos}
+%		\small
+%		\begin{itemize}
+%	  		\item Mantener al pack operando dentro del SOA.
+%	  		\item Monitorear la distribución de carga entre celdas
+%	  		\item Implementar y mantener un seguimiento preciso del SoC
+%	  		\vspace{4\baselineskip}
+%		\end{itemize}
+% 	 \end{minipage}
+%  	\hfill
+%  	\begin{minipage}{0.4\textwidth}
+%		\textbf{Tecnologías disponibles}
+%		\small
+%		\begin{itemize}
+%	 		\item \textbf{Resistencia Shunt}
+%	  		\item Transformador de Intensidad
+%	  		\item \textbf{Sensor de Efecto Hall}
+%	  		\item Sensor de Impedancia Magnética
+%	  		\item Sensor de Magnetoresistencia Gigante
+%	  		\item Sensores Ópticos
+%		\end{itemize}
+%  	\end{minipage}
+%\end{frame}
+
+%\begin{frame}[allowframebreaks]
+%  	\frametitle{Resistencia Shunt}
+%  	Calcula la corriente de forma indirecta midiendo la caída de tensión sobre
+%  	una resistencia, que tiene un valor del órden de los miliohmios, al circular
+%  	la corriente incógnita.\\
+%  	Su esquemático se puede observar en la Figura \ref{sch_shunt}.
+%	\begin{figure}[h!]
+%		\begin{circuitikz}\draw
+%	  		(0, 0) to[resistor=$R_{shunt}$, i_>=$I$] (6, 0)
+%	  		;
+%	  		\draw
+%	  		(2, 0) to[short, *-] (2, 1.5)
+%	 		(2, 1.5) to[voltmeter] (4, 1.5)
+%	  		(4, 1.5) to[short, -*] (4, 0)
+%	  		;
+%		\end{circuitikz}
+%		\caption{Esquemático de un sensor de corriente por resistencia shunt}
+%		\label{sch_shunt}
+%  	\end{figure}
+%	\framebreak
+%  	Características y consideraciones:
+%  	\begin{itemize}
+%		\item 	Alta relación de costo-efectividad, empaquetado compacto y aplicable
+%	  			en mediciones tanto de corriente continua como alterna.
+%		\item 	Alta frecuencia de corte (decenas de MHz).
+%		\item 	Carece de aislación galvánica.
+%		\item 	Alto rango de temperatura de operación.
+%		\item 	La resistencia shunt presenta una inductancia intrínseca,
+%	 			comprometiendo el ancho de banda y la presición
+%  	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}[allowframebreaks]
+%  \frametitle{Sensor de Efecto Hall}
+%  \begin{figure}[h!]
+%	\begin{minipage}{0.45\textwidth}
+%		Sensor de efecto magnético basado en el fenómeno físico denominado \emph{Efecto Hall}.
+%	  \begin{itemize}		  
+%		\item Dispositivo aislado, no intrusivo.
+%		\item Mide CA como CC.
+%	  \end{itemize}
+%	\end{minipage}
+%	\hspace{10pt}
+%	\begin{minipage}{0.45\textwidth}
+%	  \centering
+%	  \includegraphics[width=0.7\textwidth]{./images/Open-loop_Hall_Sensor.jpg}
+%	  \caption{Esquemático de un sensor de Efecto Hall}
+%	  \label{sch_hall}
+%	\end{minipage}
+%  \end{figure}
+%  \textbf{Consideraciones}:
+%  \begin{itemize}
+%	\item Debido al efecto de saturación magnética del núcleo, posee
+%	  limitaciones en picos de corriente y frecuencias menores al MHz.
+%	\item Sensible a la influencia de los campos magnéticos externos.
+%	\item Presenta un voltaje de offset que es poco estable y varía
+%	  fuertemente a cambios de temperatura.
+%  \end{itemize}
+%\end{frame}
+
+%\begin{frame}[allowframebreaks]
+%  	\frametitle{Tecnología seleccionada}
+%  	Dada la naturaleza del BMS, elegimos el método de medición de corriente por
+%  	resistencia Shunt, ya que posee las siguientes ventajas:
+%  	\begin{itemize}
+%		\item 	Bajo offset y baja susceptibilidad frente a campos magnéticos externos
+%	  			y variaciones de temperatura.
+%		\item	Alta linealidad, mayormente cerca de la zona cercana al cero y a la
+%	  			saturación del núcleo, como también ante altas temperatura (bajo TCR).
+%		\item 	Mejor resolución para mediciones de corriente continua, debido a la
+%	  			baja sensitividad ante los campos magnéticos.
+%		\item 	Fácil integración en circuitos impresos.
+%		\item 	Disponibilidad de distribuidores nacionales.
+%  	\end{itemize}
+%\end{frame}
+%
+
+\begin{frame}%[allowframebreaks]
+	\frametitle{Sensor de Corriente - INA226}
+  	El sensor seleccionado es el INA226 de la marca \emph{Texas Instruments} que
+  	posee las siguientes características:
+  	\begin{itemize}
+		\item 	ADC de 16 bits
+		\item 	Interfaz I/O compatible con I2C.
+		\item 	Implementa un multiplicador/divisor interno, esto permite pre-calcular
+	  			la corriente y potencia de forma rápida.
+  	\end{itemize}
+  	\begin{figure}[h!]  
+   		\centering
+		\includegraphics[width=0.75\linewidth]{./images/INA226-Common_Implementation.jpg}
+		\caption{Implementación del INA226}
+		\label{sch_ina226}	
+  	\end{figure}
+
+%  	Dada la naturaleza del BMS, elegimos el método de medición de corriente por
+%  	resistencia Shunt, ya que posee las siguientes ventajas:
+%  	\begin{itemize}
+%		\item 	Bajo offset y baja susceptibilidad frente a campos magnéticos externos
+%	  			y variaciones de temperatura.
+%		\item	Alta linealidad, mayormente cerca de la zona cercana al cero y a la
+%	  			saturación del núcleo, como también ante altas temperatura (bajo TCR).
+%		\item 	Mejor resolución para mediciones de corriente continua, debido a la
+%	  			baja sensitividad ante los campos magnéticos.
+%		\item 	Fácil integración en circuitos impresos.
+%		\item 	Disponibilidad de distribuidores nacionales.
+%  	\end{itemize}
+\end{frame}
+
+\section{Desarrollo Software}
+\begin{frame}%[allowframebreaks]
+    \frametitle{Desarrollo Software}
+    \small
+    \begin{itemize}
+        \item Drivers de los perif\'ericos del hardware (o en ingl\'es, \emph{Device
+            Drivers}):
+            \begin{itemize}
+                \item sensor de corriente
+                \item sensor de tensi\'on y balanceador
+                \item cargador de bater\'ias
+                \item protocolos de comunicaci\'on e interrupciones del MCU.
+            \end{itemize}
+        \item Implemetación Modelo de la celda, incluyendo el filtro de Kalman.
+        \item Extensi\'on del modelo de una celda al pack de bater\'ias.
+        \item M\'aquina de estados del sistema (FSM)
+        \end{itemize}
+
+    \textbf{Arquitectura}
+    \begin{figure}[h!]
+        \begin{center}
+            \begin{tikzpicture}[scale = 0.5, transform shape]
+            % draw device drivers stack
+                \draw (0.0, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS}};
+                \draw (-.25, -0.25) rectangle ++ (3.5, 2);
+                \node at (0.75, 1.3) {\texttt{STM32HAL}};
+                \draw (-.5, -.5) rectangle ++ (4, 3);
+                \node at (1, 2.1) {\texttt{Device Drivers}};
+
+                \draw (4.25, 0.0) rectangle ++ (3, 1) node[pos=.5] {\texttt{CMSIS-DSP}};
+                \draw (4, -.25) rectangle ++ (3.5, 2);
+                \node at (5.25, 1.3) {\texttt{Cell model}};
+                \draw (3.75, -.5) rectangle ++ (4, 3);
+                \node at (5.25, 2.1) {\texttt{Battery pack}};
+
+                \draw (-.75, -.75) rectangle ++ (8.75, 4);
+                \node at (-0.2, 2.75) {\texttt{FSM}};
+            \end{tikzpicture}
+            \caption{Arquitectura del software}
+            \label{stack_fw}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+
+\section{Ensayos}
+\begin{frame}[allowframebreaks]
+    \frametitle{Ensayos}
+    \begin{itemize}
+        \item 	Ensayos Unitarios Drivers
+        \item 	Ensayos del dispotivo
+            \begin{itemize}
+                \item 	Ensayos Balanceador
+                \item   Ensayos SoC
+            \end{itemize}
+    \end{itemize}
+
+    \begin{figure}[h!]
+        \ContinuedFloat
+        \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.85\textwidth]{images/SF_Balancing_19_03_2019_F.png}
+            \caption{Ensayo de equalización de celdas fuertemente desbalanceadas sin 
+            filtro de Kalman.}
+            \label{Test_BQ76_1}
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.85\textwidth]{images/MRG_loading_26_3_F.png}
+            \caption{Ensayo de equalización de celdas fuertemente desbalanceadas con 
+            filtro de Kalman.}
+            \label{Test_BQ76_2}
+        \end{subfigure}
+    \end{figure}
+
+\end{frame}
+
 \end{document}
